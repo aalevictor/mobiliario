@@ -1,0 +1,166 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Permissao {
+  DEV
+  PARTICIPANTE
+  ADMIN
+  LICITACAO
+  JULGADORA
+}
+
+enum Tipo_Usuario {
+  INTERNO
+  EXTERNO
+}
+
+model Usuario {
+  id                        String       @id @default(uuid())
+  nome                      String
+  email                     String       @unique
+  login                     String?      @unique
+  permissao                 Permissao
+  senha                     String?
+  tipo                      Tipo_Usuario @default(INTERNO)
+  status                    Boolean      @default(true)
+  alterarSenha              Boolean      @default(false)
+
+  criadoEm                  DateTime     @default(now())
+  atualizadoEm              DateTime     @default(now()) @updatedAt
+
+  cadastro                  Cadastro?
+  avaliacoes_licitadoras    Avaliacao_Licitadora[]
+
+  @@map("usuarios")
+  Avaliacao_Julgadora Avaliacao_Julgadora[]
+}
+
+enum Tipo_Carteira {
+  CAU
+  CREA
+}
+
+model Cadastro {
+  id              Int           @id @default(autoincrement())
+  nome            String
+  email           String
+  cnpj            String        @unique
+  cpf             String        @unique
+  telefone        String
+  cep             String        @db.VarChar(9)
+  uf              String        @db.VarChar(2)
+  cidade          String
+  logradouro      String
+  numero          String?
+  complemento     String?
+  protocolo       String?       @unique
+  carteira_tipo   Tipo_Carteira @default(CAU)
+  carteira_numero String
+  equipe          Boolean       @default(false)
+  usuarioId       String        @unique
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @default(now()) @updatedAt
+
+  arquivos              Arquivo[]
+  participantes         Participante[]
+  usuario               Usuario      @relation(fields: [usuarioId], references: [id])
+  avaliacao_licitadora  Avaliacao_Licitadora?
+  avaliacoes_julgadora  Avaliacao_Julgadora[]
+
+  @@map("cadastros")
+}
+
+model Participante {
+  id         Int    @id @default(autoincrement())
+  nome       String
+  documento  String
+  cadastroId Int
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @default(now()) @updatedAt
+
+  cadastro Cadastro @relation(fields: [cadastroId], references: [id])
+
+  @@map("participantes")
+}
+
+enum TipoArquivo {
+  DOC_ESPECIFICA
+  PROJETOS
+}
+
+model Avaliacao_Licitadora {
+  id          String      @id @default(uuid())
+  cadastroId  Int         @unique
+  avaliadorId String
+  parecer     String?
+  aprovado    Boolean     @default(false)
+  observacoes String?
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @default(now()) @updatedAt
+
+  cadastro Cadastro @relation(fields: [cadastroId], references: [id])
+  avaliador Usuario @relation(fields: [avaliadorId], references: [id])
+
+  @@map("avaliacoes_licitadoras")
+}
+
+model Avaliacao_Julgadora {
+  id          String      @id @default(uuid())
+  cadastroId  Int
+  avaliadorId String
+  parecer     String?
+  aprovado    Boolean     @default(false)
+  observacoes String?
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @default(now()) @updatedAt
+
+  cadastro Cadastro @relation(fields: [cadastroId], references: [id])
+  avaliador Usuario @relation(fields: [avaliadorId], references: [id])
+
+  @@unique([cadastroId, avaliadorId])
+  @@map("avaliacoes_julgadoras")
+}
+
+model Arquivo {
+  id         String      @id @default(uuid())
+  caminho    String
+  tipo       TipoArquivo
+  cadastroId Int
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @default(now())
+
+  cadastro Cadastro @relation(fields: [cadastroId], references: [id])
+
+  @@map("arquivos")
+}
+
+model Duvida {
+  id            String   @id @default(uuid())
+  pergunta      String   @db.Text
+  email         String
+  nome          String
+  resposta      String?
+
+  criadoEm      DateTime @default(now())
+  atualizadoEm  DateTime @default(now()) @updatedAt
+
+  @@map("duvidas")
+}
