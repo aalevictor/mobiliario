@@ -4,12 +4,12 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
-import { Usuario } from '.prisma/client';
+import { Usuario, Permissao } from '.prisma/client';
 import ModalUsuario from './modal_usuario';
 import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
 
-export const columns: ColumnDef<Usuario>[] = [
+export const createColumns = (permissao: Permissao): ColumnDef<Usuario>[] => [
 	{
 		accessorKey: 'nome',
 		header: 'Nome',
@@ -50,7 +50,7 @@ export const columns: ColumnDef<Usuario>[] = [
 		cell: ({ row }) => {
 			return (
 				<div className='flex items-center justify-center'>
-					<ModalUsuario usuario={row.original}>
+					<ModalUsuario usuario={row.original} permissao={permissao}>
 						<Button variant='outline'>
 							<Pencil />
 						</Button>

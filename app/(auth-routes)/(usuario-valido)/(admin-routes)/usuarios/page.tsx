@@ -4,12 +4,11 @@ import DataTable, { TableSkeleton } from '@/components/data-table';
 import { Filtros } from '@/components/filtros';
 import Pagination from '@/components/pagination';
 import { Suspense } from 'react';
-import { columns } from './_components/columns';
+import { createColumns } from './_components/columns';
 import { Usuario } from '.prisma/client';
 import ModalUsuario from './_components/modal_usuario';
 import { buscarUsuarios, retornaPermissao } from '@/services/usuarios';
 import { auth } from '@/auth';
-import { redirect } from 'next/navigation';
 
 export default async function UsuariosSuspense({
 	searchParams,
@@ -35,13 +34,19 @@ async function Usuarios({
 }: {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	const session = await auth();
-	if (!session || !session.user) redirect("/");
 	let { pagina = 1, limite = 10, total = 0 } = await searchParams;
 	const { busca = '' } = await searchParams;
-	const permissao = await retornaPermissao(session.user.id);
-	if (!permissao) redirect("/");
 	let dados: Usuario[] = [];
+	
+	// Buscar permissão do usuário logado
+	const session = await auth();
+	const usuarioLogado = session?.user as Usuario;
+	const permissao = await retornaPermissao(usuarioLogado.id);
+	
+	if (!permissao) {
+		return <div>Acesso negado</div>;
+	}
+	
 	try {
         const data = await buscarUsuarios(
             +pagina,
@@ -58,6 +63,8 @@ async function Usuarios({
 	} catch (error) {
 		console.error(error);
 	}
+	
+	const columns = createColumns(permissao);
 
 	return (
 		<div className='px-0 md:px-8 relative pb-20 md:pb-14 h-full container mx-auto py-4'>
