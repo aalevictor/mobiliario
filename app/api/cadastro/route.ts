@@ -4,7 +4,7 @@
 import { criarPreCadastro } from "@/services/cadastros";
 import { NextRequest, NextResponse } from "next/server";
 import { transporter } from "@/lib/nodemailer";
-import { templateEmail } from "./_utils/template-email";
+import { templateConfirmacaoInscricao } from "./_utils/email-templates";
 
 export interface IParticipante {
     nome: string
@@ -61,13 +61,18 @@ export async function POST(req: NextRequest) {
     }
 
     const mailOptions = {
+      from: process.env.MAIL_FROM,
       to: email,
       subject: "Pre cadastro realizado!",
       text: "Espera as próximas etapas",
-      html: templateEmail(nome),
+      html: templateConfirmacaoInscricao(nome),
     };
 
-    await transporter.sendMail(mailOptions);
+    if (!transporter) {
+      console.warn('⚠️  Não foi possível enviar email: SMTP não configurado');
+    } else {
+      await transporter.sendMail(mailOptions);
+    }
 
     return NextResponse.json({ cadastro: cadastro }, { status: 201 });
 

@@ -4,7 +4,7 @@ import DataTable, { TableSkeleton } from '@/components/data-table';
 import { Filtros } from '@/components/filtros';
 import Pagination from '@/components/pagination';
 import { Suspense } from 'react';
-import { createColumns } from './_components/columns';
+import { columns } from './_components/columns';
 import { Usuario } from '.prisma/client';
 import ModalUsuario from './_components/modal_usuario';
 import { buscarUsuarios, retornaPermissao } from '@/services/usuarios';
@@ -63,11 +63,9 @@ async function Usuarios({
 	} catch (error) {
 		console.error(error);
 	}
-	
-	const columns = createColumns(permissao);
 
 	return (
-		<div className='px-0 md:px-8 relative pb-20 md:pb-14 h-full container mx-auto py-4'>
+		<div className='px-3 md:px-8 relative pb-20 md:pb-14 h-full container mx-auto py-4'>
 			<h1 className='text-xl md:text-4xl font-bold'>Usuários</h1>
 			<div className='grid grid-cols-1 gap-y-3 my-5 '>
 				<Filtros
@@ -94,7 +92,7 @@ async function Usuarios({
 					/>
 				)}
 				<div className='absolute bottom-4 right-4'>
-					<ModalUsuario permissao={permissao} />
+					<ModalUsuario />
 				</div>
 			</div>
 		</div>

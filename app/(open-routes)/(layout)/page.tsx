@@ -7,7 +7,7 @@ import Impugnacao from "./_components/impugnacao";
 
 export default async function Home() {
   return (
-    <div className="flex flex-col w-full h-full bg-[#e9edde] gap-4">
+    <div className="flex flex-col w-full h-full bg-[#e9edde]">
       <Banner />
       <Informacoes />
       <Documentos />

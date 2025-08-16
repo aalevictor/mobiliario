@@ -6,7 +6,7 @@ export default function Documentos() {
     return (
         <section
             id="docs"
-            className="w-[90%] lg:w-[600px] mx-auto space-y-4 flex flex-col"
+            className="w-[90%] lg:w-[600px] mx-auto space-y-4 flex flex-col my-4"
         >
             <div 
                 className="w-full flex p-[3px] bg-[#D0DBBF]"

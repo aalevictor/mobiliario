@@ -6,6 +6,8 @@ import { PreCadastro } from "@/app/api/cadastro/pre-cadastro.dto";
 import bcrypt from "bcryptjs";
 import { verificaLimite, verificaPagina } from "@/lib/utils";
 import { IAvaliacaoLicitadora } from "@/app/api/cadastro/[id]/avaliacao-licitadora/route";
+import { transporter } from "@/lib/nodemailer";
+import { templateConfirmacaoInscricao } from "@/app/api/cadastro/_utils/email-templates";
 
 function geraProtocolo(id: number) {
   const mascara = 17529 * id ** 2 + 85474;
@@ -46,6 +48,18 @@ async function criarPreCadastro(
           where: { id: novo_cadastro.id },
           data: { protocolo }
         });
+        if (cadastro_protocolo) {
+          if (!transporter) {
+            console.warn('⚠️  Não foi possível enviar email: SMTP não configurado');
+            return cadastro_protocolo;
+          }
+          await transporter.sendMail({
+            from: process.env.MAIL_FROM,
+            to: data.email,
+            subject: 'Concurso de Mobiliário Urbano 2025 - Cadastro',
+            html: templateConfirmacaoInscricao(data.nome),
+          });
+        }
         return cadastro_protocolo;
       } catch (error) {
         tx.cadastro.delete({ where: { id: novo_cadastro.id } });

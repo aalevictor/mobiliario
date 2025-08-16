@@ -3,26 +3,38 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { FormEvent } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import z from 'zod';
+
+const formSchema = z.object({
+	login: z.email({ message: 'Email inválido.' }),
+	senha: z.string().min(2, {
+		message: 'Campo senha não pode ser vazio.',
+	}),
+});
 
 export function LoginForm({
 	className,
 	...props
 }: React.ComponentPropsWithoutRef<'div'>) {
 	const router = useRouter();
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			login: '',
+			senha: '',
+		},
+	});
 
-	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-		event.preventDefault();
-		const form = new FormData(event.currentTarget);
-		const login = form.get('login');
-		const senha = form.get('senha');
+	async function onSubmit({ login, senha }: z.infer<typeof formSchema>) {
 		try {
 			const res = await signIn('credentials', {
 				login: login as string,
@@ -34,62 +46,75 @@ export function LoginForm({
 				toast.success('Seja bem-vindo!');
 				router.push('/cadastros');
 			}
-		} catch (error) {
-			console.log(error);
+		} catch (e) {
+			console.log(e);
+			toast.error('Não foi possível realizar o login.');
 		}
 	}
 
 	return (
-		<div
-			className={cn('flex flex-col gap-6', className)}
-			{...props}>
-			<div className='-translate-y-14'>
-				<Image
-					src="/logo-header.png"
-					alt='SPUrbanismo'
-					width={602}
-					height={200}
-					className='w-60 mx-auto rounded-md'
-				/>
-
-				<form
-					onSubmit={handleSubmit}
-					className='mt-10'>
-					<div className='grid gap-6'>
-						<div className='grid gap-6'>
-							<div className='grid gap-2'>
-								<Label htmlFor='email'>Login</Label>
-								<Input
-									className='bg-background'
-									id='login'
-									type='text'
-									name='login'
-									placeholder='Login'
-									required
-								/>
-							</div>
-							<div className='grid gap-2'>
-								<div className='flex items-center'>
-									<Label htmlFor='senha'>Senha</Label>
-								</div>
-								<Input
-									className='bg-background'
-									id='senha'
-									placeholder='*********'
-									type='password'
-									name='senha'
-									required
-								/>
-							</div>
-							<Button
-								type='submit'
-								className='w-full'>
-								Login
-							</Button>
-						</div>
+		<Form {...form}>
+			<form
+				className='p-10 dark:bg-muted'
+				onSubmit={form.handleSubmit(onSubmit)}>
+				<div className='flex flex-col gap-6'>
+					<div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
+						<Image src="/promocao/spurbanismo.png" alt="Logo" width={300} height={300} className='w-1/2 h-auto' />
+						<Image src="/promocao/prefeitura.png" alt="Logo" width={300} height={300} className='w-1/2 h-auto' />
 					</div>
-				</form>
-			</div>
-		</div>
-	);
+					<div className='grid gap-2'>
+						<FormField
+							control={form.control}
+							name='login'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Login</FormLabel>
+									<FormControl>
+										<Input
+											{...field}
+											className='dark:bg-background bg-muted'
+										/>
+									</FormControl>
+									<FormDescription />
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</div>
+					<div className='grid gap-2'>
+						<FormField
+							control={form.control}
+							name='senha'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Senha</FormLabel>
+									<FormControl>
+										<Input
+											{...field}
+											type='password'
+											className='dark:bg-background bg-muted'
+										/>
+									</FormControl>
+									<FormDescription />
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</div>
+					<Button
+						disabled={form.formState.isSubmitting || form.formState.isLoading}
+						type='submit'
+						className='w-full disabled:opacity-50'>
+						{form.formState.isSubmitting || form.formState.isLoading ? (
+							<>
+								Entrar <Loader2 className='animate-spin' />
+							</>
+						) : (
+							'Entrar'
+						)}
+					</Button>
+				</div>
+			</form>
+		</Form>
+	)
 }
