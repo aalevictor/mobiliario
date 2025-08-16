@@ -7,7 +7,7 @@ import { Suspense } from 'react';
 import { administradoraColumns } from './_components/administradora';
 import { licitadoraColumns } from './_components/licitadora';
 import { julgadoraColumns } from './_components/julgadora';
-import { Arquivo, Avaliacao_Julgadora, Avaliacao_Licitadora, Participante, Permissao, Tipo_Carteira } from '.prisma/client';
+import { Arquivo, Avaliacao_Julgadora, Avaliacao_Licitadora, Participante, Permissao, Tipo_Carteira } from '_prisma/client';
 import { buscarCadastros } from '@/services/cadastros';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';

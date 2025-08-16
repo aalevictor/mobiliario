@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useEffect, useState, useTransition } from "react";
-import { Permissao, Tipo_Usuario, Usuario } from ".prisma/client";
+import { Permissao, Tipo_Usuario, Usuario } from "_prisma/client";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

@@ -2,7 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
-import { Duvida } from '.prisma/client';
+import { Duvida } from '_prisma/client';
 import ModalPergunta from '@/components/modal-pergunta';
 
 export const columns: ColumnDef<Duvida>[] = [

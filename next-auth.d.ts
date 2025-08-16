@@ -1,4 +1,4 @@
-import { Permissao } from '.prisma/client';
+import { Permissao } from '_prisma/client';
 import NextAuth, { DefaultSession, DefaultUser } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 

@@ -1,4 +1,4 @@
-import { Permissao, Tipo_Usuario } from ".prisma/client";
+import { Permissao, Tipo_Usuario } from "_prisma/client";
 
 export interface IUsuario {
     id: number;

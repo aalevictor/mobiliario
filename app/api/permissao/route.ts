@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { retornaPermissao } from "@/services/usuarios";
-import { Usuario } from ".prisma/client";
+import { Usuario } from "_prisma/client";
 import { NextResponse } from "next/server";
 
 export async function GET() {
