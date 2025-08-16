@@ -3,7 +3,7 @@
 import { db } from '@/lib/prisma';
 import { gerarSenha, verificaLimite, verificaPagina } from '@/lib/utils';
 import { ICreateUsuario } from '@/types/usuario';
-import { Usuario } from '_prisma/client';
+import { Usuario } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { transporter } from '@/lib/nodemailer';
 import { templateBoasVindas, templateNotificacao } from '@/app/api/cadastro/_utils/email-templates';

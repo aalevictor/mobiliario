@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Usuario } from "_prisma/client";
+import { Usuario } from "@prisma/client";
 import { atualizarUsuario, verificarPermissoes } from "@/services/usuarios";
 import { auth } from "@/auth";
 

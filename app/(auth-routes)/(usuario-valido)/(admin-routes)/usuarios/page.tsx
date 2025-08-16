@@ -5,7 +5,7 @@ import { Filtros } from '@/components/filtros';
 import Pagination from '@/components/pagination';
 import { Suspense } from 'react';
 import { columns } from './_components/columns';
-import { Usuario } from '_prisma/client';
+import { Usuario } from '@prisma/client';
 import ModalUsuario from './_components/modal_usuario';
 import { buscarUsuarios, retornaPermissao } from '@/services/usuarios';
 import { auth } from '@/auth';

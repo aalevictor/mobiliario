@@ -1,6 +1,6 @@
 /** @format */
 
-import { Permissao, Prisma, TipoArquivo, Tipo_Usuario } from "_prisma/client";
+import { Permissao, Prisma, TipoArquivo, Tipo_Usuario } from "@prisma/client";
 import { db } from "@/lib/prisma";
 import { PreCadastro } from "@/app/api/cadastro/pre-cadastro.dto";
 import bcrypt from "bcryptjs";

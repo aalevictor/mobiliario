@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { useState } from "react";
 import { ICadastro } from "../page";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TipoArquivo } from "_prisma/client";
+import { TipoArquivo } from "@prisma/client";
 
 export default function ModalCadastro({ cadastro, children }: { cadastro: ICadastro, children?: React.ReactNode }) {
     const [open, setOpen] = useState(false);

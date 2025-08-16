@@ -1,7 +1,7 @@
 import DataTable, { TableSkeleton } from '@/components/data-table';
 import { Filtros } from '@/components/filtros';
 import Pagination from '@/components/pagination';
-import { Duvida } from '_prisma/client';
+import { Duvida } from '@prisma/client';
 import { Suspense } from 'react';
 import { columns } from './_components/columns';
 import { buscarDuvidas } from '@/services/duvidas';

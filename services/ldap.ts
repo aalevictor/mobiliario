@@ -3,7 +3,7 @@
 import { db } from '@/lib/prisma';
 import { Client, createClient } from 'ldapjs';
 import bcrypt from 'bcryptjs';
-import { Usuario } from '_prisma/client';
+import { Usuario } from '@prisma/client';
 
 async function bind(login: string, senha: string) {
 	let usuario: Usuario | null = null;

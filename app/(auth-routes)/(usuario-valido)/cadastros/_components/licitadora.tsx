@@ -5,7 +5,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
 import { ICadastro } from '../page';
-import { TipoArquivo } from '_prisma/client';
+import { TipoArquivo } from '@prisma/client';
 import ModalLicitadora from './modal-licitadora';
 import { Button } from '@/components/ui/button';
 

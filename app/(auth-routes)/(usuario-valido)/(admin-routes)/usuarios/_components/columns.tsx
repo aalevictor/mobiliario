@@ -4,7 +4,7 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
-import { Usuario } from '_prisma/client';
+import { Usuario } from '@prisma/client';
 import ModalUsuario from './modal_usuario';
 import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
