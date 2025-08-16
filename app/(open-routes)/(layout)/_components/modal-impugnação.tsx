@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTrigger, DialogFooter, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { SendIcon } from "lucide-react";
 
 export default function ModalImpugnacao() {
@@ -14,7 +14,12 @@ export default function ModalImpugnacao() {
                 </Button>
             </DialogTrigger>
             <DialogContent>
-                <DialogHeader></DialogHeader>
+                <DialogHeader>
+                    <DialogTitle>Pedido de impugnação</DialogTitle>
+                    <DialogDescription>
+                        Por favor, preencha o formulário abaixo para enviar sua solicitação de impugnação.
+                    </DialogDescription>
+                </DialogHeader>
                 <DialogFooter>
                     <Button>
                         <SendIcon className="w-4 h-4" />

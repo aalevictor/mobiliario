@@ -11,9 +11,7 @@ export default function Impugnacao() {
               <p className="text-[#3B2D3A] mb-8">
                 Tem alguma dúvida sobre o concurso? Pergunte aqui.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <ModalImpugnacao />
-              </div>
+              <ModalImpugnacao />
             </div>
           </div>
         </section>

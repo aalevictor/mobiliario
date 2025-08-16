@@ -3,33 +3,41 @@
 import { db } from '@/lib/prisma';
 import { Client, createClient } from 'ldapjs';
 import bcrypt from 'bcryptjs';
+import { Usuario } from '.prisma/client';
 
 async function bind(login: string, senha: string) {
-	const ldap: Client = createClient({
-		url: process.env.LDAP_SERVER || 'ldap://1.1.1.1',
-	});
-	let usuario = await db.usuario.findFirst({ where: {
-		OR: [
-			{ login },
-			{ email: login }
-		]
-	}});
-	if (!usuario || usuario.status === false) return null;
-	if (process.env.ENVIRONMENT == 'local' && usuario.tipo === 'INTERNO') return usuario;
-	if (usuario.tipo === 'INTERNO') {
-		await new Promise<void>((resolve) => {
-			ldap.bind(`${login}${process.env.LDAP_DOMAIN}`, senha, (err: any) => {
-				if (err) {
-					ldap.destroy();
-					usuario = null;
-				}
-				resolve();
-			});
+	let usuario: Usuario | null = null;
+	try {
+		const ldap: Client = createClient({
+			url: process.env.LDAP_SERVER || 'ldap://1.1.1.1',
 		});
-		ldap.unbind();
-	} else if (usuario.tipo === 'EXTERNO' && usuario.senha) {
-		const validaSenha = await bcrypt.compare(senha, usuario.senha);
-		if (!validaSenha) return null;
+		usuario = await db.usuario.findFirst({ where: {
+			OR: [
+				{ login },
+				{ email: login }
+			]
+		}});
+		console.log({usuario});
+		if (!usuario || usuario.status === false) return null;
+		if (process.env.ENVIRONMENT === 'local' && usuario.tipo === 'INTERNO') return usuario;
+		if (usuario.tipo === 'INTERNO') {
+			await new Promise<void>((resolve) => {
+				ldap.bind(`${login}${process.env.LDAP_DOMAIN}`, senha, (err: any) => {
+					if (err) {
+						ldap.destroy();
+						usuario = null;
+					}
+					resolve();
+				});
+			});
+			ldap.unbind();
+		} else if (usuario.tipo === 'EXTERNO' && usuario.senha) {
+			const validaSenha = await bcrypt.compare(senha, usuario.senha);
+			console.log({validaSenha});
+			if (!validaSenha) return null;
+		}
+	} catch (err) {
+		console.log(err);
 	}
 	return usuario;
 }
