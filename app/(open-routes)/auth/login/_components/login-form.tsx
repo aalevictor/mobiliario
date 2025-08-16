@@ -11,6 +11,7 @@ import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import z from 'zod';
 
@@ -53,11 +54,11 @@ export function LoginForm({
 	}
 
 	return (
-		<Form {...form}>
+		<Form {...form} {...props}>
 			<form
 				className='p-10 dark:bg-muted'
 				onSubmit={form.handleSubmit(onSubmit)}>
-				<div className='flex flex-col gap-6'>
+				<div className={cn('flex flex-col gap-6', className)}>
 					<div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
 						<Image src="/promocao/spurbanismo.png" alt="Logo" width={300} height={300} className='w-1/2 h-auto' />
 						<Image src="/promocao/prefeitura.png" alt="Logo" width={300} height={300} className='w-1/2 h-auto' />

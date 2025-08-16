@@ -1,7 +1,0 @@
-{
-  "buildCommand": "npx prisma generate && next build",
-  "installCommand": "npm install && npx prisma generate",
-  "env": {
-    "PRISMA_CLI_BINARY_TARGETS": "rhel-openssl-1.0.x,rhel-openssl-3.0.x"
-  }
-}
