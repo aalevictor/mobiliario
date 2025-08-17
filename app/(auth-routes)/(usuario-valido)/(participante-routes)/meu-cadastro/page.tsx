@@ -1,91 +1,60 @@
 import { auth } from "@/auth";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { meuCadastro } from "@/services/cadastros";
 import { redirect } from "next/navigation";
+import ResponsavelForm from "../_components/responsavel-form";
+import EmpresaForm from "../_components/empresa-form";
+import ParticipantesForm from "../_components/participantes-form";
+import DocumentosForm from "../_components/documentos-form";
+import ProjetosForm from "../_components/projetos-form";
+import { revalidatePath } from "next/cache";
+import { ICadastro } from "../../cadastros/page";
 
-export default async function MeuCadastro() {
+export default async function MeuCadastro(props: { searchParams: Promise<{ tab: string }> }) {
+    const { tab } = await props.searchParams;
     const session = await auth();
     if (!session) redirect("/");
 
     const cadastro = await meuCadastro(session.user.id);
     if (!cadastro) redirect("/");
 
+    async function atualizarPagina(tab: string) {
+        "use server";
+        revalidatePath(`/meu-cadastro?tab=${tab}`);
+    }
+
+    const tabs = ["responsavel", "empresa", "participantes", "documentacao", "projetos"];
+
     return (
-        <div className="container mx-auto h-full flex items-center justify-center p-4">
-            <div className="max-w-3xl w-full mx-auto p-4 bg-white rounded-lg shadow-md">
-                <Accordion type="multiple" className="w-full">
-                    <AccordionItem value="item-1">
-                        <AccordionTrigger>
-                            <h1 className="text-lg font-bold">Responsável</h1>
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col gap-2">
-                                    <p>{cadastro.nome}</p>
-                                    <p>{cadastro.email}</p>
-                                    <p>{cadastro.telefone}</p>
-                                    <p>{cadastro.carteira_tipo} - {cadastro.carteira_numero}</p>
-                                </div>
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                    <AccordionItem value="item-2">
-                        <AccordionTrigger>
-                            <h1 className="text-lg font-bold">Empresa</h1>
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col gap-2">
-                                    <p>{cadastro.cnpj}</p>
-                                    <p>{cadastro.logradouro}{cadastro.numero && `, ${cadastro.numero}`}{cadastro.complemento && ` - ${cadastro.complemento}`}</p>
-                                    <p>{cadastro.cidade} - {cadastro.uf}</p>
-                                    <p>{cadastro.cep}</p>
-                                </div>
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                    {cadastro.participantes.length > 0 && <AccordionItem value="item-3">
-                        <AccordionTrigger>
-                            <h1>Participantes</h1>
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col gap-2">
-                                    <h2 className="text-lg font-bold">Dados dos Participantes</h2>
-                                    {cadastro.participantes.map((participante) => (
-                                        <div key={participante.id} className="flex flex-col gap-2">
-                                            <p>{participante.nome}</p>
-                                            <p>{participante.documento}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>}
-                    <AccordionItem value="item-4">
-                        <AccordionTrigger>
-                            <h1 className="text-lg font-bold">Documentação</h1>
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col gap-2">
-                                </div>
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                    <AccordionItem value="item-4">
-                        <AccordionTrigger>
-                            <h1 className="text-lg font-bold">Projetos</h1>
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col gap-2">
-                                </div>
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                </Accordion>
-            </div>
+        <div className="container mx-auto px-4 py-6 max-w-6xl">
+            <Tabs defaultValue={tabs.includes(tab) ? tab : "responsavel"} className="w-full">
+                <div className="flex justify-center">
+                    <TabsList className="w-full max-w-3xl flex flex-wrap md:flex-nowrap gap-1 h-fit">
+                        <TabsTrigger value="responsavel">Responsável</TabsTrigger>
+                        <TabsTrigger value="empresa">Empresa</TabsTrigger>
+                        {(cadastro.participantes?.length || 0) > 0 && <TabsTrigger value="participantes">Participantes</TabsTrigger>}
+                        <TabsTrigger value="documentacao">Documentação</TabsTrigger>
+                        <TabsTrigger value="projetos">Projetos</TabsTrigger>
+                    </TabsList>
+                </div>
+                <div className="w-full">
+                    <TabsContent value="responsavel" className="m-0">
+                        <ResponsavelForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                    </TabsContent>
+                    <TabsContent value="empresa" className="m-0">
+                        <EmpresaForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                    </TabsContent>
+                    <TabsContent value="participantes" className="m-0">
+                        <ParticipantesForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                    </TabsContent>
+                    <TabsContent value="documentacao" className="m-0">
+                        <DocumentosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                    </TabsContent>
+                    <TabsContent value="projetos" className="m-0">
+                        <ProjetosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                    </TabsContent>
+                </div>
+            </Tabs>
         </div>
     )
 }

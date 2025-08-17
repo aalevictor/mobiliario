@@ -77,7 +77,13 @@ async function criarPreCadastro(
 }
 
 async function meuCadastro(id: string) {
-  const cadastro = await db.cadastro.findUnique({ where: { usuarioId: id }, include: { participantes: true } });
+  const cadastro = await db.cadastro.findUnique({ 
+    where: { usuarioId: id },
+    include: { 
+      participantes: true,
+      arquivos: true,
+    }
+  });
   return cadastro;
 }
 

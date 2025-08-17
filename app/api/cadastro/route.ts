@@ -3,79 +3,18 @@
 // app/api/upload/route.ts
 import { criarPreCadastro } from "@/services/cadastros";
 import { NextRequest, NextResponse } from "next/server";
-import { transporter } from "@/lib/nodemailer";
-import { templateConfirmacaoInscricao } from "./_utils/email-templates";
-
-export interface IParticipante {
-    nome: string
-    documento: string
-}
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.formData();
-    const nome = formData.get("nome") as string;
-    const email = formData.get("email") as string;
-    const senha = formData.get("senha") as string;
-    const telefone = formData.get("telefone") as string;
-    const cpf = formData.get("cpf") as string;
-    const cnpj = formData.get("cnpj") as string;
-    const carteira_tipo = formData.get("carteira_tipo") as "CAU" | "CREA";
-    const carteira_numero = formData.get("carteira_numero") as string;
-    const cep = formData.get("cep") as string;
-    const logradouro = formData.get("logradouro") as string;
-    const cidade = formData.get("cidade") as string;
-    const uf = formData.get("uf") as string;
-    const numero = formData.get("numero") as string | undefined;
-    const complemento = formData.get("complemento") as string | undefined;
-    const participantesTexto = formData.get(
-      "participantes"
-    ) as unknown as string;
-    const participantes: IParticipante[] = JSON.parse(participantesTexto);
-    const equipe: boolean = formData.get("equipe") === "true";
-
-    const cadastro = await criarPreCadastro({
-      equipe,
-      nome,
-      senha,
-      email,
-      telefone,
-      cpf,
-      cnpj,
-      carteira_tipo,
-      carteira_numero,
-      cep,
-      logradouro,
-      cidade,
-      uf,
-      numero,
-      complemento,
-      participantes,
-    });
-    
+    const data = await req.json();
+    const cadastro = await criarPreCadastro(data);
     if (!cadastro) {
       return NextResponse.json(
         { message: "Falha ao salvar registro do cadastro." },
         { status: 500 }
       );
     }
-
-    const mailOptions = {
-      from: process.env.MAIL_FROM,
-      to: email,
-      subject: "Pre cadastro realizado!",
-      text: "Espera as próximas etapas",
-      html: templateConfirmacaoInscricao(nome),
-    };
-
-    if (!transporter) {
-      console.warn('⚠️  Não foi possível enviar email: SMTP não configurado');
-    } else {
-      await transporter.sendMail(mailOptions);
-    }
-
     return NextResponse.json({ cadastro: cadastro }, { status: 201 });
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Error to save pre register:", error);

@@ -93,46 +93,45 @@ export default function Stepper({
 
 	return (
 		<div
-			className='flex flex-1 flex-col items-center justify-center p-4'
+			className='flex flex-1 flex-col items-center justify-center p-4 gap-4'
 			{...rest}>
 			<div
-				className={`mx-auto w-full rounded-2xl shadow-xl ${stepCircleContainerClassName}`}>
-				<div
-					className={`${stepContainerClassName} flex w-full items-center p-8`}>
-					{stepsArray.map((_, index) => {
-						const stepNumber = index + 1;
-						const isNotLastStep = index < totalSteps - 1;
-						return (
-							<React.Fragment key={stepNumber}>
-								{renderStepIndicator ? (
-									renderStepIndicator({
-										step: stepNumber,
-										currentStep,
-										onStepClick: (clicked) => {
-											setDirection(clicked > currentStep ? 1 : -1);
-											updateStep(clicked);
-										},
-									})
-								) : (
-									<StepIndicator
-										step={stepNumber}
-										disableStepIndicators={disableStepIndicators}
-										disableNextButton={disableNextButton}
-										currentStep={currentStep}
-										onClickStep={(clicked) => {
-											setDirection(clicked > currentStep ? 1 : -1);
-											updateStep(clicked);
-										}}
-									/>
-								)}
-								{isNotLastStep && (
-									<StepConnector isComplete={currentStep > stepNumber} />
-								)}
-							</React.Fragment>
-						);
-					})}
-				</div>
-
+				className={`${stepContainerClassName} flex w-full items-center p-4 bg-white rounded-[300px] shadow`}>
+				{stepsArray.map((_, index) => {
+					const stepNumber = index + 1;
+					const isNotLastStep = index < totalSteps - 1;
+					return (
+						<React.Fragment key={stepNumber}>
+							{renderStepIndicator ? (
+								renderStepIndicator({
+									step: stepNumber,
+									currentStep,
+									onStepClick: (clicked) => {
+										setDirection(clicked > currentStep ? 1 : -1);
+										updateStep(clicked);
+									},
+								})
+							) : (
+								<StepIndicator
+									step={stepNumber}
+									disableStepIndicators={disableStepIndicators}
+									disableNextButton={disableNextButton}
+									currentStep={currentStep}
+									onClickStep={(clicked) => {
+										setDirection(clicked > currentStep ? 1 : -1);
+										updateStep(clicked);
+									}}
+								/>
+							)}
+							{isNotLastStep && (
+								<StepConnector isComplete={currentStep > stepNumber} />
+							)}
+						</React.Fragment>
+					);
+				})}
+			</div>
+			<div
+				className={`mx-auto w-full rounded-2xl shadow ${stepCircleContainerClassName}`}>
 				<StepContentWrapper
 					isCompleted={false}
 					currentStep={currentStep}
@@ -143,9 +142,9 @@ export default function Stepper({
 				</StepContentWrapper>
 
 				{!isCompleted ? (
-					<div className={`px-8 pb-8 ${footerClassName}`}>
+					<div className={`px-6 pb-8 ${footerClassName}`}>
 						<div
-							className={`mt-10 flex ${
+							className={`flex ${
 								currentStep !== 1 ? 'justify-between' : 'justify-end'
 							}`}>
 							{currentStep !== 1 && (
@@ -288,7 +287,7 @@ interface StepProps {
 }
 
 export function Step({ children }: StepProps) {
-	return <div className='px-8'>{children}</div>;
+	return <div className=''>{children}</div>;
 }
 
 interface StepIndicatorProps {
