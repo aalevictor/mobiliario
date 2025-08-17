@@ -17,7 +17,6 @@ async function bind(login: string, senha: string) {
 				{ email: login }
 			]
 		}});
-		console.log({usuario});
 		if (!usuario || usuario.status === false) return null;
 		if (process.env.ENVIRONMENT === 'local' && usuario.tipo === 'INTERNO') return usuario;
 		if (usuario.tipo === 'INTERNO') {
@@ -33,7 +32,6 @@ async function bind(login: string, senha: string) {
 			ldap.unbind();
 		} else if (usuario.tipo === 'EXTERNO' && usuario.senha) {
 			const validaSenha = await bcrypt.compare(senha, usuario.senha);
-			console.log({validaSenha});
 			if (!validaSenha) return null;
 		}
 	} catch (err) {

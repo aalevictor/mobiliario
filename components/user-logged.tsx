@@ -7,7 +7,7 @@ import React from 'react';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
-import { LogOut } from 'lucide-react';
+import { LogOut, User as UserIcon } from 'lucide-react';
 
 export default function UserLogged({ usuario }: { usuario?: User }) {
 	const nome = usuario?.nome || "";
@@ -17,7 +17,10 @@ export default function UserLogged({ usuario }: { usuario?: User }) {
 		<div className='flex items-center gap-3'>
 			{usuario ? <div className='flex gap-1'>
 				<Link href="/cadastros">
-					<Button variant="outline" className='bg-transparent cursor-pointer'>{nomeExibicao}</Button>
+					<Button variant="outline" className='bg-transparent cursor-pointer'>
+						<UserIcon />
+						<p className='hidden md:block'>{nomeExibicao}</p>
+					</Button>
 				</Link>
 				<Button
 					variant='destructive'

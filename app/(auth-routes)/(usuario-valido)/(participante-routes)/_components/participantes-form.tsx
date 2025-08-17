@@ -98,7 +98,7 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
             <CardContent className="px-4 sm:px-6 space-y-6">
                 {/* Lista de Participantes Existentes */}
                 <div className="space-y-4">
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col md:flex-row items-center justify-between">
                         <h3 className="text-lg font-medium">Participantes Cadastrados</h3>
                         <Button
                             onClick={() => setMostrarFormulario(!mostrarFormulario)}
@@ -129,7 +129,7 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
                                             className="flex items-center gap-2 hover:opacity-60 transition-opacity cursor-pointer"
                                         >
                                             <Trash2 className="h-4 w-4" />
-                                            Remover
+                                            <p className="hidden md:block">Remover</p>
                                         </Button>
                                     )}
                                 </div>
