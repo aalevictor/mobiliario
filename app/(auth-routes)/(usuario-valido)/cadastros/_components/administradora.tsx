@@ -6,8 +6,8 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
 import { ICadastro } from '../page';
 import { TipoArquivo } from '@prisma/client';
-import ModalCadastro from './modal-cadastro';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export const administradoraColumns: ColumnDef<ICadastro>[] = [
 	{
@@ -85,10 +85,10 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 		header: "",
 		cell: ({ row }) => {
 			return (
-				<div className='flex items-center justify-end'>
-					<ModalCadastro cadastro={row.original}>
-						<Button size='sm' variant='outline'>Ver dados</Button>
-					</ModalCadastro>
+				<div className='flex items-center justify-end gap-2'>
+					<Link href={`/cadastros/${row.original.id}`}>
+						<Button size='sm' variant='outline' className='cursor-pointer'>Ver dados</Button>
+					</Link>
 				</div>
 			);
 		},

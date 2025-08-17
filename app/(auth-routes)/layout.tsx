@@ -14,7 +14,7 @@ export default async function AuthLayout({
   }
   return <div className="flex flex-col w-full h-screen bg-[#e9edde]">
     <Navbar />
-    <div className="flex flex-col w-full h-full bg-[#e9edde]">
+    <div className="flex flex-col w-full bg-[#e9edde]">
       {children}
     </div>
     <Footer />

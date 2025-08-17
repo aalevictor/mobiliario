@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 
 export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 	{
-		accessorKey: 'id',
+		accessorKey: 'protocolo',
 		header: 'Inscrição',
 	},
 	{

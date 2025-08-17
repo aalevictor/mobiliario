@@ -5,7 +5,6 @@ import { Filtros } from '@/components/filtros';
 import Pagination from '@/components/pagination';
 import { Suspense } from 'react';
 import { administradoraColumns } from './_components/administradora';
-import { licitadoraColumns } from './_components/licitadora';
 import { julgadoraColumns } from './_components/julgadora';
 import { Arquivo, Avaliacao_Julgadora, Avaliacao_Licitadora, Participante, Permissao, Tipo_Carteira } from '@prisma/client';
 import { buscarCadastros } from '@/services/cadastros';
@@ -13,14 +12,14 @@ import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { retornaPermissao, verificarPermissoes } from '@/services/usuarios';
 
-export default async function UsuariosSuspense({
+export default async function CadastrosSuspense({
 	searchParams,
 }: {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
 	return (
 		<Suspense fallback={<TableSkeleton />}>
-			<Usuarios searchParams={searchParams} />
+			<Cadastros searchParams={searchParams} />
 		</Suspense>
 	);
 }
@@ -58,14 +57,14 @@ interface IPaginadoCadastro {
     data: Partial<ICadastro>[];
 }
 
-async function Usuarios({
+async function Cadastros({
 	searchParams,
 }: {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
     const session = await auth();
     if (!session) return redirect('/');
-    if (!await verificarPermissoes(session.user.id, ["ADMIN", "DEV", "LICITACAO", "JULGADORA"]))
+    if (!await verificarPermissoes(session.user.id, ["DEV", "ADMIN", "JULGADORA"]))
         return redirect('/meu-cadastro');
     const permissao: Permissao | null = await retornaPermissao(session.user.id);
     if (!permissao) return redirect('/');
@@ -108,7 +107,6 @@ async function Usuarios({
 					<DataTable
 						columns={
                             ["ADMIN", "DEV"].includes(permissao) ? administradoraColumns :
-                            ["LICITACAO"].includes(permissao) ? licitadoraColumns :
                             ["JULGADORA"].includes(permissao) ? julgadoraColumns :
                             []
                         }

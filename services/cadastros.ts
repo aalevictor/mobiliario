@@ -131,27 +131,9 @@ async function buscarCadastros(
         caminho: true,
       }
     }
-  } : ["LICITACAO"].includes(permissao) ? {
+  }: ["JULGADORA"].includes(permissao)	?  {
     id: true,
-    avaliacao_licitadora: {
-      select: {
-        id: true,
-        parecer: true,
-        aprovado: true,
-        observacoes: true,
-      }
-    },
-    arquivos: {
-      where: {
-        tipo: TipoArquivo.PROJETOS,
-      },
-      select: {
-        id: true,
-        caminho: true,
-      }
-    }
-  } : ["JULGADORA"].includes(permissao)	?  {
-    id: true,
+    protocolo: true,
     arquivos: {
       where: {
         tipo: TipoArquivo.DOC_ESPECIFICA,
@@ -209,4 +191,15 @@ async function atualizarAvaliacaoLicitadora(id: string, avaliadorId: string, dat
   return avaliacao_licitadora;
 }
 
-export { geraProtocolo, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
+async function buscarCadastro(id: number) {
+  const cadastro = await db.cadastro.findUnique({
+    where: { id },
+    include: {
+      participantes: true,
+      arquivos: true,
+    }
+  });
+  return cadastro;
+}
+
+export { geraProtocolo, buscarCadastro, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
