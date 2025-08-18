@@ -9,6 +9,7 @@ import { Usuario } from '@prisma/client';
 import ModalUsuario from './_components/modal_usuario';
 import { buscarUsuarios, retornaPermissao } from '@/services/usuarios';
 import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
 export default async function UsuariosSuspense({
 	searchParams,
@@ -41,11 +42,9 @@ async function Usuarios({
 	// Buscar permissão do usuário logado
 	const session = await auth();
 	const usuarioLogado = session?.user as Usuario;
+	if (!usuarioLogado) redirect('/auth/login');
 	const permissao = await retornaPermissao(usuarioLogado.id);
-	
-	if (!permissao) {
-		return <div>Acesso negado</div>;
-	}
+	if (!permissao) redirect('/');
 	
 	try {
         const data = await buscarUsuarios(

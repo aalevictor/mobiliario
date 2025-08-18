@@ -17,25 +17,32 @@ function createTransporter() {
   }
 
   const port = Number(smtpPort);
+  const env = process.env.ENVIRONMENT;
   
+  if (env === 'local')
+    return nodemailer.createTransport({
+      host: smtpHost,
+      port: port,
+      secure: port === 465, // true para porta 465 (SSL), false para outras portas
+      requireTLS: port === 587, // requer TLS para porta 587 (STARTTLS)
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
+      tls: {
+        // Não falha em certificados auto-assinados
+        rejectUnauthorized: false,
+        // Permite versões TLS mais antigas se necessário
+        ciphers: 'SSLv3',
+      },
+      // Configurações adicionais para debugging
+      debug: process.env.NODE_ENV === 'development',
+      logger: process.env.NODE_ENV === 'development',
+    });
   return nodemailer.createTransport({
-    host: smtpHost,
-    port: port,
-    secure: port === 465, // true para porta 465 (SSL), false para outras portas
-    requireTLS: port === 587, // requer TLS para porta 587 (STARTTLS)
-    auth: {
-      user: smtpUser,
-      pass: smtpPass,
-    },
-    tls: {
-      // Não falha em certificados auto-assinados
-      rejectUnauthorized: false,
-      // Permite versões TLS mais antigas se necessário
-      ciphers: 'SSLv3',
-    },
-    // Configurações adicionais para debugging
-    debug: process.env.NODE_ENV === 'development',
-    logger: process.env.NODE_ENV === 'development',
+    sendmail: true,
+    newline: "unix",
+    path: "/usr/sbin/sendmail",
   });
 }
 

@@ -9,7 +9,7 @@ export default async function AuthLayout({
 }) {
   const session = await auth();
   if (!session) redirect("/auth/login");
-  const permissao = verificarPermissoes(session.user.id, ['TOTAL']);
+  const permissao = await verificarPermissoes(session.user.id, ['ADMIN']);
   if (!permissao) redirect("/meu-cadastro");
   return children;
 }
