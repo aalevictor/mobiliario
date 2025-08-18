@@ -9,6 +9,7 @@ import DocumentosForm from "../_components/documentos-form";
 import ProjetosForm from "../_components/projetos-form";
 import { revalidatePath } from "next/cache";
 import { ICadastro } from "../../cadastros/page";
+import ProtocoloDisplay from "../_components/protocolo-display";
 
 export default async function MeuCadastro(props: { searchParams: Promise<{ tab: string }> }) {
     const { tab } = await props.searchParams;
@@ -26,7 +27,12 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
     const tabs = ["responsavel", "empresa", "participantes", "documentacao", "projetos"];
 
     return (
-        <div className="container mx-auto h-full px-4 max-sm:px-2 py-6 max-w-6xl">
+        <div className="container mx-auto h-full px-4 max-sm:px-2 py-6 max-w-6xl flex flex-col gap-3">
+            {/* Card de Protocolo em Destaque */}
+            {cadastro.protocolo && (
+                <ProtocoloDisplay protocolo={cadastro.protocolo} />
+            )}
+            
             <Tabs defaultValue={tabs.includes(tab) ? tab : "responsavel"} className="w-full">
                 <div className="flex justify-center">
                     <TabsList className="w-full max-w-3xl flex flex-wrap md:flex-nowrap gap-1 h-fit">

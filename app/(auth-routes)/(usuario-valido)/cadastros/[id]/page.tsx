@@ -1,39 +1,43 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Building2, FileText, FolderOpen, User, Users } from "lucide-react";
-import { buscarCadastro } from "@/services/cadastros";
+import { buscarCadastro, buscarCadastroJulgadora } from "@/services/cadastros";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ModalLicitadora from "../_components/modal-licitadora";
 import { ICadastro } from "../page";
 import { TipoArquivo } from "@prisma/client";
+import { auth } from "@/auth";
+import { retornaPermissao, verificarPermissoes } from "@/services/usuarios";
+import DownloadButton from "./_components/download-button";
 
-export default async function Cadastro({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
+
+async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string }) {
     const cadastro = await buscarCadastro(+id);
     if (!cadastro) redirect('/cadastros');
-    const projetos = cadastro.arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.PROJETOS);
-    const documentos = cadastro.arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA);
+    const podeDownload = await verificarPermissoes(usuarioId, ["DEV", "ADMIN"]);
+    const projetos = cadastro.arquivos?.filter((arquivo) => arquivo.tipo === TipoArquivo.PROJETOS) || [];
+    const documentos = cadastro.arquivos?.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA) || [];
 
-    return (<div className="px-0 md:px-8 relative h-full container mx-auto py-8">
-        <Card className="container mx-auto px-0 max-sm:px-2 py-6 max-w-6xl max-sm:bg-transparent max-sm:shadow-none max-sm:border-none max-sm:p-0">
-            <CardHeader className="max-sm:border-none">
-                <CardTitle className="text-xl sm:text-2xl flex items-center gap-2">
-                    <Link href="/cadastros">
-                        <Button variant="ghost" size="icon" className="cursor-pointer">
-                            <ArrowLeft className="h-4 w-4" />
-                        </Button>
-                    </Link>
-                    <span className="text-xl sm:text-2xl">{cadastro.protocolo}</span>
-                </CardTitle>
-                <CardDescription className="text-sm sm:text-base">
-                    Visualize todas as informações do cadastro enviado pelo participante.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <div className="space-y-6">
+    return (<div className="px-2 md:px-8 relative h-full container mx-auto py-8">
+                <div className="space-y-2 max-w-6xl mx-auto">
+                    <Card>
+                        <CardHeader className="max-sm:border-none">
+                            <CardTitle className="text-xl sm:text-2xl flex items-center gap-2">
+                                <Link href="/cadastros">
+                                    <Button variant="ghost" size="icon" className="cursor-pointer">
+                                        <ArrowLeft className="h-4 w-4" />
+                                    </Button>
+                                </Link>
+                                <span className="text-xl sm:text-2xl">{cadastro.protocolo}</span>
+                            </CardTitle>
+                            <CardDescription className="text-sm sm:text-base">
+                                Visualize todas as informações do cadastro enviado pelo participante.
+                            </CardDescription>
+                        </CardHeader>
+                    </Card>
                     {/* Seção Responsável */}
-                    <Card className="shadow-none border-gray-200">
+                    <Card>
                         <CardHeader className="pb-4">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
@@ -70,7 +74,7 @@ export default async function Cadastro({ params }: { params: Promise<{ id: strin
                     </Card>
 
                     {/* Seção Empresa */}
-                    <Card className="shadow-none border-gray-200">
+                    <Card>
                         <CardHeader className="pb-4">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
@@ -105,7 +109,7 @@ export default async function Cadastro({ params }: { params: Promise<{ id: strin
                     </Card>
 
                     {/* Seção Participantes */}
-                    <Card className="shadow-none border-gray-200">
+                    <Card>
                         <CardHeader className="pb-4">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
@@ -138,7 +142,7 @@ export default async function Cadastro({ params }: { params: Promise<{ id: strin
                     </Card>
 
                     {/* Seção Documentação */}
-                    <Card className="shadow-none border-gray-200">
+                    <Card>
                         <CardHeader className="pb-4">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
@@ -151,12 +155,24 @@ export default async function Cadastro({ params }: { params: Promise<{ id: strin
                             {documentos && documentos.length > 0 ? (
                                 <div className="space-y-3">
                                     {documentos.map((arquivo) => (
-                                        <div key={arquivo.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                                            <FileText className="h-5 w-5 text-gray-500" />
-                                            <div>
-                                                <p className="font-medium">Documento</p>
-                                                <p className="text-sm text-gray-600">{arquivo.caminho}</p>
+                                        <div key={arquivo.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <div className="flex items-center gap-3">
+                                                <FileText className="h-5 w-5 text-gray-500" />
+                                                <div>
+                                                    <p className="font-medium">{arquivo.caminho?.split('/').pop() || 'Documento'}</p>
+                                                    <p className="text-sm text-gray-600">
+                                                        Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
+                                                    </p>
+                                                </div>
                                             </div>
+                                            {podeDownload && arquivo.id && (
+                                                <DownloadButton
+                                                    cadastroId={cadastro.id!}
+                                                    arquivoId={arquivo.id}
+                                                    nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
+                                                    className="cursor-pointer"
+                                                />
+                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -176,7 +192,7 @@ export default async function Cadastro({ params }: { params: Promise<{ id: strin
                     </Card>
 
                     {/* Seção Projetos */}
-                    <Card className="shadow-none border-gray-200">
+                    <Card>
                         <CardHeader className="pb-4">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
@@ -189,12 +205,24 @@ export default async function Cadastro({ params }: { params: Promise<{ id: strin
                             {projetos && projetos.length > 0 ? (
                                 <div className="space-y-3">
                                     {projetos.map((arquivo) => (
-                                        <div key={arquivo.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                                            <FolderOpen className="h-5 w-5 text-gray-500" />
-                                            <div>
-                                                <p className="font-medium">Projeto</p>
-                                                <p className="text-sm text-gray-600">{arquivo.caminho}</p>
+                                        <div key={arquivo.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <div className="flex items-center gap-3">
+                                                <FolderOpen className="h-5 w-5 text-gray-500" />
+                                                <div>
+                                                    <p className="font-medium">{arquivo.caminho?.split('/').pop() || 'Projeto'}</p>
+                                                    <p className="text-sm text-gray-600">
+                                                        Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
+                                                    </p>
+                                                </div>
                                             </div>
+                                            {podeDownload && arquivo.id && (
+                                                <DownloadButton
+                                                    cadastroId={cadastro.id!}
+                                                    arquivoId={arquivo.id}
+                                                    nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
+                                                    className="cursor-pointer"
+                                                />
+                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -208,7 +236,85 @@ export default async function Cadastro({ params }: { params: Promise<{ id: strin
                         </CardContent>
                     </Card>
                 </div>
-            </CardContent>
-        </Card>
     </div>)
+}
+
+async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: string }) {
+    const cadastro = await buscarCadastroJulgadora(+id);
+    if (!cadastro) redirect('/cadastros');
+    const podeDownload = await verificarPermissoes(usuarioId, ["JULGADORA"]);
+    return (<div className="px-0 md:px-8 relative h-full container mx-auto py-8">
+        <div className="space-y-2 max-w-6xl mx-auto">
+            {/* Seção Projetos */}
+            <Card>
+                <CardHeader className="max-sm:border-none">
+                    <CardTitle className="text-xl sm:text-2xl flex items-center gap-2">
+                        <Link href="/cadastros">
+                            <Button variant="ghost" size="icon" className="cursor-pointer">
+                                <ArrowLeft className="h-4 w-4" />
+                            </Button>
+                        </Link>
+                        <span className="text-xl sm:text-2xl">{cadastro.protocolo}</span>
+                    </CardTitle>
+                    <CardDescription className="text-sm sm:text-base">
+                        Visualize todas as informações do cadastro enviado pelo participante.
+                    </CardDescription>
+                </CardHeader>
+            </Card>
+            <Card>
+                <CardHeader className="pb-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <FolderOpen className="h-4 w-4 text-white" />
+                        </div>
+                        <CardTitle className="text-lg text-primary">Projetos</CardTitle>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    {cadastro.arquivos && cadastro.arquivos.length > 0 ? (
+                        <div className="space-y-3">
+                            {cadastro.arquivos.map((arquivo) => (
+                                <div key={arquivo.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div className="flex items-center gap-3">
+                                        <FolderOpen className="h-5 w-5 text-gray-500" />
+                                        <div>
+                                            <p className="font-medium">{arquivo.caminho?.split('/').pop() || 'Projeto'}</p>
+                                            <p className="text-sm text-gray-600">
+                                                Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {podeDownload && arquivo.id && (
+                                        <DownloadButton
+                                            cadastroId={+id}
+                                            arquivoId={arquivo.id}
+                                            nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
+                                            className="cursor-pointer"
+                                        />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-8 text-gray-500">
+                            <FolderOpen className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                            <p>Nenhum projeto encontrado</p>
+                            <p className="text-sm">Projetos não foram enviados</p>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
+        </div>
+    </div>)
+}
+
+export default async function Cadastro({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const session = await auth();
+    if (!session) redirect('/auth/login');
+    const permissao = await retornaPermissao(session.user.id);
+    if (permissao === "JULGADORA") {
+        return <CadastroJulgadora id={id} usuarioId={session.user.id} />
+    }
+    return <CadastroAdmin id={id} usuarioId={session.user.id} />    
 }

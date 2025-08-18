@@ -143,6 +143,7 @@ model Arquivo {
   id         String      @id @default(uuid())
   caminho    String
   tipo       TipoArquivo
+  tamanho    Int?        // Tamanho do arquivo em bytes
   cadastroId Int
 
   criadoEm     DateTime @default(now())

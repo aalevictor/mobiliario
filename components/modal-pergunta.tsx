@@ -48,6 +48,7 @@ export default function ModalPergunta({ duvida, children }: { duvida?: Duvida, c
                 });
                 if (response.ok) {
                     toast.success('Pergunta respondida com sucesso');
+                    formResposta.reset();
                     setOpen(false);
                 } else {
                     toast.error('Erro ao responder pergunta');
@@ -59,6 +60,7 @@ export default function ModalPergunta({ duvida, children }: { duvida?: Duvida, c
                 });
                 if (response.ok) {
                     toast.success('Pergunta enviada com sucesso');
+                    formPergunta.reset();
                     setOpen(false);
                 } else {
                     toast.error('Erro ao enviar pergunta');

@@ -32,6 +32,7 @@ export async function criarUsuario(dados: ICreateUsuario) {
         }
 		if (await buscarPorEmail(email)) return null;
 		const senhaHash = await bcrypt.hash(senha, 10);
+        console.log({ senha })
 		const usuario = await db.usuario.create({
 			data: { email, nome, permissao, senha: senhaHash, tipo: 'EXTERNO', alterarSenha },
 		});

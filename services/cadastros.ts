@@ -141,6 +141,8 @@ async function buscarCadastros(
       select: {
         id: true,
         caminho: true,
+        tipo: true,
+        criadoEm: true
       }
     }
   }: { id: true };
@@ -155,9 +157,9 @@ async function buscarCadastros(
     }),
   };
   const total = await db.cadastro.count({ where: searchParams });
-  if (total == 0) return { total: 0, pagina: 0, limite: 0, users: [] };
+  if (total == 0) return { total: 0, pagina: 0, limite: 0, data: [] };
   [pagina, limite] = verificaLimite(pagina, limite, total);
-  const usuarios = await db.cadastro.findMany({
+  const cadastros = await db.cadastro.findMany({
       where: searchParams,
       select,
       orderBy: { criadoEm: 'asc' },
@@ -168,7 +170,7 @@ async function buscarCadastros(
       total: +total,
       pagina: +pagina,
       limite: +limite,
-      data: usuarios,
+      data: cadastros,
   };
 }
 
@@ -202,4 +204,25 @@ async function buscarCadastro(id: number) {
   return cadastro;
 }
 
-export { geraProtocolo, buscarCadastro, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
+async function buscarCadastroJulgadora(id: number) {
+  const cadastro = await db.cadastro.findUnique({
+    where: { id },
+    select: {
+      protocolo: true,
+      arquivos: {
+        where: {
+          tipo: TipoArquivo.PROJETOS,
+        },
+        select: {
+          id: true,
+          caminho: true,
+          tipo: true,
+          criadoEm: true
+        }
+      },
+    }
+  });
+  return cadastro;
+}
+
+export { geraProtocolo, buscarCadastro, buscarCadastroJulgadora, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };

@@ -15,7 +15,7 @@ export async function POST(
 ) {
     const session = await auth();
     if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-    if (!await verificarPermissoes(session.user.id, ["LICITACAO"]))
+    if (!await verificarPermissoes(session.user.id, ["ADMIN"]))
         return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     const { id } = await context.params;
     const data: IAvaliacaoLicitadora = await request.json();

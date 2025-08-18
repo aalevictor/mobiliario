@@ -64,6 +64,7 @@ export default function ModalUsuario({ usuario, children }: { usuario?: Usuario,
                 });
                 if (response.ok) {
                     toast.success('Usuário atualizado com sucesso');
+                    formUsuario.reset();
                     setOpen(false);
                 } else {
                     toast.error('Erro ao atualizar usuário');
@@ -75,6 +76,7 @@ export default function ModalUsuario({ usuario, children }: { usuario?: Usuario,
                 });
                 if (response.ok) {
                     toast.success('Usuário criado com sucesso');
+                    formUsuario.reset();
                     setOpen(false);
                 } else {
                     toast.error('Erro ao criar usuário');

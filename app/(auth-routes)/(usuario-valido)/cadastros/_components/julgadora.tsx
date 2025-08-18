@@ -6,8 +6,8 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
 import { ICadastro } from '../page';
 import { TipoArquivo } from '@prisma/client';
-import ModalJulgadora from './modal-julgadora';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 	{
@@ -21,7 +21,7 @@ export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 			const projetos = row.original.arquivos?.filter(arquivo => arquivo.tipo === TipoArquivo.PROJETOS);
 			const projetos_length = projetos?.length || 0;
 			return (
-				<div className='flex items-center justify-end'>
+				<div className='flex items-center justify-center'>
 					<Badge variant='default'>
 						{projetos_length > 0 ? projetos_length : 'Nenhum'} arquivo{projetos_length > 1 ? 's' : ''}
 					</Badge>
@@ -35,9 +35,9 @@ export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 		cell: ({ row }) => {
 			return (
 				<div className='flex items-center justify-end'>
-					<ModalJulgadora cadastro={row.original}>
-						<Button size='sm' variant='outline'>Avaliar projetos</Button>
-					</ModalJulgadora>
+					<Link href={`/cadastros/${row.original.id}`}>
+						<Button size='sm' variant='outline' className='cursor-pointer'>Ver dados</Button>
+					</Link>
 				</div>
 			);
 		},

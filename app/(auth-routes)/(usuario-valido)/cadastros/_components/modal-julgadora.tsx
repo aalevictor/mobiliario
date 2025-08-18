@@ -39,6 +39,7 @@ export default function ModalJulgadora({ cadastro, children }: { cadastro: ICada
                 });
                 if (response.ok) {
                     toast.success('Avaliação licitadora atualizada com sucesso');
+                    formUsuario.reset();
                     setOpen(false);
                 } else {
                     toast.error('Erro ao atualizar avaliação licitadora');
@@ -50,6 +51,7 @@ export default function ModalJulgadora({ cadastro, children }: { cadastro: ICada
                 });
                 if (response.ok) {
                     toast.success('Avaliação licitadora criada com sucesso');
+                    formUsuario.reset();
                     setOpen(false);
                 } else {
                     toast.error('Erro ao criar avaliação licitadora');
