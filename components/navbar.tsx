@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import logo from '../public/logo-header.png';
 import UserLogged from './user-logged';
 import { auth } from '@/auth';
 
@@ -13,7 +12,7 @@ export default async function Navbar() {
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link href={"/"}>
           <Image
-            src={logo}
+            src="/logo-header.png"
             alt="Brasão da Prefeitura de São Paulo"
             width={120}
             height={80}

@@ -7,6 +7,14 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import type { Metadata } from "next";
 import "./globals.css";
 import ObserverProvider from "@/providers/ObserverProvider";
+import { Manrope } from "next/font/google";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-manrope",
+});
+
 export const metadata: Metadata = {
   title: "Concurso Nacional de Mobiliário Urbano para São Paulo - 2025",
   description: "Concurso Nacional de Mobiliário Urbano para São Paulo - 2025",
@@ -19,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`antialiased`}>
+      <body className={`antialiased ${manrope.variable}`}>
         <AuthProvider>
           <QueryProvider>
             <ThemeProvider
