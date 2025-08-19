@@ -3,7 +3,7 @@
 import { Permissao, Prisma, TipoArquivo, Tipo_Usuario } from "@prisma/client";
 import { db } from "@/lib/prisma";
 import { PreCadastro } from "@/app/api/cadastro/pre-cadastro.dto";
-import bcrypt from "bcryptjs";
+import { hashPassword } from "@/lib/password";
 import { verificaLimite, verificaPagina } from "@/lib/utils";
 import { IAvaliacaoLicitadora } from "@/app/api/cadastro/[id]/avaliacao-licitadora/route";
 import { transporter } from "@/lib/nodemailer";
@@ -24,7 +24,7 @@ async function criarPreCadastro(
   const preCadastroSaved = await db.$transaction(
     async (tx: Prisma.TransactionClient) => {
       const { participantes, senha, ...data } = preCadastro;
-      const senhaHashed = await bcrypt.hash(senha, 10);
+      const senhaHashed = hashPassword(senha);
       const novo_usuario = await tx.usuario.create({
         data: {
           nome: data.nome,
