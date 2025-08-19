@@ -6,7 +6,7 @@ import { ICreateUsuario } from '@/types/usuario';
 import { Usuario } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { transporter } from '@/lib/nodemailer';
-import { templateBoasVindas, templateNotificacao } from '@/app/api/cadastro/_utils/email-templates';
+import { templateNotificacao } from '@/app/api/cadastro/_utils/email-templates';
 
 export async function criarUsuario(dados: ICreateUsuario) {
     let enviarEmail = false;
@@ -42,7 +42,6 @@ export async function criarUsuario(dados: ICreateUsuario) {
                     console.warn('⚠️  Não foi possível enviar email: SMTP não configurado');
                     return usuario;
                 }
-                
                 await transporter.sendMail({
                     from: process.env.MAIL_FROM,
                     to: email,
