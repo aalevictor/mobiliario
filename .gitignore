@@ -10,6 +10,7 @@
 !.yarn/releases
 !.yarn/versions
 /lib/generated
+/prisma/schema2.prisma
 
 # testing
 /coverage

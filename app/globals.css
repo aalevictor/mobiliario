@@ -4,6 +4,12 @@
 @plugin "tailwindcss-motion";
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-manrope), ui-monospace, monospace;
+  --font-serif: var(--font-manrope), ui-serif, serif;
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.1450 0 0);
@@ -134,10 +140,6 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-sans: var(--font-manrope);
-  --font-mono: var(--font-manrope);
-  --font-serif: var(--font-manrope);
-
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -159,8 +161,12 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
     letter-spacing: var(--tracking-normal);
     scroll-behavior: smooth;
+    font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  }
+  html {
+    font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   }
 }

@@ -2,18 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig = {
   serverExternalPackages: ['@prisma/client', 'prisma'],
-  // Configurações de logging para debugging
-  logging: {
-    fetches: {
-      fullUrl: true,
-    },
-  },
-  // Habilitar logs detalhados em produção
-  experimental: {
-    logging: {
-      level: 'verbose',
-    },
-  },
   turbopack: {
     rules: {
       '*.svg': {

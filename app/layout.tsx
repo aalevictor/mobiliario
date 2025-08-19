@@ -26,8 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`antialiased ${manrope.variable}`}>
+    <html lang="pt-BR" suppressHydrationWarning className={manrope.variable}>
+      <body className="antialiased font-sans">
         <AuthProvider>
           <QueryProvider>
             <ThemeProvider
