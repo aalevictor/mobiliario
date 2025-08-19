@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
-const nextConfig = {
+const nextConfig = { 
+  output: 'standalone',
   serverExternalPackages: ['@prisma/client', 'prisma'],
   turbopack: {
     rules: {
