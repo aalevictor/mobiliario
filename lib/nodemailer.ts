@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import nodemailer, { Transporter } from "nodemailer";
 
 const smtpHost = process.env.MAIL_HOST;
 const smtpPort = process.env.MAIL_PORT;
@@ -11,7 +11,7 @@ if (!smtpHost || !smtpPort || !smtpUser || !smtpPass) {
 }
 
 // Função para criar transporter com configuração robusta
-function createTransporter() {
+function createTransporter(): Transporter | null {
   if (!smtpHost || !smtpPort || !smtpUser || !smtpPass) {
     return null;
   }
@@ -19,7 +19,7 @@ function createTransporter() {
   const port = Number(smtpPort);
   const env = process.env.ENVIRONMENT;
   
-  if (env === 'local')
+  if (env === 'local') {
     return nodemailer.createTransport({
       host: smtpHost,
       port: port,
@@ -39,6 +39,8 @@ function createTransporter() {
       debug: process.env.NODE_ENV === 'development',
       logger: process.env.NODE_ENV === 'development',
     });
+  }
+  
   return nodemailer.createTransport({
     sendmail: true,
     newline: "unix",

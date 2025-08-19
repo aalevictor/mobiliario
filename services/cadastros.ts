@@ -53,12 +53,17 @@ async function criarPreCadastro(
             console.warn('⚠️  Não foi possível enviar email: SMTP não configurado');
             return cadastro_protocolo;
           }
-          await transporter.sendMail({
-            from: process.env.MAIL_FROM,
-            to: data.email,
-            subject: 'Concurso de Mobiliário Urbano 2025 - Cadastro',
-            html: templateConfirmacaoInscricao(data.nome),
-          });
+          try {
+            await transporter.sendMail({
+              from: process.env.MAIL_FROM,
+              to: data.email,
+              subject: 'Concurso de Mobiliário Urbano 2025 - Cadastro',
+              html: templateConfirmacaoInscricao(data.nome),
+            });
+          } catch (emailError) {
+            console.error('Erro ao enviar email:', emailError);
+            // Não falha o cadastro se o email falhar
+          }
         }
         return cadastro_protocolo;
       } catch (error) {
