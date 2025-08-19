@@ -11,22 +11,15 @@ const nextConfig = {
     },
   },
   webpack: (config: any, { isServer, dev }: { isServer: boolean, dev: boolean }) => {
-    // Configurações para resolver problemas de dependências nativas
-    if (isServer) {
-      config.externals.push({
-        'utf-8-validate': 'commonjs utf-8-validate',
-        'bufferutil': 'commonjs bufferutil',
-      });
+    // Apenas aplicar configurações webpack quando não estiver usando turbopack
+    if (!dev) {
+      if (isServer) {
+        config.externals.push({
+          'utf-8-validate': 'commonjs utf-8-validate',
+          'bufferutil': 'commonjs bufferutil',
+        });
+      }
     }
-    
-    // Resolver problemas com módulos nativos do LightningCSS
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      fs: false,
-      net: false,
-      tls: false,
-    };
-    
     return config;
   },
   async headers () { 

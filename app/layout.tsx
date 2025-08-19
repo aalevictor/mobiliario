@@ -7,8 +7,13 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import type { Metadata } from "next";
 import "./globals.css";
 import ObserverProvider from "@/providers/ObserverProvider";
-// Removido next/font para compatibilidade com Tailwind CSS v4
-// A fonte será carregada via CSS externo
+import { Manrope } from "next/font/google";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-manrope",
+});
 
 export const metadata: Metadata = {
   title: "Concurso Nacional de Mobiliário Urbano para São Paulo - 2025",
@@ -21,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR" suppressHydrationWarning className={manrope.variable}>
       <body className="antialiased font-sans">
         <AuthProvider>
           <QueryProvider>

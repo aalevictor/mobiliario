@@ -1,37 +1,37 @@
 /** @format */
 
 import { db } from '@/lib/prisma';
-import { Client } from 'ldapts';
-import { matchPassword } from '@/lib/password';
+import { Client, createClient } from 'ldapjs';
+import bcrypt from 'bcryptjs';
 import { Usuario } from '@prisma/client';
 
 async function bind(login: string, senha: string) {
 	let usuario: Usuario | null = null;
 	try {
-		const ldap = new Client({
+		const ldap: Client = createClient({
 			url: process.env.LDAP_SERVER || 'ldap://1.1.1.1',
 		});
-		
 		usuario = await db.usuario.findFirst({ where: {
 			OR: [
 				{ login },
 				{ email: login }
 			]
 		}});
-		
 		if (!usuario || usuario.status === false) return null;
-		
 		if (process.env.ENVIRONMENT === 'local' && usuario.tipo === 'INTERNO') return usuario;
-		
 		if (usuario.tipo === 'INTERNO') {
-			try {
-				await ldap.bind(`${login}${process.env.LDAP_DOMAIN}`, senha);
-				await ldap.unbind();
-			} catch (err) {
-				usuario = null;
-			}
+			await new Promise<void>((resolve) => {
+				ldap.bind(`${login}${process.env.LDAP_DOMAIN}`, senha, (err: any) => {
+					if (err) {
+						ldap.destroy();
+						usuario = null;
+					}
+					resolve();
+				});
+			});
+			ldap.unbind();
 		} else if (usuario.tipo === 'EXTERNO' && usuario.senha) {
-			const validaSenha = matchPassword(senha, usuario.senha);
+			const validaSenha = await bcrypt.compare(senha, usuario.senha);
 			if (!validaSenha) return null;
 		}
 	} catch (err) {
@@ -43,42 +43,59 @@ async function bind(login: string, senha: string) {
 async function buscarPorLogin(
 	login: string,
 ): Promise<{ nome: string; email: string; login: string } | null> {
-	const ldap = new Client({
+	const ldap: Client = createClient({
 		url: process.env.LDAP_SERVER || 'ldap://1.1.1.1',
 	});
-	
 	if (!login || login === '') return null;
-	
 	let resposta = null;
 	try {
-		// Bind com credenciais de administrador
-		await ldap.bind(`${process.env.LDAP_USER}${process.env.LDAP_DOMAIN}`, process.env.LDAP_PASS || "");
-		
-		// Buscar usuário
-		const searchResult = await ldap.search(process.env.LDAP_BASE || "", {
-			filter: `(&(samaccountname=${login})(company=SMUL))`,
-			scope: 'sub',
-			attributes: ['name', 'mail'],
+		await new Promise<void>((resolve) => {
+			ldap.bind(`${process.env.LDAP_USER}${process.env.LDAP_DOMAIN}`, process.env.LDAP_PASS || "", (err: any) => {
+				if (err) {
+					ldap.destroy();
+				}
+				resolve();
+			});
 		});
-		
-		if (searchResult.searchEntries && searchResult.searchEntries.length > 0) {
-			const entry = searchResult.searchEntries[0];
-			const nome = Array.isArray(entry.name) ? entry.name[0] : entry.name;
-			const email = Array.isArray(entry.mail) ? entry.mail[0] : entry.mail;
-			
-			const nomeStr = (nome as string)?.replace(/"/g, '') || '';
-			const emailStr = (email as string)?.replace(/"/g, '').toLowerCase() || '';
-			
-			if (nomeStr && emailStr && nomeStr !== "" && emailStr !== "") {
-				resposta = { nome: nomeStr, email: emailStr, login };
-			}
-		}
-		
-		await ldap.unbind();
-	} catch (err) {
-		console.log(err);
-	}
-	
+		const usuario_ldap = await new Promise<any>((resolve, _reject) => {
+			ldap.search(
+				process.env.LDAP_BASE || "",
+				{
+					filter: `(&(samaccountname=${login})(company=SMUL))`,
+					scope: 'sub',
+					attributes: ['name', 'mail'],
+				},
+				(err, res) => {
+					if (err) {
+						ldap.destroy();
+						resolve('erro');
+					}
+					res.on('searchEntry', async (entry) => {
+						const nome = JSON.stringify(
+						entry.pojo.attributes[0].values[0],
+						).replaceAll('"', '');
+						const email = JSON.stringify(entry.pojo.attributes[1].values[0])
+						.replaceAll('"', '')
+						.toLowerCase();
+						resolve({ nome, email });
+					});
+					res.on('error', (_err) => {
+						ldap.destroy();
+						resolve('erro');
+					});
+					res.on('end', () => {
+						ldap.destroy();
+						resolve('erro');
+					});
+				},
+			);
+		});
+		const { nome, email } = usuario_ldap;
+		if (nome && email && nome !== "" && email !== "")
+			resposta = { nome, email, login };		
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	} catch (err) {}
+	ldap.unbind();
 	return resposta;
 }
 

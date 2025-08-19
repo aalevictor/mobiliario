@@ -271,7 +271,7 @@ const DragDropInput = forwardRef<DragDropInputRef, DragDropInputProps>(
 							variant='outline'
 							size='sm'
 							disabled={disabled}
-							onClick={(e: { stopPropagation: () => void; }) => {
+							onClick={(e) => {
 								e.stopPropagation();
 								openFileDialog();
 							}}>
@@ -336,7 +336,7 @@ const DragDropInput = forwardRef<DragDropInputRef, DragDropInputProps>(
 										variant='ghost'
 										size='icon'
 										disabled={disabled}
-										onClick={(e: { stopPropagation: () => void; }) => {
+										onClick={(e) => {
 											e.stopPropagation();
 											removeFile(index);
 										}}
