@@ -1,8 +1,6 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "tailwindcss-intersect";
-@plugin "tailwindcss-motion";
-@custom-variant dark (&:is(.dark *));
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @theme {
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
