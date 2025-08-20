@@ -5,16 +5,11 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CalendarIcon, Check, ChevronsUpDown, RefreshCw, X } from 'lucide-react';
+import { Check, ChevronsUpDown, RefreshCw, X } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState, useTransition } from 'react';
-import { DateRange } from 'react-day-picker';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { Calendar } from './ui/calendar';
-import { format } from 'date-fns';
-import { cn, verificaData } from '@/lib/utils';
-import { ptBR } from 'date-fns/locale';
-import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 
 interface CampoFiltravel {
@@ -90,9 +85,6 @@ export function Filtros({ camposFiltraveis }: FiltrosProps) {
 				switch (campo.tipo) {
 					case TiposFiltros.TEXTO:
 						filtros.push(RenderTexto(campo));
-						break;
-					case TiposFiltros.DATA:
-						filtros.push(RenderDataRange(campo));
 						break;
 					case TiposFiltros.SELECT:
 						filtros.push(RenderSelect(campo));
@@ -212,80 +204,7 @@ export function Filtros({ camposFiltraveis }: FiltrosProps) {
 				</Popover>
 		</div>
 	}
-
-	function RenderDataRange(campo: CampoFiltravel) {
-		const param = searchParams.get(campo.tag);
-		const datas = param ? param.split(',') : ['', ''];
-
-		const [from, to] = verificaData(datas[0], datas[1]);
-		const [date, setDate] = useState<DateRange | undefined>(datas[0] !== ''  && datas[1] !== '' ? { from, to } : undefined);
-
-		function handleSelecionaData(date: DateRange | undefined) {
-			setDate(date);
-			const from = date?.from ? format(date.from, 'dd-MM-yyyy') : '';
-			const to = date?.to ? format(date.to, 'dd-MM-yyyy') : '';
-			const periodo = from !== '' && to !== '' ? `${from},${to}` : '';
-			if (periodo === '') toast.error('Selecione um período para filtrar por data');
-			setFiltros((prev) => ({ ...prev, [campo.tag]: periodo }));
-		}
-
-		useEffect(() => {
-			const paramUpdate = searchParams.get(campo.tag);
-			const datas = paramUpdate && paramUpdate !== '' ? paramUpdate.split(',') : ['', ''];
-			const [from, to] = verificaData(datas[0], datas[1]);
-			setDate(datas[0] !== '' && datas[1] !== '' ? { from, to } : undefined);
-		}, [campo.tag]);
-
-		return (
-			<div
-				className={'flex flex-col grid gap-2'}
-				key={campo.tag}>
-				<p>{campo.nome}</p>
-				<Popover>
-					<PopoverTrigger asChild>
-						<Button
-							id='date'
-							variant={'outline'}
-							className={cn(
-								'w-full md:w-[300px] justify-start text-left font-normal',
-								!date && 'text-muted-foreground',
-							)}>
-							{date && date.from ? (
-								date.to ? (
-									<>
-										{format(date.from, 'LLL dd, y', {
-											locale: ptBR,
-										})}{' '}
-										-{' '}
-										{format(date.to, 'LLL dd, y', {
-											locale: ptBR,
-										})}
-									</>
-								) : (
-									format(date.from, 'LLL dd, y', {
-										locale: ptBR,
-									})
-								)
-							) : (
-								<span>Escolha uma data</span>
-							)}
-							<CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
-						</Button>
-					</PopoverTrigger>
-					<PopoverContent className="w-auto p-0" align="start">
-						<Calendar
-							mode="range"
-							defaultMonth={date && date.from}
-							selected={date}
-							onSelect={handleSelecionaData}
-							numberOfMonths={2}
-						/>
-					</PopoverContent>
-				</Popover>
-			</div>
-		);
-	}
-
+	
 	return (
 		<div className='flex flex-col md:flex-row md:items-end gap-5 md:w-fit justify-start'>
 			{renderFiltros()}

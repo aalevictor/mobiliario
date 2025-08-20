@@ -4,7 +4,7 @@ import { db } from '@/lib/prisma';
 import { gerarSenha, verificaLimite, verificaPagina } from '@/lib/utils';
 import { ICreateUsuario } from '@/types/usuario';
 import { Usuario } from '@prisma/client';
-import bcrypt from 'bcryptjs';
+import { hashPassword } from '@/lib/password';
 import { transporter } from '@/lib/nodemailer';
 import { templateNotificacao } from '@/app/api/cadastro/_utils/email-templates';
 
@@ -31,7 +31,7 @@ export async function criarUsuario(dados: ICreateUsuario) {
             enviarEmail = true;
         }
 		if (await buscarPorEmail(email)) return null;
-		const senhaHash = await bcrypt.hash(senha, 10);
+		const senhaHash = hashPassword(senha);
         console.log({ senha })
 		const usuario = await db.usuario.create({
 			data: { email, nome, permissao, senha: senhaHash, tipo: 'EXTERNO', alterarSenha },
@@ -80,7 +80,7 @@ export async function buscarPorEmail(email: string) {
 export async function alterarSenha(id: string, data: { senha: string, confirmarSenha: string }) {
     const { senha, confirmarSenha } = data;
     if (senha !== confirmarSenha) return null;
-    const senhaHash = await bcrypt.hash(senha, 10);
+    const senhaHash = hashPassword(senha);
     const usuario = await db.usuario.update({ where: { id }, data: { senha: senhaHash, alterarSenha: false } });
     return usuario;
 }
