@@ -16,7 +16,7 @@ import { toast } from 'sonner';
 import z from 'zod';
 
 const formSchema = z.object({
-	login: z.email({ message: 'Email inválido.' }),
+	login: z.string().min(2, { message: 'Login inválido.' }),
 	senha: z.string().min(2, {
 		message: 'Campo senha não pode ser vazio.',
 	}),

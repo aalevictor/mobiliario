@@ -1,9 +1,9 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Copy, FileText, CheckCircle } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 interface ProtocoloDisplayProps {
     protocolo: string;
@@ -16,6 +16,7 @@ export default function ProtocoloDisplay({ protocolo }: ProtocoloDisplayProps) {
         try {
             await navigator.clipboard.writeText(protocolo);
             setCopied(true);
+            toast.success("Protocolo copiado para área de transferência");
             setTimeout(() => setCopied(false), 2000);
         } catch (error) {
             console.error('Erro ao copiar protocolo:', error);
@@ -23,39 +24,23 @@ export default function ProtocoloDisplay({ protocolo }: ProtocoloDisplayProps) {
     };
 
     return (
-        <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 shadow-md">
-            <CardContent className="p-6">
+        <Card className="w-full max-w-4xl shadow mx-auto">
+            <CardContent className="p-6 py-2">
                 <div className="flex items-center justify-between flex-wrap gap-4">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 bg-blue-100 rounded-full">
-                            <FileText className="h-6 w-6 text-blue-600" />
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-gray-600 mb-1">Protocolo do Cadastro</p>
-                            <p className="text-2xl font-bold text-blue-900">{protocolo}</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <Badge variant="secondary" className="bg-green-100 text-green-800 hover:bg-green-100">
-                            <CheckCircle className="h-4 w-4 mr-1" />
-                            Cadastrado
-                        </Badge>
-                        <button 
+                    <div className="flex flex-col gap-1">
+                        <p className="px-2 text-sm font-medium text-gray-600 mb-1">Protocolo do Cadastro</p>
+                        <Button 
                             onClick={handleCopy}
+                            variant="ghost"
                             className="p-2 hover:bg-blue-100 rounded-lg transition-colors relative"
                             title={copied ? "Copiado!" : "Copiar protocolo"}
                         >
-                            <Copy className="h-5 w-5 text-blue-600" />
-                            {copied && (
-                                <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded">
-                                    Copiado!
-                                </span>
-                            )}
-                        </button>
+                            <p className="text-2xl font-bold text-blue-900">{protocolo}</p>
+                        </Button>
                     </div>
                 </div>
-                <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                    <p className="text-sm text-blue-800">
+                <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-orange-200">
+                    <p className="text-sm text-orange-800">
                         <span className="font-semibold">Importante:</span> Guarde este protocolo para acompanhar o status do seu cadastro e para futuras consultas.
                     </p>
                 </div>

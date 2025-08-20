@@ -6,11 +6,6 @@
     "dev": "next dev --turbopack",
     "build": "npx prisma generate && next build",
     "start": "next start",
-    "start:debug": "NODE_OPTIONS='--inspect=0.0.0.0:9229' next start",
-    "start:verbose": "NODE_OPTIONS='--trace-warnings --trace-uncaught' next start",
-    "start:memory": "NODE_OPTIONS='--max-old-space-size=4096 --trace-gc' next start",
-    "debug": "node debug-server.js",
-    "analyze": "node analyze-logs.js",
     "lint": "next lint"
   },
   "dependencies": {

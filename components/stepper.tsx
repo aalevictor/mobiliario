@@ -329,18 +329,18 @@ function StepIndicator({
 				variants={{
 					inactive: {
 						scale: 1,
-						backgroundColor: 'var(--muted)',
-						color: 'var(--muted-foreground)',
+						backgroundColor: '#f5f5f5',
+						color: '#737373',
 					},
 					active: {
 						scale: 1,
-						backgroundColor: 'var(--primary)',
-						color: 'var(--primary)',
+						backgroundColor: '#7874c1',
+						color: '#7874c1',
 					},
 					complete: {
 						scale: 1,
-						backgroundColor: 'var(--primary)',
-						color: 'var(--primary)',
+						backgroundColor: '#7874c1',
+						color: '#7874c1',
 					},
 				}}
 				transition={{ duration: 0.3 }}
@@ -364,7 +364,7 @@ interface StepConnectorProps {
 function StepConnector({ isComplete }: StepConnectorProps) {
 	const lineVariants: Variants = {
 		incomplete: { width: 0, backgroundColor: 'transparent' },
-		complete: { width: '100%', backgroundColor: 'var(--primary)' },
+		complete: { width: '100%', backgroundColor: '#7874c1' },
 	};
 
 	return (
