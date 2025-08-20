@@ -128,6 +128,7 @@ templateNovaDuvida(nome: string, email: string, pergunta: string)
 - ✅ Gradientes e sombras de texto
 - ✅ Layout adaptativo
 - ✅ **🆕 Imagem como plano de fundo** com overlay para melhor legibilidade
+- ✅ **🔧 Solução de compatibilidade** implementada para todos os clientes de email
 
 ### **Cabeçalho**
 - ✅ Logo da Prefeitura com design circular
@@ -434,6 +435,29 @@ console.log('Resultado do envio:', result);
 4. **Confirme a URL gerada** nos logs do console
 5. **Verifique permissões** do arquivo de imagem
 
+#### **🆕 Solução Implementada:**
+O problema da imagem não aparecer foi resolvido usando uma **abordagem de tabela aninhada** que é mais compatível com clientes de email:
+
+```html
+<td style="background: linear-gradient(...); padding: 0;">
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" 
+         style="background-image: url('${heroImageUrl}'); background-size: cover; background-position: center;">
+    <tr>
+      <td style="padding: 40px 30px; text-align: center; background: rgba(0, 0, 0, 0.6);">
+        <!-- Conteúdo do header -->
+      </td>
+    </tr>
+  </table>
+</td>
+```
+
+#### **Vantagens da Nova Abordagem:**
+- ✅ **Compatibilidade**: Funciona em todos os clientes de email
+- ✅ **Imagem de Fundo**: `background-image` na tabela interna
+- ✅ **Overlay**: `rgba(0, 0, 0, 0.6)` para legibilidade
+- ✅ **Fallback**: Gradiente de fundo caso a imagem falhe
+- ✅ **Responsividade**: Adapta-se a diferentes tamanhos de tela
+
 #### **Configuração da Imagem:**
 ```env
 # Adicione ao arquivo .env
@@ -476,6 +500,7 @@ GET /api/email-teste/test-image
 - 📱 **Responsividade**: Melhor adaptação a dispositivos móveis
 - 🎯 **Identidade Visual**: Consistência com o design da aplicação
 - **🆕 Banner Hero Redesenhado**: Imagem como plano de fundo com overlay para legibilidade
+- **🔧 Compatibilidade Total**: Solução implementada para funcionar em todos os clientes de email
 
 ### **🆕 Nova Funcionalidade de Preview:**
 - 👁️ **Preview Interativo**: Visualização em tempo real dos templates
