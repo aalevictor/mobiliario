@@ -444,7 +444,7 @@ export default function EmailPreviewPage() {
                       <li>• Configure as variáveis SMTP no arquivo .env</li>
                       <li>• Verifique se MAIL_BCC está configurado</li>
                       <li>• Teste com diferentes endereços de email</li>
-                      <li>• Use a aba "Status SMTP" para verificar configurações</li>
+                      <li>{`• Use a aba "Status SMTP" para verificar configurações`}</li>
                     </ul>
                   </div>
 
