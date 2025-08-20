@@ -27,6 +27,7 @@ import {
   templateNovaDuvida,
   gerarEmailTemplate
 } from "@/app/api/cadastro/_utils/email-templates";
+import { transporter } from "@/lib/nodemailer";
 
 interface EmailTesterProps {
   selectedTemplate: string;
@@ -120,8 +121,20 @@ export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
       
       // Aqui você pode implementar o envio real do email
       // Por enquanto, apenas simulamos o sucesso
-      toast.success("Email de teste enviado com sucesso!");
-      
+      if (transporter) {
+        try {
+            await transporter.sendMail({
+                from: process.env.EMAIL_FROM,
+                to: testData.emailDestino,
+                subject: "Teste de Envio de Email",
+                html: html
+            });
+            toast.success("Email de teste enviado com sucesso!");
+        } catch (error) {
+            toast.error("Erro ao enviar email de teste");
+            console.error("Erro:", error);
+        }
+      }
       // Log do HTML gerado para debugging
       console.log("HTML do template gerado:", html);
       
