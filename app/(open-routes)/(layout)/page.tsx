@@ -13,7 +13,6 @@ export default async function Home() {
       <Documentos />
       <Apoio />
       <Destaque />
-      <Impugnacao />
     </div>
   );
 }

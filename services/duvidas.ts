@@ -1,9 +1,36 @@
 import { db } from "@/lib/prisma";
 import { verificaLimite, verificaPagina } from "@/lib/utils";
+import { transporter } from "@/lib/nodemailer";
+import { templateNovaDuvida } from "@/app/api/cadastro/_utils/email-templates";
 
 async function criarDuvida(data: { pergunta: string, email: string, nome: string }) {
     const duvida = await db.duvida.create({ data });
     if (!duvida) throw new Error("Erro ao criar duvida");
+    
+    // Enviar email de notificação para a equipe administrativa
+    try {
+        if (transporter) {
+            const mailBcc = process.env.MAIL_BCC;
+            if (mailBcc) {
+                await transporter.sendMail({
+                    from: process.env.EMAIL_FROM || "naoresponda-mobiliariourbano@spurbanismo.sp.gov.br",
+                    to: mailBcc, // Email principal
+                    bcc: mailBcc, // Cópia oculta para backup
+                    subject: "Nova Dúvida - Concurso Mobiliário Urbano 2025",
+                    html: templateNovaDuvida(data.nome, data.email, data.pergunta),
+                });
+                console.log("✅ Email de notificação de nova dúvida enviado com sucesso");
+            } else {
+                console.warn("⚠️ Variável MAIL_BCC não configurada. Email de notificação não será enviado.");
+            }
+        } else {
+            console.warn("⚠️ Transporter SMTP não configurado. Email de notificação não será enviado.");
+        }
+    } catch (error) {
+        console.error("❌ Erro ao enviar email de notificação de nova dúvida:", error);
+        // Não falha a criação da dúvida se o email falhar
+    }
+    
     return duvida;
 }
 

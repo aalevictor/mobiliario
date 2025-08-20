@@ -5,23 +5,286 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    @apply border-border;
-    scroll-behavior: smooth;
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
   }
-  
-  body {
-    @apply bg-background text-foreground font-sans;
-    font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
-  }
-  
-  html {
-    font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
   }
 }
 
-@layer components {
-  .dark {
-    @apply bg-gray-900 text-white;
+@layer base {
+  * {
+    @apply border-border;
   }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Estilos específicos para preview de emails */
+.email-preview {
+  /* Reset de estilos para garantir que o email seja exibido corretamente */
+  font-family: Arial, Helvetica, sans-serif !important;
+  line-height: 1.6 !important;
+  color: #3B2D3A !important;
+  background-color: #ffffff !important;
+}
+
+.email-preview table {
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  width: 100% !important;
+  max-width: 600px !important;
+  margin: 0 auto !important;
+}
+
+.email-preview td {
+  padding: 0 !important;
+  margin: 0 !important;
+  vertical-align: top !important;
+}
+
+.email-preview img {
+  max-width: 100% !important;
+  height: auto !important;
+  border: 0 !important;
+}
+
+.email-preview a {
+  color: #7874C1 !important;
+  text-decoration: none !important;
+}
+
+.email-preview a:hover {
+  text-decoration: underline !important;
+}
+
+.email-preview h1,
+.email-preview h2,
+.email-preview h3,
+.email-preview h4 {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.email-preview p {
+  margin: 0 0 16px 0 !important;
+  padding: 0 !important;
+}
+
+.email-preview ul,
+.email-preview ol {
+  margin: 16px 0 !important;
+  padding-left: 20px !important;
+}
+
+.email-preview li {
+  margin-bottom: 8px !important;
+}
+
+/* Responsividade para o preview */
+@media (max-width: 768px) {
+  .email-preview table {
+    max-width: 100% !important;
+  }
+  
+  .email-preview td {
+    padding: 10px !important;
+  }
+}
+
+/* Estilos para elementos específicos dos templates */
+.email-preview .email-header {
+  background: linear-gradient(135deg, #A5942B 0%, #7874C1 100%) !important;
+  color: #ffffff !important;
+}
+
+.email-preview .email-hero {
+  position: relative !important;
+  background: linear-gradient(135deg, #3B2D3A 0%, #6b7280 100%) !important;
+  color: #ffffff !important;
+}
+
+.email-preview .email-content {
+  padding: 40px 30px !important;
+  background-color: #ffffff !important;
+}
+
+.email-preview .email-cards {
+  padding: 0 30px 30px 30px !important;
+}
+
+.email-preview .email-footer {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+  border-top: 3px solid #A5942B !important;
+  padding: 35px 30px !important;
+}
+
+/* Estilos para botões nos emails */
+.email-preview .email-button {
+  display: inline-block !important;
+  padding: 12px 24px !important;
+  background-color: #7874C1 !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+}
+
+.email-preview .email-button:hover {
+  background-color: #6b63c7 !important;
+}
+
+/* Estilos para badges */
+.email-preview .email-badge {
+  display: inline-block !important;
+  background-color: #7874C1 !important;
+  color: #ffffff !important;
+  padding: 8px 16px !important;
+  border-radius: 20px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+/* Estilos para cards informativos */
+.email-preview .email-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  padding: 24px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+  margin-bottom: 20px !important;
+}
+
+.email-preview .email-card-icon {
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 12px !important;
+  text-align: center !important;
+  line-height: 56px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+.email-preview .email-card-content {
+  padding-left: 20px !important;
+}
+
+/* Estilos para o call-to-action */
+.email-preview .email-cta {
+  background-color: #F3F9E7 !important;
+  border-radius: 8px !important;
+  padding: 30px !important;
+  text-align: center !important;
+}
+
+/* Estilos para informações de contato */
+.email-preview .contact-info {
+  background: #ffffff !important;
+  border-radius: 8px !important;
+  padding: 20px !important;
+  margin: 20px 0 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+  border-left: 4px solid #A5942B !important;
+}
+
+/* Estilos para detalhes de dúvida */
+.email-preview .duvida-details {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+  border: 2px solid #A5942B !important;
+  border-radius: 12px !important;
+  padding: 24px !important;
+  margin: 24px 0 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+.email-preview .duvida-field {
+  padding: 12px !important;
+  background: #ffffff !important;
+  border-radius: 8px !important;
+  margin-bottom: 16px !important;
+}
+
+.email-preview .duvida-field.nome {
+  border-left: 4px solid #7874C1 !important;
+}
+
+.email-preview .duvida-field.email {
+  border-left: 4px solid #A5942B !important;
+}
+
+.email-preview .duvida-field.pergunta {
+  border-left: 4px solid #F3F9E7 !important;
+}
+
+.email-preview .duvida-pergunta-text {
+  padding: 8px !important;
+  background: #f8fafc !important;
+  border-radius: 6px !important;
+  margin-top: 8px !important;
+}
+
+.email-preview .duvida-timestamp {
+  text-align: center !important;
+  padding: 12px !important;
+  background: #F3F9E7 !important;
+  border-radius: 8px !important;
+  margin-top: 16px !important;
 }

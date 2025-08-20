@@ -41,24 +41,31 @@ const styles: EmailStyles = {
  * Componente do cabeçalho com logo da Prefeitura
  */
 const gerarCabecalho = (): string => {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://mobiliariourbano.prefeitura.sp.gov.br';
+  
   return `
     <tr>
-      <td style="background-color: ${styles.corPrimaria}; padding: 20px 30px;">
+      <td style="background: linear-gradient(135deg, ${styles.corPrimaria} 0%, ${styles.corDestaque} 100%); padding: 25px 30px;">
         <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
           <tr>
             <td style="vertical-align: middle;">
               <table role="presentation" cellspacing="0" cellpadding="0" border="0">
                 <tr>
-                  <td style="vertical-align: middle; padding-right: 15px;">
-                    <div style="width: 40px; height: 40px; background-color: #ffffff; border-radius: 50%; display: inline-block; text-align: center; line-height: 40px;">
-                      <div style="width: 24px; height: 24px; background-color: ${styles.corDestaque}; border-radius: 50%; display: inline-block; line-height: 24px; margin-top: 8px;">
-                        <span style="color: #ffffff; font-size: 12px; font-weight: bold;">SP</span>
+                  <td style="vertical-align: middle; padding-right: 20px;">
+                    <!-- Logo da Prefeitura com design melhorado -->
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border-radius: 50%; display: inline-block; text-align: center; line-height: 60px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 3px solid #ffffff;">
+                      <div style="width: 36px; height: 36px; background: linear-gradient(135deg, ${styles.corDestaque} 0%, ${styles.corPrimaria} 100%); border-radius: 50%; display: inline-block; line-height: 36px; margin-top: 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                        <span style="color: #ffffff; font-size: 14px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">SP</span>
                       </div>
                     </div>
                   </td>
                   <td style="vertical-align: middle;">
-                    <h1 style="margin: 0; color: #ffffff; font-size: 18px; font-weight: 600; line-height: 1.2;">Prefeitura de São Paulo</h1>
-                    <p style="margin: 0; color: #ffffff; opacity: 0.8; font-size: 14px;">Concurso Mobiliário Urbano</p>
+                    <h1 style="margin: 0; color: #ffffff; font-size: 20px; font-weight: 700; line-height: 1.2; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                      Prefeitura de São Paulo
+                    </h1>
+                    <p style="margin: 0; color: #ffffff; opacity: 0.95; font-size: 16px; font-weight: 500; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                      Concurso Mobiliário Urbano 2025
+                    </p>
                   </td>
                 </tr>
               </table>
@@ -74,10 +81,17 @@ const gerarCabecalho = (): string => {
  * Componente do banner hero personalizável
  */
 const gerarBannerHero = (titulo: string, subtitulo?: string, badge?: string): string => {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://mobiliariourbano.prefeitura.sp.gov.br';
+  const heroImageUrl = `${baseUrl}/hero/pc/hero-b.png`;
+  
   return `
     <tr>
       <td style="position: relative; height: 250px; background: linear-gradient(135deg, ${styles.corTexto} 0%, #6b7280 100%); background-color: ${styles.corTexto};">
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.4);"></div>
+        <!-- Imagem de fundo do banner -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('${heroImageUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0.3;"></div>
+        
+        <!-- Overlay escuro para melhorar legibilidade do texto -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6);"></div>
         
         <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" height="250">
           <tr>
@@ -88,12 +102,12 @@ const gerarBannerHero = (titulo: string, subtitulo?: string, badge?: string): st
                 </div>
               ` : ''}
               
-              <h2 style="margin: 0 0 16px 0; color: #ffffff; font-size: 32px; font-weight: bold; line-height: 1.2;">
+              <h2 style="margin: 0 0 16px 0; color: #ffffff; font-size: 32px; font-weight: bold; line-height: 1.2; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
                 ${titulo}
               </h2>
               
               ${subtitulo ? `
-                <p style="margin: 0 0 24px 0; color: #d1d5db; font-size: 18px; line-height: 1.4; max-width: 400px; margin-left: auto; margin-right: auto;">
+                <p style="margin: 0 0 24px 0; color: #ffffff; font-size: 18px; line-height: 1.4; max-width: 400px; margin-left: auto; margin-right: auto; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
                   ${subtitulo}
                 </p>
               ` : ''}
@@ -128,29 +142,41 @@ const gerarConteudoPrincipal = (nome: string, conteudo: string): string => {
  * Componente de cards informativos
  */
 const gerarCards = (cards: Array<{icone?: string; titulo: string; descricao: string}>): string => {
-  const cardsHtml = cards.map(card => `
-    <tr>
-      <td style="padding-bottom: 20px;">
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 24px;">
-          <tr>
-            <td style="vertical-align: top; padding-right: 16px; width: 48px;">
-              <div style="width: 48px; height: 48px; background-color: ${styles.corSecundaria}; border-radius: 8px; text-align: center; line-height: 48px;">
-                <div style="width: 24px; height: 24px; background-color: ${styles.corPrimaria}; border-radius: 4px; display: inline-block; margin-top: 12px;"></div>
-              </div>
-            </td>
-            <td style="vertical-align: top;">
-              <h4 style="margin: 0 0 8px 0; color: ${styles.corTexto}; font-size: 16px; font-weight: 600;">
-                ${card.titulo}
-              </h4>
-              <p style="margin: 0; color: ${styles.corTextoSecundario}; font-size: 14px; line-height: 1.5;">
-                ${card.descricao}
-              </p>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  `).join('');
+  const cardsHtml = cards.map((card, index) => {
+    const iconColors = [
+      `${styles.corPrimaria}`,
+      `${styles.corDestaque}`,
+      `${styles.corSecundaria}`,
+      `${styles.corTexto}`
+    ];
+    const cardColor = iconColors[index % iconColors.length];
+    
+    return `
+      <tr>
+        <td style="padding-bottom: 20px;">
+          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: all 0.3s ease;">
+            <tr>
+              <td style="vertical-align: top; padding-right: 20px; width: 56px;">
+                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, ${cardColor} 0%, ${cardColor}dd 100%); border-radius: 12px; text-align: center; line-height: 56px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                  <div style="width: 28px; height: 28px; background: #ffffff; border-radius: 6px; display: inline-block; margin-top: 14px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                    <span style="color: ${cardColor}; font-size: 16px; font-weight: bold;">${card.icone || '📋'}</span>
+                  </div>
+                </div>
+              </td>
+              <td style="vertical-align: top;">
+                <h4 style="margin: 0 0 12px 0; color: ${styles.corTexto}; font-size: 16px; font-weight: 600; line-height: 1.3;">
+                  ${card.titulo}
+                </h4>
+                <p style="margin: 0; color: ${styles.corTextoSecundario}; font-size: 14px; line-height: 1.5;">
+                  ${card.descricao}
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    `;
+  }).join('');
 
   return `
     <tr>
@@ -201,20 +227,37 @@ const gerarCallToAction = (titulo: string, descricao: string, botaoTexto: string
  * Componente do rodapé
  */
 const gerarRodape = (): string => {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://mobiliariourbano.prefeitura.sp.gov.br';
+  
   return `
     <tr>
-      <td style="background-color: #f3f4f6; padding: 30px; border-top: 1px solid #e5e7eb;">        
+      <td style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 35px 30px; border-top: 3px solid ${styles.corPrimaria};">
         <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
           <tr>
             <td style="text-align: center;">
-              <p style="margin: 0 0 8px 0; color: ${styles.corTextoSecundario}; font-size: 14px;">
+              <!-- Ícone decorativo -->
+              <div style="width: 40px; height: 40px; background: linear-gradient(135deg, ${styles.corPrimaria} 0%, ${styles.corDestaque} 100%); border-radius: 50%; display: inline-block; text-align: center; line-height: 40px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <span style="color: #ffffff; font-size: 18px; font-weight: bold;">🏛️</span>
+              </div>
+              
+              <h4 style="margin: 0 0 16px 0; color: ${styles.corTexto}; font-size: 16px; font-weight: 600;">
                 Secretaria Municipal de Urbanismo e Licenciamento
-              </p>
-              <p style="margin: 0 0 8px 0; color: ${styles.corTextoSecundario}; font-size: 14px;">
-                Rua São Bento, 405 - Centro
-              </p>
-              <p style="margin: 0 0 16px 0; color: ${styles.corTextoSecundario}; font-size: 14px;">
-                CEP: 01011-100 | São Paulo | SP 
+              </h4>
+              
+              <div style="background: #ffffff; border-radius: 8px; padding: 20px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid ${styles.corPrimaria};">
+                <p style="margin: 0 0 8px 0; color: ${styles.corTextoSecundario}; font-size: 14px; font-weight: 500;">
+                  <strong>📍 Endereço:</strong> Rua São Bento, 405 - Centro
+                </p>
+                <p style="margin: 0 0 8px 0; color: ${styles.corTextoSecundario}; font-size: 14px; font-weight: 500;">
+                  <strong>📮 CEP:</strong> 01011-100 | São Paulo | SP
+                </p>
+                <p style="margin: 0; color: ${styles.corTextoSecundario}; font-size: 14px; font-weight: 500;">
+                  <strong>🌐 Portal:</strong> <a href="${baseUrl}" style="color: ${styles.corDestaque}; text-decoration: none; font-weight: 600;">mobiliariourbano.prefeitura.sp.gov.br</a>
+                </p>
+              </div>
+              
+              <p style="margin: 0; color: ${styles.corTextoSecundario}; font-size: 12px; opacity: 0.8;">
+                Este é um email automático do sistema do Concurso Mobiliário Urbano 2025.
               </p>
             </td>
           </tr>
@@ -361,10 +404,12 @@ export const templateConfirmacaoInscricao = (nome: string): string => {
     mostrarCards: true,
     cardsPersonalizados: [
       {
+        icone: '📋',
         titulo: 'Documentação',
         descricao: 'Mantenha seus documentos sempre atualizados para agilizar o processo.'
       },
       {
+        icone: '📅',
         titulo: 'Cronograma',
         descricao: 'Acompanhe o cronograma do concurso em nosso portal oficial.'
       }
@@ -396,6 +441,19 @@ export const templateLembrete = (nome: string, evento: string, data: string): st
       <p>Este é um lembrete sobre <strong>${evento}</strong> marcado para <strong>${data}</strong>.</p>
       <p>Certifique-se de estar preparado e não perca essa oportunidade!</p>
     `,
+    mostrarCards: true,
+    cardsPersonalizados: [
+      {
+        icone: '⏰',
+        titulo: 'Prazo',
+        descricao: `Evento marcado para: ${data}`
+      },
+      {
+        icone: '📝',
+        titulo: 'Preparação',
+        descricao: 'Verifique se todos os documentos e materiais estão prontos.'
+      }
+    ],
     botaoTexto: 'Ver Cronograma',
     botaoUrl: `${process.env.NEXT_PUBLIC_APP_URL}/#cronograma`
   });
@@ -415,13 +473,87 @@ export const templateBoasVindas = (nome: string): string => {
     mostrarCards: true,
     cardsPersonalizados: [
       {
+        icone: '🚀',
         titulo: 'Primeiros Passos',
         descricao: 'Acesse nosso portal e complete seu cadastro para começar.'
       },
       {
+        icone: '💬',
         titulo: 'Suporte',
         descricao: 'Nossa equipe está pronta para ajudar com qualquer dúvida.'
       }
     ]
+  });
+};
+
+// Template de notificação de nova dúvida
+export const templateNovaDuvida = (nome: string, email: string, pergunta: string): string => {
+  return gerarEmailTemplate({
+    nome: 'Equipe Administrativa',
+    titulo: 'Nova Dúvida Recebida',
+    subtitulo: 'Um participante enviou uma nova pergunta',
+    conteudoPrincipal: `
+      <p>Uma nova dúvida foi enviada através do portal do concurso:</p>
+      
+      <div style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border: 2px solid ${styles.corPrimaria}; border-radius: 12px; padding: 24px; margin: 24px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <h4 style="margin: 0 0 16px 0; color: ${styles.corTexto}; font-size: 18px; font-weight: 600; text-align: center;">
+          📋 Detalhes da Dúvida
+        </h4>
+        
+        <div style="margin-bottom: 16px; padding: 12px; background: #ffffff; border-radius: 8px; border-left: 4px solid ${styles.corDestaque};">
+          <strong style="color: ${styles.corTexto}; display: block; margin-bottom: 4px;">👤 Nome:</strong>
+          <span style="color: ${styles.corTextoSecundario}; font-size: 16px;">${nome}</span>
+        </div>
+        
+        <div style="margin-bottom: 16px; padding: 12px; background: #ffffff; border-radius: 8px; border-left: 4px solid ${styles.corPrimaria};">
+          <strong style="color: ${styles.corTexto}; display: block; margin-bottom: 4px;">📧 Email:</strong>
+          <span style="color: ${styles.corTextoSecundario}; font-size: 16px;">${email}</span>
+        </div>
+        
+        <div style="margin-bottom: 16px; padding: 12px; background: #ffffff; border-radius: 8px; border-left: 4px solid ${styles.corSecundaria};">
+          <strong style="color: ${styles.corTexto}; display: block; margin-bottom: 8px;">❓ Pergunta:</strong>
+          <div style="color: ${styles.corTextoSecundario}; font-size: 15px; line-height: 1.5; padding: 8px; background: #f8fafc; border-radius: 6px;">
+            ${pergunta}
+          </div>
+        </div>
+        
+        <div style="text-align: center; padding: 12px; background: ${styles.corSecundaria}; border-radius: 8px; margin-top: 16px;">
+          <span style="font-size: 12px; color: ${styles.corTexto}; font-weight: 600;">
+            🕐 <strong>Data/Hora:</strong> ${new Date().toLocaleString('pt-BR', { 
+              timeZone: 'America/Sao_Paulo',
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </span>
+        </div>
+      </div>
+      
+      <p style="text-align: center; font-size: 16px; color: ${styles.corTexto}; font-weight: 500;">
+        Esta dúvida foi automaticamente registrada no sistema e está aguardando resposta da equipe administrativa.
+      </p>
+    `,
+    mostrarCards: true,
+    cardsPersonalizados: [
+      {
+        icone: '⚡',
+        titulo: 'Ação Necessária',
+        descricao: 'Acesse o painel administrativo para responder esta dúvida o mais breve possível.'
+      },
+      {
+        icone: '📚',
+        titulo: 'Histórico',
+        descricao: 'Todas as dúvidas e respostas ficam registradas no sistema para consulta futura.'
+      },
+      {
+        icone: '🔔',
+        titulo: 'Notificação',
+        descricao: 'O participante será notificado automaticamente quando a dúvida for respondida.'
+      }
+    ],
+    botaoTexto: 'Responder Dúvida',
+    botaoUrl: `${process.env.NEXT_PUBLIC_APP_URL}/duvidas`
   });
 };

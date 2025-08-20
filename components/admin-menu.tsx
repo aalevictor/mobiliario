@@ -3,7 +3,7 @@
 import { User } from "next-auth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Users, FileText, HelpCircle, Settings } from "lucide-react";
+import { Users, FileText, HelpCircle, Settings, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AdminMenuProps {
@@ -38,6 +38,12 @@ export default function AdminMenu({ permissao }: AdminMenuProps) {
       label: "Dúvidas",
       icon: HelpCircle,
       description: "Responder dúvidas dos participantes"
+    },
+    {
+      href: "/email-preview",
+      label: "Preview de Emails",
+      icon: Mail,
+      description: "Visualizar templates de email"
     }
   ];
 
