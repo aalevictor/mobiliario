@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import EmailTester from "./_components/email-tester";
+import SMTPStatus from "./_components/smtp-status";
 
 export default function EmailPreviewPage() {
   const [selectedTemplate, setSelectedTemplate] = useState<string>("confirmacao");
@@ -168,9 +169,10 @@ export default function EmailPreviewPage() {
       </div>
 
       <Tabs defaultValue="preview" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="preview">Preview dos Templates</TabsTrigger>
           <TabsTrigger value="test">Testar Envio</TabsTrigger>
+          <TabsTrigger value="status">Status SMTP</TabsTrigger>
         </TabsList>
 
         <TabsContent value="preview" className="mt-6">
@@ -453,6 +455,57 @@ export default function EmailPreviewPage() {
                 </CardContent>
               </Card>
             </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="status" className="mt-6">
+          <div className="max-w-2xl mx-auto">
+            <SMTPStatus />
+            
+            {/* Informações adicionais sobre configuração */}
+            <Card className="mt-6">
+              <CardHeader>
+                <CardTitle>Configuração SMTP</CardTitle>
+                <CardDescription>
+                  Guia para configurar o servidor de email
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h4 className="font-medium mb-2">📋 Exemplo de Configuração (.env)</h4>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-3 rounded-md font-mono text-sm">
+                    <div>MAIL_HOST=smtp.gmail.com</div>
+                    <div>MAIL_PORT=587</div>
+                    <div>MAIL_USER=seu-email@gmail.com</div>
+                    <div>MAIL_PASS=sua-senha-de-app</div>
+                    <div>EMAIL_FROM=naoresponda@seudominio.com</div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-medium mb-2">🔐 Gmail - Senha de App</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Para usar Gmail, você precisa criar uma senha de aplicativo:
+                  </p>
+                  <ol className="text-sm text-gray-600 dark:text-gray-400 mt-2 list-decimal list-inside space-y-1">
+                    <li>Ative a verificação em duas etapas</li>
+                    <li>Vá em "Segurança" → "Senhas de app"</li>
+                    <li>Gere uma senha para "Email"</li>
+                    <li>Use essa senha no campo MAIL_PASS</li>
+                  </ol>
+                </div>
+
+                <div>
+                  <h4 className="font-medium mb-2">🚨 Problemas Comuns</h4>
+                  <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                    <li>• <strong>Porta bloqueada:</strong> Verifique se a porta 587 ou 465 está liberada</li>
+                    <li>• <strong>Firewall:</strong> Configure exceções para o servidor SMTP</li>
+                    <li>• <strong>SSL/TLS:</strong> Use STARTTLS (porta 587) ou SSL (porta 465)</li>
+                    <li>• <strong>Rate limiting:</strong> Gmail tem limite de 500 emails/dia</li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
       </Tabs>

@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   Send, 
   Mail, 
@@ -19,15 +18,6 @@ import {
   Loader2
 } from "lucide-react";
 import { toast } from "sonner";
-import { 
-  templateConfirmacaoInscricao, 
-  templateNotificacao, 
-  templateLembrete, 
-  templateBoasVindas,
-  templateNovaDuvida,
-  gerarEmailTemplate
-} from "@/app/api/cadastro/_utils/email-templates";
-import { transporter } from "@/lib/nodemailer";
 
 interface EmailTesterProps {
   selectedTemplate: string;
@@ -52,59 +42,6 @@ export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
     }));
   };
 
-  const generateTemplateHTML = () => {
-    switch (selectedTemplate) {
-      case "confirmacao":
-        return templateConfirmacaoInscricao(testData.nome);
-      case "boas-vindas":
-        return templateBoasVindas(testData.nome);
-      case "lembrete":
-        return templateLembrete(testData.nome, testData.evento, testData.data);
-      case "notificacao":
-        return templateNotificacao(testData.nome, testData.titulo, testData.mensagem);
-      case "nova-duvida":
-        return templateNovaDuvida(testData.nome, testData.emailDestino, testData.pergunta);
-      case "personalizado":
-        return gerarEmailTemplate({
-          nome: testData.nome,
-          titulo: "Atualização Importante",
-          subtitulo: "Novas diretrizes publicadas",
-          conteudoPrincipal: `
-            <p>Prezados participantes,</p>
-            <p>Informamos que foram publicadas novas diretrizes para o Concurso Mobiliário Urbano 2025.</p>
-            <p>As principais mudanças incluem:</p>
-            <ul style="margin: 20px 0; padding-left: 20px;">
-              <li>Prorrogação do prazo de inscrição</li>
-              <li>Novos critérios de avaliação</li>
-              <li>Atualização do cronograma</li>
-            </ul>
-          `,
-          mostrarCards: true,
-          cardsPersonalizados: [
-            {
-              icone: '📅',
-              titulo: 'Prazo Estendido',
-              descricao: 'Inscrições prorrogadas até 30 de abril de 2025'
-            },
-            {
-              icone: '📋',
-              titulo: 'Documentação',
-              descricao: 'Verifique se seus documentos estão atualizados'
-            },
-            {
-              icone: '💬',
-              titulo: 'Suporte',
-              descricao: 'Entre em contato em caso de dúvidas'
-            }
-          ],
-          botaoTexto: 'Ver Novas Diretrizes',
-          botaoUrl: 'https://exemplo.com/diretrizes'
-        });
-      default:
-        return "";
-    }
-  };
-
   const handleSendTestEmail = async () => {
     if (!testData.emailDestino) {
       toast.error("Por favor, insira um email de destino");
@@ -114,33 +51,40 @@ export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
     setIsSending(true);
     
     try {
-      // Simular envio de email (em produção, isso seria uma chamada real para a API)
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const html = generateTemplateHTML();
-      
-      // Aqui você pode implementar o envio real do email
-      // Por enquanto, apenas simulamos o sucesso
-      if (transporter) {
-        try {
-            await transporter.sendMail({
-                from: process.env.EMAIL_FROM,
-                to: testData.emailDestino,
-                subject: "Teste de Envio de Email",
-                html: html
-            });
-            toast.success("Email de teste enviado com sucesso!");
-        } catch (error) {
-            toast.error("Erro ao enviar email de teste");
-            console.error("Erro:", error);
-        }
+      // Preparar dados para envio
+      const emailData = {
+        templateType: selectedTemplate,
+        emailDestino: testData.emailDestino,
+        nome: testData.nome,
+        evento: testData.evento,
+        data: testData.data,
+        titulo: testData.titulo,
+        mensagem: testData.mensagem,
+        pergunta: testData.pergunta
+      };
+
+      // Enviar email através da API route
+      const response = await fetch('/api/email-teste', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success("Email de teste enviado com sucesso!");
+        console.log("✅ Email enviado:", result);
+      } else {
+        toast.error(`Erro ao enviar email: ${result.error}`);
+        console.error("❌ Erro na API:", result);
       }
-      // Log do HTML gerado para debugging
-      console.log("HTML do template gerado:", html);
       
     } catch (error) {
       toast.error("Erro ao enviar email de teste");
-      console.error("Erro:", error);
+      console.error("❌ Erro de rede:", error);
     } finally {
       setIsSending(false);
     }
@@ -318,6 +262,17 @@ export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
             <li>• O email será enviado para o endereço especificado</li>
             <li>• Verifique a caixa de entrada e spam</li>
             <li>• Em produção, configure as variáveis SMTP corretamente</li>
+          </ul>
+        </div>
+
+        {/* Status da configuração */}
+        <div className="text-xs text-gray-500 dark:text-gray-400 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-md">
+          <p className="font-medium mb-1 text-blue-900 dark:text-blue-100">🔧 Status da Configuração:</p>
+          <ul className="space-y-1 text-blue-800 dark:text-blue-200">
+            <li>• API Route: <span className="font-mono">/api/email-teste</span></li>
+            <li>• Método: POST</li>
+            <li>• Validação: Servidor</li>
+            <li>• Logs: Console do servidor</li>
           </ul>
         </div>
       </CardContent>

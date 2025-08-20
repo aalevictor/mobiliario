@@ -12,6 +12,7 @@ Este sistema fornece templates de email modulares, responsivos e **visualmente a
 - **Acessibilidade**: Estrutura semântica e contraste adequado
 - **Compatibilidade**: Funciona em clientes de email populares (Gmail, Outlook, etc.)
 - **🆕 Preview Interativo**: Sistema de visualização e teste em tempo real
+- **🔧 Envio Real**: Sistema funcional para envio de emails de teste
 
 ## 🖼️ Elementos Visuais Integrados
 
@@ -45,11 +46,12 @@ Este sistema fornece templates de email modulares, responsivos e **visualmente a
 - **Teste de Envio**: Envie emails de teste para validar os templates
 - **Download de HTML**: Baixe o código HTML para uso externo
 - **Cópia de Código**: Copie o HTML para a área de transferência
+- **🔧 Status SMTP**: Verificação da configuração do servidor de email
 
 ### **Acesso ao Preview**
 - **Rota**: `/email-preview` (apenas para usuários DEV/ADMIN)
 - **Menu**: Adicionado ao menu administrativo com ícone 📧
-- **Interface**: Duas abas principais: "Preview dos Templates" e "Testar Envio"
+- **Interface**: Três abas principais: "Preview dos Templates", "Testar Envio" e "Status SMTP"
 
 ### **Como Usar o Preview**
 1. **Acesse**: `/email-preview` através do menu administrativo
@@ -58,6 +60,7 @@ Este sistema fornece templates de email modulares, responsivos e **visualmente a
 4. **Visualize**: Veja o resultado em tempo real na área de preview
 5. **Teste**: Use a aba "Testar Envio" para enviar emails de teste
 6. **Exporte**: Copie ou baixe o HTML gerado
+7. **🔧 Verifique**: Use a aba "Status SMTP" para verificar a configuração
 
 ## 🚀 Templates Disponíveis
 
@@ -146,6 +149,7 @@ templateNovaDuvida(nome: string, email: string, pergunta: string)
 - ✅ Teste de envio de emails
 - ✅ Exportação de HTML
 - ✅ Integração com menu administrativo
+- ✅ **🔧 Verificação de status SMTP**
 
 ## 📧 Configuração de Email
 
@@ -170,6 +174,36 @@ NEXT_PUBLIC_APP_URL=https://mobiliariourbano.prefeitura.sp.gov.br
 - **URL Base**: Configure `NEXT_PUBLIC_APP_URL` para que as imagens funcionem
 - **Imagem do Banner**: `hero-b.png` é carregada automaticamente
 - **Fallback**: Se a imagem não carregar, o email ainda funciona com o design base
+
+### **🔧 Configuração SMTP Detalhada**
+
+#### **Gmail (Recomendado para testes)**
+```env
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USER=seu-email@gmail.com
+MAIL_PASS=sua-senha-de-app
+```
+
+**⚠️ Importante para Gmail:**
+1. **Ative a verificação em duas etapas**
+2. **Crie uma senha de aplicativo** (não use sua senha normal)
+3. **Use a porta 587** com STARTTLS
+
+#### **Outros Provedores**
+```env
+# Outlook/Hotmail
+MAIL_HOST=smtp-mail.outlook.com
+MAIL_PORT=587
+
+# Yahoo
+MAIL_HOST=smtp.mail.yahoo.com
+MAIL_PORT=587
+
+# Provedor próprio
+MAIL_HOST=mail.seudominio.com
+MAIL_PORT=587
+```
 
 ## 🔄 Uso Automático
 
@@ -203,6 +237,7 @@ const duvida = await criarDuvida({ nome, email, pergunta });
 - Alertas de sistema com elementos visuais
 - Relatórios automáticos com identidade visual
 - **🆕 Preview e teste de templates** antes do envio
+- **🔧 Verificação de configuração SMTP** em tempo real
 
 ## 🛠️ Personalização
 
@@ -260,6 +295,21 @@ if (!process.env.MAIL_BCC) {
 }
 ```
 
+### **🔧 Debugging SMTP**
+```typescript
+// Verificar status da configuração
+const response = await fetch('/api/email-teste/status');
+const status = await response.json();
+console.log('Status SMTP:', status);
+
+// Testar conexão
+const testResponse = await fetch('/api/email-teste/test-connection', {
+  method: 'POST'
+});
+const testResult = await testResponse.json();
+console.log('Teste de conexão:', testResult);
+```
+
 ## 📚 Exemplos de Uso
 
 ### Envio Manual de Email
@@ -295,15 +345,34 @@ async function criarDuvida(data) {
 // 2. Configurar dados de teste
 // 3. Enviar emails de teste
 // 4. Exportar HTML dos templates
+// 5. Verificar status da configuração SMTP
+```
+
+### **🔧 Teste de Envio via API**
+```typescript
+// Enviar email de teste
+const response = await fetch('/api/email-teste', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    templateType: 'confirmacao',
+    emailDestino: 'teste@exemplo.com',
+    nome: 'João Silva'
+  })
+});
+
+const result = await response.json();
+console.log('Resultado do envio:', result);
 ```
 
 ## 🚨 Troubleshooting
 
 ### Email não está sendo enviado
-1. Verifique as variáveis de ambiente SMTP
-2. Confirme se `MAIL_BCC` está configurado
-3. Verifique os logs do console
-4. Teste a conexão SMTP
+1. **Verifique as variáveis de ambiente SMTP** na aba "Status SMTP"
+2. **Confirme se `MAIL_BCC` está configurado**
+3. **Teste a conexão SMTP** usando o botão "Testar Conexão"
+4. **Verifique os logs do console** do servidor
+5. **Use a aba "Status SMTP"** para diagnóstico completo
 
 ### Imagens não aparecem
 1. Configure `NEXT_PUBLIC_APP_URL` corretamente
@@ -317,11 +386,19 @@ async function criarDuvida(data) {
 3. Use ferramentas de validação HTML
 4. Verifique compatibilidade CSS
 
+### **🔧 Problemas com SMTP**
+1. **Verifique a configuração** na aba "Status SMTP"
+2. **Teste a conexão** usando o botão de teste
+3. **Confirme as variáveis** de ambiente
+4. **Verifique portas e firewall**
+5. **Use senhas de aplicativo** para Gmail
+
 ### **🆕 Problemas com o Preview**
 1. Verifique se o usuário tem permissão DEV/ADMIN
 2. Confirme se a rota `/email-preview` está acessível
 3. Verifique se os componentes estão importados corretamente
 4. Teste a funcionalidade de envio de teste
+5. **Use a aba "Status SMTP"** para verificar configurações
 
 ## 🎉 Novidades da Versão Atual
 
@@ -339,6 +416,13 @@ async function criarDuvida(data) {
 - 💾 **Exportação**: Download e cópia do código HTML
 - 🔗 **Integração**: Menu administrativo com acesso direto
 
+### **🔧 Sistema de Envio Funcional:**
+- ✅ **API Route dedicada** para envio de emails de teste
+- ✅ **Verificação de status SMTP** em tempo real
+- ✅ **Teste de conexão** para validação
+- ✅ **Diagnóstico completo** de configurações
+- ✅ **Logs detalhados** para debugging
+
 ### **Templates Atualizados:**
 - ✅ Confirmação de Inscrição com ícones 📋📅
 - ✅ Boas-vindas com ícones 🚀💬
@@ -347,4 +431,4 @@ async function criarDuvida(data) {
 
 ---
 
-**Última atualização**: Sistema de preview interativo implementado, permitindo visualização, configuração e teste de todos os templates de email em tempo real
+**Última atualização**: Sistema de envio de emails funcional implementado com verificação de status SMTP, permitindo diagnóstico completo e teste de conexão em tempo real
