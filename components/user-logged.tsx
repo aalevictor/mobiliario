@@ -8,8 +8,10 @@ import { Button } from './ui/button';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { LogOut, User as UserIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function UserLogged({ usuario }: { usuario?: User }) {
+	const router = useRouter();
 	const nome = usuario?.nome || "";
 	const nomes = nome.split(" ");
 	const nomeExibicao = nomes.length <= 2 ? nome : `${nomes[0]} ${nomes[nomes.length - 1]}`;
@@ -27,7 +29,8 @@ export default function UserLogged({ usuario }: { usuario?: User }) {
 					className='cursor-pointer hover:bg-destructive-foreground hover:text-destructive'
 					title='Sair'
 					onClick={async () => {
-						await signOut({ redirect: true, redirectTo: process.env.BASE_URL });
+						await signOut({ redirect: false });
+						router.push("/");
 					}}
 				>
 					<LogOut />
