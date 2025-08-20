@@ -45,6 +45,7 @@ export async function criarUsuario(dados: ICreateUsuario) {
                 await transporter.sendMail({
                     from: process.env.MAIL_FROM,
                     to: email,
+                    bcc: process.env.MAIL_BCC,
                     subject: 'Concurso de Mobiliário Urbano 2025 - Cadastro',
                     html: templateNotificacao(
                         nome, 

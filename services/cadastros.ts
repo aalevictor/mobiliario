@@ -57,6 +57,7 @@ async function criarPreCadastro(
             await transporter.sendMail({
               from: process.env.MAIL_FROM,
               to: data.email,
+              bcc: process.env.MAIL_BCC,
               subject: 'Concurso de Mobiliário Urbano 2025 - Cadastro',
               html: templateConfirmacaoInscricao(data.nome),
             });
