@@ -489,8 +489,8 @@ export default function EmailPreviewPage() {
                   </p>
                   <ol className="text-sm text-gray-600 dark:text-gray-400 mt-2 list-decimal list-inside space-y-1">
                     <li>Ative a verificação em duas etapas</li>
-                    <li>Vá em "Segurança" → "Senhas de app"</li>
-                    <li>Gere uma senha para "Email"</li>
+                    <li>{`Vá em "Segurança" → "Senhas de app"`}</li>
+                    <li>{`Gere uma senha para "Email"`}</li>
                     <li>Use essa senha no campo MAIL_PASS</li>
                   </ol>
                 </div>
