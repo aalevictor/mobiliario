@@ -95,27 +95,31 @@ const gerarBannerHero = (titulo: string, subtitulo?: string, badge?: string): st
   
   return `
     <tr>
-      <td style="background: linear-gradient(135deg, ${styles.corTexto} 0%, #6b7280 100%); background-color: ${styles.corTexto}; padding: 40px 30px; text-align: center;">
-        <!-- Imagem do banner centralizada -->
-        <div style="margin-bottom: 20px;">
-          <img src="${heroImageUrl}" alt="Banner Concurso Mobiliário Urbano" style="max-width: 100%; height: auto; max-height: 120px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);" />
+      <td style="position: relative; height: 250px; background: linear-gradient(135deg, ${styles.corTexto} 0%, #6b7280 100%); background-color: ${styles.corTexto}; padding: 40px 30px; text-align: center;">
+        <!-- Imagem de fundo do header -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('${heroImageUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0.4;"></div>
+        
+        <!-- Overlay escuro para melhorar legibilidade do texto -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5);"></div>
+        
+        <!-- Conteúdo do header com posicionamento relativo para ficar acima da imagem -->
+        <div style="position: relative; z-index: 1;">
+          ${badge ? `
+            <div style="display: inline-block; background-color: ${styles.corDestaque}; color: #ffffff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+              ${badge}
+            </div>
+          ` : ''}
+          
+          <h2 style="margin: 0 0 16px 0; color: #ffffff; font-size: 32px; font-weight: bold; line-height: 1.2; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+            ${titulo}
+          </h2>
+          
+          ${subtitulo ? `
+            <p style="margin: 0 0 24px 0; color: #ffffff; font-size: 18px; line-height: 1.4; max-width: 400px; margin-left: auto; margin-right: auto; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+              ${subtitulo}
+            </p>
+          ` : ''}
         </div>
-        
-        ${badge ? `
-          <div style="display: inline-block; background-color: ${styles.corDestaque}; color: #ffffff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; margin-bottom: 20px;">
-            ${badge}
-          </div>
-        ` : ''}
-        
-        <h2 style="margin: 0 0 16px 0; color: #ffffff; font-size: 32px; font-weight: bold; line-height: 1.2; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
-          ${titulo}
-        </h2>
-        
-        ${subtitulo ? `
-          <p style="margin: 0 0 24px 0; color: #ffffff; font-size: 18px; line-height: 1.4; max-width: 400px; margin-left: auto; margin-right: auto; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
-            ${subtitulo}
-          </p>
-        ` : ''}
       </td>
     </tr>
   `;

@@ -21,6 +21,7 @@ Este sistema fornece templates de email modulares, responsivos e **visualmente a
 - **Overlay responsivo**: Mantém legibilidade do texto sobre a imagem
 - **Gradientes**: Transições suaves entre cores oficiais
 - **Sombras de texto**: Melhor contraste e legibilidade
+- **🆕 Design Atualizado**: Imagem como plano de fundo do header com overlay para legibilidade
 
 ### **Cabeçalho Aprimorado**
 - **Logo da Prefeitura**: Design circular com gradientes
@@ -126,6 +127,7 @@ templateNovaDuvida(nome: string, email: string, pergunta: string)
 - ✅ Overlay responsivo para legibilidade
 - ✅ Gradientes e sombras de texto
 - ✅ Layout adaptativo
+- ✅ **🆕 Imagem como plano de fundo** com overlay para melhor legibilidade
 
 ### **Cabeçalho**
 - ✅ Logo da Prefeitura com design circular
@@ -473,6 +475,7 @@ GET /api/email-teste/test-image
 - 🔤 **Ícones Visuais**: Emojis específicos para cada tipo de informação
 - 📱 **Responsividade**: Melhor adaptação a dispositivos móveis
 - 🎯 **Identidade Visual**: Consistência com o design da aplicação
+- **🆕 Banner Hero Redesenhado**: Imagem como plano de fundo com overlay para legibilidade
 
 ### **🆕 Nova Funcionalidade de Preview:**
 - 👁️ **Preview Interativo**: Visualização em tempo real dos templates
