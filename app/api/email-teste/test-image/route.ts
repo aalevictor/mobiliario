@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://mobiliariourbano.prefeitura.sp.gov.br';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://concursomoburb.prefeitura.sp.gov.br';
     const heroImageUrl = `${baseUrl}/hero/pc/hero-b.png`;
     
     // Verificar se a variável de ambiente está configurada

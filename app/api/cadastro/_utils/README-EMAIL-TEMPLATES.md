@@ -35,9 +35,11 @@ Este sistema fornece templates de email modulares, responsivos e **visualmente a
 - **Layout responsivo**: Adaptável a diferentes tamanhos de tela
 
 ### **Rodapé Enriquecido**
-- **Ícone decorativo**: Elemento visual central
+- **Logos oficiais**: Prefeitura de São Paulo e SPUrbanismo
+- **Layout responsivo**: Logos lado a lado com flexbox
 - **Informações organizadas**: Endereço, CEP e portal em cards
 - **Links funcionais**: URLs diretas para o portal oficial
+- **🆕 Logos institucionais**: Substituição do texto por logos oficiais
 
 ## 🆕 Sistema de Preview Interativo
 
@@ -143,10 +145,12 @@ templateNovaDuvida(nome: string, email: string, pergunta: string)
 - ✅ Layout responsivo
 
 ### **Rodapé**
-- ✅ Ícone decorativo central
+- ✅ Logos oficiais da Prefeitura e SPUrbanismo
+- ✅ Layout responsivo com flexbox
 - ✅ Informações organizadas em cards
 - ✅ Links funcionais para o portal
 - ✅ Design visual aprimorado
+- ✅ **🆕 Substituição do texto por logos institucionais**
 
 ### **🆕 Sistema de Preview**
 - ✅ Interface interativa para visualização
@@ -172,7 +176,7 @@ MAIL_PASS=sua-senha-de-app
 MAIL_BCC=equipe-admin@spurbanismo.sp.gov.br
 
 # URL base da aplicação (para imagens e links)
-NEXT_PUBLIC_APP_URL=https://mobiliariourbano.prefeitura.sp.gov.br
+NEXT_PUBLIC_APP_URL=https://concursomoburb.prefeitura.sp.gov.br
 ```
 
 ### **Importante: Configuração de Imagens**
@@ -501,6 +505,7 @@ GET /api/email-teste/test-image
 - 🎯 **Identidade Visual**: Consistência com o design da aplicação
 - **🆕 Banner Hero Redesenhado**: Imagem como plano de fundo com overlay para legibilidade
 - **🔧 Compatibilidade Total**: Solução implementada para funcionar em todos os clientes de email
+- **🏛️ Rodapé Atualizado**: Logos oficiais da Prefeitura e SPUrbanismo em vez de texto
 
 ### **🆕 Nova Funcionalidade de Preview:**
 - 👁️ **Preview Interativo**: Visualização em tempo real dos templates

@@ -41,7 +41,7 @@ const styles: EmailStyles = {
  * Componente do cabeçalho com logo da Prefeitura
  */
 const gerarCabecalho = (): string => {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://mobiliariourbano.prefeitura.sp.gov.br';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://concursomoburb.prefeitura.sp.gov.br';
   
   return `
     <tr>
@@ -231,7 +231,7 @@ const gerarCallToAction = (titulo: string, descricao: string, botaoTexto: string
  * Componente do rodapé
  */
 const gerarRodape = (): string => {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://mobiliariourbano.prefeitura.sp.gov.br';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://concursomoburb.prefeitura.sp.gov.br';
   
   return `
     <tr>
@@ -239,14 +239,20 @@ const gerarRodape = (): string => {
         <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
           <tr>
             <td style="text-align: center;">
-              <!-- Ícone decorativo -->
-              <div style="width: 40px; height: 40px; background: linear-gradient(135deg, ${styles.corPrimaria} 0%, ${styles.corDestaque} 100%); border-radius: 50%; display: inline-block; text-align: center; line-height: 40px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                <span style="color: #ffffff; font-size: 18px; font-weight: bold;">🏛️</span>
+              <!-- Logos da Prefeitura e SPUrbanismo -->
+              <div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 20px; flex-wrap: wrap;">
+                <!-- Logo da Prefeitura -->
+                <div style="text-align: center;">
+                  <img src="${baseUrl}/promocao/prefeitura.png" alt="Prefeitura de São Paulo" style="height: 60px; width: auto; max-width: 200px;" />
+                  <p style="margin: 8px 0 0 0; color: ${styles.corTexto}; font-size: 12px; font-weight: 500;">Prefeitura de São Paulo</p>
+                </div>
+                
+                <!-- Logo do SPUrbanismo -->
+                <div style="text-align: center;">
+                  <img src="${baseUrl}/promocao/spurbanismo.png" alt="SPUrbanismo" style="height: 60px; width: auto; max-width: 200px;" />
+                  <p style="margin: 8px 0 0 0; color: ${styles.corTexto}; font-size: 12px; font-weight: 500;">SPUrbanismo</p>
+                </div>
               </div>
-              
-              <h4 style="margin: 0 0 16px 0; color: ${styles.corTexto}; font-size: 16px; font-weight: 600;">
-                Secretaria Municipal de Urbanismo e Licenciamento
-              </h4>
               
               <div style="background: #ffffff; border-radius: 8px; padding: 20px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid ${styles.corPrimaria};">
                 <p style="margin: 0 0 8px 0; color: ${styles.corTextoSecundario}; font-size: 14px; font-weight: 500;">
@@ -256,7 +262,7 @@ const gerarRodape = (): string => {
                   <strong>📮 CEP:</strong> 01011-100 | São Paulo | SP
                 </p>
                 <p style="margin: 0; color: ${styles.corTextoSecundario}; font-size: 14px; font-weight: 500;">
-                  <strong>🌐 Portal:</strong> <a href="${baseUrl}" style="color: ${styles.corDestaque}; text-decoration: none; font-weight: 600;">mobiliariourbano.prefeitura.sp.gov.br</a>
+                  <strong>🌐 Portal:</strong> <a href="${baseUrl}" style="color: ${styles.corDestaque}; text-decoration: none; font-weight: 600;">concursomoburb.prefeitura.sp.gov.br</a>
                 </p>
               </div>
               
