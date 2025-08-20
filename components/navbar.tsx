@@ -9,7 +9,7 @@ import { retornaPermissao } from '@/services/usuarios';
 
 export default async function Navbar() {
   const session = await auth();
-  const permissao = await retornaPermissao(session?.user?.id as string);
+  const permissao = session?.user.id ? await retornaPermissao(session?.user?.id as string) : '';
 	return (
     <>
       <header className="bg-[#A5942B] dark:bg-zinc-800 text-white sticky top-0 z-50">
