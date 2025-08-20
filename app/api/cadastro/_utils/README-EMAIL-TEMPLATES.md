@@ -425,6 +425,39 @@ console.log('Resultado do envio:', result);
 4. **Verifique portas e firewall**
 5. **Use senhas de aplicativo** para Gmail
 
+### **🖼️ Problemas com Imagem do Banner**
+1. **Configure NEXT_PUBLIC_APP_URL** no arquivo .env
+2. **Verifique se a imagem existe** em `public/hero/pc/hero-b.png`
+3. **Teste o acesso à imagem** usando o botão "Testar Imagem"
+4. **Confirme a URL gerada** nos logs do console
+5. **Verifique permissões** do arquivo de imagem
+
+#### **Configuração da Imagem:**
+```env
+# Adicione ao arquivo .env
+NEXT_PUBLIC_APP_URL=https://seudominio.com
+```
+
+#### **Estrutura de Arquivos:**
+```
+public/
+  hero/
+    pc/
+      hero-b.png  # Imagem do banner
+```
+
+#### **Debug da Imagem:**
+```typescript
+// Verificar logs no console
+console.log('🔍 Debug Banner Hero:', {
+  baseUrl: process.env.NEXT_PUBLIC_APP_URL,
+  heroImageUrl: `${baseUrl}/hero/pc/hero-b.png`
+});
+
+// Testar via API
+GET /api/email-teste/test-image
+```
+
 ### **🆕 Problemas com o Preview**
 1. Verifique se o usuário tem permissão DEV/ADMIN
 2. Confirme se a rota `/email-preview` está acessível

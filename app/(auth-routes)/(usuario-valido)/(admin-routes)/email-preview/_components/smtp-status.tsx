@@ -13,6 +13,7 @@ import {
   Mail,
   Server
 } from "lucide-react";
+import { toast } from "sonner";
 
 interface SMTPStatus {
   configured: boolean;
@@ -27,6 +28,11 @@ interface SMTPStatus {
     success: boolean;
     message: string;
     error?: string;
+  };
+  imageTest?: {
+    accessible: boolean;
+    url: string;
+    envVar: string;
   };
 }
 
@@ -95,6 +101,36 @@ export default function SMTPStatus() {
       } : null);
     } finally {
       setIsTesting(false);
+    }
+  };
+
+  const testImageAccess = async () => {
+    try {
+      const response = await fetch('/api/email-teste/test-image');
+      const data = await response.json();
+      
+      if (response.ok) {
+        console.log("🔍 Teste de imagem:", data);
+        
+        // Atualizar status com informações da imagem
+        setStatus(prev => prev ? {
+          ...prev,
+          imageTest: {
+            accessible: data.debug.imageAccessible,
+            url: data.debug.heroImageUrl,
+            envVar: data.debug.envVar
+          }
+        } : null);
+        
+        if (data.debug.imageAccessible) {
+          toast.success("✅ Imagem do banner acessível!");
+        } else {
+          toast.error("❌ Imagem do banner não acessível");
+        }
+      }
+    } catch (error) {
+      console.error("❌ Erro ao testar imagem:", error);
+      toast.error("❌ Erro ao testar acesso à imagem");
     }
   };
 
@@ -256,6 +292,56 @@ export default function SMTPStatus() {
             )}
             Testar Conexão
           </Button>
+        </div>
+
+        {/* Teste de Imagem */}
+        <div className="border-t pt-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium">Imagem do Banner:</span>
+            <Button
+              onClick={testImageAccess}
+              variant="outline"
+              size="sm"
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Testar Imagem
+            </Button>
+          </div>
+          
+          {status.imageTest && (
+            <div className={`p-3 rounded-md ${
+              status.imageTest.accessible 
+                ? 'bg-green-50 dark:bg-green-900/20' 
+                : 'bg-red-50 dark:bg-red-900/20'
+            }`}>
+              <div className="flex items-center gap-2 mb-2">
+                {getStatusIcon(status.imageTest.accessible)}
+                <span className={`text-sm font-medium ${
+                  status.imageTest.accessible 
+                    ? 'text-green-900 dark:text-green-100' 
+                    : 'text-red-900 dark:text-red-100'
+                }`}>
+                  {status.imageTest.accessible ? 'Imagem Acessível' : 'Imagem Não Acessível'}
+                </span>
+              </div>
+              <div className="text-xs space-y-1">
+                <p className={`${
+                  status.imageTest.accessible 
+                    ? 'text-green-800 dark:text-green-200' 
+                    : 'text-red-800 dark:text-red-200'
+                }`}>
+                  <strong>URL:</strong> {status.imageTest.url}
+                </p>
+                <p className={`${
+                  status.imageTest.accessible 
+                    ? 'text-green-800 dark:text-green-200' 
+                    : 'text-red-800 dark:text-red-200'
+                }`}>
+                  <strong>Variável de Ambiente:</strong> {status.imageTest.envVar || 'Não configurada'}
+                </p>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Informações de ajuda */}
