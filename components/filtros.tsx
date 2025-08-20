@@ -182,7 +182,7 @@ export function Filtros({ camposFiltraveis }: FiltrosProps) {
 									<CommandItem
 										key={opcao.value}
 										value={opcao.value.toString()}
-										onSelect={(currentValue) => {
+										onSelect={(currentValue: React.SetStateAction<string>) => {
 											setValue(currentValue === value ? "" : currentValue);
 											setFiltros((prev) => ({ ...prev, [campo.tag]: value }));
 											setOpen(false);
@@ -204,7 +204,7 @@ export function Filtros({ camposFiltraveis }: FiltrosProps) {
 				</Popover>
 		</div>
 	}
-	
+
 	return (
 		<div className='flex flex-col md:flex-row md:items-end gap-5 md:w-fit justify-start'>
 			{renderFiltros()}
