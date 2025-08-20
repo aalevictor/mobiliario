@@ -38,8 +38,8 @@ export default async function Navbar() {
             <UserLogged usuario={session?.user} />
           </div>
         </div>
+        <AdminMenu permissao={permissao || ''} />
       </header>
-      <AdminMenu permissao={permissao || ''} />
     </>
   );
 }

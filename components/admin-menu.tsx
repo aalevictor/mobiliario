@@ -42,7 +42,7 @@ export default function AdminMenu({ permissao }: AdminMenuProps) {
   ];
 
   return (
-    <div className="bg-transparent shadow-none sticky z-30">
+    <div className="bg-[#e8edde] shadow-none sticky z-30">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center space-x-2">
