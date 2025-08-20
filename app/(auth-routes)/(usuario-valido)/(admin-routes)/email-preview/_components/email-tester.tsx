@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   Send, 
   Mail, 
@@ -18,13 +19,54 @@ import {
   Loader2
 } from "lucide-react";
 import { toast } from "sonner";
+import React from "react"; // Added missing import for React
 
 interface EmailTesterProps {
   selectedTemplate: string;
 }
 
+const templateOptions = [
+  {
+    value: "confirmacao",
+    label: "Confirmação de Inscrição",
+    icon: UserCheck,
+    description: "Email enviado após inscrição bem-sucedida"
+  },
+  {
+    value: "boas-vindas",
+    label: "Boas-vindas",
+    icon: Heart,
+    description: "Primeiro contato com novos participantes"
+  },
+  {
+    value: "lembrete",
+    label: "Lembrete",
+    icon: Calendar,
+    description: "Lembretes sobre eventos e prazos"
+  },
+  {
+    value: "notificacao",
+    label: "Notificação Geral",
+    icon: Bell,
+    description: "Comunicações importantes sobre o concurso"
+  },
+  {
+    value: "nova-duvida",
+    label: "Nova Dúvida",
+    icon: HelpCircle,
+    description: "Notificação para equipe administrativa"
+  },
+  {
+    value: "personalizado",
+    label: "Template Personalizado",
+    icon: Settings,
+    description: "Template configurável com cards"
+  }
+];
+
 export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
   const [isSending, setIsSending] = useState(false);
+  const [testTemplate, setTestTemplate] = useState(selectedTemplate);
   const [testData, setTestData] = useState({
     emailDestino: "",
     nome: "João Silva",
@@ -34,6 +76,11 @@ export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
     mensagem: "Informamos que o resultado da primeira fase foi divulgado. Acesse nossa plataforma para verificar sua situação.",
     pergunta: "Gostaria de saber se posso participar do concurso mesmo sendo uma empresa de outro estado, ou se há alguma restrição geográfica para a participação."
   });
+
+  // Atualizar template de teste quando o template do preview mudar
+  React.useEffect(() => {
+    setTestTemplate(selectedTemplate);
+  }, [selectedTemplate]);
 
   const handleInputChange = (field: string, value: string) => {
     setTestData(prev => ({
@@ -53,7 +100,7 @@ export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
     try {
       // Preparar dados para envio
       const emailData = {
-        templateType: selectedTemplate,
+        templateType: testTemplate,
         emailDestino: testData.emailDestino,
         nome: testData.nome,
         evento: testData.evento,
@@ -91,41 +138,22 @@ export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
   };
 
   const getTemplateIcon = () => {
-    switch (selectedTemplate) {
-      case "confirmacao":
-        return <UserCheck className="h-5 w-5" />;
-      case "boas-vindas":
-        return <Heart className="h-5 w-5" />;
-      case "lembrete":
-        return <Calendar className="h-5 w-5" />;
-      case "notificacao":
-        return <Bell className="h-5 w-5" />;
-      case "nova-duvida":
-        return <HelpCircle className="h-5 w-5" />;
-      case "personalizado":
-        return <Settings className="h-5 w-5" />;
-      default:
-        return <Mail className="h-5 w-5" />;
+    const template = templateOptions.find(t => t.value === testTemplate);
+    if (template) {
+      const Icon = template.icon;
+      return <Icon className="h-5 w-5" />;
     }
+    return <Mail className="h-5 w-5" />;
   };
 
   const getTemplateDescription = () => {
-    switch (selectedTemplate) {
-      case "confirmacao":
-        return "Email enviado após inscrição bem-sucedida";
-      case "boas-vindas":
-        return "Primeiro contato com novos participantes";
-      case "lembrete":
-        return "Lembretes sobre eventos e prazos";
-      case "notificacao":
-        return "Comunicações importantes sobre o concurso";
-      case "nova-duvida":
-        return "Notificação para equipe administrativa";
-      case "personalizado":
-        return "Template configurável com cards";
-      default:
-        return "Template selecionado";
-    }
+    const template = templateOptions.find(t => t.value === testTemplate);
+    return template ? template.description : "Template selecionado";
+  };
+
+  const getTemplateLabel = () => {
+    const template = templateOptions.find(t => t.value === testTemplate);
+    return template ? template.label : "Template";
   };
 
   return (
@@ -140,6 +168,35 @@ export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        {/* Seletor de Template */}
+        <div>
+          <Label htmlFor="template-select">Template para Teste</Label>
+          <Select value={testTemplate} onValueChange={setTestTemplate}>
+            <SelectTrigger className="mt-1">
+              <SelectValue placeholder="Selecione um template" />
+            </SelectTrigger>
+            <SelectContent>
+              {templateOptions.map((template) => {
+                const Icon = template.icon;
+                return (
+                  <SelectItem key={template.value} value={template.value}>
+                    <div className="flex items-center gap-2">
+                      <Icon className="h-4 w-4" />
+                      <div>
+                        <div className="font-medium">{template.label}</div>
+                        <div className="text-xs text-gray-500">{template.description}</div>
+                      </div>
+                    </div>
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-gray-500 mt-1">
+            Template selecionado: <span className="font-medium">{getTemplateLabel()}</span>
+          </p>
+        </div>
+
         {/* Email de destino */}
         <div>
           <Label htmlFor="emailDestino">Email de Destino *</Label>
@@ -167,7 +224,7 @@ export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
         </div>
 
         {/* Campos específicos para cada template */}
-        {selectedTemplate === "lembrete" && (
+        {testTemplate === "lembrete" && (
           <>
             <div>
               <Label htmlFor="evento">Evento</Label>
@@ -194,7 +251,7 @@ export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
           </>
         )}
 
-        {selectedTemplate === "notificacao" && (
+        {testTemplate === "notificacao" && (
           <>
             <div>
               <Label htmlFor="titulo">Título da Notificação</Label>
@@ -221,7 +278,7 @@ export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
           </>
         )}
 
-        {selectedTemplate === "nova-duvida" && (
+        {testTemplate === "nova-duvida" && (
           <div>
             <Label htmlFor="pergunta">Pergunta</Label>
             <Textarea

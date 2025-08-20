@@ -40,13 +40,14 @@ Este sistema fornece templates de email modulares, responsivos e **visualmente a
 
 ## 🆕 Sistema de Preview Interativo
 
-### **Funcionalidades do Preview**
+### **🆕 Funcionalidades do Preview**
 - **Visualização em Tempo Real**: Veja como o email ficará antes de enviar
 - **Configuração Dinâmica**: Altere dados e veja as mudanças instantaneamente
 - **Teste de Envio**: Envie emails de teste para validar os templates
 - **Download de HTML**: Baixe o código HTML para uso externo
 - **Cópia de Código**: Copie o HTML para a área de transferência
 - **🔧 Status SMTP**: Verificação da configuração do servidor de email
+- **🎯 Seletor de Template**: Escolha qualquer template para teste independentemente do preview
 
 ### **Acesso ao Preview**
 - **Rota**: `/email-preview` (apenas para usuários DEV/ADMIN)
@@ -61,6 +62,7 @@ Este sistema fornece templates de email modulares, responsivos e **visualmente a
 5. **Teste**: Use a aba "Testar Envio" para enviar emails de teste
 6. **Exporte**: Copie ou baixe o HTML gerado
 7. **🔧 Verifique**: Use a aba "Status SMTP" para verificar a configuração
+8. **🎯 Escolha**: Use o seletor de template para testar diferentes tipos independentemente
 
 ## 🚀 Templates Disponíveis
 
@@ -346,7 +348,37 @@ async function criarDuvida(data) {
 // 3. Enviar emails de teste
 // 4. Exportar HTML dos templates
 // 5. Verificar status da configuração SMTP
+// 6. 🎯 Escolher templates diferentes para teste
 ```
+
+### **🎯 Seletor de Template para Teste**
+
+#### **Funcionalidades Principais:**
+- **Seleção Independente**: Escolha qualquer template para teste, independentemente do preview
+- **Sincronização Automática**: Muda automaticamente quando você altera o template no preview
+- **Campos Dinâmicos**: Os campos de entrada se ajustam ao template selecionado
+- **6 Templates Disponíveis**: Todos os tipos de email podem ser testados
+
+#### **Como Usar:**
+1. **Acesse a aba "Testar Envio"**
+2. **Use o seletor "Template para Teste"**
+3. **Escolha qualquer template disponível**
+4. **Configure os dados específicos do template**
+5. **Envie o email de teste**
+
+#### **Templates Disponíveis para Teste:**
+- ✅ **Confirmação de Inscrição**: Com campos de nome
+- ✅ **Boas-vindas**: Com campos de nome
+- ✅ **Lembrete**: Com campos de nome, evento e data
+- ✅ **Notificação Geral**: Com campos de nome, título e mensagem
+- ✅ **Nova Dúvida**: Com campos de nome e pergunta
+- ✅ **Template Personalizado**: Com campos configuráveis
+
+#### **Vantagens do Seletor:**
+- **Flexibilidade**: Teste qualquer template sem navegar entre abas
+- **Eficiência**: Múltiplos testes em sequência rápida
+- **Comparação**: Teste diferentes templates com os mesmos dados
+- **Validação**: Verifique se todos os templates funcionam corretamente
 
 ### **🔧 Teste de Envio via API**
 ```typescript
@@ -415,6 +447,7 @@ console.log('Resultado do envio:', result);
 - 📧 **Teste de Envio**: Funcionalidade para enviar emails de teste
 - 💾 **Exportação**: Download e cópia do código HTML
 - 🔗 **Integração**: Menu administrativo com acesso direto
+- 🎯 **Seletor de Template**: Escolha independente de templates para teste
 
 ### **🔧 Sistema de Envio Funcional:**
 - ✅ **API Route dedicada** para envio de emails de teste
@@ -422,6 +455,7 @@ console.log('Resultado do envio:', result);
 - ✅ **Teste de conexão** para validação
 - ✅ **Diagnóstico completo** de configurações
 - ✅ **Logs detalhados** para debugging
+- ✅ **🎯 Seletor de template** para testes flexíveis
 
 ### **Templates Atualizados:**
 - ✅ Confirmação de Inscrição com ícones 📋📅

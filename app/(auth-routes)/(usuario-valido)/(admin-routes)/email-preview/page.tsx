@@ -420,8 +420,22 @@ export default function EmailPreviewPage() {
                   <div>
                     <h4 className="font-medium mb-2">📧 Envio de Teste</h4>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Use esta funcionalidade para enviar emails de teste usando os templates selecionados.
+                      Use esta funcionalidade para enviar emails de teste usando os templates disponíveis.
                     </p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-medium mb-2">🎯 Seletor de Template</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <strong>Novidade:</strong> Agora você pode escolher qualquer template para teste, 
+                      independentemente do que está sendo visualizado na aba de preview.
+                    </p>
+                    <ul className="text-sm text-gray-600 dark:text-gray-400 mt-2 space-y-1">
+                      <li>• <strong>Template Padrão:</strong> Inicialmente usa o template selecionado no preview</li>
+                      <li>• <strong>Seleção Livre:</strong> Escolha qualquer template disponível para teste</li>
+                      <li>• <strong>Sincronização:</strong> Muda automaticamente quando você altera o preview</li>
+                      <li>• <strong>Campos Dinâmicos:</strong> Os campos se ajustam ao template selecionado</li>
+                    </ul>
                   </div>
 
                   <div>
@@ -430,6 +444,7 @@ export default function EmailPreviewPage() {
                       <li>• Configure as variáveis SMTP no arquivo .env</li>
                       <li>• Verifique se MAIL_BCC está configurado</li>
                       <li>• Teste com diferentes endereços de email</li>
+                      <li>• Use a aba "Status SMTP" para verificar configurações</li>
                     </ul>
                   </div>
 
@@ -439,6 +454,7 @@ export default function EmailPreviewPage() {
                       <li>• Verifique a caixa de entrada e spam</li>
                       <li>• Teste em diferentes clientes de email</li>
                       <li>• Valide a responsividade em dispositivos móveis</li>
+                      <li>• Compare com o preview para verificar fidelidade</li>
                     </ul>
                   </div>
 
@@ -447,10 +463,22 @@ export default function EmailPreviewPage() {
                       💡 Dica Importante
                     </h4>
                     <p className="text-sm text-blue-800 dark:text-blue-200">
-                      Sempre teste os templates antes de usar em produção. 
-                      Verifique se as imagens carregam corretamente e se o layout 
-                      está responsivo em diferentes dispositivos.
+                      Use o seletor de template para testar diferentes tipos de email sem precisar 
+                      navegar entre as abas. Isso facilita o teste de múltiplos templates rapidamente.
                     </p>
+                  </div>
+
+                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+                    <h4 className="font-medium text-green-900 dark:text-green-100 mb-2">
+                      ✅ Funcionalidades do Seletor
+                    </h4>
+                    <ul className="text-sm text-green-800 dark:text-green-200 space-y-1">
+                      <li>• <strong>6 templates disponíveis</strong> para teste</li>
+                      <li>• <strong>Ícones visuais</strong> para cada tipo de template</li>
+                      <li>• <strong>Descrições detalhadas</strong> de cada template</li>
+                      <li>• <strong>Campos condicionais</strong> baseados no template</li>
+                      <li>• <strong>Sincronização automática</strong> com o preview</li>
+                    </ul>
                   </div>
                 </CardContent>
               </Card>
