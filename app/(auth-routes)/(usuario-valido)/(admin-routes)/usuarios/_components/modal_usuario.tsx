@@ -36,11 +36,17 @@ export default function ModalUsuario({ usuario, children }: { usuario?: Usuario,
 		},
 	});
 
-    // const buscarUsuario = async (login: string) => {
-    //     const response = await fetch(`/api/usuario/buscar-novo/${login}`);
-    //     const data: { nome: string, email: string, login: string } = await response.json();
-    //     return data;
-    // }
+    const buscarUsuario = async () => {
+        const login = formUsuario.watch("login");
+        const response = await fetch(`/api/ldap/buscar-por-login/${login}`);
+        console.log(response);
+        const data: { data: { nome: string, email: string, login: string }} = await response.json();
+        if (data) {
+            formUsuario.setValue("nome", data.data.nome)
+            formUsuario.setValue("email", data.data.email)
+            formUsuario.setValue("login", data.data.login)
+        }
+    }
 
     useEffect(() => {
         const fetchPermissao = async () => {
@@ -139,7 +145,7 @@ export default function ModalUsuario({ usuario, children }: { usuario?: Usuario,
                                                 disabled={!!usuario?.id}
                                                 className={!usuario?.id ? "rounded-r-none" : ""}
                                             />
-                                            {!usuario?.id && <Button type='button' className="rounded-l-none">
+                                            {!usuario?.id && <Button onClick={async () => buscarUsuario()} type='button' className="rounded-l-none">
                                                 <Search />
                                             </Button>}
                                         </div>
