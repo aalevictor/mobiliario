@@ -56,7 +56,7 @@ async function buscarPorLogin(
 		
 		// Buscar usuário
 		const searchResult = await ldap.search(process.env.LDAP_BASE || "", {
-			filter: `(&(samaccountname=${login})(company=SMUL))`,
+			filter: `(&(samaccountname=${login})(|(company=SMUL)(company=SPURBANISMO)))`,
 			scope: 'sub',
 			attributes: ['name', 'mail'],
 		});
