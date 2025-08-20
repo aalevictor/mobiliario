@@ -1,3 +1,6 @@
+import Edital from "@/components/icones/edital";
+import Esclarecimentos from "@/components/icones/esclarecimentos";
+import Termo from "@/components/icones/termo";
 import ModalPergunta from "@/components/modal-pergunta";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -22,7 +25,7 @@ export default function Documentos() {
                         "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
                     }}
                 >
-                    <h2 className="text-[#3B2D3A] text-2xl lg:text-3xl xl:text-4xl font-bold col-span-3">
+                    <h2 className="text-[#3B2D3A] text-2xl lg:text-3xl font-bold col-span-3">
                         EDITAL
                     </h2>
                     <div className="col-span-2">
@@ -36,13 +39,7 @@ export default function Documentos() {
                             Baixar edital
                         </Button>
                     </div>
-                    <Image
-                        src="/documentos/edital.png"
-                        alt="Termo de referência"
-                        width={132}
-                        height={132}
-                        className="w-full h-full self-center justify-self-center max-w-[132px] max-h-[132px] object-contain"
-                    />
+                    <Edital size={160} />
                 </div>
             </div>
             <div 
@@ -59,7 +56,7 @@ export default function Documentos() {
                         "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
                     }}
                 >
-                    <h2 className="text-[#3B2D3A] text-2xl lg:text-3xl xl:text-4xl font-bold col-span-3">
+                    <h2 className="text-[#3B2D3A] text-2xl lg:text-3xl font-bold col-span-3">
                         TERMO DE REFERÊNCIA
                     </h2>
                     <div className="col-span-2">
@@ -73,13 +70,7 @@ export default function Documentos() {
                             Baixar termo
                         </Button>
                     </div>
-                    <Image
-                        src="/documentos/termo_referencia.png"
-                        alt="Termo de referência"
-                        width={132}
-                        height={132}
-                        className="w-full h-full self-center justify-self-center max-w-[132px] max-h-[132px] object-contain"
-                    />
+                    <Termo size={160} />
                 </div>
             </div>
             <div 
@@ -96,7 +87,7 @@ export default function Documentos() {
                         "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
                     }}
                 >
-                    <h2 className="text-[#3B2D3A] text-2xl lg:text-3xl xl:text-4xl font-bold col-span-3">
+                    <h2 className="text-[#3B2D3A] text-2xl lg:text-3xl font-bold col-span-3">
                         PEDIDOS DE ESCLARECIMENTOS
                     </h2>
                     <div className="col-span-2">
@@ -112,13 +103,7 @@ export default function Documentos() {
                             </Button>
                         </ModalPergunta>
                     </div>
-                    <Image
-                        src="/documentos/edital.png"
-                        alt="Esclarecimentos"
-                        width={132}
-                        height={132}
-                        className="w-full h-full self-center justify-self-center max-w-[132px] max-h-[132px] object-contain"
-                    />
+                    <Esclarecimentos size={160} />
                 </div>
             </div>
         </section>

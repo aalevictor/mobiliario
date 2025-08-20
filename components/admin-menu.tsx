@@ -42,12 +42,12 @@ export default function AdminMenu({ permissao }: AdminMenuProps) {
   ];
 
   return (
-    <div className="bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-700 shadow-sm sticky z-30">
+    <div className="bg-transparent shadow-none sticky z-30">
       <div className="container mx-auto px-4 py-3">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex items-center justify-between gap-3">
           <div className="flex items-center space-x-2">
-            <Settings className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-            <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+            <Settings className="h-4 w-4 text-primary" />
+            <span className="text-sm font-semibold text-gray-800 dark:text-gray-200 max-sm:hidden">
               Painel Administrativo
             </span>
             <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-zinc-800 px-2 py-1 rounded-full">
@@ -58,7 +58,6 @@ export default function AdminMenu({ permissao }: AdminMenuProps) {
             {menuItems.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
-              
               return (
                 <Link
                   key={item.href}

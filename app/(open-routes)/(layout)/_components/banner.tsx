@@ -130,21 +130,20 @@ export default function Banner() {
                     </CarouselItem>
                 </CarouselContent>
             </Carousel>
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4 gap-4">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4 gap-4 mt-10">
                 <Link href={"#cronograma"}>
                     <span className="bg-[#7874C1] px-4 py-1 text-sm font-semibold hover:bg-[#7874C1] rounded-lg">
                         Confira o cronograma
                     </span>
                 </Link>
-                <h1 className="text-[#3B2D3A] intersect:motion-preset-slide-up motion-delay-150 text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold max-w-4xl">
-                    Concurso Mobiliário Urbano
-                </h1>
-                <p className=" intersect:motion-preset-slide-up motion-delay-200 text-lg md:text-xl max-w-2xl text-[#3B2D3A]">
+                <span className="text-[#3B2D3A] text-3xl lg:text-4xl font-bold max-w-4xl">
+                    Concurso Nacional de Projetos de Projetos de Mobiliário urbano para São Paulo
+                </span>
+                <span className="text-lg text-[#3B2D3A]">
                     Participe com seu projeto e construa o amanhã
-                </p>
+                </span>
                 <Link
                     href={"/inscricao"}
-                    className=" intersect:motion-preset-slide-up motion-delay-400"
                 >
                     <Button
                         size="lg"
