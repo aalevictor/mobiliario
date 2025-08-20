@@ -39,7 +39,6 @@ export default function ModalUsuario({ usuario, children }: { usuario?: Usuario,
     const buscarUsuario = async () => {
         const login = formUsuario.watch("login");
         const response = await fetch(`/api/ldap/buscar-por-login/${login}`);
-        console.log(response);
         const data: { data: { nome: string, email: string, login: string }} = await response.json();
         if (data) {
             formUsuario.setValue("nome", data.data.nome)

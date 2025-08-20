@@ -27,7 +27,7 @@ export default function UserLogged({ usuario }: { usuario?: User }) {
 					className='cursor-pointer hover:bg-destructive-foreground hover:text-destructive'
 					title='Sair'
 					onClick={async () => {
-						await signOut({ redirect: true, redirectTo: '/' });
+						await signOut({ redirect: true, redirectTo: process.env.BASE_URL });
 					}}
 				>
 					<LogOut />
