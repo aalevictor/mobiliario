@@ -13,10 +13,6 @@ import ObserverProvider from "@/providers/ObserverProvider";
 export const metadata: Metadata = {
   title: "Concurso Nacional de Mobiliário Urbano para São Paulo - 2025",
   description: "Concurso Nacional de Mobiliário Urbano para São Paulo - 2025",
-  keywords: "concurso, mobiliário urbano, São Paulo, arquitetura, urbanismo",
-  authors: [{ name: "Prefeitura de São Paulo" }],
-  viewport: "width=device-width, initial-scale=1",
-  robots: "index, follow",
 };
 
 export default function RootLayout({
@@ -26,10 +22,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <head>
-        <meta name="theme-color" content="#A5942B" />
-        <meta name="color-scheme" content="light dark" />
-      </head>
       <body className="antialiased font-sans">
         <AuthProvider>
           <QueryProvider>
@@ -39,12 +31,6 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <ObserverProvider>
-                <a 
-                  href="#main-content" 
-                  className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-[#A5942B] text-white px-4 py-2 rounded-md z-50"
-                >
-                  Pular para o conteúdo principal
-                </a>
                 {children}
                 <Toaster richColors />
               </ObserverProvider>
