@@ -91,6 +91,7 @@ export default function SMTPStatus() {
         } : null);
       }
     } catch (error) {
+      console.error("Erro ao testar conexão:", error);
       setStatus(prev => prev ? {
         ...prev,
         testResult: {

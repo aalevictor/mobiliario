@@ -135,6 +135,7 @@ export default function EmailPreviewPage() {
         await navigator.clipboard.writeText(html);
         toast.success("HTML copiado para a área de transferência!");
       } catch (error) {
+        console.error("Erro ao copiar HTML:", error);
         toast.error("Erro ao copiar HTML");
       }
     }

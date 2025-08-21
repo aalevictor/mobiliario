@@ -315,7 +315,6 @@ const DragDropInput = forwardRef<DragDropInputRef, DragDropInputProps>(
 									className='flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-md'>
 									<div className='flex items-center'>
 										{file.preview ? (
-											// eslint-disable-next-line @next/next/no-img-element
 											<Image
 												src={file.preview || '/placeholder.svg'}
 												alt={file.name}

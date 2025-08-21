@@ -1,6 +1,5 @@
 "use client"
 
-import { User } from "next-auth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Users, FileText, HelpCircle, Settings, Mail } from "lucide-react";

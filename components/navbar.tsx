@@ -9,9 +9,10 @@ import AdminMenu from './admin-menu';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
+import { Session } from 'next-auth';
 
 interface NavbarProps {
-  session: any;
+  session: Session | null;
   permissao: string;
 }
 
