@@ -17,7 +17,6 @@ export default function Informacoes() {
             className="space-y-4"
             value={value}
             onValueChange={setValue}
-            aria-label="Informações detalhadas do concurso"
         >
             <div
                 className={`w-full flex flex-col gap-4 p-[3px] ${value === "item-1" ? "bg-[#D0DBBF]" : ""}`}

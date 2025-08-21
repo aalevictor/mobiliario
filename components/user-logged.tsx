@@ -42,7 +42,7 @@ export default function UserLogged({ usuario }: { usuario?: User }) {
 					<span className="sr-only">Sair</span>
 				</Button>
 			</div> :
-			<Link href="/auth/login" aria-label="Fazer login no sistema">
+			<Link href="/auth/login" aria-label="Entrar">
 				<Button 
 					variant="outline" 
 					className='bg-transparent cursor-pointer focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B]'

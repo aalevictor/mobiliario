@@ -53,7 +53,7 @@ export default function Navbar({ session, permissao }: NavbarProps) {
             Bases do Concurso
           </a>
         </nav>
-        <div className="flex items-center gap-5" role="complementary" aria-label="Área do usuário">
+        <div className="flex items-center gap-5" aria-label="Área do usuário">
           <UserLogged usuario={session?.user} />
           {/* Botão do menu móvel */}
           <Button
