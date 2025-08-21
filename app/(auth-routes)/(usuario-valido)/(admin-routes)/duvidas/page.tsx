@@ -59,7 +59,7 @@ async function Duvidas({
 	// }
 
 	return (
-		<div className="relative h-full container mx-auto px-4 py-6 max-w-7xl space-y-2">
+		<div className="relative h-full container mx-auto px-4 py-6 max-w-8xl space-y-2">
 		  <Card>
 				<CardHeader>
 				<CardTitle className="text-3xl font-bold text-gray-900 dark:text-gray-100">

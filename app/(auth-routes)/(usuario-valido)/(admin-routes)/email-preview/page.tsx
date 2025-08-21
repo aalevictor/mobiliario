@@ -164,7 +164,7 @@ export default function EmailPreviewPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-7xl">
+    <div className="container mx-auto px-4 py-6 max-w-8xl">
       <Card>
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-gray-900 dark:text-gray-100">
