@@ -28,7 +28,7 @@ export default function ProtocoloDisplay({ protocolo }: ProtocoloDisplayProps) {
             <CardContent className="p-6 py-2">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex flex-col gap-1">
-                        <p className="px-2 text-sm font-medium text-gray-600 mb-1">Protocolo do Cadastro</p>
+                        <p className="px-2 text-sm font-medium text-gray-600 mb-1">Código Identificador (ID)</p>
                         <Button 
                             onClick={handleCopy}
                             variant="ghost"
@@ -41,7 +41,7 @@ export default function ProtocoloDisplay({ protocolo }: ProtocoloDisplayProps) {
                 </div>
                 <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-orange-200">
                     <p className="text-sm text-orange-800">
-                        <span className="font-semibold">Importante:</span> Guarde este protocolo para acompanhar o status do seu cadastro e para futuras consultas.
+                        <span className="font-semibold">Importante:</span> Guarde bem o seu ID, é com ele que você verificará o andamento de sua inscrição e a avaliação da sua proposta técnica.
                     </p>
                 </div>
             </CardContent>

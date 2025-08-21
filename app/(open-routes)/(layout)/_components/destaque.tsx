@@ -14,10 +14,12 @@ export default function Destaque() {
               <h2 className="text-2xl md:text-3xl font-bold mb-5 text-[#3B2D3A] uppercase">
                 Cadastre-se e projete a cidade que você quer ver
               </h2>
+              <p className="text-[#3B2D3A] mb-2">
+                <strong>CONFIRA OS DOCUMENTOS NECESSÁRIOS PARA INSCRIÇÃO NO ITEM 9.2 DO EDITAL.</strong> 
+              </p>
               <p className="text-[#3B2D3A] mb-8">
-                Não perca a chance de contribuir com ideias para o futuro da
-                maior cidade do Brasil. Inscreva seu projeto e faça parte deste
-                concurso.
+                Não perca a chance de contribuir com ideias para o futuro da maior cidade do Brasil. Inscreva seu projeto e 
+                faça parte deste concurso!
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href={"/inscricao"}>

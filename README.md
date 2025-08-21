@@ -1,36 +1,164 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MOBURB - Sistema de Gestão de Concursos de Mobiliário Urbano
 
-## Getting Started
+Sistema web desenvolvido em Next.js para gestão completa de concursos de mobiliário urbano, incluindo cadastros de participantes, avaliações técnicas e administrativa.
 
-First, run the development server:
+## 🏗️ Sobre o Projeto
 
+O MOBURB é uma plataforma desenvolvida para a Secretaria Municipal de Urbanismo e Licenciamento da Prefeitura de São Paulo, que gerencia todo o processo de concursos de mobiliário urbano, desde o cadastro de participantes até a avaliação e aprovação final.
+
+### Principais Funcionalidades
+
+- **Sistema de Autenticação**: Login com diferentes níveis de permissão (DEV, ADMIN, PARTICIPANTE, LICITACAO, JULGADORA)
+- **Cadastro de Participantes**: Formulário completo para inscrição no concurso
+- **Upload de Documentos**: Sistema para envio de documentos específicos e projetos
+- **Avaliação Técnica**: Painel para avaliação de projetos pelos jurados
+- **Avaliação Administrativa**: Verificação de documentação pelos licitadores
+- **Gestão de Usuários**: Painel administrativo para gerenciar usuários do sistema
+- **Sistema de Dúvidas**: Canal de comunicação entre participantes e administradores
+- **Notificações por Email**: Sistema automatizado de envio de emails
+
+## 🚀 Tecnologias Utilizadas
+
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Styling**: Tailwind CSS, Radix UI
+- **Autenticação**: NextAuth.js
+- **Banco de Dados**: PostgreSQL com Prisma ORM
+- **Email**: Nodemailer
+- **Formulários**: React Hook Form com Zod
+- **Tabelas**: TanStack Table
+- **Animações**: Framer Motion
+- **Deploy**: Vercel
+
+## 📋 Pré-requisitos
+
+- Node.js 18+ 
+- PostgreSQL
+- npm, yarn, pnpm ou bun
+
+## 🔧 Instalação
+
+1. **Clone o repositório**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone [url-do-repositorio]
+cd mobiliario2
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Instale as dependências**
+```bash
+npm install
+# ou
+yarn install
+# ou
+pnpm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Configure as variáveis de ambiente**
+```bash
+cp example.env .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Edite o arquivo `.env.local` com suas configurações:
+```env
+DATABASE_URL=postgresql://usuario:senha@localhost:5432/moburb2025
+DIRECT_URL=postgresql://usuario:senha@localhost:5432/moburb2025
+AUTH_SECRET=sua-chave-secreta-aqui
 
-## Learn More
+# Configurações de Email SMTP
+EMAIL_FROM="naoresponda-mobiliariourbano@spurbanismo.sp.gov.br"
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USER=seu-email@gmail.com
+MAIL_PASS=sua-senha-de-app
+MAIL_BCC=equipe-admin@spurbanismo.sp.gov.br
 
-To learn more about Next.js, take a look at the following resources:
+# URL base da aplicação
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Configure o banco de dados**
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. **Execute o servidor de desenvolvimento**
+```bash
+npm run dev
+# ou
+yarn dev
+# ou
+pnpm dev
+```
 
-## Deploy on Vercel
+Acesse [http://localhost:3000](http://localhost:3000) para visualizar a aplicação.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🏛️ Estrutura do Projeto
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+mobiliario2/
+├── app/                          # App Router do Next.js
+│   ├── (auth-routes)/           # Rotas autenticadas
+│   │   ├── (usuario-valido)/    # Usuários com acesso válido
+│   │   │   ├── (admin-routes)/  # Rotas administrativas
+│   │   │   └── (participante-routes)/ # Rotas de participantes
+│   │   └── (usuario-invalido)/  # Usuários com acesso restrito
+│   ├── (open-routes)/           # Rotas públicas
+│   └── api/                     # API Routes
+├── components/                   # Componentes reutilizáveis
+├── lib/                         # Utilitários e configurações
+├── prisma/                      # Schema e migrações do banco
+├── services/                    # Serviços externos
+├── types/                       # Definições de tipos TypeScript
+└── uploads/                     # Arquivos enviados pelos usuários
+```
+
+## 👥 Níveis de Acesso
+
+- **DEV**: Acesso total ao sistema
+- **ADMIN**: Gestão de usuários, cadastros e dúvidas
+- **PARTICIPANTE**: Cadastro e envio de documentos
+- **LICITACAO**: Avaliação administrativa
+- **JULGADORA**: Avaliação técnica dos projetos
+
+## 📧 Sistema de Emails
+
+O sistema utiliza templates de email para notificações automáticas:
+- Confirmação de cadastro
+- Aprovação/rejeição de documentos
+- Respostas a dúvidas
+- Notificações administrativas
+
+## 🚀 Deploy
+
+### Vercel (Recomendado)
+
+1. Conecte seu repositório ao Vercel
+2. Configure as variáveis de ambiente no painel do Vercel
+3. Deploy automático a cada push para a branch principal
+
+### Build para Produção
+
+```bash
+npm run build
+npm start
+```
+
+## 🤝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📝 Licença
+
+Este projeto é desenvolvido para a Prefeitura de São Paulo e está sob licença interna.
+
+## 📞 Suporte
+
+Para suporte técnico, entre em contato com a equipe de desenvolvimento da Secretaria de Urbanismo e Licenciamento.
+
+---
+
+**Desenvolvido com ❤️ para a Prefeitura de São Paulo**

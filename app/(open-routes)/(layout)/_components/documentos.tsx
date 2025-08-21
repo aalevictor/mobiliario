@@ -30,7 +30,8 @@ export default function Documentos() {
                     </h2>
                     <div className="col-span-2">
                         <p className="text-[#3B2D3A] mb-4">
-                            Todas as informações que você precisa para participar estão reunidas no edital do concurso. Faça o download e garanta que seu projeto atenda a todos os requisitos técnicos e formais estabelecidos.
+                            Todas as informações que você precisa para participar estão reunidas no edital do concurso. 
+                            Faça o download e garanta que seu projeto atenda a todos os requisitos técnicos e formais estabelecidos.
                         </p>
                         <Button
                             size="lg"
@@ -61,7 +62,8 @@ export default function Documentos() {
                     </h2>
                     <div className="col-span-2">
                         <p className="text-[#3B2D3A] mb-4">
-                            O Termo de Referência é o documento essencial para entender o contexto, os objetivos e os parâmetros técnicos do concurso. Baixe agora e utilize-o como guia para fundamentar sua proposta.
+                            O Termo de Referência é o documento essencial para entender o contexto, os objetivos e os parâmetros 
+                            técnicos do concurso. Baixe agora e utilize-o como guia para fundamentar sua proposta.
                         </p>
                         <Button
                             size="lg"
@@ -92,14 +94,15 @@ export default function Documentos() {
                     </h2>
                     <div className="col-span-2">
                         <p className="text-[#3B2D3A] mb-4">
-                            Tem alguma dúvida sobre o concurso? Pergunte aqui.
+                            Os interessados podem submeter pedidos de esclarecimento nos termos dos itens <strong>7.1 e 7.2</strong> 
+                            do Edital, <strong>até o dia 14/09/2025</strong>, conforme consta no cronograma.
                         </p>
                         <ModalPergunta>
                             <Button
                                 size="lg"
                                 className="px-4 py-1 text-lg font-semibold cursor-pointer"
                             >
-                                Enviar pergunta
+                                Pedir esclarecimento
                             </Button>
                         </ModalPergunta>
                     </div>

@@ -24,7 +24,7 @@ const schema = z.object({
   confirmar_email: z.email({ message: "E-mail inválido" }),
   telefone: z.string().min(14, "Telefone é obrigatório"),
   cpf: z.string().min(14, "CPF é obrigatório"),
-  cnpj: z.string().min(18, "CNPJ é obrigatório"),
+  cnpj: z.string().optional(),
   uf: z.string().min(2, "UF é obrigatória"),
   cidade: z.string().min(3, "Cidade é obrigatória"),
   logradouro: z.string().min(3, "Logradouro é obrigatório"),
@@ -138,8 +138,7 @@ export default function PreCadastroPage() {
         if (
             !form.watch("nome") || 
             !form.watch("telefone") || 
-            !form.watch("cpf") || 
-            !form.watch("cnpj") || 
+            !form.watch("cpf") ||
             !form.watch("carteira_tipo") || 
             !form.watch("carteira_numero") || 
             !form.watch("email") || 
@@ -150,7 +149,6 @@ export default function PreCadastroPage() {
         if (form.watch("senha") !== form.watch("confirmar_senha")) return false;
         if (form.watch("email") !== form.watch("confirmar_email")) return false;
         if (form.watch("cpf").length !== 14) return false;
-        if (form.watch("cnpj").length !== 18) return false;
         if (form.watch("telefone").length < 14) return false;
         if (form.watch("carteira_numero").length < 7) return false;
         if (form.watch("senha").length < 6) return false;
@@ -415,19 +413,18 @@ export default function PreCadastroPage() {
                     <Step>
                         <Card className="shadow-none border-none">
                             <CardHeader>
-                                <CardTitle className="text-lg sm:text-xl">Instruções</CardTitle>
+                                <CardTitle className="text-lg sm:text-xl">Inscrição</CardTitle>
                                 <CardDescription className="text-sm sm:text-base">
-                                    Instruções sobre o envio dos dados.
+                                (item 12 do Edital nº 001/SP-URB/2025)
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <div className="flex flex-col gap-4">
-                                    <span className="text-muted-foreground">
-                                        Preencha os campos abaixo com os dados pessoais e
-                                        empresariais.
+                                    <span className="font-semibold">
+                                        Etapa de Pré-inscrição (item 12.3.1 do Edital) 
                                     </span>
                                     <span className="font-bold text-red-500">
-                                        Esse é um periodo de pré inscrição.
+                                        O interessado deverá atentar para o item 9.2 do Edital (Documentos necessários para inscrição). 
                                     </span>
                                     <div className="gap-1 flex items-center space-x-2">
                                         <FormField
@@ -445,7 +442,9 @@ export default function PreCadastroPage() {
                                                             disabled={field.disabled}
                                                         />
                                                     </FormControl>
-                                                    <FormLabel className="cursor-pointer h-full flex items-center">Declaro que li e desejo continuar.</FormLabel>
+                                                    <FormLabel className="cursor-pointer h-full flex items-center">
+                                                        Atesto ciência e concordância com os requisitos do Edital.
+                                                    </FormLabel>
                                                 </FormItem>
                                             )}
                                         />
