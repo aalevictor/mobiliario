@@ -175,15 +175,15 @@ export default function EmailPreviewPage() {
           </CardDescription>
         </CardHeader>
       </Card>
-      <Tabs defaultValue="preview" className="w-full mt-4">
+      <Tabs defaultValue="preview" className="w-full mt-2">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="preview">Preview</TabsTrigger>
           <TabsTrigger value="test">Teste</TabsTrigger>
           <TabsTrigger value="status">Status</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="preview" className="mt-2">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <TabsContent value="preview">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
             {/* Sidebar com seleção de templates */}
             <div className="lg:col-span-1">
               <Card>
@@ -218,7 +218,7 @@ export default function EmailPreviewPage() {
               </Card>
 
               {/* Configurações do preview */}
-              <Card className="mt-6">
+              <Card className="mt-2">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Settings className="h-5 w-5" />
@@ -419,7 +419,7 @@ export default function EmailPreviewPage() {
               </Card>
 
               {/* Informações do template */}
-              <Card className="mt-6">
+              <Card className="mt-2">
                 <CardHeader>
                   <CardTitle>Informações do Template</CardTitle>
                 </CardHeader>
@@ -454,8 +454,8 @@ export default function EmailPreviewPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="test" className="mt-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TabsContent value="test">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
             {/* Testador de email */}
             <div>
               <EmailTester selectedTemplate={selectedTemplate} />
@@ -537,12 +537,12 @@ export default function EmailPreviewPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="status" className="mt-6">
-          <div className="max-w-2xl mx-auto">
+        <TabsContent value="status">
+          <div className="max-w-8xl mx-auto">
             <SMTPStatus />
             
             {/* Informações adicionais sobre configuração */}
-            <Card className="mt-6">
+            <Card className="mt-2">
               <CardHeader>
                 <CardTitle>Configuração SMTP</CardTitle>
                 <CardDescription>
