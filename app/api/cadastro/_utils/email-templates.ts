@@ -240,29 +240,22 @@ const gerarRodape = (): string => {
           <tr>
             <td style="text-align: center;">
               <!-- Logos da Prefeitura e SPUrbanismo -->
-              <div style="display: flex; justify-content: center; align-items: center; gap: 60px; margin-bottom: 30px; flex-wrap: wrap;">
-                <!-- Logo da Prefeitura -->
-                <div style="text-align: center; flex: 1; min-width: 200px; max-width: 250px;">
-                  <div style="display: inline-block; text-align: center; margin-bottom: 12px;">
+              <div style="text-align: center; margin-bottom: 30px;">
+                <!-- Container dos logos com centralização precisa -->
+                <div style="display: inline-block; text-align: center;">
+                  <!-- Logo da Prefeitura -->
+                  <div style="display: inline-block; text-align: center; margin-right: 60px; vertical-align: top;">
                     <img src="${baseUrl}/promocao/prefeitura.png" 
                          alt="Prefeitura de São Paulo" 
-                         style="max-width: 100%; height: auto; max-height: 80px; display: block; margin: 0 auto;" />
+                         style="max-width: 200px; height: auto; max-height: 80px; display: block;" />
                   </div>
-                  <p style="margin: 0; color: ${styles.corTexto}; font-size: 13px; font-weight: 600; text-align: center;">
-                    Prefeitura de São Paulo
-                  </p>
-                </div>
-                
-                <!-- Logo do SPUrbanismo -->
-                <div style="text-align: center; flex: 1; min-width: 200px; max-width: 250px;">
-                  <div style="display: inline-block; text-align: center; margin-bottom: 12px;">
+                  
+                  <!-- Logo do SPUrbanismo -->
+                  <div style="display: inline-block; text-align: center; vertical-align: top;">
                     <img src="${baseUrl}/promocao/spurbanismo.png" 
                          alt="SPUrbanismo" 
-                         style="max-width: 100%; height: auto; max-height: 80px; display: block; margin: 0 auto;" />
+                         style="max-width: 200px; height: auto; max-height: 80px; display: block;" />
                   </div>
-                  <p style="margin: 0; color: ${styles.corTexto}; font-size: 13px; font-weight: 600; text-align: center;">
-                    SPUrbanismo
-                  </p>
                 </div>
               </div>
               

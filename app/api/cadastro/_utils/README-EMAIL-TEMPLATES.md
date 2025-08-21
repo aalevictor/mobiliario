@@ -36,13 +36,14 @@ Este sistema fornece templates de email modulares, responsivos e **visualmente a
 
 ### **Rodapé Enriquecido**
 - **Logos oficiais**: Prefeitura de São Paulo e SPUrbanismo
-- **Layout responsivo**: Logos lado a lado com flexbox
+- **Layout responsivo**: Logos lado a lado com centralização precisa
 - **Proporções preservadas**: Imagens sem distorção com tamanhos máximos
-- **Centralização perfeita**: Alinhamento automático e espaçamento equilibrado
+- **Centralização perfeita**: Alinhamento automático no eixo X
+- **Design limpo**: Apenas os logos, sem texto adicional
 - **Informações organizadas**: Endereço, CEP e portal em cards
 - **Links funcionais**: URLs diretas para o portal oficial
 - **🆕 Logos institucionais**: Substituição do texto por logos oficiais
-- **🔧 Layout otimizado**: Melhor espaçamento e centralização dos elementos
+- **🔧 Layout otimizado**: Centralização precisa e design minimalista
 
 ## 🆕 Sistema de Preview Interativo
 
@@ -149,15 +150,16 @@ templateNovaDuvida(nome: string, email: string, pergunta: string)
 
 ### **Rodapé**
 - ✅ Logos oficiais da Prefeitura e SPUrbanismo
-- ✅ Layout responsivo com flexbox
+- ✅ Layout responsivo com centralização precisa
 - ✅ Proporções preservadas sem distorção
-- ✅ Centralização perfeita dos elementos
-- ✅ Espaçamento equilibrado entre logos
+- ✅ Centralização perfeita no eixo X
+- ✅ Design limpo sem texto adicional
+- ✅ Espaçamento equilibrado entre logos (60px)
 - ✅ Informações organizadas em cards
 - ✅ Links funcionais para o portal
 - ✅ Design visual aprimorado
 - ✅ **🆕 Substituição do texto por logos institucionais**
-- ✅ **🔧 Layout otimizado para melhor apresentação**
+- ✅ **🔧 Layout otimizado para centralização precisa**
 
 ### **🆕 Sistema de Preview**
 - ✅ Interface interativa para visualização
@@ -513,7 +515,7 @@ GET /api/email-teste/test-image
 - **🆕 Banner Hero Redesenhado**: Imagem como plano de fundo com overlay para legibilidade
 - **🔧 Compatibilidade Total**: Solução implementada para funcionar em todos os clientes de email
 - **🏛️ Rodapé Atualizado**: Logos oficiais da Prefeitura e SPUrbanismo em vez de texto
-- **🎯 Layout Otimizado**: Centralização perfeita e proporções preservadas dos logos
+- **🎯 Layout Otimizado**: Centralização perfeita no eixo X e design minimalista
 
 ### **🆕 Nova Funcionalidade de Preview:**
 - 👁️ **Preview Interativo**: Visualização em tempo real dos templates
