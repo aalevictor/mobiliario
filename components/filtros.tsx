@@ -39,9 +39,10 @@ interface CampoDataRange {
 
 interface FiltrosProps {
 	camposFiltraveis?: CampoFiltravel[];
+	className?: string;
 }
 
-export function Filtros({ camposFiltraveis }: FiltrosProps) {
+export function Filtros({ camposFiltraveis, className }: FiltrosProps) {
 	const searchParams = useSearchParams();
 	const router = useRouter();
 	const pathname = usePathname();
@@ -206,7 +207,7 @@ export function Filtros({ camposFiltraveis }: FiltrosProps) {
 	}
 
 	return (
-		<div className='flex flex-col md:flex-row md:items-end gap-5 md:w-fit justify-start'>
+		<div className={cn('flex flex-col md:flex-row md:items-end gap-5 md:w-fit justify-start', className)}>
 			{renderFiltros()}
 			<div className="grid grid-cols-2">
 				<Button className='rounded-r-none w-full md:w-fit' disabled={isPending} onClick={() => startTransition(() => atualizaFiltros())} title='Aplicar filtros'>

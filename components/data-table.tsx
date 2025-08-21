@@ -17,15 +17,18 @@ import {
 	TableRow,
 } from './ui/table';
 import { Skeleton } from './ui/skeleton';
+import { cn } from '@/lib/utils';
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
+	className?: string;
 }
 
 export default function DataTable<TData, TValue>({
 	columns,
 	data,
+	className,
 }: DataTableProps<TData, TValue>) {
 	const table = useReactTable({
 		data,
@@ -34,8 +37,8 @@ export default function DataTable<TData, TValue>({
 	});
 	return (
 	
-			<div className='rounded-md'>
-				<Table className='bg-background dark:bg-muted/50 border'>
+			<div className={cn('rounded-md', className)}>
+				<Table className='bg-background dark:bg-muted/50 rounded'>
 					<TableHeader className='bg-primary hover:bg-primary'>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow

@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { 
   templateConfirmacaoInscricao, 
   templateNotificacao, 
@@ -23,14 +25,18 @@ import {
   Settings,
   Download,
   Eye,
-  Copy
+  Copy,
+  Code,
+  Smartphone
 } from "lucide-react";
 import { toast } from "sonner";
 import EmailTester from "./_components/email-tester";
 import SMTPStatus from "./_components/smtp-status";
+import EmailPreviewRenderer from "./_components/email-preview-renderer";
 
 export default function EmailPreviewPage() {
   const [selectedTemplate, setSelectedTemplate] = useState<string>("confirmacao");
+  const [useReactPreview, setUseReactPreview] = useState<boolean>(true);
   const [previewData, setPreviewData] = useState({
     nome: "João Silva",
     email: "joao.silva@empresa.com.br",
@@ -159,23 +165,24 @@ export default function EmailPreviewPage() {
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-7xl">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-          Preview dos Templates de Email
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400">
-          Visualize, teste e envie todos os templates de email disponíveis no sistema
-        </p>
-      </div>
-
-      <Tabs defaultValue="preview" className="w-full">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+              Preview dos Templates de Email
+          </CardTitle>
+          <CardDescription>
+            Visualize, teste e envie todos os templates de email disponíveis no sistema
+          </CardDescription>
+        </CardHeader>
+      </Card>
+      <Tabs defaultValue="preview" className="w-full mt-4">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="preview">Preview dos Templates</TabsTrigger>
-          <TabsTrigger value="test">Testar Envio</TabsTrigger>
-          <TabsTrigger value="status">Status SMTP</TabsTrigger>
+          <TabsTrigger value="preview">Preview</TabsTrigger>
+          <TabsTrigger value="test">Teste</TabsTrigger>
+          <TabsTrigger value="status">Status</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="preview" className="mt-6">
+        <TabsContent value="preview" className="mt-2">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Sidebar com seleção de templates */}
             <div className="lg:col-span-1">
@@ -222,6 +229,34 @@ export default function EmailPreviewPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  {/* Toggle para React vs HTML */}
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="react-preview"
+                      checked={useReactPreview}
+                      onCheckedChange={setUseReactPreview}
+                    />
+                    <Label htmlFor="react-preview" className="text-sm font-medium">
+                      {useReactPreview ? (
+                        <span className="flex items-center gap-2 text-green-600">
+                          <Smartphone className="h-4 w-4" />
+                          Preview React (Recomendado)
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2 text-orange-600">
+                          <Code className="h-4 w-4" />
+                          Preview HTML
+                        </span>
+                      )}
+                    </Label>
+                  </div>
+
+                  <div className="text-xs text-gray-500 bg-gray-50 p-3 rounded-md">
+                    <strong>Preview React:</strong> Usa componentes Tailwind/Shadcn para melhor visualização e sem erros de hidratação.
+                    <br />
+                    <strong>Preview HTML:</strong> Renderiza o HTML puro como seria enviado por email.
+                  </div>
+
                   <div>
                     <label className="text-sm font-medium mb-2 block">Nome</label>
                     <input
@@ -322,6 +357,11 @@ export default function EmailPreviewPage() {
                       </CardTitle>
                       <CardDescription>
                         {currentTemplate?.nome} - Visualização em tempo real
+                        {useReactPreview && (
+                          <Badge variant="secondary" className="ml-2">
+                            React + Tailwind
+                          </Badge>
+                        )}
                       </CardDescription>
                     </div>
                     <div className="flex gap-2">
@@ -354,16 +394,25 @@ export default function EmailPreviewPage() {
                         <span>•</span>
                         <span>{currentTemplate?.nome}</span>
                         <span>•</span>
+                        <span>{useReactPreview ? 'React + Tailwind' : 'HTML Puro'}</span>
+                        <span>•</span>
                         <span>Responsivo</span>
                       </div>
                     </div>
                     <div className="bg-white dark:bg-gray-900 p-4">
-                      <div 
-                        className="email-preview"
-                        dangerouslySetInnerHTML={{ 
-                          __html: currentTemplate?.template() || '' 
-                        }}
-                      />
+                      {useReactPreview ? (
+                        <EmailPreviewRenderer 
+                          templateType={selectedTemplate} 
+                          data={previewData} 
+                        />
+                      ) : (
+                        <div 
+                          className="email-preview"
+                          dangerouslySetInnerHTML={{ 
+                            __html: currentTemplate?.template() || '' 
+                          }}
+                        />
+                      )}
                     </div>
                   </div>
                 </CardContent>
@@ -384,6 +433,7 @@ export default function EmailPreviewPage() {
                         <li>• Ícones visuais específicos para cada tipo</li>
                         <li>• Cores oficiais da Prefeitura de São Paulo</li>
                         <li>• Compatível com clientes de email populares</li>
+                        <li>• <strong>🆕 Preview React</strong> com Tailwind CSS</li>
                       </ul>
                     </div>
                     <div>
@@ -394,6 +444,7 @@ export default function EmailPreviewPage() {
                         <li>• <strong>Lembretes:</strong> Eventos e prazos</li>
                         <li>• <strong>Notificações:</strong> Comunicações gerais</li>
                         <li>• <strong>Nova Dúvida:</strong> Para equipe administrativa</li>
+                        <li>• <strong>🆕 React Preview:</strong> Melhor visualização</li>
                       </ul>
                     </div>
                   </div>

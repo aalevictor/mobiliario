@@ -41,7 +41,7 @@ export default function AdminMenu({ permissao }: AdminMenuProps) {
     },
     {
       href: "/email-preview",
-      label: "Preview de Emails",
+      label: "Emails",
       icon: Mail,
       description: "Visualizar templates de email"
     }

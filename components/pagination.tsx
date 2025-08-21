@@ -72,12 +72,12 @@ export default function Pagination(props: {
 
 	return (
 		paginas.length > 0 && (
-			<ShadPagination >
-				<div className='w-[120px] hidden md:block text-xs'>
+			<ShadPagination className='flex items-center justify-center gap-2'>
+				<div className='w-[120px] h-full hidden md:block text-xs'>
 					{limite * (pagina - 1) + 1} a{' '}
 					{limite * pagina < total ? limite * pagina : total} de {total}
 				</div>
-				<PaginationContent >
+				<PaginationContent className='flex items-center justify-center gap-2'>
 					{!paginas.includes(1) && (
 						<PaginationItem>
 							<PaginationLink onClick={() => setPagina(1)}>

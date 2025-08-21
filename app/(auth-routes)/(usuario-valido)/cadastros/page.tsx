@@ -11,7 +11,8 @@ import { buscarCadastros } from '@/services/cadastros';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { retornaPermissao, verificarPermissoes } from '@/services/usuarios';
-
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Separator } from '@radix-ui/react-select';
 export default async function CadastrosSuspense({
 	searchParams,
 }: {
@@ -89,38 +90,57 @@ async function Cadastros({
 		console.error(error);
 	}
 
-	return (
-		<div className='px-0 md:px-8 relative pb-20 md:pb-14 h-full container mx-auto py-8'>
-			<h1 className='text-xl md:text-4xl font-bold'>Cadastros</h1>
-			<div className='grid grid-cols-1 gap-y-3 my-5 '>
-				{["ADMIN", "DEV"].includes(permissao) && <Filtros
-					camposFiltraveis={[
-						{
-							nome: 'Busca',
-							tag: 'busca',
-							tipo: 0,
-							placeholder: 'Digite o nome, email ou cnpj',
-						}
-					]}
-				/>}
-				<div className='w-full rounded-lg overflow-hidden'>
-					<DataTable
-						columns={
-                            ["ADMIN", "DEV"].includes(permissao) ? administradoraColumns :
-                            ["JULGADORA"].includes(permissao) ? julgadoraColumns :
-                            []
-                        }
-						data={dados || []}
-					/>
-				</div>
+    return (
+        <div className="relative h-full container mx-auto px-4 py-6 max-w-7xl space-y-2">
+		    <Card>
+				<CardHeader>
+				<CardTitle className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+					Cadastros
+				</CardTitle>
+				<CardDescription>
+					Visualize, edite e gerencie todos os cadastros
+				</CardDescription>
+				</CardHeader>
+			</Card>
+			<Card>
+				<CardContent className='flex justify-between items-end max-md:flex-col max-md:gap-4'>
+                    {["ADMIN", "DEV"].includes(permissao) && <Filtros
+                        camposFiltraveis={[
+                            {
+                                nome: 'Busca',
+                                tag: 'busca',
+                                tipo: 0,
+                                placeholder: 'Digite o nome, email ou cnpj',
+                            }
+                        ]}
+                        className='max-md:w-full'
+                    />}
+				</CardContent>
+		  	</Card>
+			<Card className='pt-0'>
+				<CardContent className='p-0'>
+					<div className='w-full rounded-lg overflow-hidden mb-4'>
+                        <DataTable
+                            columns={
+                                ["ADMIN", "DEV"].includes(permissao) ? administradoraColumns :
+                                ["JULGADORA"].includes(permissao) ? julgadoraColumns :
+                                []
+                            }
+                            data={dados || []}
+                        />
+					</div>
+				</CardContent>
+				<Separator />
 				{dados && dados.length > 0 && (
-					<Pagination
-						total={+total}
-						pagina={+pagina}
-						limite={+limite}
-					/>
-				)}
-			</div>
+					<CardFooter>
+						<Pagination
+							total={+total}
+							pagina={+pagina}
+							limite={+limite}
+						/>
+					</CardFooter>
+				)}					
+			</Card>
 		</div>
-	);
+    )
 }

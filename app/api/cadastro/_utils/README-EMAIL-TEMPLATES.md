@@ -50,6 +50,9 @@ Este sistema fornece templates de email modulares, responsivos e **visualmente a
 ### **🆕 Funcionalidades do Preview**
 - **Visualização em Tempo Real**: Veja como o email ficará antes de enviar
 - **Configuração Dinâmica**: Altere dados e veja as mudanças instantaneamente
+- **🆕 Preview React**: Componentes Tailwind/Shadcn para melhor visualização
+- **🆕 Preview HTML**: Renderização do HTML puro como seria enviado
+- **🆕 Toggle Inteligente**: Alternância entre React e HTML preview
 - **Teste de Envio**: Envie emails de teste para validar os templates
 - **Download de HTML**: Baixe o código HTML para uso externo
 - **Cópia de Código**: Copie o HTML para a área de transferência
@@ -61,15 +64,39 @@ Este sistema fornece templates de email modulares, responsivos e **visualmente a
 - **Menu**: Adicionado ao menu administrativo com ícone 📧
 - **Interface**: Três abas principais: "Preview dos Templates", "Testar Envio" e "Status SMTP"
 
+### **🆕 Sistema de Preview React vs HTML**
+
+#### **Preview React (Recomendado):**
+- **✅ Componentes Tailwind CSS**: Visualização moderna e responsiva
+- **✅ Componentes Shadcn**: Interface consistente com o design system
+- **✅ Sem Erros de Hidratação**: Renderização client-side sem problemas de SSR
+- **✅ Melhor Performance**: Componentes otimizados para React
+- **✅ Interatividade**: Hover effects, transições e animações
+- **✅ Responsividade Nativa**: Adaptação automática a diferentes telas
+- **✅ Debugging Fácil**: Inspeção de elementos com DevTools
+
+#### **Preview HTML (Compatibilidade):**
+- **✅ HTML Puro**: Exatamente como será enviado por email
+- **✅ Compatibilidade Total**: Renderização idêntica aos clientes de email
+- **✅ Validação Real**: Teste da estrutura HTML real
+- **✅ Fallback**: Disponível quando o React não for necessário
+
+#### **Toggle Inteligente:**
+- **🔄 Alternância Automática**: Mude entre os modos com um clique
+- **🎯 Indicadores Visuais**: Badges mostram o modo ativo
+- **📱 Responsivo**: Funciona perfeitamente em dispositivos móveis
+- **⚡ Performance**: Carregamento instantâneo entre os modos
+
 ### **Como Usar o Preview**
 1. **Acesse**: `/email-preview` através do menu administrativo
 2. **Selecione**: Escolha um template da lista disponível
 3. **Configure**: Personalize os dados nos campos de configuração
-4. **Visualize**: Veja o resultado em tempo real na área de preview
-5. **Teste**: Use a aba "Testar Envio" para enviar emails de teste
-6. **Exporte**: Copie ou baixe o HTML gerado
-7. **🔧 Verifique**: Use a aba "Status SMTP" para verificar a configuração
-8. **🎯 Escolha**: Use o seletor de template para testar diferentes tipos independentemente
+4. **🆕 Escolha o Modo**: Use o toggle para alternar entre React e HTML preview
+5. **Visualize**: Veja o resultado em tempo real na área de preview
+6. **Teste**: Use a aba "Testar Envio" para enviar emails de teste
+7. **Exporte**: Copie ou baixe o HTML gerado
+8. **🔧 Verifique**: Use a aba "Status SMTP" para verificar a configuração
+9. **🎯 Escolha**: Use o seletor de template para testar diferentes tipos independentemente
 
 ## 🚀 Templates Disponíveis
 
@@ -164,10 +191,14 @@ templateNovaDuvida(nome: string, email: string, pergunta: string)
 ### **🆕 Sistema de Preview**
 - ✅ Interface interativa para visualização
 - ✅ Configuração dinâmica de dados
+- ✅ **🆕 Preview React com Tailwind CSS** (Recomendado)
+- ✅ **🆕 Preview HTML puro** para compatibilidade
+- ✅ **🆕 Toggle inteligente** entre os dois modos
 - ✅ Teste de envio de emails
 - ✅ Exportação de HTML
 - ✅ Integração com menu administrativo
 - ✅ **🔧 Verificação de status SMTP**
+- ✅ **🎯 Sem erros de hidratação** no modo React
 
 ## 📧 Configuração de Email
 
@@ -361,10 +392,12 @@ async function criarDuvida(data) {
 // Acesse /email-preview para:
 // 1. Visualizar todos os templates
 // 2. Configurar dados de teste
-// 3. Enviar emails de teste
-// 4. Exportar HTML dos templates
-// 5. Verificar status da configuração SMTP
-// 6. 🎯 Escolher templates diferentes para teste
+// 3. 🆕 Alternar entre Preview React e HTML
+// 4. Enviar emails de teste
+// 5. Exportar HTML dos templates
+// 6. Verificar status da configuração SMTP
+// 7. 🎯 Escolher templates diferentes para teste
+// 8. 🆕 Usar componentes Tailwind/Shadcn para melhor visualização
 ```
 
 ### **🎯 Seletor de Template para Teste**
@@ -520,10 +553,14 @@ GET /api/email-teste/test-image
 ### **🆕 Nova Funcionalidade de Preview:**
 - 👁️ **Preview Interativo**: Visualização em tempo real dos templates
 - ⚙️ **Configuração Dinâmica**: Personalização de dados para teste
+- **🆕 Preview React**: Componentes Tailwind/Shadcn para melhor visualização
+- **🆕 Preview HTML**: Renderização do HTML puro como seria enviado
+- **🆕 Toggle Inteligente**: Alternância entre React e HTML preview
 - 📧 **Teste de Envio**: Funcionalidade para enviar emails de teste
 - 💾 **Exportação**: Download e cópia do código HTML
 - 🔗 **Integração**: Menu administrativo com acesso direto
 - 🎯 **Seletor de Template**: Escolha independente de templates para teste
+- **🎯 Sem Erros de Hidratação**: Preview React evita problemas de SSR
 
 ### **🔧 Sistema de Envio Funcional:**
 - ✅ **API Route dedicada** para envio de emails de teste

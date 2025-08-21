@@ -10,6 +10,10 @@ import ModalUsuario from './_components/modal_usuario';
 import { buscarUsuarios, retornaPermissao } from '@/services/usuarios';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { PlusIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 
 export default async function UsuariosSuspense({
 	searchParams,
@@ -64,36 +68,58 @@ async function Usuarios({
 	}
 
 	return (
-		<div className='px-3 md:px-8 relative pb-20 md:pb-14 h-full container mx-auto py-4'>
-			<h1 className='text-xl md:text-4xl font-bold'>Usuários</h1>
-			<div className='grid grid-cols-1 gap-y-3 my-5 '>
-				<Filtros
-					camposFiltraveis={[
-						{
-							nome: 'Busca',
-							tag: 'busca',
-							tipo: 0,
-							placeholder: 'Digite o nome, email ou login',
-						}
-					]}
-				/>
-				<div className='w-full rounded-lg overflow-hidden'>
-					<DataTable
-						columns={columns}
-						data={dados || []}
+		<div className="relative h-full container mx-auto px-4 py-6 max-w-7xl space-y-2">
+		  <Card>
+				<CardHeader>
+				<CardTitle className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+					Usuários
+				</CardTitle>
+				<CardDescription>
+					Visualize, edite e gerencie todos os usuários do sistema
+				</CardDescription>
+				</CardHeader>
+			</Card>
+			<Card>
+				<CardContent className='flex justify-between items-end max-md:flex-col max-md:gap-4'>
+					<Filtros
+						camposFiltraveis={[
+							{
+								nome: 'Busca',
+								tag: 'busca',
+								tipo: 0,
+								placeholder: 'Digite o nome, email ou login',
+							}
+						]}
+						className='max-md:w-full'
 					/>
-				</div>
+					<ModalUsuario>
+						<Button className='hover:opacity-80'>
+							<PlusIcon className='w-4 h-4' />
+							Novo Usuário
+						</Button>
+					</ModalUsuario>
+				</CardContent>
+		  	</Card>
+			<Card className='pt-0'>
+				<CardContent className='p-0'>
+					<div className='w-full rounded-lg overflow-hidden mb-4'>
+						<DataTable
+							columns={columns}
+							data={dados || []}
+						/>
+					</div>
+				</CardContent>
+				<Separator />
 				{dados && dados.length > 0 && (
-					<Pagination
-						total={+total}
-						pagina={+pagina}
-						limite={+limite}
-					/>
-				)}
-				<div className='absolute bottom-4 right-4'>
-					<ModalUsuario />
-				</div>
-			</div>
+					<CardFooter>
+						<Pagination
+							total={+total}
+							pagina={+pagina}
+							limite={+limite}
+						/>
+					</CardFooter>
+				)}					
+			</Card>
 		</div>
 	);
 }

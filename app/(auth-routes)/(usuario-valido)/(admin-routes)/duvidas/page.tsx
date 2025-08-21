@@ -5,6 +5,8 @@ import { Duvida } from '@prisma/client';
 import { Suspense } from 'react';
 import { columns } from './_components/columns';
 import { buscarDuvidas } from '@/services/duvidas';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
 export default async function DuvidasSuspense({
 	searchParams,
@@ -57,31 +59,52 @@ async function Duvidas({
 	// }
 
 	return (
-		<div className=' w-full px-8 relative pb-20 md:pb-14 h-full md:container mx-auto py-10'>
-			<h1 className='text-xl md:text-4xl font-bold'>Perguntas</h1>
-			<div className='flex flex-col max-w-md mx-auto md:max-w-full gap-3 my-5 w-full'>
-				<Filtros
-					camposFiltraveis={[
-						{
-							nome: 'Busca',
-							tag: 'busca',
-							tipo: 0,
-							placeholder: 'Digite parte da pergunta ou resposta',
-						},
-					]}
-				/>
-				<DataTable
-					columns={columns}
-					data={dados || []}
-				/>
-				{dados && dados.length > 0 && (
-					<Pagination
-						total={+total}
-						pagina={+pagina}
-						limite={+limite}
+		<div className="relative h-full container mx-auto px-4 py-6 max-w-7xl space-y-2">
+		  <Card>
+				<CardHeader>
+				<CardTitle className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+					Pedidos de esclarecimento
+				</CardTitle>
+				<CardDescription>
+					Visualize, edite e gerencie todas os pedidos de esclarecimento
+				</CardDescription>
+				</CardHeader>
+			</Card>
+			<Card>
+				<CardContent className='flex justify-between items-end max-md:flex-col max-md:gap-4'>
+					<Filtros
+						camposFiltraveis={[
+							{
+								nome: 'Busca',
+								tag: 'busca',
+								tipo: 0,
+								placeholder: 'Digite parte da pergunta ou resposta',
+							},
+						]}
+						className='max-md:w-full'
 					/>
-				)}
-			</div>
+				</CardContent>
+		  	</Card>
+			<Card className='pt-0'>
+				<CardContent className='p-0'>
+					<div className='w-full rounded-lg overflow-hidden mb-4'>
+						<DataTable
+							columns={columns}
+							data={dados || []}
+						/>
+					</div>
+				</CardContent>
+				<Separator />
+				{dados && dados.length > 0 && (
+					<CardFooter>
+						<Pagination
+							total={+total}
+							pagina={+pagina}
+							limite={+limite}
+						/>
+					</CardFooter>
+				)}					
+			</Card>
 		</div>
 	);
 }
