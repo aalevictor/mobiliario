@@ -19,6 +19,7 @@ import type {
 	ControllerRenderProps,
 } from 'react-hook-form';
 import type React from 'react';
+import Image from 'next/image';
 
 export interface FileWithPreview extends File {
 	preview?: string;
@@ -315,7 +316,7 @@ const DragDropInput = forwardRef<DragDropInputRef, DragDropInputProps>(
 									<div className='flex items-center'>
 										{file.preview ? (
 											// eslint-disable-next-line @next/next/no-img-element
-											<img
+											<Image
 												src={file.preview || '/placeholder.svg'}
 												alt={file.name}
 												className='w-8 h-8 object-cover rounded mr-2'

@@ -3,20 +3,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { 
-  UserCheck, 
-  Bell, 
-  Calendar, 
-  Heart, 
-  HelpCircle, 
-  Settings,
-  Download,
-  Copy,
+import {
   Mail,
   MapPin,
   Globe,
-  Clock
 } from "lucide-react";
+import Image from "next/image";
 
 interface EmailPreviewProps {
   templateType: string;
@@ -157,7 +149,7 @@ export default function EmailPreviewRenderer({ templateType, data }: EmailPrevie
         {/* Logos */}
         <div className="flex justify-center items-center gap-16 mb-8">
           <div className="text-center">
-            <img 
+            <Image 
               src="/promocao/prefeitura.png" 
               alt="Prefeitura de São Paulo" 
               className="h-20 w-auto max-w-[200px]"
@@ -165,7 +157,7 @@ export default function EmailPreviewRenderer({ templateType, data }: EmailPrevie
           </div>
           
           <div className="text-center">
-            <img 
+            <Image 
               src="/promocao/spurbanismo.png" 
               alt="SPUrbanismo" 
               className="h-20 w-auto max-w-[200px]"
