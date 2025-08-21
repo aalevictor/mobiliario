@@ -1,14 +1,13 @@
 import Edital from "@/components/icones/edital";
 import Esclarecimentos from "@/components/icones/esclarecimentos";
+import Informes from "@/components/icones/informes";
 import Termo from "@/components/icones/termo";
 import ModalPergunta from "@/components/modal-pergunta";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
 export default function Documentos() {
     return (
         <section
-            id="docs"
             className="w-[90%] lg:w-[600px] mx-auto space-y-4 flex flex-col my-4"
         >
             <div 
@@ -107,6 +106,40 @@ export default function Documentos() {
                         </ModalPergunta>
                     </div>
                     <Esclarecimentos size={160} />
+                </div>
+            </div>
+            <div 
+                className="w-full flex p-[3px] bg-[#D0DBBF]"
+                style={{
+                    clipPath:
+                    "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
+                }}
+            >
+                <div
+                    className="grid grid-cols-3 w-full bg-white p-8 gap-4"
+                    style={{
+                        clipPath:
+                        "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
+                    }}
+                >
+                    <h2 className="text-[#3B2D3A] text-2xl lg:text-3xl font-bold col-span-3">
+                        INFORMES
+                    </h2>
+                    <div className="col-span-2">
+                        <p className="text-[#3B2D3A] mb-4">
+                            Aqui você acompanha os informes do concurso, como blocos de respostas aos pedidos 
+                            de esclarecimento, lista de IDs deferidos e indeferidos na etapa de inscrição, 
+                            lista de classificação dos IDs na primeira fase, lista final dos IDs vencedores, 
+                            entre outras informações importantes. Fique atento!
+                        </p>
+                        <Button
+                            size="lg"
+                            className="px-4 py-1 text-lg font-semibold cursor-pointer"
+                        >
+                            Acessar informes
+                        </Button>
+                    </div>
+                    <Informes size={160} />
                 </div>
             </div>
         </section>
