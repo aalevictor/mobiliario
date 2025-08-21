@@ -2,7 +2,6 @@ import { auth } from "@/auth";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { retornaPermissao } from "@/services/usuarios";
-import { redirect } from "next/navigation";
 
 export default async function AuthLayout({
   children,
