@@ -38,46 +38,6 @@ const styles: EmailStyles = {
 };
 
 /**
- * Componente do cabeçalho com logo da Prefeitura
- */
-const gerarCabecalho = (): string => {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://concursomoburb.prefeitura.sp.gov.br';
-  
-  return `
-    <tr>
-      <td style="background: linear-gradient(135deg, ${styles.corPrimaria} 0%, ${styles.corDestaque} 100%); padding: 25px 30px;">
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-          <tr>
-            <td style="vertical-align: middle;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-                <tr>
-                  <td style="vertical-align: middle; padding-right: 20px;">
-                    <!-- Logo da Prefeitura com design melhorado -->
-                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border-radius: 50%; display: inline-block; text-align: center; line-height: 60px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 3px solid #ffffff;">
-                      <div style="width: 36px; height: 36px; background: linear-gradient(135deg, ${styles.corDestaque} 0%, ${styles.corPrimaria} 100%); border-radius: 50%; display: inline-block; line-height: 36px; margin-top: 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
-                        <span style="color: #ffffff; font-size: 14px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">SP</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td style="vertical-align: middle;">
-                    <h1 style="margin: 0; color: #ffffff; font-size: 20px; font-weight: 700; line-height: 1.2; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
-                      Prefeitura de São Paulo
-                    </h1>
-                    <p style="margin: 0; color: #ffffff; opacity: 0.95; font-size: 16px; font-weight: 500; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
-                      Concurso Mobiliário Urbano 2025
-                    </p>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  `;
-};
-
-/**
  * Componente do banner hero personalizável
  */
 const gerarBannerHero = (titulo: string, subtitulo?: string, badge?: string): string => {
@@ -372,9 +332,6 @@ export const gerarEmailTemplate = (props: EmailTemplateProps): string => {
   } = props;
 
   let conteudo = '';
-  
-  // Cabeçalho
-  conteudo += gerarCabecalho();
   
   // Banner Hero
   conteudo += gerarBannerHero(titulo, subtitulo, 'Concurso Mobiliário Urbano');
