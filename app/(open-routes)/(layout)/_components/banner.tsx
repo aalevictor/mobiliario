@@ -132,7 +132,7 @@ export default function Banner() {
             </Carousel>
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4 gap-4 mt-10">
                 <Link href={"#cronograma"}>
-                    <span className="bg-[#7874C1] px-4 py-1 text-sm font-semibold hover:bg-[#7874C1] rounded-lg">
+                    <span className="bg-[#7874C1] px-4 py-1 text-sm hover:opacity-80 font-semibold cursor-pointer rounded-lg">
                         Confira o cronograma
                     </span>
                 </Link>
@@ -147,9 +147,9 @@ export default function Banner() {
                 >
                     <Button
                         size="lg"
-                        className="px-4 py-1 text-lg font-semibold cursor-pointer"
+                        className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
                     >
-                        Inscreva-se agora
+                        Faça já sua pré-inscrição
                     </Button>
                 </Link>
             </div>

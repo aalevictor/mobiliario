@@ -34,7 +34,7 @@ export default function Documentos() {
                         </p>
                         <Button
                             size="lg"
-                            className="px-4 py-1 text-lg font-semibold cursor-pointer"
+                            className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
                         >
                             Baixar edital
                         </Button>
@@ -66,7 +66,7 @@ export default function Documentos() {
                         </p>
                         <Button
                             size="lg"
-                            className="px-4 py-1 text-lg font-semibold cursor-pointer"
+                            className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
                         >
                             Baixar termo
                         </Button>
@@ -93,13 +93,13 @@ export default function Documentos() {
                     </h2>
                     <div className="col-span-2">
                         <p className="text-[#3B2D3A] mb-4">
-                            Os interessados podem submeter pedidos de esclarecimento nos termos dos itens <strong>7.1 e 7.2</strong> 
+                            Os interessados podem submeter pedidos de esclarecimento nos termos dos itens <strong>7.1 e 7.2 </strong> 
                             do Edital, <strong>até o dia 14/09/2025</strong>, conforme consta no cronograma.
                         </p>
                         <ModalPergunta>
                             <Button
                                 size="lg"
-                                className="px-4 py-1 text-lg font-semibold cursor-pointer"
+                                className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
                             >
                                 Pedir esclarecimento
                             </Button>
@@ -134,7 +134,7 @@ export default function Documentos() {
                         </p>
                         <Button
                             size="lg"
-                            className="px-4 py-1 text-lg font-semibold cursor-pointer"
+                            className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
                         >
                             Acessar informes
                         </Button>

@@ -30,7 +30,7 @@ export default function Destaque() {
                 <Link href={"/inscricao"}>
                   <Button
                     size="lg"
-                    className="px-4 py-1 text-lg font-semibold cursor-pointer"
+                    className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
                   >
                     Faça já sua pré-inscrição
                   </Button>
