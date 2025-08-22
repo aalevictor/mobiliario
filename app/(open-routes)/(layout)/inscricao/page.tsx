@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2, Plus, Trash2, User } from "lucide-react";
-import { formatarCAU, formatarCEP, formatarCNPJ, formatarCPF, formatarCREA, formatarTelefone } from "@/lib/utils";
+import { formatarCEP, formatarCNPJ, formatarCPF, formatarTelefone } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectValue, SelectItem, SelectContent, SelectGroup, SelectLabel, SelectTrigger } from "@/components/ui/select";
 import { ViaCepResposta } from "@/types/cep";
@@ -551,13 +551,6 @@ export default function PreCadastroPage() {
                                                     {...field}
                                                     placeholder="0000000000"
                                                     className="h-10 sm:h-11"
-                                                    onChange={(e) => {
-                                                        if (form.watch("carteira_tipo") === "CAU") {
-                                                            field.onChange(formatarCAU(e.target.value))
-                                                        } else {
-                                                            field.onChange(formatarCREA(e.target.value))
-                                                        }
-                                                    }}
                                                 />
                                             </FormControl>
                                             <FormMessage />

@@ -18,16 +18,14 @@ async function bind(login: string, senha: string) {
 				{ email: login }
 			]
 		}});
-		
-		if (!usuario || usuario.status === false) return null;
-		
-		if (process.env.ENVIRONMENT === 'local' && usuario.tipo === 'INTERNO') return usuario;
-		
+		if (!usuario || usuario.status === false) return null;		
 		if (usuario.tipo === 'INTERNO') {
+			if (process.env.ENVIRONMENT === 'local') return usuario;
 			try {
 				await ldap.bind(`${login}${process.env.LDAP_DOMAIN}`, senha);
 				await ldap.unbind();
 			} catch (err) {
+				console.log(err);
 				usuario = null;
 			}
 		} else if (usuario.tipo === 'EXTERNO' && usuario.senha) {
