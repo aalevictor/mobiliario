@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const schemaResposta = z.object({
 	resposta: z.string().optional().default(''),
@@ -25,6 +26,7 @@ const schemaPergunta = z.object({
 export default function ModalPergunta({ duvida, children }: { duvida?: Duvida, children?: React.ReactNode }) {
     const [open, setOpen] = useState(false);
     const [isPending, startTransition] = useTransition();
+    const router = useRouter();
     const formPergunta = useForm<z.input<typeof schemaPergunta>>({
         resolver: zodResolver(schemaPergunta),
         defaultValues: {
@@ -49,6 +51,7 @@ export default function ModalPergunta({ duvida, children }: { duvida?: Duvida, c
                 if (response.ok) {
                     toast.success('Pergunta respondida com sucesso');
                     formResposta.reset();
+                    router.refresh();
                     setOpen(false);
                 } else {
                     toast.error('Erro ao responder pergunta');
@@ -61,7 +64,7 @@ export default function ModalPergunta({ duvida, children }: { duvida?: Duvida, c
                 if (response.ok) {
                     toast.success('Pergunta enviada com sucesso');
                     formPergunta.reset();
-                    setOpen(false);
+                    router.refresh();
                 } else {
                     toast.error('Erro ao enviar pergunta');
                 }
