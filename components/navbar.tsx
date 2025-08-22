@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import UserLogged from './user-logged';
 import AdminMenu from './admin-menu';
 import { auth } from '@/auth';
 import { retornaPermissao } from '@/services/usuarios';
@@ -27,20 +26,20 @@ export default async function Navbar() {
           <Link href="/#top" className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B] rounded px-1">
             Início
           </Link>
-          <a 
+          <Link 
             href="/#info" 
             className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B] rounded px-1"
             aria-label="Ir para seção de informações do concurso"
           >
             Informações
-          </a>
-          <a 
+          </Link>
+          <Link 
             href="/#docs" 
             className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B] rounded px-1"
             aria-label="Ir para seção de bases do concurso"
           >
             Bases do Concurso
-          </a>
+          </Link>
         </nav>
         <div className="flex items-center gap-5" aria-label="Área do usuário">
           {/* Usa componente client-side para sincronização em tempo real */}
