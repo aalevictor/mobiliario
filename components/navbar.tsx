@@ -3,7 +3,29 @@ import Link from 'next/link';
 import AdminMenu from './admin-menu';
 import { auth } from '@/auth';
 import { retornaPermissao } from '@/services/usuarios';
-import { NavbarClient } from './navbar-client';
+import UserLogged from './user-logged';
+import { Suspense } from 'react';
+
+export async function UserLoggedSuspense() {
+  const session = await auth();
+
+  return (
+    <Suspense fallback={<></>}>
+      <UserLogged usuario={session?.user} />
+    </Suspense>
+  )
+}
+
+export async function AdminMenuSuspense() {
+  const session = await auth();
+  const permissao = session?.user.id ? await retornaPermissao(session?.user?.id as string) : '';
+  
+  return (
+    <Suspense fallback={<></>}>
+      <AdminMenu permissao={permissao || ''} />
+    </Suspense>
+  )
+}
 
 export default async function Navbar() {
   const session = await auth();
@@ -42,11 +64,10 @@ export default async function Navbar() {
           </Link>
         </nav>
         <div className="flex items-center gap-5" aria-label="Área do usuário">
-          {/* Usa componente client-side para sincronização em tempo real */}
-          <NavbarClient initialSession={session} />
+          <UserLoggedSuspense />
         </div>
       </div>
-      <AdminMenu permissao={permissao || ''} />
+      <AdminMenuSuspense />
     </header>
   );
 }
