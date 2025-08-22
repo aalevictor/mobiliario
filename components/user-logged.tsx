@@ -1,17 +1,13 @@
-/** @format */
-
-'use client';
-
-import { User } from 'next-auth';
 import React from 'react';
 import { Button } from './ui/button';
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
-import { LogOut, User as UserIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { User as UserIcon } from 'lucide-react';
+import Sair from './sair';
+import { auth } from '@/auth';
 
-export default function UserLogged({ usuario }: { usuario?: User }) {
-	const router = useRouter();
+export default async function UserLogged() {
+	const session = await auth();
+	const usuario = session?.user;
 	
 	const nome = usuario?.nome || "";
 	const nomes = nome.split(" ");
@@ -30,25 +26,7 @@ export default function UserLogged({ usuario }: { usuario?: User }) {
 						<span className='hidden md:block'>{nomeExibicao}</span>
 					</Button>
 				</Link>
-				<Button
-					variant='destructive'
-					className='cursor-pointer hover:bg-destructive-foreground hover:text-destructive focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B]'
-					title='Sair'
-					aria-label="Fazer logout da conta"
-					onClick={async () => {
-						await signOut({ redirect: false });
-						// Força o refresh da página e redirecionamento mesmo se já estiver na home
-						router.refresh();
-						router.push("/");
-						// Fallback: se o router.push não funcionar, força o reload
-						setTimeout(() => {
-							window.location.href = "/";
-						}, 100);
-					}}
-				>
-					<LogOut aria-hidden="true" />
-					<span className="sr-only">Sair</span>
-				</Button>
+				<Sair />
 			</div> :
 			<Link href="/auth/login" aria-label="Entrar">
 				<Button 

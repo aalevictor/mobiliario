@@ -1,36 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import AdminMenu from './admin-menu';
-import { auth } from '@/auth';
-import { retornaPermissao } from '@/services/usuarios';
 import UserLogged from './user-logged';
-import { Suspense } from 'react';
-
-export async function UserLoggedSuspense() {
-  const session = await auth();
-
-  return (
-    <Suspense fallback={<></>}>
-      <UserLogged usuario={session?.user} />
-    </Suspense>
-  )
-}
-
-export async function AdminMenuSuspense() {
-  const session = await auth();
-  const permissao = session?.user.id ? await retornaPermissao(session?.user?.id as string) : '';
-  
-  return (
-    <Suspense fallback={<></>}>
-      <AdminMenu permissao={permissao || ''} />
-    </Suspense>
-  )
-}
+import AdminMenu from './admin-menu';
 
 export default async function Navbar() {
-  const session = await auth();
-  const permissao = session?.user.id ? await retornaPermissao(session?.user?.id as string) : '';
-  
   return (
     <header id="top" className="bg-[#A5942B] dark:bg-zinc-800 text-white sticky top-0 z-50" role="banner">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
@@ -64,10 +37,10 @@ export default async function Navbar() {
           </Link>
         </nav>
         <div className="flex items-center gap-5" aria-label="Área do usuário">
-          <UserLoggedSuspense />
+          <UserLogged />
         </div>
       </div>
-      <AdminMenuSuspense />
+      <AdminMenu />
     </header>
   );
 }

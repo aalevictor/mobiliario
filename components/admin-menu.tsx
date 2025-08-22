@@ -1,17 +1,21 @@
-"use client"
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Users, FileText, HelpCircle, Settings, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { auth } from "@/auth";
+import { retornaPermissao } from "@/services/usuarios";
 
 interface AdminMenuProps {
   permissao?: string;
 }
 
-export default function AdminMenu({ permissao }: AdminMenuProps) {
-  const pathname = usePathname();
-  
+export default async function AdminMenu() {
+  const session = await auth();
+  const permissao = session?.user.id ? await retornaPermissao(session?.user?.id as string) : '';
+
+  if (!permissao) {
+    return null;
+  }
+
   // Verificar se o usuário tem permissão DEV ou ADMIN
   const isAdmin = permissao === "DEV" || permissao === "ADMIN";
   
@@ -62,16 +66,12 @@ export default function AdminMenu({ permissao }: AdminMenuProps) {
           <nav className="flex items-center space-x-2 sm:space-x-4">
             {menuItems.map((item) => {
               const Icon = item.icon;
-              const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200",
-                    isActive
-                      ? "bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 shadow-sm"
-                      : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-zinc-800"
+                    "flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-zinc-800"
                   )}
                   title={item.description}
                 >
