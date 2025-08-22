@@ -172,7 +172,7 @@ export default function EmailTester({ selectedTemplate }: EmailTesterProps) {
         <div>
           <Label htmlFor="template-select">Template para Teste</Label>
           <Select value={testTemplate} onValueChange={setTestTemplate}>
-            <SelectTrigger className="mt-1">
+            <SelectTrigger className="mt-1 w-full">
               <SelectValue placeholder="Selecione um template" />
             </SelectTrigger>
             <SelectContent>

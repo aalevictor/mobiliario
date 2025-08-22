@@ -140,7 +140,7 @@ export default function Banner() {
                     Concurso Nacional de Projetos de Mobiliário Urbano para São Paulo
                 </span>
                 <span className="text-lg text-[#3B2D3A]">
-                    Participe com seu projeto e construa o amanhã
+                    Projetos sustentáveis que transformaram a cidade
                 </span>
                 <Link
                     href={"/inscricao"}
