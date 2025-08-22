@@ -152,7 +152,9 @@ export default function EmailPreviewRenderer({ templateType, data }: EmailPrevie
             <Image 
               src="/promocao/prefeitura.png" 
               alt="Prefeitura de São Paulo" 
-              className="h-20 w-auto max-w-[200px]"
+              className="max-w-[200px]"
+              width={200}
+              height={200}
             />
           </div>
           
@@ -160,7 +162,9 @@ export default function EmailPreviewRenderer({ templateType, data }: EmailPrevie
             <Image 
               src="/promocao/spurbanismo.png" 
               alt="SPUrbanismo" 
-              className="h-20 w-auto max-w-[200px]"
+              className="max-w-[200px]"
+              width={200}
+              height={200}
             />
           </div>
         </div>

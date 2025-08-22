@@ -93,16 +93,16 @@ export default function ModalUsuario({ usuario, children }: { usuario?: Usuario,
         <DialogTrigger asChild>
             {children ? children : <Button>Criar usuário</Button>}
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="max-w-2xl">
             <DialogHeader>
                 <DialogTitle>{usuario ? usuario.nome : 'Novo usuário'}</DialogTitle>
             </DialogHeader>
             <DialogDescription>
                 {usuario ? 'Atualize os dados do usuário' : 'Crie um novo usuário'}
             </DialogDescription>
-            <div className="grid gap-1 mt-4">
+            <div className="grid gap-1 mt-4 max-w-2xl w-full">
                 <Form {...formUsuario}>
-                    <form onSubmit={formUsuario.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+                    <form onSubmit={formUsuario.handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full max-w-2xl">
                         <FormField
                             control={formUsuario.control}
                             name='tipo'
