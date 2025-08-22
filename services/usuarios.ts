@@ -3,7 +3,7 @@
 import { db } from '@/lib/prisma';
 import { gerarSenha, verificaLimite, verificaPagina } from '@/lib/utils';
 import { ICreateUsuario } from '@/types/usuario';
-import { Usuario } from '@prisma/client';
+import { Permissao, Usuario } from '@prisma/client';
 import { hashPassword } from '@/lib/password';
 import { transporter } from '@/lib/nodemailer';
 import { templateNotificacao } from '@/app/api/cadastro/_utils/email-templates';
@@ -67,6 +67,11 @@ export async function atualizarUsuario(id: string, data: Partial<Usuario>) {
 	return usuario;
 }
 
+export async function deletarUsuario(id: string) {
+	const usuario = await db.usuario.delete({ where: { id } });
+	return usuario;
+}
+
 export async function buscarPorLogin(login: string) {
 	const usuario = await db.usuario.findUnique({ where: { login } });
 	return usuario;
@@ -117,13 +122,16 @@ export async function buscarUsuarios(
                 { login: { contains: busca } },
             ],
         }),
+        permissao: {
+            in: [Permissao.ADMIN, Permissao.JULGADORA, Permissao.DEV],
+        },
     };
     const total = await db.usuario.count({ where: searchParams });
     if (total == 0) return { total: 0, pagina: 0, limite: 0, users: [] };
     [pagina, limite] = verificaLimite(pagina, limite, total);
     const usuarios = await db.usuario.findMany({
         where: searchParams,
-        orderBy: { criadoEm: 'asc' },
+        orderBy: { nome: 'asc' },
         skip: (pagina - 1) * limite,
         take: limite,
     });

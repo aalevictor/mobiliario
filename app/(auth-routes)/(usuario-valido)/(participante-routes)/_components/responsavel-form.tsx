@@ -17,10 +17,10 @@ interface ResponsavelFormProps {
 }
 
 const formSchema = z.object({
-    nome: z.string().min(1),
-    email: z.email(),
+    nome: z.string().min(1, "Nome é obrigatório"),
+    email: z.email("E-mail inválido"),
     telefone: z.string().min(14, "Telefone inválido"),
-    cpf: z.string().min(1),
+    cpf: z.string().min(1, "CPF é obrigatório"),
 })
 
 export default function ResponsavelForm({ cadastro, atualizarPagina }: ResponsavelFormProps) {

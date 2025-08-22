@@ -4,13 +4,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Switch } from "@/components/ui/switch"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { Participante } from "@prisma/client"
 import { ICadastro } from "../../cadastros/page"
 import { useState } from "react"
-import { Trash2, Plus, User } from "lucide-react"
+import { Trash2, Plus, User, Users, UserCheck } from "lucide-react"
 import { toast } from "sonner"
 import { formatarCPF } from "@/lib/utils"
 
@@ -40,6 +41,10 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
             documento: "",
         },
     })
+
+    // Determina se é cadastro de equipe baseado na quantidade de participantes
+    // 0 participantes = individual, 1+ participantes = equipe
+    const isEquipe = participantesExistentes.length > 0
 
     const adicionarParticipante = async (data: NovoParticipante) => {
         try {
@@ -89,17 +94,45 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
     return (
         <Card className="w-full max-w-4xl mx-auto">
             <CardHeader className="px-4 sm:px-6">
-                <CardTitle className="text-lg sm:text-xl">Participantes</CardTitle>
-                <CardDescription className="text-sm sm:text-base">
-                    Gerencie os participantes do seu cadastro. Você pode adicionar novos participantes ou remover os existentes.
-                </CardDescription>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <CardTitle className="text-lg sm:text-xl">Participantes</CardTitle>
+                        <CardDescription className="text-sm sm:text-base">
+                            Gerencie os participantes do seu cadastro. Você pode adicionar novos participantes ou remover os existentes.
+                        </CardDescription>
+                    </div>
+                    
+                    {/* Switch para indicar se é equipe ou individual */}
+                    <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border">
+                        <div className="flex items-center gap-2">
+                            {isEquipe ? (
+                                <Users className="h-5 w-5 text-blue-600" />
+                            ) : (
+                                <UserCheck className="h-5 w-5 text-gray-500" />
+                            )}
+                            <span className="text-sm font-medium">
+                                {isEquipe ? "Cadastro de Equipe" : "Cadastro Individual"}
+                            </span>
+                        </div>
+                        <Switch
+                            checked={isEquipe}
+                            disabled
+                            className="data-[state=checked]:bg-blue-600"
+                        />
+                    </div>
+                </div>
             </CardHeader>
             
             <CardContent className="px-4 sm:px-6 space-y-6">
                 {/* Lista de Participantes Existentes */}
                 <div className="space-y-4">
                     <div className="flex flex-col md:flex-row items-center justify-between">
-                        <h3 className="text-lg font-medium">Participantes Cadastrados</h3>
+                        <div className="flex items-center gap-3">
+                            <h3 className="text-lg font-medium">Participantes Cadastrados</h3>
+                            <span className="text-sm text-gray-500">
+                                ({participantesExistentes.length} {participantesExistentes.length === 1 ? 'participante' : 'participantes'})
+                            </span>
+                        </div>
                         <Button
                             onClick={() => setMostrarFormulario(!mostrarFormulario)}
                             variant="outline"
@@ -121,7 +154,7 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
                                             <p className="text-sm text-gray-600">CPF: {participante.documento}</p>
                                         </div>
                                     </div>
-                                    {participantesExistentes.length > 1 && participante.id && (
+                                    {participante.id && (
                                         <Button
                                             onClick={() => removerParticipante(participante.id!)}
                                             variant="destructive"

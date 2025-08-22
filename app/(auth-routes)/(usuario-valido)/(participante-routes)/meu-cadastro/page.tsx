@@ -33,7 +33,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                     <TabsList className="w-full max-w-3xl flex flex-wrap md:flex-nowrap gap-1 h-fit">
                         <TabsTrigger value="responsavel">Responsável</TabsTrigger>
                         <TabsTrigger value="empresa">Empresa</TabsTrigger>
-                        {(cadastro.participantes?.length || 0) > 0 && <TabsTrigger value="participantes">Participantes</TabsTrigger>}
+                        <TabsTrigger value="participantes">Participantes</TabsTrigger>
                         <TabsTrigger value="documentacao">Documentação</TabsTrigger>
                         <TabsTrigger value="projetos">Projetos</TabsTrigger>
                     </TabsList>
