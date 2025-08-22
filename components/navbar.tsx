@@ -8,6 +8,7 @@ import { retornaPermissao } from '@/services/usuarios';
 export default async function Navbar() {
   const session = await auth();
   const permissao = session?.user.id ? await retornaPermissao(session?.user?.id as string) : '';
+  
   return (
     <header id="top" className="bg-[#A5942B] dark:bg-zinc-800 text-white sticky top-0 z-50" role="banner">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
@@ -41,7 +42,8 @@ export default async function Navbar() {
           </a>
         </nav>
         <div className="flex items-center gap-5" aria-label="Área do usuário">
-          <UserLogged usuario={session?.user} />
+          {/* Aguarda a sessão ser carregada antes de renderizar UserLogged */}
+          {session !== undefined && <UserLogged usuario={session?.user} />}
         </div>
       </div>
       <AdminMenu permissao={permissao || ''} />

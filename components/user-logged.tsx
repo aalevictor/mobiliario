@@ -35,7 +35,13 @@ export default function UserLogged({ usuario }: { usuario?: User }) {
 					aria-label="Fazer logout da conta"
 					onClick={async () => {
 						await signOut({ redirect: false });
+						// Força o refresh da página e redirecionamento mesmo se já estiver na home
+						router.refresh();
 						router.push("/");
+						// Fallback: se o router.push não funcionar, força o reload
+						setTimeout(() => {
+							window.location.href = "/";
+						}, 100);
 					}}
 				>
 					<LogOut aria-hidden="true" />
