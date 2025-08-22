@@ -105,7 +105,12 @@ export default function PreCadastroPage() {
                 toast.success("Cadastro Realizado. Verifique seu Email");
                 router.push("auth/login");
             } else {
-                toast.error("Erro ao enviar inscrição. Tente novamente.");
+                const error = await res.json();
+                if (error.error.includes("email")) {
+                    toast.error("E-mail já cadastrado. Verifique seu e-mail.");
+                } else {
+                    toast.error("Erro ao enviar inscrição. Tente novamente.");
+                }
             }
         });
     }
@@ -362,7 +367,7 @@ export default function PreCadastroPage() {
                                             </FormLabel>
                                             <ul className="text-xs text-gray-600 space-y-1 ml-0">
                                                 <li>• A falsidade das informações prestadas implica nas sanções previstas em lei;</li>
-                                                <li>• Este é um período de pré-inscrição e os dados poderão ser editados posteriormente;</li>
+                                                <li>• Este é um período de pré-inscrição e os dados poderão ser editados posteriormente, de acordo com os prazos contidos no Cronograma do Concurso;</li>
                                                 <li>• Aceito os termos e condições do concurso conforme edital publicado;</li>
                                                 <li>• As informações serão utilizadas exclusivamente para fins do concurso.</li>
                                             </ul>
