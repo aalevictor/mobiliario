@@ -4,10 +4,6 @@ import { cn } from "@/lib/utils";
 import { auth } from "@/auth";
 import { retornaPermissao } from "@/services/usuarios";
 
-interface AdminMenuProps {
-  permissao?: string;
-}
-
 export default async function AdminMenu() {
   const session = await auth();
   const permissao = session?.user.id ? await retornaPermissao(session?.user?.id as string) : '';

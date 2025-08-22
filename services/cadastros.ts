@@ -34,7 +34,14 @@ async function criarPreCadastro(
           permissao: Permissao.PARTICIPANTE,
         },
       });
-      const novo_cadastro = await tx.cadastro.create({ data: { ...data, usuarioId: novo_usuario.id } });
+      const { cnpj, ...data_cadastro } = { ...data };
+      const novo_cadastro = await tx.cadastro.create({
+        data: { 
+          ...data_cadastro, 
+          usuarioId: novo_usuario.id,
+          cnpj: (cnpj && cnpj.trim() !== "") ? cnpj : null
+        }
+      });
       try {
         if (preCadastro.equipe && participantes && participantes.length > 0)
           await tx.participante.createMany({
