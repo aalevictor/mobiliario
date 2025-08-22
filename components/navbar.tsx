@@ -4,6 +4,7 @@ import UserLogged from './user-logged';
 import AdminMenu from './admin-menu';
 import { auth } from '@/auth';
 import { retornaPermissao } from '@/services/usuarios';
+import { NavbarClient } from './navbar-client';
 
 export default async function Navbar() {
   const session = await auth();
@@ -27,14 +28,14 @@ export default async function Navbar() {
             Início
           </Link>
           <a 
-            href="#info" 
+            href="/#info" 
             className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B] rounded px-1"
             aria-label="Ir para seção de informações do concurso"
           >
             Informações
           </a>
           <a 
-            href="#docs" 
+            href="/#docs" 
             className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B] rounded px-1"
             aria-label="Ir para seção de bases do concurso"
           >
@@ -42,8 +43,8 @@ export default async function Navbar() {
           </a>
         </nav>
         <div className="flex items-center gap-5" aria-label="Área do usuário">
-          {/* Aguarda a sessão ser carregada antes de renderizar UserLogged */}
-          {session !== undefined && <UserLogged usuario={session?.user} />}
+          {/* Usa componente client-side para sincronização em tempo real */}
+          <NavbarClient initialSession={session} />
         </div>
       </div>
       <AdminMenu permissao={permissao || ''} />

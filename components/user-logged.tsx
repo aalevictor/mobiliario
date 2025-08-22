@@ -12,9 +12,11 @@ import { useRouter } from 'next/navigation';
 
 export default function UserLogged({ usuario }: { usuario?: User }) {
 	const router = useRouter();
+	
 	const nome = usuario?.nome || "";
 	const nomes = nome.split(" ");
-	const nomeExibicao = nomes.length <= 2 ? nome : `${nomes[0]} ${nomes[nomes.length - 1]}`;
+	const nomeExibicao = nomes.length <= 2 ? nome : `${nomes[0]} ${nomes.length > 1 ? nomes[nomes.length - 1] : ''}`;
+	
 	return (
 		<div className='flex items-center gap-3'>
 			{usuario ? <div className='flex gap-1'>
