@@ -4,8 +4,8 @@ import {
   templateConfirmacaoInscricao, 
   templateNotificacao, 
   templateLembrete, 
-  templateBoasVindas,
-  templateNovaDuvida,
+  templateBoasVindasParticipante,
+  templateNovaDuvidaCoordenacao,
   gerarEmailTemplate
 } from "@/app/api/cadastro/_utils/email-templates";
 
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
         break;
       
       case "boas-vindas":
-        html = templateBoasVindas(nome || "Participante", "SENHAINICIAL", "MOB-2025-0000000000");
+        html = templateBoasVindasParticipante(nome || "Participante", "SENHAINICIAL", "MOB-2025-0000000000");
         subject = "Bem-vindo ao Concurso Mobiliário Urbano 2025";
         break;
       
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
         break;
       
       case "nova-duvida":
-        html = templateNovaDuvida(nome || "Participante", emailDestino, pergunta || "Pergunta");
+        html = templateNovaDuvidaCoordenacao(nome || "Participante", emailDestino, pergunta || "Pergunta");
         subject = "Nova Dúvida - Concurso Mobiliário Urbano 2025";
         break;
       

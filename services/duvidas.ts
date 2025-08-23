@@ -1,7 +1,7 @@
 import { db } from "@/lib/prisma";
 import { verificaLimite, verificaPagina } from "@/lib/utils";
 import { transporter } from "@/lib/nodemailer";
-import { templateNovaDuvida } from "@/app/api/cadastro/_utils/email-templates";
+import { templateNovaDuvidaCoordenacao, templateNovaDuvidaParticipante } from "@/app/api/cadastro/_utils/email-templates";
 
 async function criarDuvida(data: { pergunta: string, email: string, nome: string }) {
     const duvida = await db.duvida.create({ data });
@@ -11,13 +11,20 @@ async function criarDuvida(data: { pergunta: string, email: string, nome: string
     try {
         if (transporter) {
             const mailBcc = process.env.MAIL_BCC;
+            const mailTo = data.email;
+
             if (mailBcc) {
                 await transporter.sendMail({
-                    from: process.env.EMAIL_FROM || "naoresponda-mobiliariourbano@spurbanismo.sp.gov.br",
+                    from: process.env.EMAIL_FROM || "naoresponda@spurbanismo.sp.gov.br",
+                    to: mailTo,
+                    subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
+                    html: templateNovaDuvidaParticipante(data.nome),
+                });
+                await transporter.sendMail({
+                    from: process.env.EMAIL_FROM || "naoresponda@spurbanismo.sp.gov.br",
                     to: mailBcc, // Email principal
-                    bcc: mailBcc, // Cópia oculta para backup
-                    subject: "Nova Dúvida - Concurso Mobiliário Urbano 2025",
-                    html: templateNovaDuvida(data.nome, data.email, data.pergunta),
+                    subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
+                    html: templateNovaDuvidaCoordenacao(data.nome, data.email, data.pergunta),
                 });
                 console.log("✅ Email de notificação de nova dúvida enviado com sucesso");
             } else {

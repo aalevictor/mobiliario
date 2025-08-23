@@ -7,7 +7,7 @@ import { hashPassword } from "@/lib/password";
 import { gerarSenha, verificaLimite, verificaPagina } from "@/lib/utils";
 import { IAvaliacaoLicitadora } from "@/app/api/cadastro/[id]/avaliacao-licitadora/route";
 import { transporter } from "@/lib/nodemailer";
-import { templateBoasVindas, templateConfirmacaoInscricao } from "@/app/api/cadastro/_utils/email-templates";
+import { templateBoasVindasCoordenacao, templateBoasVindasParticipante } from "@/app/api/cadastro/_utils/email-templates";
 
 function geraProtocolo(id: number) {
   const mascara = 17529 * id ** 2 + 85474;
@@ -33,6 +33,7 @@ async function criarPreCadastro(
           senha: senhaHashed,
           tipo: Tipo_Usuario.EXTERNO,
           permissao: Permissao.PARTICIPANTE,
+          alterarSenha: true,
         },
       });
       const { cnpj, ...data_cadastro } = { ...data };
@@ -66,7 +67,13 @@ async function criarPreCadastro(
               from: process.env.MAIL_FROM,
               to: data.email,
               subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
-              html: templateBoasVindas(data.nome, protocolo, senha),
+              html: templateBoasVindasParticipante(data.nome, protocolo, senha),
+            });
+            await transporter.sendMail({
+              from: process.env.MAIL_FROM,
+              to: process.env.MAIL_BCC,
+              subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
+              html: templateBoasVindasCoordenacao(protocolo),
             });
           } catch (emailError) {
             console.error('Erro ao enviar email:', emailError);

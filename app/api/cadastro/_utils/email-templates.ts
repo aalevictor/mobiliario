@@ -17,6 +17,7 @@ interface EmailTemplateProps {
     titulo: string;
     descricao: string;
   }>;
+  tipo?: "participante" | "coordenacao";
 }
 
 interface EmailStyles {
@@ -86,12 +87,12 @@ const gerarBannerHero = (titulo: string, subtitulo?: string, badge?: string): st
 /**
  * Componente de conteúdo principal
  */
-const gerarConteudoPrincipal = (nome: string, conteudo: string): string => {
+const gerarConteudoPrincipal = (nome: string, conteudo: string, tipo: "participante" | "coordenacao" = "participante"): string => {
   return `
     <tr>
       <td style="padding: 40px 30px;">
         <h3 style="margin: 0 0 20px 0; color: ${styles.corTexto}; font-size: 24px; font-weight: bold;">
-          Prezado(a) ${nome},
+          ${tipo === "participante" ? `Prezado(a) ${nome},` : `À Coordenação do Concurso,`}
         </h3>
         
         <div style="margin: 0 0 30px 0; color: ${styles.corTextoSecundario}; font-size: 16px; line-height: 1.6;">
@@ -328,7 +329,8 @@ export const gerarEmailTemplate = (props: EmailTemplateProps): string => {
     botaoTexto = 'Acessar Portal',
     botaoUrl = `${process.env.NEXT_PUBLIC_APP_URL}`,
     mostrarCards = false,
-    cardsPersonalizados = []
+    cardsPersonalizados = [],
+    tipo = "participante"
   } = props;
 
   let conteudo = '';
@@ -337,7 +339,7 @@ export const gerarEmailTemplate = (props: EmailTemplateProps): string => {
   conteudo += gerarBannerHero(titulo, subtitulo, 'Concurso Mobiliário Urbano');
   
   // Conteúdo Principal
-  conteudo += gerarConteudoPrincipal(nome, conteudoPrincipal);
+  conteudo += gerarConteudoPrincipal(nome, conteudoPrincipal, tipo);
   
   // Cards (se habilitado)
   if (mostrarCards && cardsPersonalizados.length > 0) {
@@ -432,7 +434,7 @@ export const templateLembrete = (nome: string, evento: string, data: string): st
 };
 
 // Template de boas-vindas
-export const templateBoasVindas = (nome: string, protocolo: string, senha: string): string => {
+export const templateBoasVindasParticipante = (nome: string, protocolo: string, senha: string): string => {
   return gerarEmailTemplate({
     nome,
     titulo: 'Seja bem-vindo ao Concurso Nacional de Projetos de Mobiliário Urbano da Prefeitura de São Paulo!',
@@ -441,6 +443,8 @@ export const templateBoasVindas = (nome: string, protocolo: string, senha: strin
       <p>Este é seu Código Identificador (ID): <strong>${protocolo}</strong></p>
       <p>Guarde bem o seu ID, é com ele que você verificará o andamento de sua inscrição e a avaliação da sua proposta técnica.</p>
       <p>Nos termos do item 12.3.1.1.1 do Edital nº 001/SP-URB/2025, o código de identificador (ID) deverá ser mantido sob sigilo, sendo irrevogável e intransferível, não cabendo a SP URBANISMO ou a COORDENAÇÃO DO CONCURSO, a emissão de novo ID em caso de perda.</p>
+      <p>Você está recebendo uma senha provisória de acesso à Plataforma. Faça o login com seu e-mail e senha provisória, depois insira sua senha de preferência. </a>
+      <p>Sua senha provisória é: <strong>${senha}</strong></p>
       <p>Entre os dias 08/09/2025 e 15/09/2025 você deverá submeter os documentos necessários para inscrição, conforme item 9.2 do Edital nº 001/SP-URB/2025:</p>
       <ul>
         <li>Carta de Declarações Obrigatórias de pessoa física ou pessoa jurídica assinada, conforme item 10 do Edital e ANEXO I ou ANEXO II.</li>
@@ -469,61 +473,73 @@ export const templateBoasVindas = (nome: string, protocolo: string, senha: strin
       },
       {
         icone: '🔑',
-        titulo: 'Senha de acesso inicial',
+        titulo: 'Senha provisória',
         descricao: `Sua senha de acesso inicial é: ${senha}`
       }
     ]
   });
 };
 
-// Template de notificação de nova dúvida
-export const templateNovaDuvida = (nome: string, email: string, pergunta: string): string => {
+export const templateBoasVindasCoordenacao = (protocolo: string): string => {
   return gerarEmailTemplate({
+    tipo: "coordenacao",
     nome: 'Equipe Administrativa',
-    titulo: 'Nova Dúvida Recebida',
-    subtitulo: 'Um participante enviou uma nova pergunta',
+    titulo: `Foi processada uma pré-inscrição no concurso sob o Código Identificador: <strong>${protocolo}</strong>`,
+    subtitulo: 'Acesse o painel administrativo para conferir os dados da inscrição.',
     conteudoPrincipal: `
-      <p>Uma nova dúvida foi enviada através do portal do concurso:</p>
-      
-      <div style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border: 2px solid ${styles.corPrimaria}; border-radius: 12px; padding: 24px; margin: 24px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-        <h4 style="margin: 0 0 16px 0; color: ${styles.corTexto}; font-size: 18px; font-weight: 600; text-align: center;">
-          📋 Detalhes da Dúvida
-        </h4>
-        
-        <div style="margin-bottom: 16px; padding: 12px; background: #ffffff; border-radius: 8px; border-left: 4px solid ${styles.corDestaque};">
-          <strong style="color: ${styles.corTexto}; display: block; margin-bottom: 4px;">👤 Nome:</strong>
-          <span style="color: ${styles.corTextoSecundario}; font-size: 16px;">${nome}</span>
-        </div>
-        
-        <div style="margin-bottom: 16px; padding: 12px; background: #ffffff; border-radius: 8px; border-left: 4px solid ${styles.corPrimaria};">
-          <strong style="color: ${styles.corTexto}; display: block; margin-bottom: 4px;">📧 Email:</strong>
-          <span style="color: ${styles.corTextoSecundario}; font-size: 16px;">${email}</span>
-        </div>
-        
-        <div style="margin-bottom: 16px; padding: 12px; background: #ffffff; border-radius: 8px; border-left: 4px solid ${styles.corSecundaria};">
-          <strong style="color: ${styles.corTexto}; display: block; margin-bottom: 8px;">❓ Pergunta:</strong>
-          <div style="color: ${styles.corTextoSecundario}; font-size: 15px; line-height: 1.5; padding: 8px; background: #f8fafc; border-radius: 6px;">
-            ${pergunta}
-          </div>
-        </div>
-        
-        <div style="text-align: center; padding: 12px; background: ${styles.corSecundaria}; border-radius: 8px; margin-top: 16px;">
-          <span style="font-size: 12px; color: ${styles.corTexto}; font-weight: 600;">
-            🕐 <strong>Data/Hora:</strong> ${new Date().toLocaleString('pt-BR', { 
-              timeZone: 'America/Sao_Paulo',
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })}
-          </span>
-        </div>
-      </div>
-      
-      <p style="text-align: center; font-size: 16px; color: ${styles.corTexto}; font-weight: 500;">
-        Esta dúvida foi automaticamente registrada no sistema e está aguardando resposta da equipe administrativa.
-      </p>
+      <p>O interessado terá, até o dia 15/09/2025, que apresentar via Plataforma Digital Online, a seguinte documentação (item 9.2 do Edital nº 001/SP-URB/2025):</p>
+      <ul>
+        <li>Carta de Declarações Obrigatórias de pessoa física ou pessoa jurídica assinada, conforme item 10 do Edital e ANEXO I ou ANEXO II.</li>
+        <li>Declaração de Participação na Equipe, em caso de inscrição em equipe, assinada pelos membros que a constituem, conforme ANEXO III.</li>
+        <li>Prova de regularidade fiscal para com a Fazenda Nacional e relativa à Seguridade Social (INSS), que será efetuada mediante apresentação de certidão expedida conjuntamente pela Secretaria da Receita Federal do Brasil (RFB) e pela Procuradoria-Geral da Fazenda Nacional (PGFN), referente a todos os créditos tributários federais e à Dívida Ativa da União (DAU) por elas administrados;</li>
+        <li>Prova de regularidade fiscal para com a Fazenda Municipal do domicílio ou sede da interessada expedida pelo órgão competente;</li>
+        <li>Cadastro Informativo Municipal de São Paulo - CADIN.</li>
+        <li>Comprovação de Registro ou Certidão de inscrição da pessoa física ou pessoa jurídica no Conselho de Arquitetura e Urbanismo - CAU ou no Conselho de Engenharia e Agronomia - CREA da região da sede da empresa.</li>
+      </ul>
+      <p>No caso de Pessoa Jurídica, o RESPONSÁVEL TÉCNICO pelo projeto deverá estar vinculado à Pessoa Jurídica como integrante do quadro social, como empregado ou como contratado.</p>
+      <p>De acordo com o item 12.3.1.2.1 do Edital, todos os documentos devem ser submetidos em formato PDF, não podendo ultrapassar 20Mb (vinte megabites) no total, e devem ser nomeados, conforme as NORMAS DE APRESENTAÇÃO DE DOCUMENTOS DE HABILITAÇÃO - Anexo IV do Edital.</p>
+      <p>A Coordenação do Concurso deverá proceder com a análise da documentação apresentada. Fiquen atentos ao CRONOGRAMA, pois deverá ser informada na PLATAFORMA DO CONCURSO a lista dos IDs deferidos e indeferidos, nos termos do item 12.3.1.3 do Edital.</p>
+      <p>Em caso de DEFERIMENTO, o interessado será considerado INSCRITO no concurso e estará apto para submeter sua proposta técnica em nível de Estudo Preliminar, sendo agora considerado como PARTICIPANTE INSCRITO.</p>
+      <p>Em caso de INDEFERIMENTO, o interessado poderá apresentar um recurso em até 3 dias após a publicação da lista. Neste caso, ele deverá observar o item 12.3.1.4 do Edital. Fiquem atentos aos pedidos de RECURSO, pois estes deverão ser analisados no período estabelecido no Cronograma (item 21 do edital) e deverão resultar em uma publicação final de IDs deferidos e indeferidos.</p>
+      <p><strong>A publicação final dos IDs deferidos e indeferidos será no dia 03/10/2025.</strong></p>
+      <p>Observação: nos termos do item 21.2 do Edital, eventuais alterações no cronograma podem acontecer. Caso ocorram serão notificadas na Plataforma Online do Concurso e no Diário Oficial. Fique atento!</p>
+      <p>Obrigado.</p>
+      <p>Atenciosamente,</p>
+      <p>Plataforma Digital Online do Concurso do Mobiliário Urbano.</p>
+    `,
+    botaoTexto: 'Acessar Painel Administrativo',
+    botaoUrl: `${process.env.BASE_URL}/cadastros`
+  });
+};
+
+export const templateNovaDuvidaParticipante = (nome: string): string => {
+  return gerarEmailTemplate({
+    nome,
+    titulo: 'PEDIDO DE ESCLARECIMENTO PROCESSADO',
+    subtitulo: 'Seu pedido de esclarecimento foi processado e será analisado pela Coordenação do Concurso nos termos do item 7.2 do Edital nº 001/SP-URB/2025.',
+    conteudoPrincipal: `
+      <p>Fique atento aos anúncios no Diário Oficial da Cidade de São Paulo e informes na Plataforma Digital Online do concurso para verificar as respostas, que poderão ser agrupadas em lotes ou por temas, nos termos do item 7.2.2 do Edital.</p>
+      <p>Agradecemos seu interesse.</p>
+      <p>Atenciosamente,</p>
+      <p>Plataforma Digital Online do Concurso do Mobiliário Urbano.</p>
+    `,
+  });
+};
+
+// Template de notificação de nova dúvida
+export const templateNovaDuvidaCoordenacao = (nome: string, email: string, pergunta: string): string => {
+  return gerarEmailTemplate({
+    tipo: "coordenacao",
+    nome: 'Equipe Administrativa',
+    titulo: `Foi processado um pedido de esclarecimento de ${nome}, cadastrado com o e-mail ${email}:`,
+    subtitulo: 'Acesse o painel administrativo para responder esta dúvida.',
+    conteudoPrincipal: `
+      <p><strong>${pergunta}</strong></p>
+      <p>Você também pode acessar o pedido de esclarecimento via Plataforma Digital Online. É preciso agora analisar o pedido e certificar-se que ele será considerado na resposta da Coordenação do Concurso que poderá ser agrupada a outras respostas em lotes ou por temas, visando a melhor compreensão dos participantes, nos termos do item 7.2.3 do Edital.</p>
+      <p>Os prazos de resposta devem observar o cronograma do concurso, conforme item 21 do Edital.</p>
+      <p>Obrigado.</p>
+      <p>Atenciosamente,</p>
+      <p>Plataforma Digital Online do Concurso do Mobiliário Urbano.</p>
     `,
     mostrarCards: true,
     cardsPersonalizados: [
@@ -536,14 +552,9 @@ export const templateNovaDuvida = (nome: string, email: string, pergunta: string
         icone: '📚',
         titulo: 'Histórico',
         descricao: 'Todas as dúvidas e respostas ficam registradas no sistema para consulta futura.'
-      },
-      {
-        icone: '🔔',
-        titulo: 'Notificação',
-        descricao: 'O participante será notificado automaticamente quando a dúvida for respondida.'
       }
     ],
     botaoTexto: 'Responder Dúvida',
-    botaoUrl: `${process.env.NEXT_PUBLIC_APP_URL}/duvidas`
+    botaoUrl: `${process.env.BASE_URL}/duvidas`
   });
 };

@@ -11,8 +11,9 @@ import {
   templateConfirmacaoInscricao, 
   templateNotificacao, 
   templateLembrete, 
-  templateBoasVindas,
-  templateNovaDuvida,
+  templateBoasVindasParticipante,
+  templateNovaDuvidaCoordenacao,
+  templateNovaDuvidaParticipante,
   gerarEmailTemplate
 } from "@/app/api/cadastro/_utils/email-templates";
 import { 
@@ -60,7 +61,7 @@ export default function EmailPreviewPage() {
       nome: "Boas-vindas",
       descricao: "Primeiro contato com novos participantes",
       icone: Heart,
-      template: () => templateBoasVindas(previewData.nome, "SENHAINICIAL", "MOB-2025-0000000000")
+      template: () => templateBoasVindasParticipante(previewData.nome, "SENHAINICIAL", "MOB-2025-0000000000")
     },
     {
       id: "lembrete",
@@ -81,7 +82,7 @@ export default function EmailPreviewPage() {
       nome: "Nova Dúvida",
       descricao: "Notificação para equipe administrativa",
       icone: HelpCircle,
-      template: () => templateNovaDuvida(previewData.nome, previewData.email, previewData.pergunta)
+      template: () => templateNovaDuvidaCoordenacao(previewData.nome, previewData.email, previewData.pergunta)
     },
     {
       id: "personalizado",
