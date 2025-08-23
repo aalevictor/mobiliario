@@ -32,7 +32,7 @@ export default function ResponsavelForm({ cadastro, atualizarPagina }: Responsav
             email: cadastro.email,
             telefone: cadastro.telefone,
             cpf: cadastro.cpf,
-            cnpj: cadastro.cnpj,
+            cnpj: cadastro.cnpj || '',
         },
     })
     const onSubmit = async (data: z.infer<typeof formSchema>) => {

@@ -1,11 +1,54 @@
+'use client';
+
 import Edital from "@/components/icones/edital";
 import Esclarecimentos from "@/components/icones/esclarecimentos";
 import Informes from "@/components/icones/informes";
 import Termo from "@/components/icones/termo";
 import ModalPergunta from "@/components/modal-pergunta";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
-export default function Documentos() {
+export default function Documentos({ permissao }: { permissao: string }) {
+    const dataInicial = new Date('2025-08-25T00:00:00');
+    const agora = new Date();
+    const temPermissao = permissao === "ADMIN" || permissao === "DEV";
+    const podeBaixar = agora > dataInicial || temPermissao;
+
+    const handleDownload = async (filename: string, displayName: string) => {
+        if (!podeBaixar) {
+            toast.error('Você não tem permissão para baixar este arquivo');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/docs/${filename}`);
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = displayName;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                toast.success(`${displayName} baixado com sucesso!`);
+            } else {
+                toast.error('Erro ao baixar o arquivo');
+            }
+        } catch {
+            toast.error('Erro ao baixar o arquivo');
+        }
+    };
+
+    const getDownloadButtonText = () => {
+        return 'Baixar edital';
+    };
+
+    const getTermoButtonText = () => {
+        return 'Baixar termo';
+    };
+
     return (
         <section
             className="w-[90%] lg:w-[600px] mx-auto space-y-4 flex flex-col my-4"
@@ -34,9 +77,15 @@ export default function Documentos() {
                         </p>
                         <Button
                             size="lg"
-                            className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
+                            className={`px-4 py-1 text-lg font-semibold ${
+                                podeBaixar 
+                                    ? 'hover:opacity-80 cursor-pointer' 
+                                    : 'opacity-50 cursor-not-allowed'
+                            }`}
+                            onClick={() => handleDownload('edital.pdf', 'Edital do Concurso')}
+                            disabled={!podeBaixar}
                         >
-                            Baixar edital
+                            {getDownloadButtonText()}
                         </Button>
                     </div>
                     <Edital size={160} />
@@ -66,9 +115,15 @@ export default function Documentos() {
                         </p>
                         <Button
                             size="lg"
-                            className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
+                            className={`px-4 py-1 text-lg font-semibold ${
+                                podeBaixar 
+                                    ? 'hover:opacity-80 cursor-pointer' 
+                                    : 'opacity-50 cursor-not-allowed'
+                            }`}
+                            onClick={() => handleDownload('termo_referencia.pdf', 'Termo de Referência')}
+                            disabled={!podeBaixar}
                         >
-                            Baixar termo
+                            {getTermoButtonText()}
                         </Button>
                     </div>
                     <Termo size={160} />
@@ -134,9 +189,10 @@ export default function Documentos() {
                         </p>
                         <Button
                             size="lg"
-                            className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
+                            className="px-4 py-1 text-lg opacity-50 cursor-not-allowed font-semibold"
+                            disabled
                         >
-                            Acessar informes
+                            Em breve
                         </Button>
                     </div>
                     <Informes size={160} />
