@@ -558,3 +558,45 @@ export const templateNovaDuvidaCoordenacao = (nome: string, email: string, pergu
     botaoUrl: `${process.env.BASE_URL}/duvidas`
   });
 };
+
+// Template de recuperação de senha
+export const templateRecuperacaoSenha = (nome: string, novaSenha: string): string => {
+  return gerarEmailTemplate({
+    nome,
+    titulo: 'Recuperação de Senha',
+    subtitulo: 'Sua nova senha temporária foi gerada',
+    conteudoPrincipal: `
+      <p>Olá <strong>${nome}</strong>,</p>
+      <p>Recebemos uma solicitação de recuperação de senha para sua conta no <strong>Concurso Mobiliário Urbano</strong>.</p>
+      <p>Sua nova senha temporária é: <strong style="font-size: 18px; color: ${styles.corDestaque}; background-color: #f3f4f6; padding: 8px 12px; border-radius: 4px; letter-spacing: 2px;">${novaSenha}</strong></p>
+      <p><strong>Importante:</strong></p>
+      <ul>
+        <li>Esta é uma senha temporária e você será obrigado a alterá-la no próximo login</li>
+        <li>Guarde esta senha em local seguro</li>
+        <li>Após fazer login, você será redirecionado para a tela de alteração de senha</li>
+      </ul>
+      <p>Se você não solicitou esta recuperação de senha, ignore este email e sua senha atual permanecerá inalterada.</p>
+      <p>Para sua segurança, recomendamos que você altere sua senha assim que fizer login no sistema.</p>
+    `,
+    mostrarCards: true,
+    cardsPersonalizados: [
+      {
+        icone: '🔑',
+        titulo: 'Senha Temporária',
+        descricao: `Use esta senha para acessar o sistema: ${novaSenha}`
+      },
+      {
+        icone: '⚠️',
+        titulo: 'Alteração Obrigatória',
+        descricao: 'Você será obrigado a alterar esta senha no próximo login por questões de segurança.'
+      },
+      {
+        icone: '🔒',
+        titulo: 'Segurança',
+        descricao: 'Não compartilhe esta senha com ninguém e altere-a assim que fizer login.'
+      }
+    ],
+    botaoTexto: 'Acessar Sistema',
+    botaoUrl: `${process.env.NEXT_PUBLIC_APP_URL}/auth/login`
+  });
+};

@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
-import { signIn } from 'next-auth/react';
+import { Loader2, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -17,13 +16,10 @@ import z from 'zod';
 import Link from 'next/link';
 
 const formSchema = z.object({
-	login: z.string().min(2, { message: 'Login inválido.' }),
-	senha: z.string().min(2, {
-		message: 'Campo senha não pode ser vazio.',
-	}),
+	email: z.string().email({ message: 'Email inválido.' }),
 });
 
-export function LoginForm({
+export function ResetPasswordForm({
 	className,
 	...props
 }: React.ComponentPropsWithoutRef<'div'>) {
@@ -31,34 +27,30 @@ export function LoginForm({
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			login: '',
-			senha: '',
+			email: '',
 		},
 	});
 
-	async function onSubmit({ login, senha }: z.infer<typeof formSchema>) {
+	async function onSubmit({ email }: z.infer<typeof formSchema>) {
 		try {
-			const res = await signIn('credentials', {
-				login: login as string,
-				senha: senha as string,
-				redirect: false,
+			const response = await fetch('/api/auth/reset-password', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ email }),
 			});
-			if (res.error) toast.error('Credenciais incorretas!');
-			else {
-				// Verificar se o usuário precisa alterar a senha
-				const session = await fetch('/api/auth/session').then(res => res.json());
-				
-				if (session?.user?.alterarSenha) {
-					toast.success('Login realizado com sucesso! Você precisa alterar sua senha.');
-					router.push('/auth/primeiro-login');
-				} else {
-					toast.success('Seja bem-vindo!');
-					router.push('/cadastros');
-				}
+
+			if (response.ok) {
+				toast.success('Um e-mail foi enviado com instruções de recuperação, caso esse email esteja cadastrado');
+				router.push('/auth/login');
+			} else {
+				const error = await response.json();
+				toast.error(error.message || 'Erro ao processar solicitação');
 			}
 		} catch (e) {
 			console.log(e);
-			toast.error('Não foi possível realizar o login.');
+			toast.error('Não foi possível processar a solicitação.');
 		}
 	}
 
@@ -72,16 +64,28 @@ export function LoginForm({
 						<Image src="/promocao/spurbanismo.png" alt="Logo" width={300} height={300} className='w-1/2 h-auto' />
 						<Image src="/promocao/prefeitura.png" alt="Logo" width={300} height={300} className='w-1/2 h-auto' />
 					</div>
+					
+					<div className='text-center'>
+						<h2 className='text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2'>
+							Recuperar Senha
+						</h2>
+						<p className='text-gray-600 dark:text-gray-400'>
+							Digite seu email para receber instruções de recuperação
+						</p>
+					</div>
+
 					<div className='grid gap-2'>
 						<FormField
 							control={form.control}
-							name='login'
+							name='email'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Login</FormLabel>
+									<FormLabel>Email</FormLabel>
 									<FormControl>
 										<Input
 											{...field}
+											type='email'
+											placeholder='seu@email.com'
 											className='dark:bg-background bg-muted'
 										/>
 									</FormControl>
@@ -91,45 +95,27 @@ export function LoginForm({
 							)}
 						/>
 					</div>
-					<div className='grid gap-2'>
-						<FormField
-							control={form.control}
-							name='senha'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Senha</FormLabel>
-									<FormControl>
-										<Input
-											{...field}
-											type='password'
-											className='dark:bg-background bg-muted'
-										/>
-									</FormControl>
-									<FormDescription />
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
+					
 					<Button
 						disabled={form.formState.isSubmitting || form.formState.isLoading}
 						type='submit'
 						className='w-full disabled:opacity-50'>
 						{form.formState.isSubmitting || form.formState.isLoading ? (
 							<>
-								Entrar <Loader2 className='animate-spin' />
+								Enviando... <Loader2 className='animate-spin' />
 							</>
 						) : (
-							'Entrar'
+							'Enviar Instruções'
 						)}
 					</Button>
 
 					<div className='text-center'>
 						<Link 
-							href='/auth/reset' 
-							className='text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors'
+							href='/auth/login' 
+							className='inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors'
 						>
-							Esqueci minha senha
+							<ArrowLeft className='w-4 h-4 mr-2' />
+							Voltar para o login
 						</Link>
 					</div>
 				</div>
