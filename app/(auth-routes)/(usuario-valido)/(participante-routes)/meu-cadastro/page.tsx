@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { meuCadastro } from "@/services/cadastros";
 import { redirect } from "next/navigation";
 import ResponsavelForm from "../_components/responsavel-form";
-import EmpresaForm from "../_components/empresa-form";
+import EnderecoForm from "../_components/endereco-form";
 import ParticipantesForm from "../_components/participantes-form";
 import DocumentosForm from "../_components/documentos-form";
 import ProjetosForm from "../_components/projetos-form";
@@ -24,7 +24,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
         revalidatePath(`/meu-cadastro?tab=${tab}`);
     }
 
-    const tabs = ["responsavel", "empresa", "participantes", "documentacao", "projetos"];
+    const tabs = ["responsavel", "endereco", "participantes", "documentacao", "projetos"];
 
     return (
         <div className="container mx-auto h-full px-4 max-sm:px-2 py-6 max-w-6xl flex flex-col gap-3">            
@@ -32,7 +32,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                 <div className="flex justify-center">
                     <TabsList className="w-full max-w-3xl flex flex-wrap md:flex-nowrap gap-1 h-fit">
                         <TabsTrigger value="responsavel">Responsável</TabsTrigger>
-                        <TabsTrigger value="empresa">Empresa</TabsTrigger>
+                        <TabsTrigger value="endereco">Endereço</TabsTrigger>
                         <TabsTrigger value="participantes">Participantes</TabsTrigger>
                         <TabsTrigger value="documentacao">Documentação</TabsTrigger>
                         <TabsTrigger value="projetos">Projetos</TabsTrigger>
@@ -45,8 +45,8 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                     <TabsContent value="responsavel" className="m-0">
                         <ResponsavelForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
                     </TabsContent>
-                    <TabsContent value="empresa" className="m-0">
-                        <EmpresaForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                    <TabsContent value="endereco" className="m-0">
+                        <EnderecoForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
                     </TabsContent>
                     <TabsContent value="participantes" className="m-0">
                         <ParticipantesForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />

@@ -13,9 +13,13 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
     const donoCadastro = cadastro.usuarioId === session.user.id;
     if (!permissao && !donoCadastro) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     const data = await request.json();
+    const dataAtualizada = {
+        ...data,
+        cnpj: data.cnpj && data.cnpj.trim().length > 0 ? data.cnpj.trim() : null,
+    }
     const cadastroAtualizado = await db.cadastro.update({
         where: { id: +id },
-        data,
+        data: dataAtualizada,
     });
     if (!cadastroAtualizado) return NextResponse.json({ error: "Erro ao atualizar cadastro" }, { status: 500 });
     return NextResponse.json({ message: "Cadastro atualizado com sucesso" }, { status: 200 });

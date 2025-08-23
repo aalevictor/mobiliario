@@ -12,13 +12,12 @@ import { formatarCEP, formatarCNPJ } from "@/lib/utils"
 import { toast } from "sonner"
 import { ICadastro } from "../../cadastros/page"
 
-interface EmpresaFormProps {
+interface EnderecoFormProps {
     cadastro: ICadastro
     atualizarPagina: (tab: string) => Promise<void>
 }
 
 const formSchema = z.object({
-    cnpj: z.string().min(18, "CNPJ é obrigatório"),
     cep: z.string().min(9, "CEP é obrigatório"),
     logradouro: z.string().min(1, "Logradouro é obrigatório"),
     numero: z.string().optional(),
@@ -27,11 +26,10 @@ const formSchema = z.object({
     uf: z.string().min(1, "UF é obrigatório"),
 })
 
-export default function EmpresaForm({ cadastro, atualizarPagina }: EmpresaFormProps) {
+export default function EnderecoForm({ cadastro, atualizarPagina }: EnderecoFormProps) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            cnpj: cadastro.cnpj,
             cep: cadastro.cep,
             logradouro: cadastro.logradouro,
             numero: cadastro.numero || undefined,
@@ -78,34 +76,17 @@ export default function EmpresaForm({ cadastro, atualizarPagina }: EmpresaFormPr
     return (
         <Card className="w-full max-w-4xl mx-auto">
             <CardHeader className="px-4 sm:px-6">
-                    <CardTitle className="text-lg sm:text-xl">Empresa</CardTitle>
+                    <CardTitle className="text-lg sm:text-xl">Endereço</CardTitle>
                 <CardDescription className="text-sm sm:text-base">
-                    Confira os dados da empresa do seu cadastro.
+                    Confira os dados do endereço do seu cadastro.
                 </CardDescription>
             </CardHeader>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4 sm:space-y-6">
                     <CardContent className="px-4 sm:px-6">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 sm:gap-6">
-                            <FormField control={form.control} name="cnpj" render={({ field }) => (
-                                <FormItem className="md:col-span-2">
-                                    <FormLabel className="text-sm sm:text-base">CNPJ</FormLabel>
-                                    <FormControl>
-                                        <Input 
-                                            {...field} 
-                                            placeholder="00.000.000/0000-00"
-                                            className="h-10 sm:h-11"
-                                            onChange={(e) => {
-                                                const cnpj = formatarCNPJ(e.target.value)
-                                                field.onChange(cnpj)
-                                            }}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
                             <FormField control={form.control} name="cep" render={({ field }) => (
-                                <FormItem className="md:col-span-2">
+                                <FormItem className="col-span-4">
                                     <FormLabel className="text-sm sm:text-base">CEP</FormLabel>
                                     <FormControl>
                                         <Input 

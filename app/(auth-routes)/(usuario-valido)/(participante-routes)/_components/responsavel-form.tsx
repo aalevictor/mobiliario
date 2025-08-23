@@ -20,7 +20,8 @@ const formSchema = z.object({
     nome: z.string().min(1, "Nome é obrigatório"),
     email: z.email("E-mail inválido"),
     telefone: z.string().min(14, "Telefone inválido"),
-    cpf: z.string().min(1, "CPF é obrigatório"),
+    cpf: z.string().min(14, "CPF é obrigatório"),
+    cnpj: z.string().optional(),
 })
 
 export default function ResponsavelForm({ cadastro, atualizarPagina }: ResponsavelFormProps) {
@@ -31,13 +32,19 @@ export default function ResponsavelForm({ cadastro, atualizarPagina }: Responsav
             email: cadastro.email,
             telefone: cadastro.telefone,
             cpf: cadastro.cpf,
+            cnpj: cadastro.cnpj,
         },
     })
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        if (data.cnpj && data.cnpj.length > 0 && data.cnpj.length < 18) {
+            toast.error("CNPJ inválido")
+            return
+        }
         const atualizarCadastro = await fetch(`/api/cadastro/${cadastro.id}`, {
             method: "PUT",
             body: JSON.stringify({
-                telefone: data.telefone
+                telefone: data.telefone,
+                cnpj: data.cnpj,
             }),
         })
         if (atualizarCadastro.ok) {
@@ -104,13 +111,26 @@ export default function ResponsavelForm({ cadastro, atualizarPagina }: Responsav
                                 </FormItem>
                             )} />
                             <FormField control={form.control} name="cpf" render={({ field }) => (
-                                <FormItem className="md:col-span-2">
+                                <FormItem className="md:col-span-1">
                                     <FormLabel className="text-sm sm:text-base">CPF</FormLabel>
                                     <FormControl>
                                         <Input 
                                             {...field}
                                             disabled
                                             placeholder="000.000.000-00"
+                                            className="h-10 sm:h-11 disabled:opacity-100"
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )} />
+                            <FormField control={form.control} name="cnpj" render={({ field }) => (
+                                <FormItem className="md:col-span-1">
+                                    <FormLabel className="text-sm sm:text-base">CNPJ</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            placeholder="00.000.000/0000-00"
                                             className="h-10 sm:h-11 disabled:opacity-100"
                                         />
                                     </FormControl>
