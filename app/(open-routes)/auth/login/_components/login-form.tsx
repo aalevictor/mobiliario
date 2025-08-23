@@ -47,14 +47,8 @@ export function LoginForm({
 			else {
 				// Verificar se o usuário precisa alterar a senha
 				const session = await fetch('/api/auth/session').then(res => res.json());
-				
-				if (session?.user?.alterarSenha) {
-					toast.success('Login realizado com sucesso! Você precisa alterar sua senha.');
-					router.push('/primeiro-login');
-				} else {
-					toast.success('Seja bem-vindo!');
-					router.push('/cadastros');
-				}
+				toast.success('Seja bem-vindo!');
+				router.push('/cadastros');
 			}
 		} catch (e) {
 			console.log(e);
