@@ -50,7 +50,7 @@ export function LoginForm({
 				
 				if (session?.user?.alterarSenha) {
 					toast.success('Login realizado com sucesso! Você precisa alterar sua senha.');
-					router.push('/auth/primeiro-login');
+					router.push('/primeiro-login');
 				} else {
 					toast.success('Seja bem-vindo!');
 					router.push('/cadastros');
