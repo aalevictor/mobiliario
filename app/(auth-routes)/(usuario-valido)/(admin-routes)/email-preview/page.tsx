@@ -60,7 +60,7 @@ export default function EmailPreviewPage() {
       nome: "Boas-vindas",
       descricao: "Primeiro contato com novos participantes",
       icone: Heart,
-      template: () => templateBoasVindas(previewData.nome)
+      template: () => templateBoasVindas(previewData.nome, "SENHAINICIAL", "MOB-2025-0000000000")
     },
     {
       id: "lembrete",

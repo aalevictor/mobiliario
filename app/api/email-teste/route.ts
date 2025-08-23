@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
         break;
       
       case "boas-vindas":
-        html = templateBoasVindas(nome || "Participante");
+        html = templateBoasVindas(nome || "Participante", "SENHAINICIAL", "MOB-2025-0000000000");
         subject = "Bem-vindo ao Concurso Mobiliário Urbano 2025";
         break;
       

@@ -432,27 +432,45 @@ export const templateLembrete = (nome: string, evento: string, data: string): st
 };
 
 // Template de boas-vindas
-export const templateBoasVindas = (nome: string): string => {
+export const templateBoasVindas = (nome: string, protocolo: string, senha: string): string => {
   return gerarEmailTemplate({
     nome,
-    titulo: 'Bem-vindo ao Concurso!',
-    subtitulo: 'Estamos felizes em tê-lo conosco',
+    titulo: 'Seja bem-vindo ao Concurso Nacional de Projetos de Mobiliário Urbano da Prefeitura de São Paulo!',
+    subtitulo: 'Você está na etapa de pré-inscrição (item 12.3.1 do Edital nº 001/SP-URB/2025).',
     conteudoPrincipal: `
-      <p>Seja bem-vindo ao <strong>Concurso Mobiliário Urbano</strong> da Prefeitura de São Paulo!</p>
-      <p>Aqui você encontrará todas as informações necessárias para participar e acompanhar o andamento do concurso.</p>
+      <p>Este é seu Código Identificador (ID): <strong>${protocolo}</strong></p>
+      <p>Guarde bem o seu ID, é com ele que você verificará o andamento de sua inscrição e a avaliação da sua proposta técnica.</p>
+      <p>Nos termos do item 12.3.1.1.1 do Edital nº 001/SP-URB/2025, o código de identificador (ID) deverá ser mantido sob sigilo, sendo irrevogável e intransferível, não cabendo a SP URBANISMO ou a COORDENAÇÃO DO CONCURSO, a emissão de novo ID em caso de perda.</p>
+      <p>Entre os dias 08/09/2025 e 15/09/2025 você deverá submeter os documentos necessários para inscrição, conforme item 9.2 do Edital nº 001/SP-URB/2025:</p>
+      <ul>
+        <li>Carta de Declarações Obrigatórias de pessoa física ou pessoa jurídica assinada, conforme item 10 do Edital e ANEXO I ou ANEXO II.</li>
+        <li>Declaração de Participação na Equipe, em caso de inscrição em equipe, assinada pelos membros que a constituem, conforme ANEXO III.</li>
+        <li>Prova de regularidade fiscal para com a Fazenda Nacional e relativa à Seguridade Social (INSS), que será efetuada mediante apresentação de certidão expedida conjuntamente pela Secretaria da Receita Federal do Brasil (RFB) e pela Procuradoria-Geral da Fazenda Nacional (PGFN), referente a todos os créditos tributários federais e à Dívida Ativa da União (DAU) por elas administrados;</li>
+        <li>Prova de regularidade fiscal para com a Fazenda Municipal do domicílio ou sede da interessada expedida pelo órgão competente;</li>
+        <li>Cadastro Informativo Municipal de São Paulo - CADIN.</li>
+        <li>Comprovação de Registro ou Certidão de inscrição da pessoa física ou pessoa jurídica no Conselho de Arquitetura e Urbanismo - CAU ou no Conselho de Engenharia e Agronomia - CREA da região da sede da empresa.</li>
+      </ul>
+      <p>No caso de Pessoa Jurídica, o RESPONSÁVEL TÉCNICO pelo projeto deverá estar vinculado à Pessoa Jurídica como integrante do quadro social, como empregado ou como contratado.</p>
+      <p>De acordo com o item 12.3.1.2.1 do Edital, todos os documentos devem ser submetidos em formato PDF, não podendo ultrapassar 20Mb (vinte megabites) no total, e devem ser nomeados, conforme as NORMAS DE APRESENTAÇÃO DE DOCUMENTOS DE HABILITAÇÃO - Anexo IV do Edital.</p>
+      <p>Depois de submeter a documentação, fique atento ao CRONOGRAMA e aos informes na PLATAFORMA DO CONCURSO, pois divulgaremos a lista dos IDs deferidos e indeferidos, nos termos do item 12.3.1.3 do Edital.</p>
+      <p>Caso seu ID constar como DEFERIDO, você será considerado INSCRITO no concurso e estará apto para submeter sua proposta técnica em nível de Estudo Preliminar.</p>
+      <p>Caso conste como INDEFERIDO, você poderá apresentar um recurso em até 3 dias após a publicação da lista. Neste caso, siga as orientações do item 12.3.1.4 do Edital.</p>
+      <p>A publicação final dos IDs deferidos e indeferidos será no dia 03/10/2025.</p>
+      <p>Observação: nos termos do item 21.2 do Edital, eventuais alterações no cronograma podem acontecer. Caso ocorram serão notificadas na Plataforma Online do Concurso e no Diário Oficial. Fique atento!</p>
+      <a href="${process.env.BASE_URL}">Acesse aqui a plataforma e submeta sua documentação.</a>
       <p>Desejamos sucesso em sua jornada!</p>
     `,
     mostrarCards: true,
     cardsPersonalizados: [
       {
-        icone: '🚀',
-        titulo: 'Primeiros Passos',
-        descricao: 'Acesse nosso portal e complete seu cadastro para começar.'
+        icone: '#️⃣',
+        titulo: 'Código identificador (ID)',
+        descricao: 'Guarde bem o seu ID, é com ele que você verificará o andamento de sua inscrição e a avaliação da sua proposta técnica.'
       },
       {
-        icone: '💬',
-        titulo: 'Suporte',
-        descricao: 'Nossa equipe está pronta para ajudar com qualquer dúvida.'
+        icone: '🔑',
+        titulo: 'Senha de acesso inicial',
+        descricao: `Sua senha de acesso inicial é: ${senha}`
       }
     ]
   });

@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { ViaCepResposta } from "@/types/cep"
-import { formatarCEP, formatarCNPJ } from "@/lib/utils"
+import { formatarCEP } from "@/lib/utils"
 import { toast } from "sonner"
 import { ICadastro } from "../../cadastros/page"
 

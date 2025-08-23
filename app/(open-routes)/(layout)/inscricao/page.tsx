@@ -34,8 +34,6 @@ const schema = z.object({
   equipe: z.boolean(),
   carteira_tipo: z.string().min(3, "Tipo de carteira é obrigatório"),
   carteira_numero: z.string().min(1, "Número de carteira é obrigatório"),
-  senha: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
-  confirmar_senha: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
   termos: z.boolean(),
 });
 
@@ -68,8 +66,6 @@ export default function PreCadastroPage() {
             equipe: false,
             carteira_tipo: "",
             carteira_numero: "",
-            senha: "",
-            confirmar_senha: "",
             termos: false,
         },
     });
@@ -78,7 +74,6 @@ export default function PreCadastroPage() {
         const dataEnvio = {
             equipe: data.equipe,
             nome: data.nome,
-            senha: data.senha,
             email: data.email,
             telefone: data.telefone,
             cpf: data.cpf,
@@ -147,16 +142,12 @@ export default function PreCadastroPage() {
             !form.watch("carteira_tipo") || 
             !form.watch("carteira_numero") || 
             !form.watch("email") || 
-            !form.watch("confirmar_email") || 
-            !form.watch("senha") || 
-            !form.watch("confirmar_senha")
+            !form.watch("confirmar_email")
         ) return false;
-        if (form.watch("senha") !== form.watch("confirmar_senha")) return false;
         if (form.watch("email") !== form.watch("confirmar_email")) return false;
         if (form.watch("cpf").length !== 14) return false;
         if (form.watch("telefone").length < 14) return false;
         if (form.watch("carteira_numero").length < 7) return false;
-        if (form.watch("senha").length < 6) return false;
         if (!form.watch("email").includes("@")) return false;
         return true;
     }
@@ -593,31 +584,6 @@ export default function PreCadastroPage() {
                                       <div className="col-span-4 mt-[-24px]">
                                         <span className="text-sm font-medium text-destructive">
                                           Emails não coincidem
-                                        </span>
-                                      </div>
-                                    )}
-                                    <FormField control={form.control} name="senha" render={({ field }) => (
-                                        <FormItem className="col-span-4 md:col-span-2">
-                                            <FormLabel className="text-sm sm:text-base">Senha</FormLabel>
-                                            <FormControl>
-                                                <Input {...field} type="password" placeholder="********" className="h-10 sm:h-11" />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )} />
-                                    <FormField control={form.control} name="confirmar_senha" render={({ field }) => (
-                                        <FormItem className="col-span-4 md:col-span-2">
-                                            <FormLabel className="text-sm sm:text-base">Confirmar Senha</FormLabel>
-                                            <FormControl>
-                                                <Input {...field} type="password" placeholder="********" className="h-10 sm:h-11" />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )} />
-                                    {form.watch("confirmar_senha") !== form.watch("senha") && (
-                                      <div className="col-span-4 mt-[-24px]">
-                                        <span className="text-sm font-medium text-destructive">
-                                          Senhas não coincidem
                                         </span>
                                       </div>
                                     )}

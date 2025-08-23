@@ -4,10 +4,10 @@ import { Permissao, Prisma, TipoArquivo, Tipo_Usuario } from "@prisma/client";
 import { db } from "@/lib/prisma";
 import { PreCadastro } from "@/app/api/cadastro/pre-cadastro.dto";
 import { hashPassword } from "@/lib/password";
-import { verificaLimite, verificaPagina } from "@/lib/utils";
+import { gerarSenha, verificaLimite, verificaPagina } from "@/lib/utils";
 import { IAvaliacaoLicitadora } from "@/app/api/cadastro/[id]/avaliacao-licitadora/route";
 import { transporter } from "@/lib/nodemailer";
-import { templateConfirmacaoInscricao } from "@/app/api/cadastro/_utils/email-templates";
+import { templateBoasVindas, templateConfirmacaoInscricao } from "@/app/api/cadastro/_utils/email-templates";
 
 function geraProtocolo(id: number) {
   const mascara = 17529 * id ** 2 + 85474;
@@ -23,7 +23,8 @@ async function criarPreCadastro(
 ): Promise<any> {
   const preCadastroSaved = await db.$transaction(
     async (tx: Prisma.TransactionClient) => {
-      const { participantes, senha, ...data } = preCadastro;
+      const { participantes, ...data } = preCadastro;
+      const senha = gerarSenha();
       const senhaHashed = hashPassword(senha);
       const novo_usuario = await tx.usuario.create({
         data: {
@@ -64,8 +65,8 @@ async function criarPreCadastro(
             await transporter.sendMail({
               from: process.env.MAIL_FROM,
               to: data.email,
-              subject: 'Concurso de Mobiliário Urbano 2025 - Cadastro',
-              html: templateConfirmacaoInscricao(data.nome),
+              subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
+              html: templateBoasVindas(data.nome, protocolo, senha),
             });
           } catch (emailError) {
             console.error('Erro ao enviar email:', emailError);

@@ -12,8 +12,7 @@ export default function Documentos({ permissao }: { permissao: string }) {
     const dataInicial = new Date('2025-08-25T00:00:00');
     const agora = new Date();
     const temPermissao = permissao === "ADMIN" || permissao === "DEV";
-    // const podeBaixar = agora > dataInicial || temPermissao;
-    const podeBaixar = true;
+    const podeBaixar = agora > dataInicial || temPermissao;
 
     const handleDownload = async (filename: string, displayName: string) => {
         if (!podeBaixar) {
@@ -40,14 +39,6 @@ export default function Documentos({ permissao }: { permissao: string }) {
         } catch {
             toast.error('Erro ao baixar o arquivo');
         }
-    };
-
-    const getDownloadButtonText = () => {
-        return 'Baixar edital';
-    };
-
-    const getTermoButtonText = () => {
-        return 'Baixar termo';
     };
 
     return (
@@ -86,7 +77,7 @@ export default function Documentos({ permissao }: { permissao: string }) {
                             onClick={() => handleDownload('edital.pdf', 'Edital do Concurso')}
                             disabled={!podeBaixar}
                         >
-                            {getDownloadButtonText()}
+                            Baixar edital
                         </Button>
                     </div>
                     <Edital size={160} />
@@ -124,7 +115,7 @@ export default function Documentos({ permissao }: { permissao: string }) {
                             onClick={() => handleDownload('termo_referencia.pdf', 'Termo de Referência')}
                             disabled={!podeBaixar}
                         >
-                            {getTermoButtonText()}
+                            Baixar termo
                         </Button>
                     </div>
                     <Termo size={160} />
