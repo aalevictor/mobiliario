@@ -206,14 +206,14 @@ const gerarRodape = (): string => {
                 <div style="display: inline-block; text-align: center;">
                   <!-- Logo da Prefeitura -->
                   <div style="display: inline-block; text-align: center; margin-right: 60px; vertical-align: top;">
-                    <img src="${baseUrl}/promocao/prefeitura.png" 
+                    <img src="${baseUrl}/logos/smul_preto.png" 
                          alt="Prefeitura de São Paulo" 
                          style="max-width: 200px; height: auto; max-height: 80px; display: block;" />
                   </div>
                   
                   <!-- Logo do SPUrbanismo -->
                   <div style="display: inline-block; text-align: center; vertical-align: top;">
-                    <img src="${baseUrl}/promocao/spurbanismo.png" 
+                    <img src="${baseUrl}/logos/spurbanismo_preto.png" 
                          alt="SPUrbanismo" 
                          style="max-width: 200px; height: auto; max-height: 80px; display: block;" />
                   </div>

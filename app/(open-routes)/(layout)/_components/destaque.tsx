@@ -10,7 +10,7 @@ export default function Destaque() {
             lg:bg-[url('/background/pc.png')]"
         >
           <div className="container mx-auto px-4 relative z-10">
-            <div className="max-w-4xl mx-auto text-center">
+            <div className="max-w-7xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold mb-5 text-[#3B2D3A] uppercase">
                 CONFIRA O CRONOGRAMA E FAÇA SUA PRÉ-INSCRIÇÃO
               </h2>

@@ -61,8 +61,8 @@ export function ResetPasswordForm({
 				onSubmit={form.handleSubmit(onSubmit)}>
 				<div className={cn('flex flex-col gap-6', className)}>
 					<div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
-						<Image src="/promocao/spurbanismo.png" alt="Logo" width={300} height={300} className='w-1/2 h-auto' />
-						<Image src="/promocao/prefeitura.png" alt="Logo" width={300} height={300} className='w-1/2 h-auto' />
+						<Image src="/logos/spurbanismo_preto.png" alt="Logo" width={300} height={300} className='w-1/2 h-auto' />
+						<Image src="/logos/smul_preto.png" alt="Logo" width={300} height={300} className='w-1/2 h-auto' />
 					</div>
 					
 					<div className='text-center'>

@@ -11,9 +11,8 @@ export default async function Navbar() {
           <Image
             src="/logo-header.png"
             alt="Brasão da Prefeitura de São Paulo"
-            width={120}
-            height={80}
-            quality={100}
+            width={160}
+            height={100}
           />
         </Link>
         {/* Menu desktop */}
@@ -36,7 +35,7 @@ export default async function Navbar() {
             Bases do Concurso
           </Link>
         </nav>
-        <div className="flex items-center gap-5" aria-label="Área do usuário">
+        <div className="flex items-center gap-5 max-w-[160px]" aria-label="Área do usuário">
           <UserLogged />
         </div>
       </div>

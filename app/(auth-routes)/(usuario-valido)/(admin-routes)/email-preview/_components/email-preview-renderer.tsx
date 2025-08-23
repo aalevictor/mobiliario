@@ -150,7 +150,7 @@ export default function EmailPreviewRenderer({ templateType, data }: EmailPrevie
         <div className="flex justify-center items-center gap-16 mb-8">
           <div className="text-center">
             <Image 
-              src="/promocao/prefeitura.png" 
+              src="/logos/smul_branco.png" 
               alt="Prefeitura de São Paulo" 
               className="max-w-[200px]"
               width={200}
@@ -160,7 +160,7 @@ export default function EmailPreviewRenderer({ templateType, data }: EmailPrevie
           
           <div className="text-center">
             <Image 
-              src="/promocao/spurbanismo.png" 
+              src="/logos/spurbanismo_branco.png" 
               alt="SPUrbanismo" 
               className="max-w-[200px]"
               width={200}

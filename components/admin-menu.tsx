@@ -52,14 +52,11 @@ export default async function AdminMenu() {
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center space-x-2">
             <Settings className="h-4 w-4 text-primary" />
-            <span className="text-sm font-semibold text-gray-800 dark:text-gray-200 max-sm:hidden">
+            <span className="text-sm font-semibold text-gray-800 dark:text-gray-200 max-md:hidden">
               Painel Administrativo
             </span>
-            <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-zinc-800 px-2 py-1 rounded-full">
-              {permissao}
-            </span>
           </div>
-          <nav className="flex items-center space-x-2 sm:space-x-4">
+          <nav className="flex items-center space-x-2">
             {menuItems.map((item) => {
               const Icon = item.icon;
               return (
@@ -72,7 +69,7 @@ export default async function AdminMenu() {
                   title={item.description}
                 >
                   <Icon className="h-4 w-4" />
-                  <span className="hidden sm:inline">{item.label}</span>
+                  <span className="hidden text-sm md:inline">{item.label}</span>
                 </Link>
               );
             })}

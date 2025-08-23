@@ -41,14 +41,14 @@ export default function Apoio() {
               </div>
               <div className="flex items-center justify-center gap-8 flex-wrap">
                 <Image
-                  src="/promocao/spurbanismo.png"
+                  src="/logos/spurbanismo_preto.png"
                   alt="Logo SP Urbanismo"
                   width={141}
                   height={33}
                 />
                 <Image
-                  src="/promocao/prefeitura.png"
-                  alt="Logo Prefeitura de São Paulo"
+                  src="/logos/smul_preto.png"
+                  alt="Logo Prefeitura de São Paulo - SMUL"
                   width={113}
                   height={43}
                 />

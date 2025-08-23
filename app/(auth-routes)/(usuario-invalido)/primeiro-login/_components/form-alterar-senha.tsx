@@ -11,6 +11,7 @@ import z from "zod";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 const formSchema = z.object({
     senha: z.string().min(8, { message: "A senha deve ter pelo menos 8 caracteres" }),
@@ -42,7 +43,8 @@ export default function FormAlterarSenha({ usuario }: { usuario: User }) {
             });
             if (response.ok) {
                 toast.success("Senha alterada com sucesso");
-                router.push("/cadastros");
+                await signOut({ redirect: false });
+                router.push("/auth/login");
             } else {
                 toast.error("Erro ao alterar senha");
             }

@@ -13,7 +13,6 @@ import {
   templateLembrete, 
   templateBoasVindasParticipante,
   templateNovaDuvidaCoordenacao,
-  templateNovaDuvidaParticipante,
   gerarEmailTemplate
 } from "@/app/api/cadastro/_utils/email-templates";
 import { 
