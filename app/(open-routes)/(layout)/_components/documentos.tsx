@@ -12,7 +12,8 @@ export default function Documentos({ permissao }: { permissao: string }) {
     const dataInicial = new Date('2025-08-25T00:00:00');
     const agora = new Date();
     const temPermissao = permissao === "ADMIN" || permissao === "DEV";
-    const podeBaixar = agora > dataInicial || temPermissao;
+    // const podeBaixar = agora > dataInicial || temPermissao;
+    const podeBaixar = true;
 
     const handleDownload = async (filename: string, displayName: string) => {
         if (!podeBaixar) {
