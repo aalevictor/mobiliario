@@ -4,8 +4,18 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
 import { Duvida } from '@prisma/client';
 import ModalPergunta from '@/components/modal-pergunta';
+import { format } from 'date-fns';
 
 export const columns: ColumnDef<Duvida>[] = [
+	{
+		accessorKey: 'criadoEm',
+		header: 'Data',
+		cell: ({ row }) => {
+			return (
+				<p className='text-center'>{format(row.original.criadoEm, 'dd/MM/yyyy HH:mm')}</p>
+			);
+		},
+	},
 	{
 		accessorKey: 'nome',
 		header: 'Nome',
