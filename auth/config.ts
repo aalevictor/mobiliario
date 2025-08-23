@@ -2,7 +2,6 @@
 
 import { bind } from '@/services/ldap';
 import Credentials from 'next-auth/providers/credentials';
-import { Logger } from '@/lib/logger';
 // import { bind } from '../services/ldap';
 
 export const authConfig = {
@@ -16,35 +15,16 @@ export const authConfig = {
 			authorize: async (credentials, req) => {
 				const { login, senha } = credentials ?? {};
 				if (!login || !senha) return null;
-				
-				try {
-					const usuario = await bind(login as string, senha as string);
-					if (!usuario) {
-						// Log de tentativa de login falhada
-						await Logger.logLogin("", false, req?.headers?.get("x-forwarded-for") as string, req?.headers?.get("user-agent") as string);
-						return null;
-					}
-					
-					// Log de login bem-sucedido
-					await Logger.logLogin(usuario.id, true, req?.headers?.get("x-forwarded-for") as string, req?.headers?.get("user-agent") as string);
-					
-					return {
-						id: usuario.id,
-						email: usuario.email,
-						nome: usuario.nome,
-						login: usuario.login || undefined,
-						permissao: usuario.permissao,
-						alterarSenha: usuario.alterarSenha,
-					};
-				} catch (error) {
-					// Log de erro durante o login
-					await Logger.logErro("Erro durante autenticação", error as Error, {
-						entidade: "USUARIO",
-						ip: req?.headers?.get("x-forwarded-for") as string,
-						userAgent: req?.headers?.get("user-agent") as string,
-					});
-					return null;
-				}
+				const usuario = await bind(login as string, senha as string);
+				if (!usuario) return null;
+				return {
+					id: usuario.id,
+					email: usuario.email,
+					nome: usuario.nome,
+					login: usuario.login || undefined,
+					permissao: usuario.permissao,
+					alterarSenha: usuario.alterarSenha,
+				};
 			},
 		}),
 	],
