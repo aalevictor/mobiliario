@@ -166,6 +166,13 @@ NEXT_PUBLIC_APP_URL=https://concursomoburb.prefeitura.sp.gov.br
 - Monitorar taxa de sucesso de envio
 - Acompanhar tentativas de recuperação
 
+## Correções Implementadas
+
+### Posicionamento de Ícones nos Emails
+- **Problema**: Os ícones nos cards dos templates de email estavam posicionados incorretamente
+- **Solução**: Substituído o sistema de posicionamento baseado em `line-height` e `margin-top` por `display: flex` com `align-items: center` e `justify-content: center`
+- **Resultado**: Ícones agora ficam perfeitamente centralizados tanto horizontal quanto verticalmente nos cards
+
 ## Próximos Passos (Opcionais)
 
 1. **Rate Limiting**: Limitar tentativas por IP/email

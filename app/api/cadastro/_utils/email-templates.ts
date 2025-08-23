@@ -122,9 +122,9 @@ const gerarCards = (cards: Array<{icone?: string; titulo: string; descricao: str
           <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: all 0.3s ease;">
             <tr>
               <td style="vertical-align: top; padding-right: 20px; width: 56px;">
-                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, ${cardColor} 0%, ${cardColor}dd 100%); border-radius: 12px; text-align: center; line-height: 56px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-                  <div style="width: 28px; height: 28px; background: #ffffff; border-radius: 6px; display: inline-block; margin-top: 14px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
-                    <span style="color: ${cardColor}; font-size: 16px; font-weight: bold;">${card.icone || '📋'}</span>
+                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, ${cardColor} 0%, ${cardColor}dd 100%); border-radius: 12px; text-align: center; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                  <div style="width: 28px; height: 28px; background: #ffffff; border-radius: 6px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                    <span style="color: ${cardColor}; font-size: 16px; font-weight: bold; line-height: 1;">${card.icone || '📋'}</span>
                   </div>
                 </div>
               </td>

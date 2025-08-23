@@ -9,7 +9,6 @@ import { User } from "next-auth";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { toast } from "sonner";
-import { signOut } from "next-auth/react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -41,7 +40,6 @@ export default function FormAlterarSenha({ usuario }: { usuario: User }) {
                 },
                 body: JSON.stringify({ senha, confirmarSenha }),
             });
-
             if (response.ok) {
                 toast.success("Senha alterada com sucesso");
                 router.push("/cadastros");

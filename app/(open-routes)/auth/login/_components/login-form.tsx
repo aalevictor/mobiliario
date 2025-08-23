@@ -45,8 +45,6 @@ export function LoginForm({
 			});
 			if (res.error) toast.error('Credenciais incorretas!');
 			else {
-				// Verificar se o usuário precisa alterar a senha
-				const session = await fetch('/api/auth/session').then(res => res.json());
 				toast.success('Seja bem-vindo!');
 				router.push('/cadastros');
 			}
