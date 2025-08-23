@@ -102,80 +102,57 @@ export default function ModalPergunta({ duvida, children }: { duvida?: Duvida, c
                         {duvida ? 'Responda a pergunta abaixo' : 'Preencha os dados para enviar sua pergunta'}
                     </DialogDescription>
                 </DialogHeader>
-                
-                <div className="mt-6">
+                <div className="mt-4">
                     {duvida ? (
                         <Form {...formResposta}>
-                            <form onSubmit={formResposta.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
-                                <Card>
-                                    <CardHeader className="px-4 sm:px-6 pb-3">
-                                        <CardTitle className="text-base sm:text-lg">Dados da Pergunta</CardTitle>
-                                        <CardDescription className="text-sm">
-                                            Informações da pergunta recebida
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="px-4 sm:px-6 space-y-4">
+                            <form onSubmit={formResposta.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+                                <FormItem>
+                                    <FormLabel className="text-sm sm:text-base">Nome</FormLabel>
+                                    <Input
+                                        disabled={true}
+                                        value={duvida?.nome || ''}
+                                        readOnly
+                                        className="h-10 sm:h-11"
+                                    />
+                                </FormItem>
+                                <FormItem>
+                                    <FormLabel className="text-sm sm:text-base">E-mail</FormLabel>
+                                    <Input
+                                        disabled={true}
+                                        value={duvida?.email || ''}
+                                        readOnly
+                                        className="h-10 sm:h-11"
+                                    />
+                                </FormItem>
+                                <FormItem>
+                                    <FormLabel className="text-sm sm:text-base">Pergunta</FormLabel>
+                                    <Textarea
+                                        rows={6}
+                                        disabled={true}
+                                        value={duvida?.pergunta || ''}
+                                        readOnly
+                                        className="min-h-[120px] resize-none overflow-y-auto"
+                                    />
+                                </FormItem>
+                                <FormField
+                                    control={formResposta.control}
+                                    name='resposta'
+                                    render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="text-sm sm:text-base">Pergunta</FormLabel>
-                                            <Textarea
-                                                rows={6}
-                                                disabled={true}
-                                                value={duvida?.pergunta || ''}
-                                                readOnly
-                                                className="min-h-[120px] resize-none"
-                                            />
+                                            <FormLabel className="text-sm sm:text-base">Resposta</FormLabel>
+                                            <FormControl>
+                                                <Textarea
+                                                    rows={8}
+                                                    placeholder='Digite sua resposta'
+                                                    {...field}
+                                                    disabled={!!duvida?.resposta}
+                                                    className="min-h-[160px] resize-none overflow-y-auto"
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
                                         </FormItem>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <FormItem>
-                                                <FormLabel className="text-sm sm:text-base">Nome</FormLabel>
-                                                <Input
-                                                    disabled={true}
-                                                    value={duvida?.nome || ''}
-                                                    readOnly
-                                                />
-                                            </FormItem>
-                                            <FormItem>
-                                                <FormLabel className="text-sm sm:text-base">Email</FormLabel>
-                                                <Input
-                                                    disabled={true}
-                                                    value={duvida?.email || ''}
-                                                    readOnly
-                                                />
-                                            </FormItem>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                                
-                                <Card>
-                                    <CardHeader className="px-4 sm:px-6 pb-3">
-                                        <CardTitle className="text-base sm:text-lg">Resposta</CardTitle>
-                                        <CardDescription className="text-sm">
-                                            {duvida.resposta ? 'Resposta já enviada' : 'Digite sua resposta'}
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="px-4 sm:px-6">
-                                        <FormField
-                                            control={formResposta.control}
-                                            name='resposta'
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel className="text-sm sm:text-base">Resposta</FormLabel>
-                                                    <FormControl>
-                                                        <Textarea
-                                                            rows={8}
-                                                            placeholder='Digite sua resposta'
-                                                            {...field}
-                                                            disabled={!!duvida?.resposta}
-                                                            className="min-h-[160px] resize-none"
-                                                        />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </CardContent>
-                                </Card>
-                                
+                                    )}
+                                />                          
                                 {duvida && !duvida.resposta && (
                                     <div className="flex justify-end pt-4">
                                         <Button type='submit' disabled={isPending} className="w-full sm:w-auto">
@@ -187,81 +164,59 @@ export default function ModalPergunta({ duvida, children }: { duvida?: Duvida, c
                         </Form>
                     ) : (
                         <Form {...formPergunta}>
-                            <form onSubmit={formPergunta.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
-                                <Card>
-                                    <CardHeader className="px-4 sm:px-6 pb-3">
-                                        <CardTitle className="text-base sm:text-lg">Dados Pessoais</CardTitle>
-                                        <CardDescription className="text-sm">
-                                            Informações para contato
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="px-4 sm:px-6 space-y-4">
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <FormField
-                                                control={formPergunta.control}
-                                                name='nome'
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel className="text-sm sm:text-base">Nome</FormLabel>
-                                                        <FormControl>
-                                                            <Input
-                                                                placeholder='Digite seu nome'
-                                                                {...field}
-                                                            />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                            <FormField
-                                                control={formPergunta.control}
-                                                name='email'
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel className="text-sm sm:text-base">Email</FormLabel>
-                                                        <FormControl>
-                                                            <Input
-                                                                placeholder='Digite seu email'
-                                                                {...field}
-                                                            />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                                
-                                <Card>
-                                    <CardHeader className="px-4 sm:px-6 pb-3">
-                                        <CardTitle className="text-base sm:text-lg">Pergunta</CardTitle>
-                                        <CardDescription className="text-sm">
-                                            Descreva sua dúvida ou pergunta
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="px-4 sm:px-6">
-                                        <FormField
-                                            control={formPergunta.control}
-                                            name='pergunta'
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel className="text-sm sm:text-base">Pergunta</FormLabel>
-                                                    <FormControl>
-                                                        <Textarea
-                                                            rows={8}
-                                                            placeholder='Digite sua pergunta'
-                                                            {...field}
-                                                            className="min-h-[160px] resize-none"
-                                                        />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </CardContent>
-                                </Card>
-                                
+                            <form onSubmit={formPergunta.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+                                <FormField
+                                    control={formPergunta.control}
+                                    name='nome'
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-sm sm:text-base">Nome</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder='Digite seu nome'
+                                                    className="h-10 sm:h-11"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={formPergunta.control}
+                                    name='email'
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-sm sm:text-base">E-mail</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder='Digite seu email'
+                                                    {...field}
+                                                    className="h-10 sm:h-11"
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={formPergunta.control}
+                                    name='pergunta'
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-sm sm:text-base">Pergunta</FormLabel>
+                                            <FormControl>
+                                                <Textarea
+                                                    rows={8}
+                                                    placeholder='Digite sua pergunta'
+                                                    {...field}
+                                                    className="min-h-[160px] resize-none overflow-y-auto"
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                                 <div className="flex justify-end pt-4">
                                     <Button type='submit' disabled={isPending} className="w-full sm:w-auto">
                                         {isPending ? 'Enviando...' : 'Enviar Pergunta'}
