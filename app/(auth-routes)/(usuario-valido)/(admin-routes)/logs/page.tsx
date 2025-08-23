@@ -10,8 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { Search, Trash2, Eye, Download } from "lucide-react";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatarData, formatarDataISO } from "@/lib/utils";
 import { ILog, ILogsPaginados } from "@/services/logs";
 import { toast } from "sonner";
 import { NivelLog } from "@prisma/client";
@@ -100,14 +99,14 @@ export default function LogsPage() {
         log.nivel,
         log.usuario?.nome || "",
         log.ip || "",
-        format(new Date(log.criadoEm), "dd/MM/yyyy HH:mm:ss", { locale: ptBR }),
+        formatarData(new Date(log.criadoEm), true),
       ]),
     ].map(row => row.map(field => `"${field}"`).join(",")).join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `logs_${format(new Date(), "yyyy-MM-dd")}.csv`;
+          link.download = `logs_${formatarDataISO(new Date())}.csv`;
     link.click();
   };
 
@@ -324,7 +323,7 @@ export default function LogsPage() {
                               <div>
                                 <Label className="font-semibold">Data:</Label>
                                 <p className="text-sm">
-                                  {format(new Date(log.criadoEm), "dd/MM/yyyy HH:mm:ss", { locale: ptBR })}
+                                  {formatarData(new Date(log.criadoEm), true)}
                                 </p>
                               </div>
                               <div>
@@ -418,7 +417,7 @@ export default function LogsPage() {
                       {log.usuario?.nome ? `Por: ${log.usuario.nome}` : "Sistema"}
                     </span>
                     <span>
-                      {format(new Date(log.criadoEm), "dd/MM/yyyy HH:mm:ss", { locale: ptBR })}
+                      {formatarData(new Date(log.criadoEm), true)}
                     </span>
                   </div>
                 </div>

@@ -102,3 +102,66 @@ export function verificaLimite(pagina: number, limite: number, total: number) {
 export function gerarSenha(tamanho: number = 10) {
   return Math.random().toString(36).slice(tamanho * -1);
 }
+
+/**
+ * Formata uma data para o formato brasileiro (dd/MM/yyyy HH:mm)
+ */
+export function formatarData(data: Date | string, incluirHora: boolean = true): string {
+  const dataObj = typeof data === 'string' ? new Date(data) : data;
+  
+  if (isNaN(dataObj.getTime())) {
+    return 'Data inválida';
+  }
+
+  const dia = dataObj.getDate().toString().padStart(2, '0');
+  const mes = (dataObj.getMonth() + 1).toString().padStart(2, '0');
+  const ano = dataObj.getFullYear();
+  
+  if (!incluirHora) {
+    return `${dia}/${mes}/${ano}`;
+  }
+  
+  const hora = dataObj.getHours().toString().padStart(2, '0');
+  const minuto = dataObj.getMinutes().toString().padStart(2, '0');
+  
+  return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+}
+
+/**
+ * Formata uma data para o formato brasileiro longo (dd de MMMM de yyyy)
+ */
+export function formatarDataLonga(data: Date | string): string {
+  const dataObj = typeof data === 'string' ? new Date(data) : data;
+  
+  if (isNaN(dataObj.getTime())) {
+    return 'Data inválida';
+  }
+
+  const meses = [
+    'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+    'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+  ];
+
+  const dia = dataObj.getDate();
+  const mes = meses[dataObj.getMonth()];
+  const ano = dataObj.getFullYear();
+  
+  return `${dia} de ${mes} de ${ano}`;
+}
+
+/**
+ * Formata uma data para o formato ISO (yyyy-MM-dd)
+ */
+export function formatarDataISO(data: Date | string): string {
+  const dataObj = typeof data === 'string' ? new Date(data) : data;
+  
+  if (isNaN(dataObj.getTime())) {
+    return '';
+  }
+
+  const ano = dataObj.getFullYear();
+  const mes = (dataObj.getMonth() + 1).toString().padStart(2, '0');
+  const dia = dataObj.getDate().toString().padStart(2, '0');
+  
+  return `${ano}-${mes}-${dia}`;
+}
