@@ -98,16 +98,8 @@ if [[ -z "$DATABASE_URL" ]]; then
     exit 1
 fi
 
-# Executa as migrations do Prisma
-log_info "Executando migrations do banco de dados..."
-$DOCKER_COMPOSE run --rm moburb-app npx prisma migrate deploy
-
-# Executa o seed do banco de dados
-log_info "Executando seed do banco de dados..."
-$DOCKER_COMPOSE run --rm moburb-app npm run seed
-
-# Inicia os containers
-log_info "Iniciando containers..."
+# Inicia os containers (migrations e seed executam automaticamente)
+log_info "Iniciando containers com setup automático..."
 $DOCKER_COMPOSE up -d
 
 # Aguarda o container ficar saudável
