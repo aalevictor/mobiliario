@@ -89,6 +89,7 @@ fi
 
 # Inicia os containers (migrations e seed executam automaticamente)
 log_info "Iniciando containers com setup automático..."
+log_info "Sequência: Prisma Migrate Deploy → Generate → Seed → Start"
 $DOCKER_COMPOSE up -d
 
 # Aguarda o container ficar saudável
@@ -127,6 +128,29 @@ if docker ps | grep -q "moburb-concurso-centos7"; then
     echo ""
     echo "🌐 Aplicação disponível em:"
     echo "   https://concursomoburb.prefeitura.sp.gov.br"
+    
+    # Verificar status das migrations
+    echo ""
+    log_info "🗄️ Verificando status das migrations..."
+    MIGRATION_STATUS=$($DOCKER_COMPOSE exec -T moburb-app npx prisma migrate status 2>&1 || echo "Erro ao verificar migrations")
+    if echo "$MIGRATION_STATUS" | grep -q "All migrations have been applied"; then
+        log_success "✅ Todas as migrations foram aplicadas com sucesso"
+    elif echo "$MIGRATION_STATUS" | grep -q "No pending migrations"; then
+        log_success "✅ Nenhuma migration pendente"
+    else
+        log_warning "⚠️ Status das migrations:"
+        echo "$MIGRATION_STATUS"
+    fi
+    
+    # Teste automático de email
+    echo ""
+    log_info "🧪 Executando teste de email automático..."
+    if [ -f "test-email.sh" ]; then
+        chmod +x test-email.sh
+        ./test-email.sh || log_warning "Teste de email falhou - verifique configuração"
+    else
+        log_warning "Script de teste de email não encontrado"
+    fi
     
 else
     log_error "Container não está rodando"

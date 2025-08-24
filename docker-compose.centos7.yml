@@ -9,7 +9,7 @@ services:
     container_name: moburb-concurso-centos7
     restart: unless-stopped
     # Comando simplificado que deve funcionar
-    command: ["sh", "-c", "sleep 15 && npx prisma db push && npx prisma generate && npm run seed || echo 'Seed executado' && npm start"]
+    command: ["sh", "-c", "sleep 15 && npx prisma migrate deploy && npx prisma generate && npm run seed || echo 'Seed executado' && npm start"]
     ports:
       - "3500:3500"
     environment:
@@ -24,10 +24,14 @@ services:
       - ./uploads:/app/uploads
       # Volume para logs
       - ./logs:/app/logs
-      # Compartilha o sendmail do host
-      - /usr/sbin:/usr/sbin
+      # Compartilha o sendmail do host (modo específico)
+      - /usr/sbin/sendmail:/usr/sbin/sendmail:ro
+      - /usr/lib/sendmail:/usr/lib/sendmail:ro
       # Compartilha configurações de mail do sistema
       - /etc/mail:/etc/mail:ro
+      # Bibliotecas necessárias para sendmail
+      - /lib64:/lib64:ro
+      - /usr/lib64:/usr/lib64:ro
       # Timezone do sistema
       - /etc/localtime:/etc/localtime:ro
     # Conecta com a rede do host para acessar MySQL local e sendmail
