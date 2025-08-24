@@ -135,13 +135,13 @@ model LogAuditoria {
   usuario     String?     // ID ou login do usuário
   ip          String?
   userAgent   String?
-  erro        String?     // Detalhes do erro se for erro
-  stackTrace  String?     // Stack trace completo para erros
+  erro        String?     @db.Text
+  stackTrace  String?     @db.Text
   duracao     Int?        // Duração da operação em ms
   endpoint    String?     // Endpoint da API chamado
   metodo      String?     // GET, POST, PUT, DELETE
   headers     Json?       // Headers relevantes da requisição
-  query       String?     // Query SQL executada (se aplicável)
+  query       String?     @db.Text // Query SQL executada (se aplicável)
   emailEnviado Boolean    @default(false) // Se email de erro crítico foi enviado
   criadoEm    DateTime    @default(now())
 

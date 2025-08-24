@@ -25,7 +25,7 @@ services:
       # Volume para logs
       - ./logs:/app/logs
       # Compartilha o sendmail do host
-      - /usr/sbin/sendmail:/usr/sbin/sendmail:ro
+      - /usr/sbin:/usr/sbin
       # Compartilha configurações de mail do sistema
       - /etc/mail:/etc/mail:ro
       # Timezone do sistema
