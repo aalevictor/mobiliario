@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Users, FileText, HelpCircle, Settings, Mail } from "lucide-react";
+import { Users, FileText, HelpCircle, Settings, Mail, Activity } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { auth } from "@/auth";
 import { retornaPermissao } from "@/services/usuarios";
@@ -14,6 +14,7 @@ export default async function AdminMenu() {
 
   // Verificar se o usuário tem permissão DEV ou ADMIN
   const isAdmin = permissao === "DEV" || permissao === "ADMIN";
+  const isDev = permissao === "DEV";
   
   if (!isAdmin) {
     return null;
@@ -24,27 +25,45 @@ export default async function AdminMenu() {
       href: "/usuarios",
       label: "Usuários",
       icon: Users,
-      description: "Gerenciar usuários do sistema"
+      description: "Gerenciar usuários do sistema",
+      showForDev: true,
+      showForAdmin: true
     },
     {
       href: "/cadastros",
       label: "Cadastros",
       icon: FileText,
-      description: "Visualizar e gerenciar cadastros"
+      description: "Visualizar e gerenciar cadastros",
+      showForDev: true,
+      showForAdmin: true
     },
     {
       href: "/duvidas",
       label: "Dúvidas",
       icon: HelpCircle,
-      description: "Responder dúvidas dos participantes"
+      description: "Responder dúvidas dos participantes",
+      showForDev: true,
+      showForAdmin: true
     },
     {
       href: "/email-preview",
       label: "Emails",
       icon: Mail,
-      description: "Visualizar templates de email"
+      description: "Visualizar templates de email",
+      showForDev: true,
+      showForAdmin: true
+    },
+    {
+      href: "/logs",
+      label: "Logs",
+      icon: Activity,
+      description: "Monitoramento e auditoria do sistema",
+      showForDev: true,
+      showForAdmin: false
     }
-  ];
+  ].filter(item => 
+    (isDev && item.showForDev) || (permissao === "ADMIN" && item.showForAdmin)
+  );
 
   return (
     <div className="bg-[#e8edde] shadow-none sticky z-30">

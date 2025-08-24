@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ModalLicitadora from "../_components/modal-licitadora";
 import { ICadastro } from "../page";
-import { TipoArquivo } from "@prisma/client";
+import { Arquivo, Participante, TipoArquivo } from "@prisma/client";
 import { auth } from "@/auth";
 import { retornaPermissao, verificarPermissoes } from "@/services/usuarios";
 import DownloadButton from "./_components/download-button";
@@ -16,8 +16,8 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
     const cadastro = await buscarCadastro(+id);
     if (!cadastro) redirect('/cadastros');
     const podeDownload = await verificarPermissoes(usuarioId, ["DEV", "ADMIN"]);
-    const projetos = cadastro.arquivos?.filter((arquivo) => arquivo.tipo === TipoArquivo.PROJETOS) || [];
-    const documentos = cadastro.arquivos?.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA) || [];
+    const projetos = cadastro.arquivos?.filter((arquivo: { tipo: string; }) => arquivo.tipo === TipoArquivo.PROJETOS) || [];
+    const documentos = cadastro.arquivos?.filter((arquivo: { tipo: string; }) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA) || [];
 
     return (<div className="px-2 md:px-8 relative h-full container mx-auto py-8">
                 <div className="space-y-2 max-w-6xl mx-auto">
@@ -121,7 +121,7 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                         <CardContent>
                             {cadastro.participantes && cadastro.participantes.length > 0 ? (
                                 <div className="space-y-3">
-                                    {cadastro.participantes.map((participante) => (
+                                    {cadastro.participantes.map((participante: Partial<Participante>) => (
                                         <div key={participante.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                                             <User className="h-5 w-5 text-gray-500" />
                                             <div>
@@ -154,7 +154,7 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                         <CardContent>
                             {documentos && documentos.length > 0 ? (
                                 <div className="space-y-3">
-                                    {documentos.map((arquivo) => (
+                                    {documentos.map((arquivo: Partial<Arquivo>) => (
                                         <div key={arquivo.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                                             <div className="flex items-center gap-3">
                                                 <FileText className="h-5 w-5 text-gray-500" />
@@ -204,7 +204,7 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                         <CardContent>
                             {projetos && projetos.length > 0 ? (
                                 <div className="space-y-3">
-                                    {projetos.map((arquivo) => (
+                                    {projetos.map((arquivo: Partial<Arquivo>) => (
                                         <div key={arquivo.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                                             <div className="flex items-center gap-3">
                                                 <FolderOpen className="h-5 w-5 text-gray-500" />
@@ -273,7 +273,7 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                 <CardContent>
                     {cadastro.arquivos && cadastro.arquivos.length > 0 ? (
                         <div className="space-y-3">
-                            {cadastro.arquivos.map((arquivo) => (
+                            {cadastro.arquivos.map((arquivo: Partial<Arquivo>) => (
                                 <div key={arquivo.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                                     <div className="flex items-center gap-3">
                                         <FolderOpen className="h-5 w-5 text-gray-500" />

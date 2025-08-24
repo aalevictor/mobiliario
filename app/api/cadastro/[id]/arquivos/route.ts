@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/prisma";
-import { TipoArquivo } from "@prisma/client";
+import { Arquivo, TipoArquivo } from "@prisma/client";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 
@@ -52,7 +52,7 @@ export async function POST(
             }
         });
 
-        const tamanhoTotalExistente = arquivosExistentes.reduce((total, arquivo) => {
+        const tamanhoTotalExistente = arquivosExistentes.reduce((total: number, arquivo: Partial<Arquivo>) => {
             return total + (arquivo.tamanho || 0);
         }, 0);
 
