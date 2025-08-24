@@ -30,12 +30,6 @@ export function LogsFilters({
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Filter className="h-5 w-5" />
-          Filtros
-        </CardTitle>
-      </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           {/* Tipo */}
@@ -55,7 +49,6 @@ export function LogsFilters({
               </SelectContent>
             </Select>
           </div>
-
           {/* Nível */}
           {!hideNivelFilter && (
             <div className="space-y-2">
@@ -124,64 +117,64 @@ export function LogsFilters({
           </div>
         </div>
 
-        {/* Botão de limpar filtros */}
-        {hasActiveFilters && (
-          <div className="mt-4 flex justify-end">
-            <Button variant="outline" onClick={onClearFilters}>
-              <X className="h-4 w-4 mr-2" />
-              Limpar Filtros
-            </Button>
-          </div>
-        )}
-
         {/* Filtros rápidos */}
-        <div className="mt-4 space-y-2">
-          <label className="text-sm font-medium">Filtros Rápidos</label>
-          <div className="flex flex-wrap gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                onFilterChange('nivel', 'CRITICAL');
-                onFilterChange('dataInicio', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 16));
-              }}
-            >
-              Erros Críticos (24h)
-            </Button>
-            
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                onFilterChange('tipo', 'ERROR');
-                onFilterChange('dataInicio', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 16));
-              }}
-            >
-              Erros (24h)
-            </Button>
-            
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                onFilterChange('tipo', 'DATABASE_OPERATION');
-                onFilterChange('dataInicio', new Date(Date.now() - 60 * 60 * 1000).toISOString().slice(0, 16));
-              }}
-            >
-              BD Ops (1h)
-            </Button>
-            
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                onFilterChange('tipo', 'AUTH');
-                onFilterChange('dataInicio', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 16));
-              }}
-            >
-              Auth (24h)
-            </Button>
+        <div className="mt-2 flex justify-between items-end">
+          <div className='flex flex-col gap-2'>
+            <label className="text-sm font-medium">Filtros Rápidos</label>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  onFilterChange('nivel', 'CRITICAL');
+                  onFilterChange('dataInicio', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 16));
+                }}
+              >
+                Erros Críticos (24h)
+              </Button>
+              
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  onFilterChange('tipo', 'ERROR');
+                  onFilterChange('dataInicio', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 16));
+                }}
+              >
+                Erros (24h)
+              </Button>
+              
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  onFilterChange('tipo', 'DATABASE_OPERATION');
+                  onFilterChange('dataInicio', new Date(Date.now() - 60 * 60 * 1000).toISOString().slice(0, 16));
+                }}
+              >
+                BD Ops (1h)
+              </Button>
+              
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  onFilterChange('tipo', 'AUTH');
+                  onFilterChange('dataInicio', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 16));
+                }}
+              >
+                Auth (24h)
+              </Button>
+            </div>
           </div>
+          {hasActiveFilters && (
+            <div className="flex justify-end">
+              <Button variant="outline" onClick={onClearFilters}>
+                <X className="h-4 w-4 mr-2" />
+                Limpar Filtros
+              </Button>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

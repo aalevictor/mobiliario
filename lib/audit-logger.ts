@@ -221,6 +221,70 @@ export class AuditLogger {
     };
   }
 
+  // Método para limpar logs antigos
+  static async cleanupOldLogs(diasParaManter: number = 30) {
+    try {
+      const dataLimite = new Date();
+      dataLimite.setDate(dataLimite.getDate() - diasParaManter);
+
+      const resultado = await dbRaw.logAuditoria.deleteMany({
+        where: {
+          criadoEm: {
+            lt: dataLimite
+          },
+          // Manter logs críticos por mais tempo
+          nivel: {
+            not: NivelLog.CRITICAL
+          }
+        }
+      });
+
+      console.log(`🧹 Limpeza de logs: ${resultado.count} logs removidos (mais antigos que ${diasParaManter} dias)`);
+      return resultado.count;
+    } catch (error) {
+      console.error('Erro ao limpar logs antigos:', error);
+      return 0;
+    }
+  }
+
+  // Método para limpar logs por quantidade (manter apenas os N mais recentes)
+  static async cleanupLogsByCount(maxLogs: number = 10000) {
+    try {
+      const totalLogs = await dbRaw.logAuditoria.count();
+      
+      if (totalLogs <= maxLogs) {
+        return 0; // Não precisa limpar
+      }
+
+      // Buscar IDs dos logs mais antigos para remover
+      const logsParaRemover = await dbRaw.logAuditoria.findMany({
+        select: { id: true },
+        orderBy: { criadoEm: 'asc' },
+        take: totalLogs - maxLogs
+      });
+
+      const idsParaRemover = logsParaRemover.map(log => log.id);
+
+      const resultado = await dbRaw.logAuditoria.deleteMany({
+        where: {
+          id: {
+            in: idsParaRemover
+          },
+          // Não remover logs críticos
+          nivel: {
+            not: NivelLog.CRITICAL
+          }
+        }
+      });
+
+      console.log(`🧹 Limpeza por quantidade: ${resultado.count} logs removidos (mantendo ${maxLogs} mais recentes)`);
+      return resultado.count;
+    } catch (error) {
+      console.error('Erro ao limpar logs por quantidade:', error);
+      return 0;
+    }
+  }
+
   // Método para estatísticas dos logs
   static async getLogStats() {
     const hoje = new Date();

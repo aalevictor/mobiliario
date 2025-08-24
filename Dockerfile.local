@@ -1,0 +1,52 @@
+# Dockerfile para desenvolvimento local no Windows
+FROM node:20-alpine
+
+# Instala curl para health check e outras dependências
+RUN apk add --no-cache \
+    curl \
+    openssl \
+    ca-certificates \
+    tzdata \
+    && update-ca-certificates
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Copia arquivos de dependências primeiro (para cache de layer)
+COPY package*.json ./
+COPY prisma ./prisma/
+
+# Instala todas as dependências (incluindo dev para desenvolvimento)
+RUN npm ci --no-audit --no-fund
+
+# Copia o código fonte
+COPY . .
+
+# Gera o cliente Prisma
+RUN npx prisma generate
+
+# Cria diretórios necessários
+RUN mkdir -p /app/uploads /app/logs
+
+# Expõe a porta 3500
+EXPOSE 3500
+
+# Define variáveis de ambiente para desenvolvimento
+ENV NODE_ENV=development
+ENV PORT=3500
+ENV HOSTNAME="0.0.0.0"
+ENV ENVIRONMENT=local
+
+# Healthcheck para monitoramento
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3500/api/health || exit 1
+
+# Script para aguardar o banco e iniciar a aplicação
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Para desenvolvimento local, rodamos como root para evitar problemas de permissão
+
+# Comando para iniciar a aplicação
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["npm", "run", "dev"]

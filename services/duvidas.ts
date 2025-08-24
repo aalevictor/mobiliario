@@ -1,6 +1,6 @@
 import { db } from "@/lib/prisma";
 import { verificaLimite, verificaPagina } from "@/lib/utils";
-import { transporter } from "@/lib/nodemailer";
+import { EmailLogger, getCurrentUserForEmail } from "@/lib/email-logger";
 import { templateNovaDuvidaCoordenacao, templateNovaDuvidaParticipante } from "@/app/api/cadastro/_utils/email-templates";
 
 async function criarDuvida(data: { pergunta: string, email: string, nome: string }) {
@@ -8,34 +8,43 @@ async function criarDuvida(data: { pergunta: string, email: string, nome: string
     if (!duvida) throw new Error("Erro ao criar duvida");
     
     // Enviar email de notificação para a equipe administrativa
-    try {
-        if (transporter) {
-            const mailBcc = process.env.MAIL_BCC;
-            const mailTo = data.email;
+    const mailBcc = process.env.MAIL_BCC;
+    const usuario = getCurrentUserForEmail();
 
-            if (mailBcc) {
-                await transporter.sendMail({
-                    from: process.env.EMAIL_FROM || "naoresponda@spurbanismo.sp.gov.br",
-                    to: mailTo,
-                    subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
-                    html: templateNovaDuvidaParticipante(data.nome),
-                });
-                await transporter.sendMail({
-                    from: process.env.EMAIL_FROM || "naoresponda@spurbanismo.sp.gov.br",
-                    to: mailBcc, // Email principal
-                    subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
-                    html: templateNovaDuvidaCoordenacao(data.nome, data.email, data.pergunta),
-                });
-                console.log("✅ Email de notificação de nova dúvida enviado com sucesso");
-            } else {
-                console.warn("⚠️ Variável MAIL_BCC não configurada. Email de notificação não será enviado.");
+    if (mailBcc) {
+        // Email para o participante (não-crítico)
+        await EmailLogger.sendOptionalMail(
+            {
+                from: process.env.EMAIL_FROM || "naoresponda@spurbanismo.sp.gov.br",
+                to: data.email,
+                subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
+                html: templateNovaDuvidaParticipante(data.nome),
+            },
+            {
+                to: data.email,
+                subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
+                template: "nova-duvida-participante",
+                usuario
             }
-        } else {
-            console.warn("⚠️ Transporter SMTP não configurado. Email de notificação não será enviado.");
-        }
-    } catch (error) {
-        console.error("❌ Erro ao enviar email de notificação de nova dúvida:", error);
-        // Não falha a criação da dúvida se o email falhar
+        );
+
+        // Email para a coordenação (crítico - precisa chegar)
+        await EmailLogger.sendCriticalMail(
+            {
+                from: process.env.EMAIL_FROM || "naoresponda@spurbanismo.sp.gov.br",
+                to: mailBcc,
+                subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
+                html: templateNovaDuvidaCoordenacao(data.nome, data.email, data.pergunta),
+            },
+            {
+                to: mailBcc,
+                subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
+                template: "nova-duvida-coordenacao",
+                usuario
+            }
+        );
+    } else {
+        console.warn("⚠️ Variável MAIL_BCC não configurada. Email de notificação não será enviado.");
     }
     
     return duvida;

@@ -6,7 +6,7 @@ import { PreCadastro } from "@/app/api/cadastro/pre-cadastro.dto";
 import { hashPassword } from "@/lib/password";
 import { gerarSenha, verificaLimite, verificaPagina } from "@/lib/utils";
 import { IAvaliacaoLicitadora } from "@/app/api/cadastro/[id]/avaliacao-licitadora/route";
-import { transporter } from "@/lib/nodemailer";
+import { EmailLogger, getCurrentUserForEmail } from "@/lib/email-logger";
 import { templateBoasVindasCoordenacao, templateBoasVindasParticipante } from "@/app/api/cadastro/_utils/email-templates";
 
 function geraProtocolo(id: number) {
@@ -58,26 +58,40 @@ async function criarPreCadastro(
           data: { protocolo }
         });
         if (cadastro_protocolo) {
-          if (!transporter) {
-            console.warn('⚠️  Não foi possível enviar email: SMTP não configurado');
-            return cadastro_protocolo;
-          }
-          try {
-            await transporter.sendMail({
+          const usuario = getCurrentUserForEmail();
+          
+          // Email crítico para o participante (contém senha)
+          await EmailLogger.sendCriticalMail(
+            {
               from: process.env.MAIL_FROM,
               to: data.email,
               subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
               html: templateBoasVindasParticipante(data.nome, protocolo, senha),
-            });
-            await transporter.sendMail({
-              from: process.env.MAIL_FROM,
-              to: process.env.MAIL_BCC,
+            },
+            {
+              to: data.email,
               subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
-              html: templateBoasVindasCoordenacao(protocolo),
-            });
-          } catch (emailError) {
-            console.error('Erro ao enviar email:', emailError);
-            // Não falha o cadastro se o email falhar
+              template: 'boas-vindas-participante',
+              usuario
+            }
+          );
+
+          // Email para coordenação (opcional)
+          if (process.env.MAIL_BCC) {
+            await EmailLogger.sendOptionalMail(
+              {
+                from: process.env.MAIL_FROM,
+                to: process.env.MAIL_BCC,
+                subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
+                html: templateBoasVindasCoordenacao(protocolo),
+              },
+              {
+                to: process.env.MAIL_BCC,
+                subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
+                template: 'boas-vindas-coordenacao',
+                usuario
+              }
+            );
           }
         }
         return cadastro_protocolo;

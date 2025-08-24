@@ -15,6 +15,7 @@ import { LogsStats } from './_components/logs-stats';
 import { LogsFilters } from './_components/logs-filters';
 import Pagination from '@/components/pagination';
 import { User } from 'next-auth';
+import { Separator } from '@/components/ui/separator';
 
 interface LogEntry {
   id: string;
@@ -190,52 +191,45 @@ export default function LogsPage() {
   }
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Logs de Auditoria</h1>
-          <p className="text-gray-600">
+    <div className="container mx-auto px-4 py-6 max-w-8xl">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+            Logs de Auditoria
+          </CardTitle>
+          <CardDescription>
             Monitoramento e auditoria de operações do sistema
-          </p>
+          </CardDescription>
+        </CardHeader>
+      </Card>
+      <Tabs defaultValue="dashboard" className="w-full mt-2">
+        <div className="flex items-center justify-between">
+          <TabsList>
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="logs">Logs</TabsTrigger>
+            <TabsTrigger value="errors">Erros Críticos</TabsTrigger>
+          </TabsList>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                refetchStats();
+                refetchLogs();
+              }}
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Atualizar
+            </Button>
+            <Button onClick={exportLogs}>
+              <Download className="h-4 w-4 mr-2" />
+              Exportar
+            </Button>
+          </div>
         </div>
-        
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={() => {
-              refetchStats();
-              refetchLogs();
-            }}
-          >
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Atualizar
-          </Button>
-          
-          <Button onClick={exportLogs}>
-            <Download className="h-4 w-4 mr-2" />
-            Exportar
-          </Button>
-        </div>
-      </div>
-
-      <Tabs defaultValue="dashboard" className="w-full">
-        <TabsList>
-          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-          <TabsTrigger value="logs">Logs</TabsTrigger>
-          <TabsTrigger value="errors">Erros Críticos</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="dashboard" className="space-y-6">
+        <TabsContent value="dashboard">
           <LogsStats stats={stats} />
         </TabsContent>
-
-        <TabsContent value="logs" className="space-y-6">
-          <LogsFilters 
-            filters={filters} 
-            onFilterChange={handleFilterChange}
-            onClearFilters={clearFilters}
-          />
-          
+        <TabsContent value="logs" className='space-y-2'>
           <Card>
             <CardHeader>
               <CardTitle>Histórico de Logs</CardTitle>
@@ -243,64 +237,77 @@ export default function LogsPage() {
                 {logsData?.total ? `${logsData.total} logs encontrados` : 'Carregando...'}
               </CardDescription>
             </CardHeader>
-            <CardContent>
+          </Card>
+          <LogsFilters 
+            filters={filters} 
+            onFilterChange={handleFilterChange}
+            onClearFilters={clearFilters}
+          />
+          <Card className='pt-0'>
+            <CardContent className='p-0'>
               {isLoading ? (
-                <div className="flex items-center justify-center h-64">
+					      <div className='w-full rounded-lg overflow-hidden'>
                   <RefreshCw className="h-8 w-8 animate-spin" />
                 </div>
               ) : (
-                <>
+                <div className='w-full rounded-lg overflow-hidden'>
                   <DataTable
                     columns={LogsColumns}
                     data={logsData?.logs || []}
                   />
-                  {logsData && logsData.totalPages > 1 && (
-                    <Pagination
-                      total={logsData.total}
-                      pagina={currentPage}
-                      limite={50}
-                    />
-                  )}
+                </div>
+              )}
+              {logsData && logsData.totalPages > 1 && (
+                <>
+                  <Separator className='mb-2 mt-0' />
+                  <Pagination
+                    total={logsData.total}
+                    pagina={currentPage}
+                    limite={50}
+                  />
                 </>
               )}
             </CardContent>
           </Card>
         </TabsContent>
-
-        <TabsContent value="errors" className="space-y-6">
+        <TabsContent value="errors" className='space-y-2'>
           <Card>
             <CardHeader>
-              <CardTitle className="text-red-600">Erros Críticos</CardTitle>
+              <CardTitle>Erros Críticos</CardTitle>
               <CardDescription>
-                Erros que requerem atenção imediata
+                {logsData?.total ? `${logsData.total} de erros que requerem atenção imediata` : 'Carregando...'}
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              {/* Filtrar apenas erros críticos */}
-              <LogsFilters 
-                filters={{ ...filters, nivel: 'CRITICAL' }} 
-                onFilterChange={handleFilterChange}
-                onClearFilters={clearFilters}
-                hideNivelFilter
-              />
-              
+          </Card>
+          {/* Filtrar apenas erros críticos */}
+          <LogsFilters 
+            filters={{ ...filters, nivel: 'CRITICAL' }} 
+            onFilterChange={handleFilterChange}
+            onClearFilters={clearFilters}
+            hideNivelFilter
+          />
+          <Card className='pt-0'>
+            <CardContent className='p-0'>
               {isLoading ? (
-                <div className="flex items-center justify-center h-64">
+                <div className='w-full rounded-lg overflow-hidden'>
                   <RefreshCw className="h-8 w-8 animate-spin" />
                 </div>
               ) : (
-                <>
+                <div className='w-full rounded-lg overflow-hidden'>
                   <DataTable
                     columns={LogsColumns}
-                    data={logsData?.logs.filter(log => log.nivel === 'CRITICAL') || []}
+                    data={logsData?.logs || []}
                   />
-                  {logsData && logsData.totalPages > 1 && (
-                    <Pagination
-                      total={logsData.total}
-                      pagina={currentPage}
-                      limite={50}
-                    />
-                  )}
+                </div>
+              )}
+              {logsData && logsData.totalPages > 1 && (
+                <>
+                  <Separator className='mb-2 mt-0' />
+                  <Pagination
+                    total={logsData.total}
+                    pagina={currentPage}
+                    limite={50}
+                  />
                 </>
               )}
             </CardContent>

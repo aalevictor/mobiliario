@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  moburb-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: moburb-concurso
+    restart: unless-stopped
+    ports:
+      - "3500:3500"
+    environment:
+      - NODE_ENV=production
+      - PORT=3500
+      - HOSTNAME=0.0.0.0
+      - ENVIRONMENT=production
+    env_file:
+      - .env.production
+    volumes:
+      # Volume para uploads persistentes
+      - ./uploads:/app/uploads
+      # Volume para logs
+      - ./logs:/app/logs
+      # Compartilha o sendmail do host (sendmail será acessado via host)
+      - /usr/sbin/sendmail:/usr/sbin/sendmail:ro
+      # Compartilha configurações de mail do sistema
+      - /etc/mail:/etc/mail:ro
+      # Timezone do sistema
+      - /etc/localtime:/etc/localtime:ro
+    # Conecta com a rede do host para acessar MySQL local e sendmail
+    network_mode: host
+    depends_on: []
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3500/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# Usando network_mode: host, não precisa definir networks customizadas

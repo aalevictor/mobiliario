@@ -58,7 +58,7 @@ const NIVEL_COLORS = {
 export function LogsStats({ stats }: LogsStatsProps) {
   if (!stats) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
         {[...Array(4)].map((_, i) => (
           <Card key={i} className="animate-pulse">
             <CardHeader>
@@ -115,9 +115,9 @@ export function LogsStats({ stats }: LogsStatsProps) {
   const SaudeIcon = saude.icon;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Cards de Estatísticas Principais */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total de Logs</CardTitle>
@@ -173,7 +173,7 @@ export function LogsStats({ stats }: LogsStatsProps) {
       </div>
 
       {/* Gráficos */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
         <Card>
           <CardHeader>
             <CardTitle>Distribuição por Tipo</CardTitle>
@@ -260,7 +260,7 @@ export function LogsStats({ stats }: LogsStatsProps) {
           <CardTitle>Tipos de Log</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
             <div className="flex items-center space-x-2">
               <Database className="h-5 w-5 text-blue-500" />
               <span className="text-sm">Database</span>

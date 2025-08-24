@@ -40,16 +40,18 @@ export function createPrismaWithAudit() {
             dadosDepois = result;
           }
 
-          // Registrar a operação no log de auditoria
-          await AuditLogger.logDatabaseOperation(
-            operation.toUpperCase(),
-            model || 'UNKNOWN',
-            getRecordId(result, { args }),
-            dadosAntes,
-            dadosDepois,
-            getCurrentUser(),
-            duracao
-          );
+          // Registrar a operação no log de auditoria (exceto operações na própria tabela de logs)
+          if (model !== 'LogAuditoria') {
+            await AuditLogger.logDatabaseOperation(
+              operation.toUpperCase(),
+              model || 'UNKNOWN',
+              getRecordId(result, { args }),
+              dadosAntes,
+              dadosDepois,
+              getCurrentUser(),
+              duracao
+            );
+          }
 
           return result;
         } catch (error) {
