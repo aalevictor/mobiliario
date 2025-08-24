@@ -29,6 +29,12 @@ COPY . .
 # Gera o cliente Prisma
 RUN npx prisma generate
 
+# Aplica as migrations
+RUN npx prisma db push
+
+# Aplica o seed
+RUN npx prisma db seed || echo "Seed já executado"
+
 # Faz o build da aplicação
 RUN npm run build
 
@@ -42,11 +48,6 @@ RUN adduser -S nextjs -u 1001
 # Cria diretórios necessários
 RUN mkdir -p /app/uploads /app/logs
 RUN chown -R nextjs:nodejs /app/uploads /app/logs /app/.next || true
-
-# Cria entrypoint script diretamente no container (mais confiável para CentOS 7)
-RUN printf '#!/bin/sh\n\nset -e\n\necho "🔄 Aguardando MySQL estar disponível..."\n\n# Função para aguardar o MySQL\nwait_for_mysql() {\n    until npx prisma db push --accept-data-loss 2>/dev/null; do\n        echo "⏳ MySQL ainda não está pronto. Aguardando..."\n        sleep 2\n    done\n    echo "✅ MySQL está pronto!"\n}\n\n# Aguarda o MySQL\nwait_for_mysql\n\n# Executa as migrations\necho "🔄 Executando migrations..."\nnpx prisma db push\n\n# Gera o cliente Prisma (caso tenha mudanças)\necho "🔄 Gerando cliente Prisma..."\nnpx prisma generate\n\n# Executa seed do banco de dados (garante dados iniciais)\necho "🔄 Executando seed do banco de dados..."\nnpm run seed || echo "⚠️ Seed falhou ou já executado"\n\necho "🚀 Iniciando aplicação..."\n\n# Executa o comando passado como argumento\nexec "$@"\n' > /usr/local/bin/docker-entrypoint.sh
-
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Muda para usuário não-root
 USER nextjs
