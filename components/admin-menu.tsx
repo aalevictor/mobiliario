@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Users, FileText, HelpCircle, Settings, Mail, Activity } from "lucide-react";
+import { Users, FileText, HelpCircle, Settings, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { auth } from "@/auth";
 import { retornaPermissao } from "@/services/usuarios";
@@ -45,16 +45,6 @@ export default async function AdminMenu() {
       description: "Visualizar templates de email"
     }
   ];
-
-  // Adicionar logs apenas para usuários DEV
-  if (permissao === "DEV") {
-    menuItems.push({
-      href: "/logs",
-      label: "Logs",
-      icon: Activity,
-      description: "Visualizar logs do sistema"
-    });
-  }
 
   return (
     <div className="bg-[#e8edde] shadow-none sticky z-30">
