@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: moburb-concurso
     restart: unless-stopped
-    command: sh -c "sleep 10 && npx prisma db push && npx prisma generate && npx prisma db seed || echo 'Seed já executado' && npm start"
+    command: sh -c "sleep 10 && npx prisma db push && npx prisma generate && npm run seed || echo 'Seed já executado' && npm start"
     ports:
       - "3500:3500"
     environment:

@@ -29,12 +29,6 @@ COPY . .
 # Gera o cliente Prisma
 RUN npx prisma generate
 
-# Aplica as migrations
-RUN npx prisma db push
-
-# Aplica o seed
-RUN npx prisma db seed || echo "Seed já executado"
-
 # Faz o build da aplicação
 RUN npm run build
 
