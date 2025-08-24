@@ -23,7 +23,6 @@ model Usuario {
   Avaliacao_Julgadora    Avaliacao_Julgadora[]
   avaliacoes_licitadoras Avaliacao_Licitadora[]
   cadastro               Cadastro?
-  logs                   Log[]
 
   @@map("usuarios")
 }
@@ -125,41 +124,12 @@ model Duvida {
   @@map("duvidas")
 }
 
-model Log {
-  id          String      @id @default(uuid())
-  acao        String      // CREATE, UPDATE, DELETE, LOGIN, ERROR, etc.
-  entidade    String      // Nome da tabela/modelo afetado
-  entidadeId  String?     // ID da entidade afetada (pode ser null para logs de sistema)
-  dadosAntes  Json?       // Dados antes da alteração
-  dadosDepois Json?       // Dados após a alteração
-  mensagem    String      // Descrição da ação
-  nivel       NivelLog    @default(INFO)
-  usuarioId   String?     // ID do usuário que executou a ação
-  ip          String?     // IP do usuário
-  userAgent   String?     // User agent do navegador
-  erro        String?     // Detalhes do erro, se houver
-  stackTrace  String?     // Stack trace do erro
-  criadoEm    DateTime    @default(now())
-  
-  usuario     Usuario?    @relation(fields: [usuarioId], references: [id])
-
-  @@map("logs")
-}
-
 enum Permissao {
   DEV
   PARTICIPANTE
   ADMIN
   LICITACAO
   JULGADORA
-}
-
-enum NivelLog {
-  DEBUG
-  INFO
-  WARNING
-  ERROR
-  CRITICAL
 }
 
 enum Tipo_Usuario {
