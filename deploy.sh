@@ -85,6 +85,11 @@ $DOCKER_COMPOSE down --remove-orphans || true
 log_info "Removendo imagens antigas..."
 docker rmi moburb-concurso:latest || true
 docker rmi mobiliario_moburb-app:latest || true
+docker images | grep -E "(moburb|mobiliario)" | awk '{print $3}' | xargs docker rmi -f 2>/dev/null || true
+
+# Remove containers órfãos específicos
+log_info "Removendo containers órfãos..."
+docker rm -f moburb-concurso moburb-app 2>/dev/null || true
 
 # Faz o build da nova imagem
 log_info "Construindo nova imagem Docker..."
