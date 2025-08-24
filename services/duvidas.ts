@@ -1,7 +1,10 @@
 import { db } from "@/lib/prisma";
 import { verificaLimite, verificaPagina } from "@/lib/utils";
-import { EmailLogger, getCurrentUserForEmail } from "@/lib/email-logger";
+import { getCurrentUserForEmail } from "@/lib/email-logger";
 import { templateNovaDuvidaCoordenacao, templateNovaDuvidaParticipante } from "@/app/api/cadastro/_utils/email-templates";
+import { AuditLogger } from "@/lib/audit-logger";
+import { NivelLog } from "@prisma/client";
+import { transporter } from "@/lib/nodemailer";
 
 async function criarDuvida(data: { pergunta: string, email: string, nome: string }) {
     const duvida = await db.duvida.create({ data });
@@ -10,39 +13,43 @@ async function criarDuvida(data: { pergunta: string, email: string, nome: string
     // Enviar email de notificação para a equipe administrativa
     const mailBcc = process.env.MAIL_BCC;
     const usuario = getCurrentUserForEmail();
+    
+    try {
+        await transporter?.sendMail({
+            from: process.env.MAIL_FROM,
+            to: mailBcc,
+            subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
+            html: templateNovaDuvidaParticipante(data.nome),
+        })
+    } catch (error) {
+        await AuditLogger.logError(
+            `🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${mailBcc}`,
+            error instanceof Error ? error.stack : undefined,
+            NivelLog.CRITICAL,
+            'email/critical',
+            'POST',
+            usuario
+        );
+    }
 
     if (mailBcc) {
-        // Email para o participante (não-crítico)
-        await EmailLogger.sendOptionalMail(
-            {
-                from: process.env.MAIL_FROM || "naoresponda@spurbanismo.sp.gov.br",
-                to: data.email,
-                subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
-                html: templateNovaDuvidaParticipante(data.nome),
-            },
-            {
-                to: data.email,
-                subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
-                template: "nova-duvida-participante",
-                usuario
-            }
-        );
-
-        // Email para a coordenação (crítico - precisa chegar)
-        await EmailLogger.sendCriticalMail(
-            {
-                from: process.env.MAIL_FROM || "naoresponda@spurbanismo.sp.gov.br",
+        try {
+            await transporter?.sendMail({
+                from: process.env.MAIL_FROM,
                 to: mailBcc,
                 subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
                 html: templateNovaDuvidaCoordenacao(data.nome, data.email, data.pergunta),
-            },
-            {
-                to: mailBcc,
-                subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
-                template: "nova-duvida-coordenacao",
+            })
+        } catch (error) {
+            await AuditLogger.logError(
+                `🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${mailBcc}`,
+                error instanceof Error ? error.stack : undefined,
+                NivelLog.CRITICAL,
+                'email/critical',
+                'POST',
                 usuario
-            }
-        );
+            );
+        }
     } else {
         console.warn("⚠️ Variável MAIL_BCC não configurada. Email de notificação não será enviado.");
     }

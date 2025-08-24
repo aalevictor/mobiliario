@@ -1,13 +1,15 @@
 /** @format */
 
-import { Permissao, Prisma, TipoArquivo, Tipo_Usuario } from "@prisma/client";
+import { NivelLog, Permissao, Prisma, TipoArquivo, Tipo_Usuario } from "@prisma/client";
 import { db } from "@/lib/prisma";
 import { PreCadastro } from "@/app/api/cadastro/pre-cadastro.dto";
 import { hashPassword } from "@/lib/password";
 import { gerarSenha, verificaLimite, verificaPagina } from "@/lib/utils";
 import { IAvaliacaoLicitadora } from "@/app/api/cadastro/[id]/avaliacao-licitadora/route";
-import { EmailLogger, getCurrentUserForEmail } from "@/lib/email-logger";
+import { getCurrentUserForEmail } from "@/lib/email-logger";
 import { templateBoasVindasCoordenacao, templateBoasVindasParticipante } from "@/app/api/cadastro/_utils/email-templates";
+import { transporter } from "@/lib/nodemailer";
+import { AuditLogger } from "@/lib/audit-logger";
 
 function geraProtocolo(id: number) {
   const mascara = 17529 * id ** 2 + 85474;
@@ -59,39 +61,43 @@ async function criarPreCadastro(
         });
         if (cadastro_protocolo) {
           const usuario = getCurrentUserForEmail();
-          
-          // Email crítico para o participante (contém senha)
-          await EmailLogger.sendCriticalMail(
-            {
+          try {
+            await transporter?.sendMail({
               from: process.env.MAIL_FROM,
               to: data.email,
               subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
-              html: templateBoasVindasParticipante(data.nome, protocolo, senha),
-            },
-            {
-              to: data.email,
-              subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
-              template: 'boas-vindas-participante',
+              html: templateBoasVindasParticipante(protocolo, data.nome, senha),
+            })
+          } catch (error) {
+            await AuditLogger.logError(
+              `🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${data.email}`,
+              error instanceof Error ? error.stack : undefined,
+              NivelLog.CRITICAL,
+              'email/critical',
+              'POST',
               usuario
-            }
-          );
+            );
+          }
 
           // Email para coordenação (opcional)
           if (process.env.MAIL_BCC) {
-            await EmailLogger.sendOptionalMail(
-              {
+            try {
+              await transporter?.sendMail({
                 from: process.env.MAIL_FROM,
                 to: process.env.MAIL_BCC,
                 subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
                 html: templateBoasVindasCoordenacao(protocolo),
-              },
-              {
-                to: process.env.MAIL_BCC,
-                subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
-                template: 'boas-vindas-coordenacao',
+              })
+            } catch (error) {
+              await AuditLogger.logError(
+                `🚨 EMAIL INFORMATIVO FALHOU: ${process.env.MAIL_FROM} para ${process.env.MAIL_BCC}`,
+                error instanceof Error ? error.stack : undefined,
+                NivelLog.ERROR,
+                'email/error',
+                'POST',
                 usuario
-              }
-            );
+              );
+            }
           }
         }
         return cadastro_protocolo;

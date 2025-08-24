@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
 import { transporter } from '@/lib/nodemailer';
 import { templateRecuperacaoSenha } from '@/app/api/cadastro/_utils/email-templates';
+import { AuditLogger } from '@/lib/audit-logger';
+import { NivelLog } from '@prisma/client';
 
 export async function POST(request: NextRequest) {
 	try {
@@ -51,13 +53,23 @@ export async function POST(request: NextRequest) {
 		// Enviar email com nova senha
 		if (transporter) {
 			const emailHtml = templateRecuperacaoSenha(usuario.nome, novaSenha);
-			
-			await transporter.sendMail({
-				from: process.env.MAIL_FROM || 'noreply@concursomoburb.prefeitura.sp.gov.br',
-				to: usuario.email,
-				subject: 'Recuperação de Senha - Concurso Mobiliário Urbano',
-				html: emailHtml,
-			});
+			try {
+				await transporter.sendMail({
+					from: process.env.MAIL_FROM || 'noreply@concursomoburb.prefeitura.sp.gov.br',
+					to: usuario.email,
+					subject: 'Recuperação de Senha - Concurso Mobiliário Urbano',
+					html: emailHtml,
+				});
+			} catch (error) {
+				await AuditLogger.logError(	
+					`🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${usuario.email}`,
+					error instanceof Error ? error.stack : undefined,
+					NivelLog.CRITICAL,
+					'email/critical',
+					'POST',
+					usuario.email
+				);
+			}
 		}
 
 		return NextResponse.json(
