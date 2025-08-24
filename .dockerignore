@@ -43,8 +43,11 @@ logs
 # Runtime data
 pids
 *.pid
-*.seed
 *.pid.lock
+
+# Exclude seed files but NOT docker-entrypoint.sh
+*.seed
+!docker-entrypoint.sh
 
 # Coverage directory used by tools like istanbul
 coverage
