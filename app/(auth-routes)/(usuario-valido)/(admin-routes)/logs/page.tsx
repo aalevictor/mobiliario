@@ -5,8 +5,7 @@ import { useSession } from 'next-auth/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { AlertTriangle, Info, AlertCircle, XCircle, RefreshCw, Download } from 'lucide-react';
+import { RefreshCw, Download } from 'lucide-react';
 import DataTable from '@/components/data-table';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -83,6 +82,7 @@ export default function LogsPage() {
         page: currentPage.toString(),
         limit: '50',
         ...Object.fromEntries(
+          //eslint-disable-next-line  @typescript-eslint/no-unused-vars
           Object.entries(filters).filter(([_, value]) => value !== '')
         ),
       });
@@ -114,6 +114,7 @@ export default function LogsPage() {
     try {
       const params = new URLSearchParams({
         ...Object.fromEntries(
+          //eslint-disable-next-line  @typescript-eslint/no-unused-vars
           Object.entries(filters).filter(([_, value]) => value !== '')
         ),
         limit: '1000', // Limite maior para export
@@ -134,40 +135,9 @@ export default function LogsPage() {
       
       toast.success('Logs exportados com sucesso!');
     } catch (error) {
+      console.error(error);
       toast.error('Erro ao exportar logs');
     }
-  };
-
-  const getLevelIcon = (nivel: string) => {
-    switch (nivel) {
-      case 'INFO':
-        return <Info className="h-4 w-4 text-blue-500" />;
-      case 'WARNING':
-        return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
-      case 'ERROR':
-        return <AlertCircle className="h-4 w-4 text-red-500" />;
-      case 'CRITICAL':
-        return <XCircle className="h-4 w-4 text-red-700" />;
-      default:
-        return <Info className="h-4 w-4 text-gray-500" />;
-    }
-  };
-
-  const getLevelBadge = (nivel: string) => {
-    //eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    const variants: Record<string, any> = {
-      INFO: 'default',
-      WARNING: 'secondary',
-      ERROR: 'destructive',
-      CRITICAL: 'destructive',
-    };
-
-    return (
-      <Badge variant={variants[nivel] || 'default'} className="flex items-center gap-1">
-        {getLevelIcon(nivel)}
-        {nivel}
-      </Badge>
-    );
   };
 
   // Verificar permissão após todos os hooks

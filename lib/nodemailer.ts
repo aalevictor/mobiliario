@@ -1,4 +1,5 @@
 import nodemailer, { Transporter } from "nodemailer";
+import fs from "fs";
 
 const smtpHost = process.env.MAIL_HOST;
 const smtpPort = process.env.MAIL_PORT;
@@ -44,7 +45,6 @@ function createTransporter(): Transporter | null {
   }
   
   // Para produção, tenta sendmail primeiro, fallback para SMTP
-  const fs = require('fs');
   if (fs.existsSync('/usr/sbin/sendmail')) {
     console.log("✅ Usando sendmail local do sistema");
     return nodemailer.createTransport({

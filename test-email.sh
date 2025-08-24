@@ -77,13 +77,15 @@ log_info "🔍 TESTE 3: Testando API de envio de email..."
 EMAIL_TESTE=${1:-"admin@localhost"}
 log_info "Enviando email de teste para: $EMAIL_TESTE"
 
-# Fazer requisição para API de teste simplificada
-RESPONSE=$(curl -s -X POST http://localhost:3500/api/email-teste-simples \
+# Fazer requisição para API de teste
+RESPONSE=$(curl -s -X POST http://localhost:3500/api/email-teste \
   -H "Content-Type: application/json" \
   -d "{
-    \"to\": \"$EMAIL_TESTE\",
-    \"subject\": \"[TESTE] Deploy Mobiliário Urbano - $(date)\",
-    \"message\": \"Este é um email de teste enviado durante o deploy. Se você está recebendo este email, o sistema está funcionando corretamente.\"
+    \"templateType\": \"personalizado\",
+    \"emailDestino\": \"$EMAIL_TESTE\",
+    \"nome\": \"Sistema Deploy\",
+    \"titulo\": \"Teste de Deploy\",
+    \"mensagem\": \"Sistema funcionando corretamente após deploy em $(date)\"
   }" 2>/dev/null)
 
 # Verificar resposta

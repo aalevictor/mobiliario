@@ -65,11 +65,10 @@ npm run dev
 ## 🔧 **Scripts Disponíveis**
 
 ### **Deploy:**
-- `./deploy-centos7.sh` - Deploy completo (primeira vez)
-- `./rebuild-force.sh` - Rebuild completo (sem cache)
-- `./rebuild.sh` - Rebuild rápido (com cache)
-- `./restart.sh` - Restart simples (sem rebuild)
+- `./deploy-centos7.sh` - Deploy automático para CentOS 7
 - `./test-email.sh` - Teste sistema de email
+- `./check-sendmail.sh` - Verificar sendmail
+- `./install-sendmail-centos7.sh` - Instalar sendmail
 
 ### **Desenvolvimento:**
 - `npm run dev` - Servidor desenvolvimento
