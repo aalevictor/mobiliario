@@ -206,7 +206,7 @@ templateNovaDuvida(nome: string, email: string, pergunta: string)
 
 ```env
 # Configurações SMTP
-EMAIL_FROM="naoresponda-mobiliariourbano@spurbanismo.sp.gov.br"
+MAIL_FROM="naoresponda-mobiliariourbano@spurbanismo.sp.gov.br"
 MAIL_HOST=smtp.gmail.com
 MAIL_PORT=587
 MAIL_USER=seu-email@gmail.com
@@ -367,7 +367,7 @@ import { transporter } from "@/lib/nodemailer";
 import { templateNovaDuvida } from "@/app/api/cadastro/_utils/email-templates";
 
 await transporter.sendMail({
-  from: process.env.EMAIL_FROM,
+  from: process.env.MAIL_FROM,
   to: "destinatario@exemplo.com",
   subject: "Assunto do Email",
   html: templateNovaDuvida("João", "joao@exemplo.com", "Minha dúvida...")

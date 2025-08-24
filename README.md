@@ -64,7 +64,7 @@ DIRECT_URL=postgresql://usuario:senha@localhost:5432/moburb2025
 AUTH_SECRET=sua-chave-secreta-aqui
 
 # Configurações de Email SMTP
-EMAIL_FROM="naoresponda-mobiliariourbano@spurbanismo.sp.gov.br"
+MAIL_FROM="naoresponda-mobiliariourbano@spurbanismo.sp.gov.br"
 MAIL_HOST=smtp.gmail.com
 MAIL_PORT=587
 MAIL_USER=seu-email@gmail.com

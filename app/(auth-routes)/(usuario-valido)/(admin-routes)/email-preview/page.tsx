@@ -558,7 +558,7 @@ export default function EmailPreviewPage() {
                     <div>MAIL_PORT=587</div>
                     <div>MAIL_USER=seu-email@gmail.com</div>
                     <div>MAIL_PASS=sua-senha-de-app</div>
-                    <div>EMAIL_FROM=naoresponda@seudominio.com</div>
+                    <div>MAIL_FROM=naoresponda@seudominio.com</div>
                   </div>
                 </div>
 

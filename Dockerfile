@@ -41,7 +41,11 @@ RUN adduser -S nextjs -u 1001
 
 # Cria diretórios necessários
 RUN mkdir -p /app/uploads /app/logs
-RUN chown -R nextjs:nodejs /app/uploads /app/logs
+RUN chown -R nextjs:nodejs /app/uploads /app/logs /app/.next || true
+
+# Copia e configura o entrypoint script (como root)
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Muda para usuário não-root
 USER nextjs
@@ -59,5 +63,6 @@ ENV ENVIRONMENT=production
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:3500/api/health || exit 1
 
-# Comando para iniciar a aplicação
+# Define o entrypoint e comando
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["npm", "start"]

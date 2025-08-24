@@ -133,7 +133,7 @@ MAIL_HOST=smtp.gmail.com
 MAIL_PORT=587
 MAIL_USER=seu-email@gmail.com
 MAIL_PASS=sua-senha-de-app
-EMAIL_FROM="naoresponda-mobiliariourbano@spurbanismo.sp.gov.br"
+MAIL_FROM="naoresponda-mobiliariourbano@spurbanismo.sp.gov.br"
 ```
 
 ### 2. Banco de Dados

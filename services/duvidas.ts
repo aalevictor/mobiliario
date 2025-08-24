@@ -15,7 +15,7 @@ async function criarDuvida(data: { pergunta: string, email: string, nome: string
         // Email para o participante (não-crítico)
         await EmailLogger.sendOptionalMail(
             {
-                from: process.env.EMAIL_FROM || "naoresponda@spurbanismo.sp.gov.br",
+                from: process.env.MAIL_FROM || "naoresponda@spurbanismo.sp.gov.br",
                 to: data.email,
                 subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
                 html: templateNovaDuvidaParticipante(data.nome),
@@ -31,7 +31,7 @@ async function criarDuvida(data: { pergunta: string, email: string, nome: string
         // Email para a coordenação (crítico - precisa chegar)
         await EmailLogger.sendCriticalMail(
             {
-                from: process.env.EMAIL_FROM || "naoresponda@spurbanismo.sp.gov.br",
+                from: process.env.MAIL_FROM || "naoresponda@spurbanismo.sp.gov.br",
                 to: mailBcc,
                 subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
                 html: templateNovaDuvidaCoordenacao(data.nome, data.email, data.pergunta),

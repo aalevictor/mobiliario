@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
 
     // Enviar email
     const info = await transporter.sendMail({
-      from: process.env.EMAIL_FROM || "naoresponda-mobiliariourbano@spurbanismo.sp.gov.br",
+      from: process.env.MAIL_FROM || "naoresponda-mobiliariourbano@spurbanismo.sp.gov.br",
       to: emailDestino,
       subject: subject,
       html: html,

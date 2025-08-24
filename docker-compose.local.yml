@@ -1,4 +1,4 @@
-version: '3.8'
+# Removido version (obsoleto no Docker Compose v2+)
 
 services:
   # Banco de dados MySQL para desenvolvimento local

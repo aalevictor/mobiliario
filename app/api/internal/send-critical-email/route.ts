@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     `;
 
     await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
+      from: process.env.MAIL_FROM,
       to: adminEmail,
       subject: `🚨 ERRO CRÍTICO - ${data.endpoint || 'Sistema'} - ${new Date().toLocaleString('pt-BR')}`,
       html: emailHTML,

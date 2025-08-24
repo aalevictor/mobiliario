@@ -43,7 +43,7 @@ DIRECT_URL="mysql://usuario:senha@localhost:3306/nome_do_banco"
 AUTH_SECRET="sua_chave_super_secreta_de_256_bits_aqui"
 
 # Configurações de email
-EMAIL_FROM="naoresponda-mobiliariourbano@spurbanismo.sp.gov.br"
+MAIL_FROM="naoresponda-mobiliariourbano@spurbanismo.sp.gov.br"
 MAIL_BCC="equipe-admin@spurbanismo.sp.gov.br"
 MAIL_ADMIN="dev-admin@spurbanismo.sp.gov.br"
 ```

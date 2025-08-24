@@ -40,7 +40,7 @@ nano .env.production
 # 2. Ajustar variáveis principais:
 #    - DATABASE_URL (MySQL local)
 #    - AUTH_SECRET (chave segura)
-#    - EMAIL_FROM, MAIL_BCC, MAIL_ADMIN
+#    - MAIL_FROM, MAIL_BCC, MAIL_ADMIN
 ```
 
 ### 3. Deploy
