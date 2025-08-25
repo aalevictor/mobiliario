@@ -1,164 +1,142 @@
-# MOBURB - Sistema de Gestão de Concursos de Mobiliário Urbano
+# 🏛️ MOBURB - Concurso Mobiliário Urbano 2025
 
-Sistema web desenvolvido em Next.js para gestão completa de concursos de mobiliário urbano, incluindo cadastros de participantes, avaliações técnicas e administrativa.
+Sistema web para gestão completa de concursos de mobiliário urbano da Secretaria Municipal de Urbanismo e Licenciamento da Prefeitura de São Paulo.
 
-## 🏗️ Sobre o Projeto
+## 🎯 **Funcionalidades Principais**
 
-O MOBURB é uma plataforma desenvolvida para a Secretaria Municipal de Urbanismo e Licenciamento da Prefeitura de São Paulo, que gerencia todo o processo de concursos de mobiliário urbano, desde o cadastro de participantes até a avaliação e aprovação final.
+- 🔐 **Autenticação** - Login com diferentes níveis de permissão
+- 👥 **Cadastro de Participantes** - Formulário completo para inscrição
+- 📄 **Upload de Documentos** - Sistema para envio de projetos
+- ⚖️ **Avaliação Técnica** - Painel para jurados
+- 📋 **Avaliação Administrativa** - Verificação de documentação
+- 👨‍💼 **Gestão de Usuários** - Painel administrativo
+- ❓ **Sistema de Dúvidas** - Canal de comunicação
+- 📧 **Notificações Email** - Sistema automatizado
 
-### Principais Funcionalidades
-
-- **Sistema de Autenticação**: Login com diferentes níveis de permissão (DEV, ADMIN, PARTICIPANTE, LICITACAO, JULGADORA)
-- **Cadastro de Participantes**: Formulário completo para inscrição no concurso
-- **Upload de Documentos**: Sistema para envio de documentos específicos e projetos
-- **Avaliação Técnica**: Painel para avaliação de projetos pelos jurados
-- **Avaliação Administrativa**: Verificação de documentação pelos licitadores
-- **Gestão de Usuários**: Painel administrativo para gerenciar usuários do sistema
-- **Sistema de Dúvidas**: Canal de comunicação entre participantes e administradores
-- **Notificações por Email**: Sistema automatizado de envio de emails
-
-## 🚀 Tecnologias Utilizadas
+## 🚀 **Tecnologias**
 
 - **Frontend**: Next.js 15, React 19, TypeScript
 - **Styling**: Tailwind CSS, Radix UI
-- **Autenticação**: NextAuth.js
-- **Banco de Dados**: PostgreSQL com Prisma ORM
-- **Email**: Nodemailer
-- **Formulários**: React Hook Form com Zod
-- **Tabelas**: TanStack Table
-- **Animações**: Framer Motion
-- **Deploy**: Vercel
+- **Autenticação**: NextAuth.js com LDAP
+- **Banco de Dados**: MySQL com Prisma ORM
+- **Email**: Nodemailer (Sendmail/SMTP)
+- **Deploy**: Docker + CentOS 7
+- **Logs**: Sistema completo de auditoria
 
-## 📋 Pré-requisitos
+## ⚡ **Deploy Rápido**
 
-- Node.js 18+ 
-- PostgreSQL
-- npm, yarn, pnpm ou bun
-
-## 🔧 Instalação
-
-1. **Clone o repositório**
+### **🏭 Produção (CentOS 7):**
 ```bash
-git clone [url-do-repositorio]
-cd mobiliario2
+# Deploy completo (primeira vez)
+./deploy.sh
+
+# Atualizar apenas código (~30s)
+./update-code.sh
+
+# Atualizar dependências (~2-3min)
+./update-deps.sh
+
+# Restart rápido (~15s)
+./quick-restart.sh
 ```
 
-2. **Instale as dependências**
+### **💻 Desenvolvimento:**
 ```bash
-npm install
-# ou
-yarn install
-# ou
-pnpm install
-```
+# Hot-reload automático
+docker-compose -f docker-compose.dev.yml up
 
-3. **Configure as variáveis de ambiente**
-```bash
-cp example.env .env.local
-```
-
-Edite o arquivo `.env.local` com suas configurações:
-```env
-DATABASE_URL=postgresql://usuario:senha@localhost:5432/moburb2025
-DIRECT_URL=postgresql://usuario:senha@localhost:5432/moburb2025
-AUTH_SECRET=sua-chave-secreta-aqui
-
-# Configurações de Email SMTP
-MAIL_FROM="naoresponda-mobiliariourbano@spurbanismo.sp.gov.br"
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USER=seu-email@gmail.com
-MAIL_PASS=sua-senha-de-app
-MAIL_BCC=equipe-admin@spurbanismo.sp.gov.br
-
-# URL base da aplicação
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
-
-4. **Configure o banco de dados**
-```bash
-npx prisma generate
-npx prisma db push
-```
-
-5. **Execute o servidor de desenvolvimento**
-```bash
+# Ou desenvolvimento local
 npm run dev
-# ou
-yarn dev
-# ou
-pnpm dev
 ```
 
-Acesse [http://localhost:3000](http://localhost:3000) para visualizar a aplicação.
+## 📊 **Comparação de Scripts**
 
-## 🏛️ Estrutura do Projeto
+| Script | Tempo | Rebuild | Use Quando |
+|--------|-------|---------|------------|
+| `./update-code.sh` | ~30s | ❌ | Código TypeScript/React |
+| `./update-deps.sh` | ~2-3min | ❌ | package.json |
+| `./quick-restart.sh` | ~15s | ❌ | Problemas temporários |
+| `./deploy.sh` | ~5-10min | ✅ | Migrations, Dockerfile |
 
-```
-mobiliario2/
-├── app/                          # App Router do Next.js
-│   ├── (auth-routes)/           # Rotas autenticadas
-│   │   ├── (usuario-valido)/    # Usuários com acesso válido
-│   │   │   ├── (admin-routes)/  # Rotas administrativas
-│   │   │   └── (participante-routes)/ # Rotas de participantes
-│   │   └── (usuario-invalido)/  # Usuários com acesso restrito
-│   ├── (open-routes)/           # Rotas públicas
-│   └── api/                     # API Routes
-├── components/                   # Componentes reutilizáveis
-├── lib/                         # Utilitários e configurações
-├── prisma/                      # Schema e migrações do banco
-├── services/                    # Serviços externos
-├── types/                       # Definições de tipos TypeScript
-└── uploads/                     # Arquivos enviados pelos usuários
-```
+## 🔧 **Scripts Disponíveis**
 
-## 👥 Níveis de Acesso
+### **🚀 Atualizações Rápidas:**
+- `./update-code.sh` - Atualiza código sem rebuild
+- `./update-deps.sh` - Atualiza dependências no container
+- `./quick-restart.sh` - Restart da aplicação
+- `./deploy.sh` - Deploy completo
 
-- **DEV**: Acesso total ao sistema
-- **ADMIN**: Gestão de usuários, cadastros e dúvidas
-- **PARTICIPANTE**: Cadastro e envio de documentos
-- **LICITACAO**: Avaliação administrativa
-- **JULGADORA**: Avaliação técnica dos projetos
+### **💻 Desenvolvimento:**
+- `docker-compose -f docker-compose.dev.yml up` - Hot-reload
+- `npm run dev` - Desenvolvimento local
+- `npm run build` - Build produção
+- `npm run seed` - Popular banco inicial
 
-## 📧 Sistema de Emails
+## 🗄️ **Banco de Dados**
 
-O sistema utiliza templates de email para notificações automáticas:
-- Confirmação de cadastro
-- Aprovação/rejeição de documentos
-- Respostas a dúvidas
-- Notificações administrativas
+### **👤 Usuário Admin Padrão:**
+- **Email**: vmabreu@prefeitura.sp.gov.br
+- **Login**: d927014
+- **Senha**: mudar123 (alterar no primeiro acesso)
 
-## 🚀 Deploy
-
-### Vercel (Recomendado)
-
-1. Conecte seu repositório ao Vercel
-2. Configure as variáveis de ambiente no painel do Vercel
-3. Deploy automático a cada push para a branch principal
-
-### Build para Produção
-
+### **📝 Comandos Úteis:**
 ```bash
-npm run build
-npm start
+# Ver migrations
+npx prisma migrate status
+
+# Studio (interface visual)
+npx prisma studio
+
+# Reset banco (desenvolvimento)
+npx prisma migrate reset
 ```
 
-## 🤝 Contribuição
+## 📧 **Sistema de Email**
 
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+- **Prioridade 1**: Sendmail local (`/usr/sbin/sendmail`)
+- **Fallback**: SMTP (se configurado)
+- **Templates**: Sistema completo de templates HTML
 
-## 📝 Licença
+## 🔍 **Monitoramento**
 
-Este projeto é desenvolvido para a Prefeitura de São Paulo e está sob licença interna.
+### **🏥 Health Check:**
+```bash
+curl http://localhost:3500/api/health
+```
 
-## 📞 Suporte
+### **📋 Logs:**
+```bash
+# Logs em tempo real
+docker logs moburb-concurso -f
 
-Para suporte técnico, entre em contato com a equipe de desenvolvimento da Secretaria de Urbanismo e Licenciamento.
+# Health check
+curl http://localhost:3500/api/health
+
+# Status containers
+docker ps
+```
+
+## 📚 **Documentação**
+
+- **[DEPLOY-GUIDE.md](DEPLOY-GUIDE.md)** - Guia completo de deploy
+- **Aplicação**: https://concursomoburb.prefeitura.sp.gov.br
+
+## 🎯 **Estrutura Otimizada**
+
+### **📁 Arquivos Principais:**
+```
+├── Dockerfile              # Produção
+├── Dockerfile.dev          # Desenvolvimento + hot-reload
+├── docker-compose.yml      # Produção
+├── docker-compose.dev.yml  # Desenvolvimento
+├── deploy.sh              # Deploy completo
+├── update-code.sh         # Atualização rápida
+├── update-deps.sh         # Atualização dependências
+└── quick-restart.sh       # Restart rápido
+```
+
+**🎉 Sistema otimizado para atualizações rápidas sem rebuilds desnecessários!**
 
 ---
 
-**Desenvolvido com ❤️ para a Prefeitura de São Paulo**
+*Para guia detalhado, consulte [DEPLOY-GUIDE.md](DEPLOY-GUIDE.md)*

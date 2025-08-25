@@ -1,0 +1,57 @@
+# Dockerfile para desenvolvimento com hot-reload
+FROM node:18-alpine
+
+# Instala dependências básicas
+RUN apk add --no-cache \
+    curl \
+    openssl \
+    ca-certificates \
+    tzdata \
+    libc6-compat \
+    mysql-client \
+    mariadb-connector-c \
+    && update-ca-certificates
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Copia package.json e install dependencies
+COPY package*.json ./
+COPY prisma ./prisma/
+
+# Instala dependências
+RUN npm ci
+
+# Gera o cliente Prisma
+RUN npx prisma generate
+
+# Copia apenas scripts necessários para development
+COPY next.config.ts ./
+COPY tailwind.config.ts ./
+COPY tsconfig.json ./
+COPY postcss.config.mjs ./
+COPY components.json ./
+
+# Cria diretórios para volumes
+RUN mkdir -p /app/uploads /app/logs /app/app /app/components /app/lib /app/providers /app/services
+
+# Usuário não-root
+RUN addgroup -g 1001 -S nodejs \
+    && adduser -S nextjs -u 1001 -G nodejs
+
+# Expõe a porta
+EXPOSE 3500
+
+# Variáveis de ambiente para desenvolvimento
+ENV NODE_ENV=development
+ENV PORT=3500
+ENV HOSTNAME="0.0.0.0"
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:3500/api/health || exit 1
+
+USER nextjs
+
+# Comando para desenvolvimento com hot-reload
+CMD ["npm", "run", "dev"]

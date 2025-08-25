@@ -1,0 +1,53 @@
+# Docker Compose para desenvolvimento com hot-reload
+services:
+  moburb-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: moburb-development
+    restart: unless-stopped
+    ports:
+      - "3500:3500"
+    env_file:
+      - .env.local
+    volumes:
+      # Hot-reload: código fonte
+      - ./app:/app/app:ro
+      - ./components:/app/components:ro
+      - ./lib:/app/lib:ro
+      - ./providers:/app/providers:ro
+      - ./services:/app/services:ro
+      - ./types:/app/types:ro
+      - ./hooks:/app/hooks:ro
+      - ./auth:/app/auth:ro
+      - ./action:/app/action:ro
+      - ./middleware.ts:/app/middleware.ts:ro
+      - ./next-auth.d.ts:/app/next-auth.d.ts:ro
+      
+      # Configurações que podem mudar
+      - ./tailwind.config.ts:/app/tailwind.config.ts:ro
+      - ./next.config.ts:/app/next.config.ts:ro
+      
+      # Prisma (apenas schema, migrations ficam no container)
+      - ./prisma/schema.prisma:/app/prisma/schema.prisma:ro
+      
+      # Assets públicos
+      - ./public:/app/public:ro
+      
+      # Persistência de dados
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+      
+      # Next.js cache (para acelerar builds)
+      - next-cache:/app/.next
+      
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3500/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  next-cache:
+    driver: local
