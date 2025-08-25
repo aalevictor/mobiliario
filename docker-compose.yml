@@ -1,15 +1,15 @@
-# Docker Compose alternativo para CentOS 7
-# Usa Dockerfile.centos7 com imagem base node:20-slim
+# Docker Compose para produção (CentOS 7)
+# Usa Dockerfile principal
 
 services:
   moburb-app:
     build:
       context: .
-      dockerfile: Dockerfile.centos7  # Usa Dockerfile alternativo
+      dockerfile: Dockerfile  # Dockerfile principal para produção
     container_name: moburb-concurso-centos7
     restart: unless-stopped
     # Comando simplificado que deve funcionar
-    command: ["sh", "-c", "sleep 15 && npx prisma db push && npx prisma generate && npm run seed || echo 'Seed executado' && npm start"]
+    command: ["sh", "-c", "sleep 15 && npx prisma migrate deploy && npx prisma generate && npm run seed || echo 'Seed executado' && npm start"]
     ports:
       - "3500:3500"
     environment:

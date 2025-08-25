@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Script de deploy específico para CentOS 7
-# Usa docker-compose.centos7.yml e Dockerfile.centos7
+# Script de deploy para produção
+# Usa docker-compose.yml e Dockerfile
 
 set -e
 
@@ -39,24 +39,26 @@ if ! command -v docker-compose &> /dev/null; then
 fi
 
 # Verifica se arquivos necessários existem
-if [[ ! -f "docker-compose.centos7.yml" ]]; then
-    log_error "Arquivo docker-compose.centos7.yml não encontrado"
+if [[ ! -f "docker-compose.yml" ]]; then
+    log_error "Arquivo docker-compose.yml não encontrado"
     exit 1
 fi
 
-if [[ ! -f "Dockerfile.centos7" ]]; then
-    log_error "Arquivo Dockerfile.centos7 não encontrado"
+if [[ ! -f "Dockerfile" ]]; then
+    log_error "Arquivo Dockerfile não encontrado"
     exit 1
 fi
 
 if [[ ! -f ".env.production" ]]; then
     log_error "Arquivo .env.production não encontrado"
-    log_info "Crie o arquivo baseado em env.production.example"
+    log_info "Crie o arquivo .env.production com as configurações de produção"
+    log_info "Use como base: cp env.production.template .env.production"
+    log_info "Edite as configurações necessárias (banco, URLs, senhas)"
     exit 1
 fi
 
 # Define comando docker-compose
-DOCKER_COMPOSE="docker-compose -f docker-compose.centos7.yml"
+DOCKER_COMPOSE="docker-compose -f docker-compose.yml"
 
 echo "🚀 DEPLOY PARA CENTOS 7 - MOBILIÁRIO URBANO"
 echo "============================================"
@@ -123,7 +125,7 @@ if docker ps | grep -q "moburb-concurso-centos7"; then
     echo "   • Container: moburb-concurso-centos7"
     echo "   • Porta: 3500"
     echo "   • Health Check: http://localhost:3500/api/health"
-    echo "   • Logs: docker-compose -f docker-compose.centos7.yml logs -f moburb-app"
+    echo "   • Logs: docker-compose -f docker-compose.yml logs -f moburb-app"
     echo ""
     echo "🌐 Aplicação disponível em:"
     echo "   https://concursomoburb.prefeitura.sp.gov.br"
@@ -141,4 +143,4 @@ $DOCKER_COMPOSE logs --tail=10 moburb-app
 
 echo ""
 log_success "🎯 Deploy finalizado!"
-echo "Para monitorar: docker-compose -f docker-compose.centos7.yml logs -f moburb-app"
+echo "Para monitorar: docker-compose -f docker-compose.yml logs -f moburb-app"
