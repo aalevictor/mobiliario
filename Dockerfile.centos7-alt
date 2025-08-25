@@ -15,9 +15,28 @@ RUN apk add --no-cache \
     mariadb-dev \
     && update-ca-certificates
 
-# Cria link simbólico para libmysqlclient.so.18 (compatibilidade Prisma)
-RUN ln -sf /usr/lib/libmariadb.so.3 /usr/lib/libmysqlclient.so.18 || \
-    ln -sf /usr/lib/libmariadb.so /usr/lib/libmysqlclient.so.18
+# Solução mais robusta para libmysqlclient.so.18
+RUN set -e && \
+    # Lista bibliotecas disponíveis para debug
+    find /usr/lib -name "*mysql*" -o -name "*maria*" || true && \
+    # Cria múltiplos links simbólicos para garantir compatibilidade
+    mkdir -p /usr/lib64 && \
+    if [ -f /usr/lib/libmariadb.so.3 ]; then \
+        ln -sf /usr/lib/libmariadb.so.3 /usr/lib/libmysqlclient.so.18 && \
+        ln -sf /usr/lib/libmariadb.so.3 /usr/lib/libmysqlclient.so && \
+        ln -sf /usr/lib/libmariadb.so.3 /usr/lib64/libmysqlclient.so.18 && \
+        ln -sf /usr/lib/libmariadb.so.3 /usr/lib64/libmysqlclient.so; \
+    elif [ -f /usr/lib/libmariadb.so ]; then \
+        ln -sf /usr/lib/libmariadb.so /usr/lib/libmysqlclient.so.18 && \
+        ln -sf /usr/lib/libmariadb.so /usr/lib/libmysqlclient.so && \
+        ln -sf /usr/lib/libmariadb.so /usr/lib64/libmysqlclient.so.18 && \
+        ln -sf /usr/lib/libmariadb.so /usr/lib64/libmysqlclient.so; \
+    else \
+        echo "⚠️ MariaDB library not found, will use static Prisma binaries"; \
+    fi && \
+    # Verifica se os links foram criados
+    ls -la /usr/lib/libmysqlclient* || echo "MySQL client links not created" && \
+    ls -la /usr/lib64/libmysqlclient* || echo "MySQL client links (lib64) not created"
 
 # Define o diretório de trabalho
 WORKDIR /app
@@ -65,9 +84,12 @@ ENV HOSTNAME="0.0.0.0"
 ENV ENVIRONMENT=production
 
 # Configurações específicas para Prisma + MySQL no Alpine
-ENV PRISMA_CLI_BINARY_TARGETS="linux-musl"
-ENV PRISMA_QUERY_ENGINE_BINARY="linux-musl"
+ENV PRISMA_CLI_BINARY_TARGETS="linux-musl-openssl-1.1.x"
+ENV PRISMA_QUERY_ENGINE_BINARY="linux-musl-openssl-1.1.x"
 ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
+ENV PRISMA_SCHEMA_ENGINE_BINARY="linux-musl-openssl-1.1.x"
+ENV PRISMA_INTROSPECTION_ENGINE_BINARY="linux-musl-openssl-1.1.x"
+ENV PRISMA_FMT_BINARY="linux-musl-openssl-1.1.x"
 
 # Healthcheck para monitoramento
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
