@@ -39,8 +39,8 @@ export async function POST(
         }
 
         // Definir limites baseados no tipo de arquivo
-        const MAX_SIZE_DOC_ESPECIFICA = 50 * 1024 * 1024; // 50MB
-        const MAX_SIZE_PROJETOS = 200 * 1024 * 1024; // 200MB
+        const MAX_SIZE_DOC_ESPECIFICA = 20 * 1024 * 1024; // 50MB
+        const MAX_SIZE_PROJETOS = 180 * 1024 * 1024; // 200MB
         
         const maxSizeForType = tipo === TipoArquivo.DOC_ESPECIFICA ? MAX_SIZE_DOC_ESPECIFICA : MAX_SIZE_PROJETOS;
 
@@ -62,7 +62,7 @@ export async function POST(
 
         if (tamanhoTotalExistente + tamanhoNovosArquivos > maxSizeForType) {
             const tipoDescricao = tipo === TipoArquivo.DOC_ESPECIFICA ? 'documentos' : 'projetos';
-            const limite = tipo === TipoArquivo.DOC_ESPECIFICA ? '50MB' : '200MB';
+            const limite = tipo === TipoArquivo.DOC_ESPECIFICA ? '20MB' : '180MB';
             
             return NextResponse.json(
                 { error: `Tamanho total dos ${tipoDescricao} excede o limite de ${limite}` },

@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { formatarTelefone } from "@/lib/utils"
+import { formatarTelefone, validaCNPJ } from "@/lib/utils"
 import { toast } from "sonner"
 import { ICadastro } from "../../cadastros/page"
 
@@ -36,7 +36,7 @@ export default function ResponsavelForm({ cadastro, atualizarPagina }: Responsav
         },
     })
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        if (data.cnpj && data.cnpj.length > 0 && data.cnpj.length < 18) {
+        if (data.cnpj && data.cnpj.length > 0 && (data.cnpj.length !== 18 || !validaCNPJ(data.cnpj))) {
             toast.error("CNPJ inválido")
             return
         }
@@ -135,6 +135,13 @@ export default function ResponsavelForm({ cadastro, atualizarPagina }: Responsav
                                         />
                                     </FormControl>
                                     <FormMessage />
+                                    {form.watch("cnpj")?.length === 18 && !validaCNPJ(form.watch("cnpj") || "") && (
+                                        <div className="w-full">
+                                            <span className="text-sm font-medium text-destructive">
+                                            CNPJ inválido
+                                            </span>
+                                        </div>
+                                    )}
                                 </FormItem>
                             )} />
                         </div>

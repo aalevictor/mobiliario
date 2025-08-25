@@ -35,7 +35,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                         <TabsTrigger value="endereco">Endereço</TabsTrigger>
                         <TabsTrigger value="participantes">Participantes</TabsTrigger>
                         <TabsTrigger value="documentacao">Documentação</TabsTrigger>
-                        <TabsTrigger value="projetos">Projetos</TabsTrigger>
+                        {1 > 2 && <TabsTrigger value="projetos">Projetos</TabsTrigger>}
                     </TabsList>
                 </div>
                 <div className="w-full flex flex-col gap-3">
@@ -54,9 +54,11 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                     <TabsContent value="documentacao" className="m-0">
                         <DocumentosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
                     </TabsContent>
-                    <TabsContent value="projetos" className="m-0">
-                        <ProjetosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
-                    </TabsContent>
+                    {1 > 2 && (
+                        <TabsContent value="projetos" className="m-0">
+                            <ProjetosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                        </TabsContent>
+                    )}
                 </div>
             </Tabs>
         </div>

@@ -20,7 +20,7 @@ interface DocumentosFormProps {
     atualizarPagina: (tab: string) => Promise<void>
 }
 
-const MAX_TOTAL_SIZE = 50 * 1024 * 1024; // 50MB em bytes
+const MAX_TOTAL_SIZE = 20 * 1024 * 1024; // 50MB em bytes
 
 const uploadSchema = z.object({
     documentos: z.array(z.instanceof(File)).min(1, "Selecione pelo menos um documento")
@@ -285,12 +285,12 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                                             <FormControl>
                                                 <DragDropInput
                                                     ref={dragDropRef}
-                                                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                                                    accept=".pdf"
                                                     multiple={true}
                                                     maxSize={espacoDisponivel}
                                                     buttonText="Selecionar documentos"
                                                     dropzoneText="Arraste e solte seus documentos aqui"
-                                                    helperText="Formatos aceitos: PDF, DOC, DOCX, JPG, PNG"
+                                                    helperText="Formatos aceitos: PDF"
                                                     onChange={handleFileChange}
                                                     disabled={isPending}
                                                     value={field.value}

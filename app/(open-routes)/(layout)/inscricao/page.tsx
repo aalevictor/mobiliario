@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2, Plus, Trash2, User } from "lucide-react";
-import { formatarCEP, formatarCNPJ, formatarCPF, formatarTelefone } from "@/lib/utils";
+import { formatarCEP, formatarCNPJ, formatarCPF, formatarTelefone, validaCNPJ, validaCPF } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectValue, SelectItem, SelectContent, SelectGroup, SelectLabel, SelectTrigger } from "@/components/ui/select";
 import { ViaCepResposta } from "@/types/cep";
@@ -149,6 +149,12 @@ export default function PreCadastroPage() {
         if (form.watch("telefone").length < 14) return false;
         if (form.watch("carteira_numero").length < 7) return false;
         if (!form.watch("email").includes("@")) return false;
+        if (!validaCPF(form.watch("cpf"))) return false;
+        if (form.watch("cnpj") !== undefined){
+            const cnpj = form.watch("cnpj") || "";
+            if (cnpj.length > 0 && (cnpj.length !== 18 || !validaCNPJ(cnpj))) return false;
+            if (cnpj.length === 18 && !validaCNPJ(cnpj)) return false;
+        }
         return true;
     }
 
@@ -494,10 +500,25 @@ export default function PreCadastroPage() {
                                                     {...field} 
                                                     placeholder="000.000.000-00"
                                                     className="h-10 sm:h-11"
-                                                    onChange={(e) => field.onChange(formatarCPF(e.target.value))}
+                                                    onChange={(e) => {
+                                                        const cpf = formatarCPF(e.target.value)
+                                                        field.onChange(cpf)
+                                                        if (cpf.length === 14) {
+                                                            if (!validaCPF(cpf)) {
+                                                                toast.error("CPF inválido")
+                                                            }
+                                                        }
+                                                    }}
                                                 />
                                             </FormControl>
                                             <FormMessage />
+                                            {form.watch("cpf").length === 14 && !validaCPF(form.watch("cpf")) && (
+                                                <div className="w-full">
+                                                    <span className="text-sm font-medium text-destructive">
+                                                    CPF inválido
+                                                    </span>
+                                                </div>
+                                            )}
                                         </FormItem>
                                     )} />
                                     <FormField control={form.control} name="cnpj" render={({ field }) => (
@@ -512,6 +533,13 @@ export default function PreCadastroPage() {
                                                 />
                                             </FormControl>
                                             <FormMessage />
+                                            {form.watch("cnpj")?.length === 18 && !validaCNPJ(form.watch("cnpj") || "") && (
+                                                <div className="w-full">
+                                                    <span className="text-sm font-medium text-destructive">
+                                                    CNPJ inválido
+                                                    </span>
+                                                </div>
+                                            )}
                                         </FormItem>
                                     )} />
                                     <FormField control={form.control} name="carteira_tipo" render={({ field }) => (

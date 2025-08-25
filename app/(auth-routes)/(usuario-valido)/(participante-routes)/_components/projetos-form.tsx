@@ -20,7 +20,7 @@ interface ProjetosFormProps {
     atualizarPagina: (tab: string) => Promise<void>
 }
 
-const MAX_TOTAL_SIZE = 200 * 1024 * 1024; // 200MB em bytes
+const MAX_TOTAL_SIZE = 180 * 1024 * 1024; // 180MB em bytes
 
 const uploadSchema = z.object({
     projetos: z.array(z.instanceof(File)).min(1, "Selecione pelo menos um projeto")
@@ -286,12 +286,12 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                                             <FormControl>
                                                 <DragDropInput
                                                     ref={dragDropRef}
-                                                    accept=".pdf,.doc,.docx,.dwg,.dxf,.zip,.rar,.jpg,.jpeg,.png"
+                                                    accept=".pdf"
                                                     multiple={true}
                                                     maxSize={espacoDisponivel}
                                                     buttonText="Selecionar projetos"
                                                     dropzoneText="Arraste e solte seus projetos aqui"
-                                                    helperText="Formatos aceitos: PDF, DOC, DOCX, DWG, DXF, ZIP, RAR, JPG, PNG"
+                                                    helperText="Formatos aceitos: PDF"
                                                     onChange={handleFileChange}
                                                     disabled={isPending}
                                                     value={field.value}

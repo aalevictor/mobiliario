@@ -69,7 +69,7 @@ async function criarPreCadastro(
               from: process.env.MAIL_FROM || '',
               to: data.email,
               subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
-              html: templateBoasVindasParticipante(protocolo, data.nome, senha),
+              html: templateBoasVindasParticipante(data.nome, protocolo, senha),
             }),
           });
           if (response.ok) {
