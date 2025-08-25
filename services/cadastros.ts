@@ -8,7 +8,6 @@ import { gerarSenha, verificaLimite, verificaPagina } from "@/lib/utils";
 import { IAvaliacaoLicitadora } from "@/app/api/cadastro/[id]/avaliacao-licitadora/route";
 import { getCurrentUserForEmail } from "@/lib/email-logger";
 import { templateBoasVindasCoordenacao, templateBoasVindasParticipante } from "@/app/api/cadastro/_utils/email-templates";
-import { transporter } from "@/lib/nodemailer";
 import { AuditLogger } from "@/lib/audit-logger";
 
 function geraProtocolo(id: number) {
@@ -61,14 +60,28 @@ async function criarPreCadastro(
         });
         if (cadastro_protocolo) {
           const usuario = getCurrentUserForEmail();
-          try {
-            await transporter?.sendMail({
-              from: process.env.MAIL_FROM,
+          const response = await fetch(`${process.env.MAIL_API}/send-email`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              from: process.env.MAIL_FROM || '',
               to: data.email,
               subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
               html: templateBoasVindasParticipante(protocolo, data.nome, senha),
-            })
-          } catch (error) {
+            }),
+          });
+          if (response.ok) {
+            await AuditLogger.logApiRequest(
+              `🔒 EMAIL ENVIADO: ${process.env.MAIL_FROM} para ${data.email}`,
+              NivelLog.INFO,
+              'email/info',
+              'POST',
+              usuario
+            );
+          } else {
+            const error = new Error('Email não enviado');
             await AuditLogger.logError(
               `🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${data.email}`,
               error instanceof Error ? error.stack : undefined,
@@ -81,23 +94,37 @@ async function criarPreCadastro(
 
           // Email para coordenação (opcional)
           if (process.env.MAIL_BCC) {
-            try {
-              await transporter?.sendMail({
-                from: process.env.MAIL_FROM,
-                to: process.env.MAIL_BCC,
-                subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
-                html: templateBoasVindasCoordenacao(protocolo),
-              })
-            } catch (error) {
-              await AuditLogger.logError(
-                `🚨 EMAIL INFORMATIVO FALHOU: ${process.env.MAIL_FROM} para ${process.env.MAIL_BCC}`,
-                error instanceof Error ? error.stack : undefined,
-                NivelLog.ERROR,
-                'email/error',
-                'POST',
-                usuario
-              );
-            }
+              const response = await fetch(`${process.env.MAIL_API}/send-email`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  from: process.env.MAIL_FROM || '',
+                  to: process.env.MAIL_BCC,
+                  subject: 'PRÉ-INSCRIÇÃO REGISTRADA',
+                  html: templateBoasVindasCoordenacao(protocolo),
+                }),
+              });
+              if (response.ok) {
+                await AuditLogger.logApiRequest(
+                  `🔒 EMAIL ENVIADO: ${process.env.MAIL_FROM} para ${process.env.MAIL_BCC}`,
+                  NivelLog.INFO,
+                  'email/info',
+                  'POST',
+                  usuario
+                );
+              } else {
+                const error = new Error('Email não enviado');
+                await AuditLogger.logError(
+                  `🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${process.env.MAIL_BCC}`,
+                  error instanceof Error ? error.stack : undefined,
+                  NivelLog.CRITICAL,
+                  'email/critical',
+                  'POST',
+                  usuario
+                );
+              }
           }
         }
         return cadastro_protocolo;

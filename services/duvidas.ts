@@ -4,7 +4,6 @@ import { getCurrentUserForEmail } from "@/lib/email-logger";
 import { templateNovaDuvidaCoordenacao, templateNovaDuvidaParticipante } from "@/app/api/cadastro/_utils/email-templates";
 import { AuditLogger } from "@/lib/audit-logger";
 import { NivelLog } from "@prisma/client";
-import { transporter } from "@/lib/nodemailer";
 
 async function criarDuvida(data: { pergunta: string, email: string, nome: string }) {
     const duvida = await db.duvida.create({ data });
@@ -14,33 +13,61 @@ async function criarDuvida(data: { pergunta: string, email: string, nome: string
     const mailBcc = process.env.MAIL_BCC;
     const usuario = getCurrentUserForEmail();
     
-    try {
-        await transporter?.sendMail({
-            from: process.env.MAIL_FROM,
-            to: mailBcc,
-            subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
-            html: templateNovaDuvidaParticipante(data.nome),
-        })
-    } catch (error) {
-        await AuditLogger.logError(
-            `🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${mailBcc}`,
-            error instanceof Error ? error.stack : undefined,
-            NivelLog.CRITICAL,
-            'email/critical',
-            'POST',
-            usuario
-        );
-    }
+        const response = await fetch(`${process.env.MAIL_API}/send-email`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                from: process.env.MAIL_FROM || '',
+                to: mailBcc,
+                subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
+                html: templateNovaDuvidaParticipante(data.nome),
+            }),
+        });
+        if (response.ok) {
+            await AuditLogger.logApiRequest(
+                `🔒 EMAIL ENVIADO: ${process.env.MAIL_FROM} para ${mailBcc}`,
+                NivelLog.INFO,
+                'email/info',
+                'POST',
+                usuario
+            );
+        } else {
+            const error = new Error('Email não enviado');
+            await AuditLogger.logError(
+                `🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${mailBcc}`,
+                error instanceof Error ? error.stack : undefined,
+                NivelLog.CRITICAL,
+                'email/critical',
+                'POST',
+                usuario
+            );
+        }
 
     if (mailBcc) {
-        try {
-            await transporter?.sendMail({
+        const response = await fetch(`${process.env.MAIL_API}/send-email`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
                 from: process.env.MAIL_FROM,
                 to: mailBcc,
                 subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
                 html: templateNovaDuvidaCoordenacao(data.nome, data.email, data.pergunta),
-            })
-        } catch (error) {
+            }),
+        });
+        if (response.ok) {
+            await AuditLogger.logApiRequest(
+                `🔒 EMAIL ENVIADO: ${process.env.MAIL_FROM} para ${mailBcc}`,
+                NivelLog.INFO,
+                'email/info',
+                'POST',
+                usuario
+            );
+        } else {
+            const error = new Error('Email não enviado');
             await AuditLogger.logError(
                 `🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${mailBcc}`,
                 error instanceof Error ? error.stack : undefined,

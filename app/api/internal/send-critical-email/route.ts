@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { transporter } from '@/lib/nodemailer';
 
 export async function POST(request: NextRequest) {
   try {
     const { logId, adminEmail, data } = await request.json();
     
-    if (!adminEmail || !transporter) {
-      console.warn('MAIL_ADMIN não configurado ou transporter não disponível para envio de erro crítico');
+    if (!adminEmail) {
+      console.warn('MAIL_ADMIN não configurado');
       return NextResponse.json({ error: 'Email não configurado' }, { status: 400 });
     }
 
@@ -46,14 +45,24 @@ export async function POST(request: NextRequest) {
       </div>
     `;
 
-    await transporter.sendMail({
-      from: process.env.MAIL_FROM,
-      to: adminEmail,
-      subject: `🚨 ERRO CRÍTICO - ${data.endpoint || 'Sistema'} - ${new Date().toLocaleString('pt-BR')}`,
-      html: emailHTML,
+    const response = await fetch(`${process.env.MAIL_API}/send-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: process.env.MAIL_FROM || '',
+        to: adminEmail,
+        subject: `🚨 ERRO CRÍTICO - ${data.endpoint || 'Sistema'} - ${new Date().toLocaleString('pt-BR')}`,
+        html: emailHTML,
+      }),
     });
 
-    return NextResponse.json({ success: true });
+    if (response.ok) {
+      return NextResponse.json({ success: true });
+    } else {
+      return NextResponse.json({ error: 'Erro ao enviar email' }, { status: 500 });
+    }
   } catch (error) {
     console.error('Erro ao enviar email de erro crítico:', error);
     return NextResponse.json({ error: 'Erro interno' }, { status: 500 });

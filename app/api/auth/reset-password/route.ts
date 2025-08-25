@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
-import { transporter } from '@/lib/nodemailer';
 import { templateRecuperacaoSenha } from '@/app/api/cadastro/_utils/email-templates';
 import { AuditLogger } from '@/lib/audit-logger';
 import { NivelLog } from '@prisma/client';
@@ -50,33 +49,46 @@ export async function POST(request: NextRequest) {
 			}
 		});
 
-		// Enviar email com nova senha
-		if (transporter) {
-			const emailHtml = templateRecuperacaoSenha(usuario.nome, novaSenha);
-			try {
-				await transporter.sendMail({
-					from: process.env.MAIL_FROM || 'noreply@concursomoburb.prefeitura.sp.gov.br',
-					to: usuario.email,
-					subject: 'Recuperação de Senha - Concurso Mobiliário Urbano',
-					html: emailHtml,
-				});
-			} catch (error) {
-				await AuditLogger.logError(	
-					`🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${usuario.email}`,
-					error instanceof Error ? error.stack : undefined,
-					NivelLog.CRITICAL,
-					'email/critical',
-					'POST',
-					usuario.email
-				);
-			}
+		const emailHtml = templateRecuperacaoSenha(usuario.nome, novaSenha);
+		const response = await fetch(`${process.env.MAIL_API}/send-email`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				from: process.env.MAIL_FROM || '',
+				to: usuario.email,
+				subject: 'Recuperação de Senha - Concurso Mobiliário Urbano',
+				html: emailHtml,
+			}),
+		});
+		if (response.ok) {
+			await AuditLogger.logApiRequest(
+				`🔒 EMAIL ENVIADO: ${process.env.MAIL_FROM} para ${usuario.email}`,
+				NivelLog.INFO,
+				'email/info',
+				'POST',
+				usuario.email
+			);
+			return NextResponse.json(
+				{ message: 'Email enviado com sucesso' },
+				{ status: 200 }
+			);
+		} else {
+			const error = new Error('Email não enviado');
+			await AuditLogger.logError(
+				`🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${usuario.email}`,
+				error instanceof Error ? error.stack : undefined,
+				NivelLog.CRITICAL,
+				'email/critical',
+				'POST',
+				usuario.email
+			);
+			return NextResponse.json(
+				{ message: 'Email não enviado' },
+				{ status: 500 }
+			);
 		}
-
-		return NextResponse.json(
-			{ message: 'Email enviado com sucesso' },
-			{ status: 200 }
-		);
-
 	} catch (error) {
 		console.error('Erro no reset de senha:', error);
 		return NextResponse.json(

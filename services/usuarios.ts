@@ -3,10 +3,10 @@
 import { db } from '@/lib/prisma';
 import { gerarSenha, verificaLimite, verificaPagina } from '@/lib/utils';
 import { ICreateUsuario } from '@/types/usuario';
-import { Permissao, Usuario } from '@prisma/client';
+import { NivelLog, Permissao, Usuario } from '@prisma/client';
 import { hashPassword } from '@/lib/password';
-import { transporter } from '@/lib/nodemailer';
 import { templateNotificacao } from '@/app/api/cadastro/_utils/email-templates';
+import { AuditLogger } from '@/lib/audit-logger';
 
 export async function criarUsuario(dados: ICreateUsuario) {
     let enviarEmail = false;
@@ -37,13 +37,13 @@ export async function criarUsuario(dados: ICreateUsuario) {
 			data: { email, nome, permissao, senha: senhaHash, tipo: 'EXTERNO', alterarSenha },
 		});
         if (usuario && enviarEmail) {
-            try {
-                if (!transporter) {
-                    console.warn('⚠️  Não foi possível enviar email: SMTP não configurado');
-                    return usuario;
-                }
-                await transporter.sendMail({
-                    from: process.env.MAIL_FROM,
+            const response = await fetch(`${process.env.MAIL_API}/send-email`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    from: process.env.MAIL_FROM || '',
                     to: email,
                     subject: 'Concurso de Mobiliário Urbano 2025 - Cadastro',
                     html: templateNotificacao(
@@ -51,9 +51,26 @@ export async function criarUsuario(dados: ICreateUsuario) {
                         'Cadastro realizado com sucesso', 
                         `Seu cadastro foi realizado com sucesso. Para acessar, use as credenciais abaixo:<br><strong>Login:</strong> ${email} <br><strong>Senha:</strong> ${senha}`
                     ),
-                });
-            } catch (error) {
-                console.error(error);
+                }),
+            });
+            if (response.ok) {
+                await AuditLogger.logApiRequest(
+                    `🔒 EMAIL ENVIADO: ${process.env.MAIL_FROM} para ${email}`,
+                    NivelLog.INFO,
+                    'email/info',
+                    'POST',
+                    usuario.email
+                );
+            } else {
+                const error = new Error('Email não enviado');
+                await AuditLogger.logError(
+                    `🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${email}`,
+                    error instanceof Error ? error.stack : undefined,
+                    NivelLog.CRITICAL,
+                    'email/critical',
+                    'POST',
+                    usuario.email
+                );
             }
         }
         if (!usuario) return null;

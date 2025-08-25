@@ -193,6 +193,7 @@ export class EmailLogger {
       await this.sendMail(mailOptions, logData);
       return true;
     } catch (error) {
+      console.error(error);
       // Log do erro mas não falha a operação principal
       console.warn(`⚠️ Email opcional falhou para ${logData.to}: ${logData.subject}`);
       return false;
