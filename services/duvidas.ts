@@ -12,7 +12,6 @@ async function criarDuvida(data: { pergunta: string, email: string, nome: string
     // Enviar email de notificação para a equipe administrativa
     const mailBcc = process.env.MAIL_BCC;
     const usuario = getCurrentUserForEmail();
-    
         const response = await fetch(`${process.env.MAIL_API}/send-email`, {
             method: 'POST',
             headers: {
@@ -20,14 +19,14 @@ async function criarDuvida(data: { pergunta: string, email: string, nome: string
             },
             body: JSON.stringify({
                 from: process.env.MAIL_FROM || '',
-                to: mailBcc,
+                to: data.email,
                 subject: "PEDIDO DE ESCLARECIMENTO PROCESSADO",
                 html: templateNovaDuvidaParticipante(data.nome),
             }),
         });
         if (response.ok) {
             await AuditLogger.logApiRequest(
-                `🔒 EMAIL ENVIADO: ${process.env.MAIL_FROM} para ${mailBcc}`,
+                `🔒 EMAIL ENVIADO: ${process.env.MAIL_FROM} para ${data.email}`,
                 NivelLog.INFO,
                 'email/info',
                 'POST',
@@ -36,7 +35,7 @@ async function criarDuvida(data: { pergunta: string, email: string, nome: string
         } else {
             const error = new Error('Email não enviado');
             await AuditLogger.logError(
-                `🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${mailBcc}`,
+                `🚨 EMAIL CRÍTICO FALHOU: ${process.env.MAIL_FROM} para ${data.email}`,
                 error instanceof Error ? error.stack : undefined,
                 NivelLog.CRITICAL,
                 'email/critical',
