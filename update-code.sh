@@ -66,61 +66,72 @@ else
     docker cp ./lib $CONTAINER_NAME:/app/lib-new
     docker cp ./services $CONTAINER_NAME:/app/services-new
     
-    # Executa build dentro do container
-    log_info "2. Fazendo build dentro do container..."
-    docker exec $CONTAINER_NAME sh -c "
-        mv /app/app /app/app-backup &&
-        mv /app/components /app/components-backup &&
-        mv /app/lib /app/lib-backup &&
-        mv /app/services /app/services-backup &&
+    # Executa build dentro do container como root para resolver permissões
+    log_info "2. Fazendo backup e substituindo arquivos..."
+    docker exec --user root $CONTAINER_NAME sh -c "
+        # Remove backups antigos se existirem
+        rm -rf /app/app-backup /app/components-backup /app/lib-backup /app/services-backup 2>/dev/null || true
+        
+        # Faz backup dos arquivos atuais
+        cp -r /app/app /app/app-backup &&
+        cp -r /app/components /app/components-backup &&
+        cp -r /app/lib /app/lib-backup &&
+        cp -r /app/services /app/services-backup &&
+        
+        # Remove arquivos atuais
+        rm -rf /app/app /app/components /app/lib /app/services &&
+        
+        # Move novos arquivos para posição
         mv /app/app-new /app/app &&
         mv /app/components-new /app/components &&
         mv /app/lib-new /app/lib &&
         mv /app/services-new /app/services &&
-        npm run build
+        
+        # Ajusta permissões
+        chown -R nextjs:nodejs /app/app /app/components /app/lib /app/services
     "
     
+    log_info "3. Fazendo build da aplicação..."
+    docker exec $CONTAINER_NAME npm run build
+    
     if [ $? -eq 0 ]; then
-        log_info "3. Reiniciando aplicação..."
+        log_info "4. Reiniciando aplicação..."
         # Reinicia processo Node.js sem reiniciar container
         docker exec $CONTAINER_NAME sh -c "pkill -f 'npm start' || pkill -f 'node' || true"
+        sleep 3
         docker exec -d $CONTAINER_NAME npm start
         
-        log_info "4. Aguardando aplicação inicializar..."
-        sleep 10
+        log_info "5. Aguardando aplicação inicializar..."
+        sleep 15
         
         # Verifica se funcionou
         if curl -f http://localhost:3500/api/health >/dev/null 2>&1; then
             log_success "✅ Atualização aplicada com sucesso!"
             
             # Remove backups
-            docker exec $CONTAINER_NAME sh -c "rm -rf /app/app-backup /app/components-backup /app/lib-backup /app/services-backup"
+            docker exec --user root $CONTAINER_NAME sh -c "rm -rf /app/app-backup /app/components-backup /app/lib-backup /app/services-backup"
         else
             log_error "❌ Atualização falhou - restaurando backup..."
-            docker exec $CONTAINER_NAME sh -c "
-                mv /app/app /app/app-failed &&
-                mv /app/components /app/components-failed &&
-                mv /app/lib /app/lib-failed &&
-                mv /app/services /app/services-failed &&
+            docker exec --user root $CONTAINER_NAME sh -c "
+                rm -rf /app/app /app/components /app/lib /app/services &&
                 mv /app/app-backup /app/app &&
                 mv /app/components-backup /app/components &&
                 mv /app/lib-backup /app/lib &&
                 mv /app/services-backup /app/services &&
-                npm start
-            " &
+                chown -R nextjs:nodejs /app/app /app/components /app/lib /app/services
+            "
+            docker exec -d $CONTAINER_NAME npm start &
             exit 1
         fi
     else
         log_error "❌ Build falhou - restaurando backup..."
-        docker exec $CONTAINER_NAME sh -c "
-            mv /app/app /app/app-failed &&
-            mv /app/components /app/components-failed &&
-            mv /app/lib /app/lib-failed &&
-            mv /app/services /app/services-failed &&
+        docker exec --user root $CONTAINER_NAME sh -c "
+            rm -rf /app/app /app/components /app/lib /app/services &&
             mv /app/app-backup /app/app &&
             mv /app/components-backup /app/components &&
             mv /app/lib-backup /app/lib &&
-            mv /app/services-backup /app/services
+            mv /app/services-backup /app/services &&
+            chown -R nextjs:nodejs /app/app /app/components /app/lib /app/services
         "
         exit 1
     fi
