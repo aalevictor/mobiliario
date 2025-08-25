@@ -168,7 +168,6 @@ export class EmailLogger {
     try {
       return await this.sendMailWithRetry(mailOptions, logData, 3);
     } catch (error) {
-      console.error(error);
       // Email crítico que falhou após retry - notificar admin
       await AuditLogger.logError(
         `🚨 EMAIL CRÍTICO FALHOU: ${logData.subject} para ${logData.to}`,
@@ -194,7 +193,6 @@ export class EmailLogger {
       await this.sendMail(mailOptions, logData);
       return true;
     } catch (error) {
-      console.error(error);
       // Log do erro mas não falha a operação principal
       console.warn(`⚠️ Email opcional falhou para ${logData.to}: ${logData.subject}`);
       return false;

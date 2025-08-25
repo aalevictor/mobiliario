@@ -1,0 +1,81 @@
+# Removido version (obsoleto no Docker Compose v2+)
+
+services:
+  # Banco de dados MySQL para desenvolvimento local
+  mysql-local:
+    image: mysql:8.0
+    container_name: moburb-mysql-local
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: moburb_local
+      MYSQL_USER: moburb_user
+      MYSQL_PASSWORD: moburb123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - moburb-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Aplicação Next.js
+  moburb-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    container_name: moburb-app-local
+    restart: unless-stopped
+    ports:
+      - "3500:3500"
+    environment:
+      - NODE_ENV=development
+      - PORT=3500
+      - HOSTNAME=0.0.0.0
+      - ENVIRONMENT=local
+    env_file:
+      - .env.local
+    volumes:
+      # Volume para uploads persistentes
+      - ./uploads:/app/uploads
+      # Volume para logs
+      - ./logs:/app/logs
+      # Volume para hot-reload (desenvolvimento)
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - moburb-network
+    depends_on:
+      mysql-local:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3500/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Adminer para gerenciar o banco (opcional)
+  adminer:
+    image: adminer
+    container_name: moburb-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - moburb-network
+    depends_on:
+      - mysql-local
+
+volumes:
+  mysql_data:
+
+networks:
+  moburb-network:
+    driver: bridge

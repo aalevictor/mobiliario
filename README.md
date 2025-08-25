@@ -1,144 +1,164 @@
-# 🏛️ MOBURB - Concurso Mobiliário Urbano 2025
+# MOBURB - Sistema de Gestão de Concursos de Mobiliário Urbano
 
-Sistema web para gestão completa de concursos de mobiliário urbano da Secretaria Municipal de Urbanismo e Licenciamento da Prefeitura de São Paulo.
+Sistema web desenvolvido em Next.js para gestão completa de concursos de mobiliário urbano, incluindo cadastros de participantes, avaliações técnicas e administrativa.
 
-## 🎯 **Funcionalidades Principais**
+## 🏗️ Sobre o Projeto
 
-- 🔐 **Autenticação** - Login com diferentes níveis de permissão
-- 👥 **Cadastro de Participantes** - Formulário completo para inscrição
-- 📄 **Upload de Documentos** - Sistema para envio de projetos
-- ⚖️ **Avaliação Técnica** - Painel para jurados
-- 📋 **Avaliação Administrativa** - Verificação de documentação
-- 👨‍💼 **Gestão de Usuários** - Painel administrativo
-- ❓ **Sistema de Dúvidas** - Canal de comunicação
-- 📧 **Notificações Email** - Sistema automatizado
+O MOBURB é uma plataforma desenvolvida para a Secretaria Municipal de Urbanismo e Licenciamento da Prefeitura de São Paulo, que gerencia todo o processo de concursos de mobiliário urbano, desde o cadastro de participantes até a avaliação e aprovação final.
 
-## 🚀 **Tecnologias**
+### Principais Funcionalidades
+
+- **Sistema de Autenticação**: Login com diferentes níveis de permissão (DEV, ADMIN, PARTICIPANTE, LICITACAO, JULGADORA)
+- **Cadastro de Participantes**: Formulário completo para inscrição no concurso
+- **Upload de Documentos**: Sistema para envio de documentos específicos e projetos
+- **Avaliação Técnica**: Painel para avaliação de projetos pelos jurados
+- **Avaliação Administrativa**: Verificação de documentação pelos licitadores
+- **Gestão de Usuários**: Painel administrativo para gerenciar usuários do sistema
+- **Sistema de Dúvidas**: Canal de comunicação entre participantes e administradores
+- **Notificações por Email**: Sistema automatizado de envio de emails
+
+## 🚀 Tecnologias Utilizadas
 
 - **Frontend**: Next.js 15, React 19, TypeScript
 - **Styling**: Tailwind CSS, Radix UI
-- **Autenticação**: NextAuth.js com LDAP
-- **Banco de Dados**: MySQL com Prisma ORM
-- **Email**: Nodemailer (Sendmail/SMTP)
-- **Deploy**: Docker + CentOS 7
-- **Logs**: Sistema completo de auditoria
+- **Autenticação**: NextAuth.js
+- **Banco de Dados**: PostgreSQL com Prisma ORM
+- **Email**: Nodemailer
+- **Formulários**: React Hook Form com Zod
+- **Tabelas**: TanStack Table
+- **Animações**: Framer Motion
+- **Deploy**: Vercel
 
-## 📋 **Pré-requisitos**
+## 📋 Pré-requisitos
 
-- **Produção**: CentOS 7, MySQL, Docker
-- **Desenvolvimento**: Node.js 20+, MySQL
+- Node.js 18+ 
+- PostgreSQL
+- npm, yarn, pnpm ou bun
 
-## 🚀 **Deploy em Produção**
+## 🔧 Instalação
 
-### **Deploy Automático (CentOS 7):**
+1. **Clone o repositório**
 ```bash
-# 1. Configurar ambiente
-cp .env.production.example .env.production
-nano .env.production
-
-# 2. Deploy completo
-./deploy-centos7.sh
-
-# 3. Testar sistema
-./test-email.sh seu-email@exemplo.com
+git clone [url-do-repositorio]
+cd mobiliario2
 ```
 
-### **Desenvolvimento Local:**
+2. **Instale as dependências**
 ```bash
-# 1. Instalar dependências
 npm install
+# ou
+yarn install
+# ou
+pnpm install
+```
 
-# 2. Configurar .env.local
-cp .env.production.example .env.local
-# Editar para MySQL local
+3. **Configure as variáveis de ambiente**
+```bash
+cp example.env .env.local
+```
 
-# 3. Executar
-npx prisma migrate dev
+Edite o arquivo `.env.local` com suas configurações:
+```env
+DATABASE_URL=postgresql://usuario:senha@localhost:5432/moburb2025
+DIRECT_URL=postgresql://usuario:senha@localhost:5432/moburb2025
+AUTH_SECRET=sua-chave-secreta-aqui
+
+# Configurações de Email SMTP
+MAIL_FROM="naoresponda-mobiliariourbano@spurbanismo.sp.gov.br"
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USER=seu-email@gmail.com
+MAIL_PASS=sua-senha-de-app
+MAIL_BCC=equipe-admin@spurbanismo.sp.gov.br
+
+# URL base da aplicação
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+4. **Configure o banco de dados**
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+5. **Execute o servidor de desenvolvimento**
+```bash
 npm run dev
+# ou
+yarn dev
+# ou
+pnpm dev
 ```
 
-## 📚 **Documentação**
+Acesse [http://localhost:3000](http://localhost:3000) para visualizar a aplicação.
 
-- **[DEPLOY.md](DEPLOY.md)** - Guia completo de deploy
-- **Aplicação**: https://concursomoburb.prefeitura.sp.gov.br
+## 🏛️ Estrutura do Projeto
 
-## 🔧 **Scripts Disponíveis**
+```
+mobiliario2/
+├── app/                          # App Router do Next.js
+│   ├── (auth-routes)/           # Rotas autenticadas
+│   │   ├── (usuario-valido)/    # Usuários com acesso válido
+│   │   │   ├── (admin-routes)/  # Rotas administrativas
+│   │   │   └── (participante-routes)/ # Rotas de participantes
+│   │   └── (usuario-invalido)/  # Usuários com acesso restrito
+│   ├── (open-routes)/           # Rotas públicas
+│   └── api/                     # API Routes
+├── components/                   # Componentes reutilizáveis
+├── lib/                         # Utilitários e configurações
+├── prisma/                      # Schema e migrações do banco
+├── services/                    # Serviços externos
+├── types/                       # Definições de tipos TypeScript
+└── uploads/                     # Arquivos enviados pelos usuários
+```
 
-### **Deploy:**
-- `./deploy-centos7.sh` - Deploy completo (primeira vez)
-- `./rebuild-force.sh` - Rebuild completo (sem cache)
-- `./rebuild.sh` - Rebuild rápido (com cache)
-- `./restart.sh` - Restart simples (sem rebuild)
-- `./test-email.sh` - Teste sistema de email
+## 👥 Níveis de Acesso
 
-### **Desenvolvimento:**
-- `npm run dev` - Servidor desenvolvimento
-- `npm run build` - Build produção
-- `npm run seed` - Popular banco inicial
+- **DEV**: Acesso total ao sistema
+- **ADMIN**: Gestão de usuários, cadastros e dúvidas
+- **PARTICIPANTE**: Cadastro e envio de documentos
+- **LICITACAO**: Avaliação administrativa
+- **JULGADORA**: Avaliação técnica dos projetos
 
-## 🗄️ **Banco de Dados**
+## 📧 Sistema de Emails
 
-### **Usuário Admin Padrão:**
-- **Email**: vmabreu@prefeitura.sp.gov.br
-- **Login**: d927014
-- **Senha**: mudar123 (alterar no primeiro acesso)
+O sistema utiliza templates de email para notificações automáticas:
+- Confirmação de cadastro
+- Aprovação/rejeição de documentos
+- Respostas a dúvidas
+- Notificações administrativas
 
-### **Comandos Úteis:**
+## 🚀 Deploy
+
+### Vercel (Recomendado)
+
+1. Conecte seu repositório ao Vercel
+2. Configure as variáveis de ambiente no painel do Vercel
+3. Deploy automático a cada push para a branch principal
+
+### Build para Produção
+
 ```bash
-# Ver migrations
-npx prisma migrate status
-
-# Studio (interface visual)
-npx prisma studio
-
-# Reset banco (desenvolvimento)
-npx prisma migrate reset
+npm run build
+npm start
 ```
 
-## 📧 **Sistema de Email**
+## 🤝 Contribuição
 
-- **Prioridade 1**: Sendmail local (`/usr/sbin/sendmail`)
-- **Fallback**: SMTP (se configurado)
-- **Templates**: Sistema completo de templates HTML
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
 
-## 🔍 **Monitoramento**
+## 📝 Licença
 
-```bash
-# Logs aplicação
-docker-compose -f docker-compose.centos7.yml logs -f moburb-app
+Este projeto é desenvolvido para a Prefeitura de São Paulo e está sob licença interna.
 
-# Health check
-curl http://localhost:3500/api/health
+## 📞 Suporte
 
-# Status containers
-docker ps
-```
-
-## 🛡️ **Segurança**
-
-- ✅ **Autenticação robusta** com NextAuth.js
-- ✅ **Autorização por níveis** de permissão
-- ✅ **Validação** de dados com Zod
-- ✅ **Sanitização** de uploads
-- ✅ **Logs de auditoria** completos
-- ✅ **HTTPS** em produção
-
-## 📊 **Estrutura do Projeto**
-
-```
-mobiliario/
-├── 📁 app/                     # Páginas e API routes
-├── 📁 components/              # Componentes React
-├── 📁 lib/                     # Bibliotecas e utilitários
-├── 📁 services/               # Serviços da aplicação
-├── 📁 prisma/                 # Schema e migrations
-├── 🐳 docker-compose.centos7.yml
-├── 🐳 Dockerfile.centos7
-├── 🚀 deploy-centos7.sh
-├── 📖 DEPLOY.md
-└── ⚙️ package.json
-```
+Para suporte técnico, entre em contato com a equipe de desenvolvimento da Secretaria de Urbanismo e Licenciamento.
 
 ---
 
-**🏛️ Desenvolvido para a Prefeitura de São Paulo**
+**Desenvolvido com ❤️ para a Prefeitura de São Paulo**

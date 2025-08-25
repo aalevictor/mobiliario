@@ -1,16 +1,13 @@
-# Dockerfile alternativo para CentOS 7
-# Usa imagem base diferente para evitar problemas de compatibilidade
+# Dockerfile para Next.js no CentOS 7
+# Usa uma imagem base Node.js 20 compatible com CentOS 7
+FROM node:20-alpine
 
-# Tenta uma imagem base mais compatível com CentOS 7
-FROM node:20-slim
-
-# Instala dependências necessárias
-RUN apt-get update && apt-get install -y \
+# Instala curl para health check e outras dependências
+RUN apk add --no-cache \
     curl \
     openssl \
     ca-certificates \
     tzdata \
-    && rm -rf /var/lib/apt/lists/* \
     && update-ca-certificates
 
 # Define o diretório de trabalho
@@ -39,8 +36,8 @@ RUN npm run build
 RUN npm prune --production
 
 # Cria usuário não-root para segurança
-RUN groupadd -g 1001 nodejs
-RUN useradd -r -u 1001 -g nodejs nextjs
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
 
 # Cria diretórios necessários
 RUN mkdir -p /app/uploads /app/logs
@@ -62,6 +59,7 @@ ENV ENVIRONMENT=production
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:3500/api/health || exit 1
 
-# Explicitamente remove qualquer entrypoint herdado
+# Comando padrão (será sobrescrito pelo docker-compose)
+# Explicitamente remove qualquer entrypoint
 ENTRYPOINT []
 CMD ["npm", "start"]

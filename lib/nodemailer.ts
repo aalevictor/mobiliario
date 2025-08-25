@@ -1,5 +1,4 @@
 import nodemailer, { Transporter } from "nodemailer";
-import fs from "fs";
 
 const smtpHost = process.env.MAIL_HOST;
 const smtpPort = process.env.MAIL_PORT;
@@ -13,16 +12,14 @@ if (!smtpHost || !smtpPort || !smtpUser || !smtpPass) {
 
 // Função para criar transporter com configuração robusta
 function createTransporter(): Transporter | null {
+  if (!smtpHost || !smtpPort || !smtpUser || !smtpPass) {
+    return null;
+  }
+
   const port = Number(smtpPort);
   const env = process.env.ENVIRONMENT;
   
-  // Para ambiente local, sempre usa SMTP
   if (env === 'local') {
-    if (!smtpHost || !smtpPort || !smtpUser || !smtpPass) {
-      console.warn("⚠️  Configuração SMTP incompleta para ambiente local");
-      return null;
-    }
-    
     return nodemailer.createTransport({
       host: smtpHost,
       port: port,
@@ -44,34 +41,11 @@ function createTransporter(): Transporter | null {
     });
   }
   
-  // Para produção, tenta sendmail primeiro, fallback para SMTP
-  if (fs.existsSync('/usr/sbin/sendmail')) {
-    console.log("✅ Usando sendmail local do sistema");
-    return nodemailer.createTransport({
-      sendmail: true,
-      newline: "unix",
-      path: "/usr/sbin/sendmail",
-    });
-  } else {
-    console.warn("⚠️  Sendmail não encontrado, usando fallback SMTP");
-    if (smtpHost && smtpPort && smtpUser && smtpPass) {
-      return nodemailer.createTransport({
-        host: smtpHost,
-        port: port,
-        secure: port === 465,
-        auth: {
-          user: smtpUser,
-          pass: smtpPass,
-        },
-        tls: {
-          rejectUnauthorized: false,
-        },
-      });
-    } else {
-      console.error("❌ Nem sendmail nem SMTP configurados corretamente");
-      return null;
-    }
-  }
+  return nodemailer.createTransport({
+    sendmail: true,
+    newline: "unix",
+    path: "/usr/sbin/sendmail",
+  });
 }
 
 export const transporter = createTransporter();
