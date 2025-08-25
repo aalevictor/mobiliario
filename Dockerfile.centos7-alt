@@ -12,7 +12,12 @@ RUN apk add --no-cache \
     libc6-compat \
     mysql-client \
     mariadb-connector-c \
+    mariadb-dev \
     && update-ca-certificates
+
+# Cria link simbólico para libmysqlclient.so.18 (compatibilidade Prisma)
+RUN ln -sf /usr/lib/libmariadb.so.3 /usr/lib/libmysqlclient.so.18 || \
+    ln -sf /usr/lib/libmariadb.so /usr/lib/libmysqlclient.so.18
 
 # Define o diretório de trabalho
 WORKDIR /app
@@ -62,6 +67,7 @@ ENV ENVIRONMENT=production
 # Configurações específicas para Prisma + MySQL no Alpine
 ENV PRISMA_CLI_BINARY_TARGETS="linux-musl"
 ENV PRISMA_QUERY_ENGINE_BINARY="linux-musl"
+ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
 
 # Healthcheck para monitoramento
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
