@@ -3,13 +3,15 @@
 
 FROM node:18-alpine
 
-# Instala dependências básicas
+# Instala dependências básicas incluindo MySQL client libraries
 RUN apk add --no-cache \
     curl \
     openssl \
     ca-certificates \
     tzdata \
     libc6-compat \
+    mysql-client \
+    mariadb-connector-c \
     && update-ca-certificates
 
 # Define o diretório de trabalho
@@ -56,6 +58,10 @@ ENV NODE_ENV=production
 ENV PORT=3500
 ENV HOSTNAME="0.0.0.0"
 ENV ENVIRONMENT=production
+
+# Configurações específicas para Prisma + MySQL no Alpine
+ENV PRISMA_CLI_BINARY_TARGETS="linux-musl"
+ENV PRISMA_QUERY_ENGINE_BINARY="linux-musl"
 
 # Healthcheck para monitoramento
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \

@@ -44,6 +44,13 @@ else
     log_success "✅ Docker-compose atualizado"
 fi
 
+# Atualiza dependências se necessário
+log_info "Verificando se package-lock.json existe..."
+if [ -f "package-lock.json" ]; then
+    log_info "Removendo package-lock.json para garantir versões corretas..."
+    rm package-lock.json
+fi
+
 # Rebuild com imagem compatível
 log_info "Fazendo rebuild com imagem compatível..."
 $DOCKER_COMPOSE build --no-cache --pull
