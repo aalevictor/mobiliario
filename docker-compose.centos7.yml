@@ -5,7 +5,7 @@ services:
   moburb-app:
     build:
       context: .
-      dockerfile: Dockerfile.centos7  # Usa Dockerfile alternativo
+      dockerfile: Dockerfile.centos7-alt  # Usa Node 18 Alpine (compatível)
     container_name: moburb-concurso-centos7
     restart: unless-stopped
     # Comando simplificado que deve funcionar
