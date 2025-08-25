@@ -34,7 +34,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                         <TabsTrigger value="responsavel">Responsável</TabsTrigger>
                         <TabsTrigger value="endereco">Endereço</TabsTrigger>
                         <TabsTrigger value="participantes">Participantes</TabsTrigger>
-                        <TabsTrigger value="documentacao">Documentação</TabsTrigger>
+                        {1 > 2 && <TabsTrigger value="documentacao">Documentação</TabsTrigger>}
                         {1 > 2 && <TabsTrigger value="projetos">Projetos</TabsTrigger>}
                     </TabsList>
                 </div>
@@ -51,9 +51,11 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                     <TabsContent value="participantes" className="m-0">
                         <ParticipantesForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
                     </TabsContent>
-                    <TabsContent value="documentacao" className="m-0">
-                        <DocumentosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
-                    </TabsContent>
+                    {1 > 2 && (
+                        <TabsContent value="documentacao" className="m-0">
+                            <DocumentosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                        </TabsContent>
+                    )}
                     {1 > 2 && (
                         <TabsContent value="projetos" className="m-0">
                             <ProjetosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
