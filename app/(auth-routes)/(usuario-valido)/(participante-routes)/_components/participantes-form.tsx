@@ -13,7 +13,7 @@ import { ICadastro } from "../../cadastros/page"
 import { useState } from "react"
 import { Trash2, Plus, User, Users, UserCheck } from "lucide-react"
 import { toast } from "sonner"
-import { formatarCPF } from "@/lib/utils"
+import { formatarCPF, validaCPF } from "@/lib/utils"
 
 interface ParticipantesFormProps {
     cadastro: ICadastro
@@ -48,6 +48,10 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
 
     const adicionarParticipante = async (data: NovoParticipante) => {
         try {
+            if (data.documento.length === 14 && !validaCPF(data.documento)){
+                toast.error("CPF inválido")
+                return;
+            }
             const response = await fetch(`/api/cadastro/${cadastro.id}/participante`, {
                 method: "POST",
                 headers: {
@@ -221,6 +225,13 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
+                                                {form.watch("documento")?.length === 14 && !validaCPF(form.watch("documento") || "") && (
+                                                    <div className="w-full">
+                                                        <span className="text-sm font-medium text-destructive">
+                                                        CPF inválido
+                                                        </span>
+                                                    </div>
+                                                )}
                                             </FormItem>
                                         )}
                                     />

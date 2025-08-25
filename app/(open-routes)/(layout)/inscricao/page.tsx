@@ -822,6 +822,13 @@ export default function PreCadastroPage() {
                                                         />
                                                     </FormControl>
                                                     <FormMessage />
+                                                    {participanteDocumento.length === 14 && !validaCPF(participanteDocumento) && (
+                                                        <div className="w-full">
+                                                            <span className="text-sm font-medium text-destructive">
+                                                            CPF inválido
+                                                            </span>
+                                                        </div>
+                                                    )}
                                                 </FormItem>
                                             </div>
                                             
@@ -830,6 +837,10 @@ export default function PreCadastroPage() {
                                                     type="button"
                                                     className="flex items-center gap-2"
                                                     onClick={() => {
+                                                        if (participanteDocumento.length === 14 && !validaCPF(participanteDocumento)){
+                                                            toast.error("CPF inválido")
+                                                            return;
+                                                        }
                                                         setParticipantesExistentes([...participantesExistentes, { nome: participanteNome, documento: participanteDocumento }])
                                                         setParticipanteNome("")
                                                         setParticipanteDocumento("")
