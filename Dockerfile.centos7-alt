@@ -84,12 +84,8 @@ ENV HOSTNAME="0.0.0.0"
 ENV ENVIRONMENT=production
 
 # Configurações específicas para Prisma + MySQL no Alpine
-ENV PRISMA_CLI_BINARY_TARGETS="linux-musl-openssl-1.1.x"
-ENV PRISMA_QUERY_ENGINE_BINARY="linux-musl-openssl-1.1.x"
+ENV PRISMA_CLI_BINARY_TARGETS="linux-musl,linux-musl-openssl-3.0.x"
 ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
-ENV PRISMA_SCHEMA_ENGINE_BINARY="linux-musl-openssl-1.1.x"
-ENV PRISMA_INTROSPECTION_ENGINE_BINARY="linux-musl-openssl-1.1.x"
-ENV PRISMA_FMT_BINARY="linux-musl-openssl-1.1.x"
 
 # Healthcheck para monitoramento
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
