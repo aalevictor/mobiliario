@@ -33,7 +33,7 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 		accessorKey: 'equipe',
 		header: 'Equipe',
 		cell: ({ row }) => {
-			return row.original.equipe ? 'Sim' : 'Não';
+			return row.original.participantes?.length && row.original.participantes?.length > 0 ? 'Sim' : 'Não';
 		},	
 	},
 	{

@@ -41,7 +41,6 @@ export interface ICadastro {
     protocolo?: string;
     carteira_tipo?: Tipo_Carteira;
     carteira_numero?: string;
-    equipe?: boolean;
     criadoEm?: Date;
     atualizadoEm?: Date;
     arquivos?: Partial<Arquivo>[];

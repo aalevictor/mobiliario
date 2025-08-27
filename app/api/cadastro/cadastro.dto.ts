@@ -6,7 +6,6 @@ export interface create {
     telefone: string
     carteira_tipo: "CAU" | "CREA"
     carteira_numero: string
-    equipe: boolean
     cep: string
     uf: string
     cidade: string

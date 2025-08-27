@@ -46,7 +46,7 @@ async function criarPreCadastro(
         }
       });
       try {
-        if (preCadastro.equipe && participantes && participantes.length > 0)
+        if (participantes && participantes.length > 0)
           await tx.participante.createMany({
             data: participantes.map((participante) => ({
               ...participante,
@@ -172,7 +172,6 @@ async function buscarCadastros(
     cpf: true,
     carteira_tipo: true,
     carteira_numero: true,
-    equipe: true,
     logradouro: true,
     numero: true,
     complemento: true,
