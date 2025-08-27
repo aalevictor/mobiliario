@@ -52,6 +52,10 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
                 toast.error("CPF inválido")
                 return;
             }
+            if (data.documento === cadastro.cpf){
+                toast.error("Não é necessário adicionar o CPF do responsável como participante.")
+                return;
+            }
             const response = await fetch(`/api/cadastro/${cadastro.id}/participante`, {
                 method: "POST",
                 headers: {

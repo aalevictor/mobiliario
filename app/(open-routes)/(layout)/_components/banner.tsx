@@ -8,7 +8,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Banner() {
-  return (
+    const dataAberturaPreCadastro = new Date('2025-08-25 00:00:00');
+    const dataLimitePreCadastro = new Date('2025-09-15 23:59:59.999');
+    const dataAtual = new Date();
+    const podePreCadastrar = dataAtual >= dataAberturaPreCadastro && dataAtual <= dataLimitePreCadastro;
+    return (
         <div className="relative h-full w-full items-center justify-center">
             <Carousel
                 opts={{ loop: true }}
@@ -136,22 +140,31 @@ export default function Banner() {
                         Confira o cronograma
                     </span>
                 </Link>
-                <span className="text-[#3B2D3A] text-3xl lg:text-4xl font-bold max-w-4xl">
+                <span className="text-[#3B2D3A] text-3xl lg:text-4xl font-bold sm:max-w-lg lg:max-w-4xl max-w-4xl">
                     Concurso Nacional de Projetos de Mobiliário Urbano para São Paulo
                 </span>
                 <span className="text-lg text-[#3B2D3A]">
                     Projetos sustentáveis que transformam a cidade
                 </span>
-                <Link
-                    href={"/inscricao"}
-                >
+                {podePreCadastrar ?
+                    <Link
+                        href={"/inscricao"}
+                    >
+                        <Button
+                            size="lg"
+                            className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
+                        >
+                            Faça já sua pré-inscrição
+                        </Button>
+                    </Link> :
                     <Button
                         size="lg"
-                        className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
+                        className="px-4 py-1 text-lg opacity-50 cursor-not-allowed font-semibold"
+                        disabled
                     >
-                        Faça já sua pré-inscrição
+                        Inscrições encerradas
                     </Button>
-                </Link>
+                }
             </div>
         </div>
   );

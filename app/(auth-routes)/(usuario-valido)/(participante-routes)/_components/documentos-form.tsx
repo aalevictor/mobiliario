@@ -36,7 +36,10 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
     
     // Filtrar apenas documentos específicos
     const documentos = cadastro.arquivos?.filter(arquivo => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA) || []
-    
+    const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
+    const dataLimiteDocumento = new Date("2025-09-15 23:59:59.999")
+    const dataAtual = new Date()
+    const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
     // Calcular tamanho total dos documentos existentes
     const tamanhoTotalExistente = documentos.reduce((total, doc) => {
         return total + (doc.tamanho || 0)
@@ -173,8 +176,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
         form.setValue('documentos', files)
     }
 
-    return (
-        <div className="space-y-6">
+    return podeEnviarDocumento ? <div className="space-y-6">
             {/* Lista de Documentos Existentes */}
             <Card className="w-full max-w-4xl mx-auto">
                 <CardHeader className="px-4 sm:px-6">
@@ -335,5 +337,11 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                 </Alert>
             )}
         </div>
-    )
+    : <div className="text-center py-8 text-gray-500">
+        <Card className="w-full max-w-4xl mx-auto">
+            <AlertCircle className="h-12 w-12 mx-auto mb-3 text-primary" />
+            <p>Não é possível enviar documentos neste momento.</p>
+            <p className="text-sm">O período de envio de documentos é de {dataAberturaDocumento.toLocaleDateString('pt-BR')} a {dataLimiteDocumento.toLocaleDateString('pt-BR')}</p>
+        </Card>
+    </div>
 }

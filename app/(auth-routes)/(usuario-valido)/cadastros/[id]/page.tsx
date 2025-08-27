@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Building2, FileText, FolderOpen, User, Users } from "lucide-react";
+import { ArrowLeft, FileText, FolderOpen, MapPin, User, Users } from "lucide-react";
 import { buscarCadastro, buscarCadastroJulgadora } from "@/services/cadastros";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -53,6 +53,14 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                                     <p className="text-base font-medium">{cadastro.nome || "Não informado"}</p>
                                 </div>
                                 <div>
+                                    <span className="text-sm font-medium text-gray-600">CPF</span>
+                                    <p className="text-base font-medium">{cadastro.cpf || "Não informado"}</p>
+                                </div>
+                                {cadastro.cnpj && cadastro.cnpj.length > 0 && <div>
+                                    <span className="text-sm font-medium text-gray-600">CNPJ</span>
+                                    <p className="text-base font-medium">{cadastro.cnpj || "Não informado"}</p>
+                                </div>}
+                                <div>
                                     <span className="text-sm font-medium text-gray-600">E-mail</span>
                                     <p className="text-base font-medium">{cadastro.email || "Não informado"}</p>
                                 </div>
@@ -73,22 +81,18 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                         </CardContent>
                     </Card>
 
-                    {/* Seção Empresa */}
+                    {/* Seção Endereço */}
                     <Card>
                         <CardHeader className="pb-4">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                                    <Building2 className="h-4 w-4 text-white" />
+                                    <MapPin className="h-4 w-4 text-white" />
                                 </div>
-                                <CardTitle className="text-lg text-primary">Dados da Empresa</CardTitle>
+                                <CardTitle className="text-lg text-primary">Dados do Endereço</CardTitle>
                             </div>
                         </CardHeader>
                         <CardContent>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <span className="text-sm font-medium text-gray-600">CNPJ</span>
-                                    <p className="text-base font-medium">{cadastro.cnpj || "Não informado"}</p>
-                                </div>
                                 <div>
                                     <span className="text-sm font-medium text-gray-600">CEP</span>
                                     <p className="text-base font-medium">{cadastro.cep || "Não informado"}</p>

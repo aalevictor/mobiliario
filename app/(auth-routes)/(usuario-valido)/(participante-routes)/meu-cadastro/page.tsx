@@ -19,6 +19,11 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
     const cadastro = await meuCadastro(session.user.id);
     if (!cadastro) redirect("/");
 
+    const dataAberturaProjetos = new Date('2025-10-06 00:00:00');
+    const dataLimiteProjetos = new Date('2025-10-17 23:59:59.999');
+    const dataAtual = new Date();
+    const podeEnviarProjetos = dataAtual >= dataAberturaProjetos && dataAtual <= dataLimiteProjetos && cadastro.avaliacao_licitadora?.aprovado;
+
     async function atualizarPagina(tab: string) {
         "use server";
         revalidatePath(`/meu-cadastro?tab=${tab}`);
@@ -34,8 +39,8 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                         <TabsTrigger value="responsavel">Responsável</TabsTrigger>
                         <TabsTrigger value="endereco">Endereço</TabsTrigger>
                         <TabsTrigger value="participantes">Participantes</TabsTrigger>
-                        {1 > 2 && <TabsTrigger value="documentacao">Documentação</TabsTrigger>}
-                        {1 > 2 && <TabsTrigger value="projetos">Projetos</TabsTrigger>}
+                        <TabsTrigger value="documentacao">Documentação</TabsTrigger>
+                        {podeEnviarProjetos && <TabsTrigger value="projetos">Projetos</TabsTrigger>}
                     </TabsList>
                 </div>
                 <div className="w-full flex flex-col gap-3">
@@ -51,12 +56,10 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                     <TabsContent value="participantes" className="m-0">
                         <ParticipantesForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
                     </TabsContent>
-                    {1 > 2 && (
-                        <TabsContent value="documentacao" className="m-0">
-                            <DocumentosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
-                        </TabsContent>
-                    )}
-                    {1 > 2 && (
+                    <TabsContent value="documentacao" className="m-0">
+                        <DocumentosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                    </TabsContent>
+                    {podeEnviarProjetos && (
                         <TabsContent value="projetos" className="m-0">
                             <ProjetosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
                         </TabsContent>

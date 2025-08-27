@@ -13,6 +13,10 @@ export default function Documentos({ permissao }: { permissao: string }) {
     const agora = new Date();
     const temPermissao = permissao === "ADMIN" || permissao === "DEV";
     const podeBaixar = agora > dataInicial || temPermissao;
+    const dataAberturaDuvidas = new Date('2025-08-25 00:00:00');
+    const dataLimiteDuvidas = new Date('2025-09-14 23:59:59.999');
+    const dataAtual = new Date();
+    const podeEnviarDuvidas = dataAtual >= dataAberturaDuvidas && dataAtual <= dataLimiteDuvidas;
 
     const handleDownload = async (filename: string, displayName: string) => {
         if (!podeBaixar) {
@@ -143,14 +147,20 @@ export default function Documentos({ permissao }: { permissao: string }) {
                             Os interessados podem submeter pedidos de esclarecimento nos termos dos itens <strong>7.1 e 7.2 </strong> 
                             do Edital, <strong>até o dia 14/09/2025</strong>, conforme consta no cronograma.
                         </p>
-                        <ModalPergunta>
+                        {podeEnviarDuvidas ? <ModalPergunta>
                             <Button
                                 size="lg"
                                 className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
                             >
                                 Pedir esclarecimento
                             </Button>
-                        </ModalPergunta>
+                        </ModalPergunta> : <Button
+                            size="lg"
+                            className="px-4 py-1 text-lg opacity-50 cursor-not-allowed font-semibold"
+                            disabled
+                        >
+                            Encerrado
+                        </Button>}
                     </div>
                     <Esclarecimentos size={160} />
                 </div>

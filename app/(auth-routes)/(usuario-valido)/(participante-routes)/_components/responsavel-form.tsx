@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { formatarTelefone, validaCNPJ } from "@/lib/utils"
+import { formatarCNPJ, formatarTelefone, validaCNPJ } from "@/lib/utils"
 import { toast } from "sonner"
 import { ICadastro } from "../../cadastros/page"
 
@@ -132,6 +132,10 @@ export default function ResponsavelForm({ cadastro, atualizarPagina }: Responsav
                                             {...field}
                                             placeholder="00.000.000/0000-00"
                                             className="h-10 sm:h-11 disabled:opacity-100"
+                                            onChange={(e) => {
+                                                const cnpj = formatarCNPJ(e.target.value)
+                                                field.onChange(cnpj)
+                                            }}
                                         />
                                     </FormControl>
                                     <FormMessage />

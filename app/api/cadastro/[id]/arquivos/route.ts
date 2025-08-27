@@ -15,6 +15,13 @@ export async function POST(
             return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
         }
 
+        const dataAberturaCadastro = new Date('2025-09-08 00:00:00');
+        const dataLimiteCadastro = new Date('2025-09-15 23:59:59.999');
+        const dataAtual = new Date();
+        if (dataAtual < dataAberturaCadastro || dataAtual > dataLimiteCadastro) {
+            return NextResponse.json({ error: "Não é possível enviar documentos neste momento. O período de envio de documentos está encerrado." }, { status: 400 });
+        }
+
         const { id } = await context.params;
         const cadastroId = parseInt(id);
 

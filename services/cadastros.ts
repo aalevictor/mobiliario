@@ -149,6 +149,8 @@ async function meuCadastro(id: string) {
     include: { 
       participantes: true,
       arquivos: true,
+      avaliacao_licitadora: true,
+      avaliacoes_julgadora: true,
     }
   });
   return cadastro;

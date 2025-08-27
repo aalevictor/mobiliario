@@ -39,6 +39,15 @@ const schema = z.object({
 
 export default function PreCadastroPage() {
     const router = useRouter();
+    const dataAberturaPreCadastro = new Date('2025-08-25 00:00:00');
+    const dataLimitePreCadastro = new Date('2025-09-15 23:59:59.999');
+    const dataAtual = new Date();
+    const podePreCadastrar = dataAtual >= dataAberturaPreCadastro && dataAtual <= dataLimitePreCadastro;
+    if (!podePreCadastrar) {
+        toast.error("O período de inscrição está encerrado.");
+        router.push("/");
+    }
+
     const [step, setStep] = useState(1);
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
     const [participantesExistentes, setParticipantesExistentes] = useState<{ nome: string; documento: string }[]>([]);

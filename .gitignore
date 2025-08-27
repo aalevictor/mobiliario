@@ -11,6 +11,7 @@
 !.yarn/versions
 /lib/generated
 /prisma/schema2.prisma
+base.env.local
 
 # testing
 /coverage

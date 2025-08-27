@@ -2,6 +2,10 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Destaque() {
+    const dataAberturaPreCadastro = new Date('2025-08-25 00:00:00');
+    const dataLimitePreCadastro = new Date('2025-09-15 23:59:59.999');
+    const dataAtual = new Date();
+    const podePreCadastrar = dataAtual >= dataAberturaPreCadastro && dataAtual <= dataLimitePreCadastro;
     return (
         <section 
           className="py-12 relative bg-contain bg-center bg-no-repeat
@@ -27,14 +31,25 @@ export default function Destaque() {
                 faça parte deste concurso!
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href={"/inscricao"}>
-                  <Button
-                    size="lg"
-                    className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
-                  >
-                    Faça já sua pré-inscrição
-                  </Button>
-                </Link>
+                {podePreCadastrar ?
+                    <Link
+                        href={"/inscricao"}
+                    >
+                    <Button
+                        size="lg"
+                        className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
+                    >
+                        Faça já sua pré-inscrição
+                    </Button>
+                </Link> :
+                    <Button
+                        size="lg"
+                        className="px-4 py-1 text-lg opacity-50 cursor-not-allowed font-semibold"
+                        disabled
+                    >
+                        Inscrições encerradas
+                    </Button>
+                }
               </div>
             </div>
           </div>
