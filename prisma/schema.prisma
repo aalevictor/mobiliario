@@ -42,7 +42,6 @@ model Cadastro {
   protocolo            String?               @unique
   carteira_tipo        Tipo_Carteira         @default(CAU)
   carteira_numero      String
-  equipe               Boolean               @default(false)
   usuarioId            String                @unique
   criadoEm             DateTime              @default(now())
   atualizadoEm         DateTime              @default(now()) @updatedAt
