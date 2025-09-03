@@ -3,9 +3,8 @@
 // app/api/upload/route.ts
 import { criarPreCadastro } from "@/services/cadastros";
 import { NextRequest, NextResponse } from "next/server";
-import { withErrorLogging } from "@/lib/error-handler-enhanced";
 
-async function handlePOST(req: NextRequest) {
+export async function POST (req: NextRequest) {
   const data = await req.json();
   const cadastro = await criarPreCadastro(data);
   const dataAberturaCadastro = new Date('2025-08-25 00:00:00');
@@ -23,8 +22,3 @@ async function handlePOST(req: NextRequest) {
   
   return NextResponse.json({ cadastro: cadastro }, { status: 201 });
 }
-
-export const POST = withErrorLogging(handlePOST, {
-  endpoint: '/api/cadastro',
-  metodo: 'POST'
-});

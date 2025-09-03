@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import type { Metadata } from "next";
 import "./globals.css";
 import ObserverProvider from "@/providers/ObserverProvider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 // Removido next/font para compatibilidade com Tailwind CSS v4
 // A fonte será carregada via CSS externo
 
@@ -24,24 +25,26 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <body className="antialiased font-sans">
         <AuthProvider>
-          <QueryProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="light"
-              disableTransitionOnChange
-            >
-              <ObserverProvider>
-                <a 
-                  href="#top" 
-                  className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-[#A5942B] text-white px-4 py-2 rounded-md z-50"
-                >
-                  Voltar ao topo da página
-                </a>
-                {children}
-                <Toaster richColors />
-              </ObserverProvider>
-            </ThemeProvider>
-          </QueryProvider>
+          <TooltipProvider>
+            <QueryProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="light"
+                disableTransitionOnChange
+              >
+                <ObserverProvider>
+                  <a 
+                    href="#top" 
+                    className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-[#A5942B] text-white px-4 py-2 rounded-md z-50"
+                  >
+                    Voltar ao topo da página
+                  </a>
+                  {children}
+                  <Toaster richColors />
+                </ObserverProvider>
+              </ThemeProvider>
+            </QueryProvider>
+          </TooltipProvider>
         </AuthProvider>
       </body>
     </html>

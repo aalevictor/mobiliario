@@ -97,6 +97,51 @@ model Avaliacao_Julgadora {
   @@map("avaliacoes_julgadoras")
 }
 
+model Informe {
+  id              String   @id @default(uuid())
+  titulo          String
+  subtitulo       String?
+  conteudo        String   @db.Text
+  dataPublicacao  DateTime @default(now())
+  publicado       Boolean  @default(false)
+
+  criadoEm        DateTime @default(now())
+  atualizadoEm    DateTime @default(now()) @updatedAt
+
+  links           Link[]
+  arquivos        ArquivoInforme[]
+
+  @@map("informes")
+}
+
+model Link {
+  id           String   @id @default(uuid())
+  titulo       String
+  url          String
+  informeId    String
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @default(now()) @updatedAt
+
+  informe      Informe   @relation(fields: [informeId], references: [id])
+
+  @@map("links")
+}
+
+model ArquivoInforme {
+  id           String   @id @default(uuid())
+  caminho      String
+  nome         String
+  informeId    String
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @default(now()) @updatedAt
+
+  informe      Informe   @relation(fields: [informeId], references: [id])
+
+  @@map("arquivos_informes")
+}
+
 model Arquivo {
   id           String      @id @default(uuid())
   caminho      String
