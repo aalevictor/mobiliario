@@ -27,21 +27,14 @@ export const columns: ColumnDef<Informe>[] = [
             const isAgendado = dataPublicacao > agora && row.original.publicado;
             
             return (
-                <div className='flex flex-col items-center justify-center'>
+                <div className='flex items-center justify-center'>
                     <p>{dataPublicacao.toLocaleDateString('pt-BR', {
                         day: '2-digit',
                         month: '2-digit', 
-                        year: 'numeric'
+                        year: 'numeric',
+						hour: '2-digit',
+						minute: '2-digit'
                     })}</p>
-                    <p className="text-xs text-gray-500">{dataPublicacao.toLocaleTimeString('pt-BR', {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    })}</p>
-                    {isAgendado && (
-                        <Badge variant="outline" className="text-xs mt-1">
-                            Agendado
-                        </Badge>
-                    )}
                 </div>
             );
         },

@@ -40,14 +40,14 @@ export default async function Informes() {
             <Card className="my-5 border-none shadow-none">
               <CardContent>
                 <div
-                  className="prose dark:prose-invert text-foreground"
+                  className="text-foreground"
                   dangerouslySetInnerHTML={{ __html: entry.conteudo }}
                 />
               </CardContent>
               <CardFooter className="flex flex-col gap-2">
                 {entry.arquivos.map((arquivo) => (
                   <Button variant="outline" key={arquivo.id}>
-                    <Link href={`/arquivos/${arquivo.id}`}>
+                    <Link target="_blank" href={`/api/informes/${entry.id}/arquivos/${arquivo.id}`}>
                       {arquivo.nome}
                     </Link>
                   </Button>

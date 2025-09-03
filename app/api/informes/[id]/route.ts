@@ -9,7 +9,7 @@ const informeSchema = z.object({
     subtitulo: z.string().optional(),
     conteudo: z.string().min(1, "Conteúdo é obrigatório"),
     publicado: z.boolean().default(false),
-    dataPublicacao: z.string().datetime("Data de publicação deve ser uma data válida"),
+    dataPublicacao: z.string().optional(),
 });
 
 export async function GET(
@@ -71,7 +71,7 @@ export async function PUT(
             return NextResponse.json({ error: "Informe não encontrado" }, { status: 404 });
         }
 
-        const dataPublicacao = new Date(validatedData.dataPublicacao);
+        const dataPublicacao = validatedData.dataPublicacao ? new Date(validatedData.dataPublicacao) : new Date();
 
         const informe = await db.informe.update({
             where: { id },

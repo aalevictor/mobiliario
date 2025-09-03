@@ -23,7 +23,7 @@ const informeSchema = z.object({
     subtitulo: z.string(),
     conteudo: z.string().min(1, "Conteúdo é obrigatório"),
     publicado: z.boolean(),
-    dataPublicacao: z.string().min(1, "Data de publicação é obrigatória"),
+    dataPublicacao: z.string().optional(),
 })
 
 type InformeForm = z.infer<typeof informeSchema>
@@ -48,7 +48,7 @@ export default function FormInforme({ informe }: FormInformeProps) {
             publicado: informe?.publicado ?? false,
             dataPublicacao: informe?.dataPublicacao 
                 ? formatDateForInput(new Date(informe.dataPublicacao))
-                : formatDateForInput(new Date()),
+                : undefined,
         }
     })
 
@@ -59,38 +59,26 @@ export default function FormInforme({ informe }: FormInformeProps) {
                     ? `/api/informes/${informe.id}` 
                     : '/api/informes'
                 
-                console.log(data)
-                
                 const method = informe ? 'PUT' : 'POST'
                 
                 // Converter string de data para ISO string
                 const dataToSend = {
                     ...data,
-                    dataPublicacao: new Date(data.dataPublicacao).toISOString()
+                    dataPublicacao: data.dataPublicacao ? new Date(data.dataPublicacao).toISOString() : undefined
                 }
                 
                 const response = await fetch(url, {
                     method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dataToSend),
                 })
 
-                if (!response.ok) {
-                    throw new Error('Erro ao salvar informe')
-                }
-
-                const dataPublicacao = new Date(data.dataPublicacao);
-                const agora = new Date();
-                const isAgendado = dataPublicacao > agora;
-
-                if (isAgendado && data.publicado) {
+                if (!response.ok) toast.error('Erro ao salvar informe')
+                const isAgendado = data.dataPublicacao && new Date(data.dataPublicacao) > new Date();
+                if (isAgendado && data.publicado)
                     toast.success(informe ? 'Informe atualizado e agendado para publicação!' : 'Informe criado e agendado para publicação!')
-                } else {
+                else
                     toast.success(informe ? 'Informe atualizado com sucesso!' : 'Informe criado com sucesso!')
-                }
-                
                 router.push('/informes-admin')
                 router.refresh()
             } catch (error) {

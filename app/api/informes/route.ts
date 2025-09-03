@@ -9,7 +9,7 @@ const informeSchema = z.object({
     subtitulo: z.string().optional(),
     conteudo: z.string().min(1, "Conteúdo é obrigatório"),
     publicado: z.boolean().default(false),
-    dataPublicacao: z.string().datetime("Data de publicação deve ser uma data válida"),
+    dataPublicacao: z.string().optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -21,14 +21,11 @@ export async function POST(request: NextRequest) {
 
         // Verificar se o usuário tem permissão de admin ou dev
         const permissao = await verificarPermissoes(session.user.id, ["ADMIN", "DEV"]);
-        if (!permissao) {
-            return NextResponse.json({ error: "Sem permissão para criar informes" }, { status: 403 });
-        }
+        if (!permissao) return NextResponse.json({ error: "Sem permissão para criar informes" }, { status: 403 });
 
         const body = await request.json();
         const validatedData = informeSchema.parse(body);
-
-        const dataPublicacao = new Date(validatedData.dataPublicacao);
+        const dataPublicacao = validatedData.dataPublicacao ? new Date(validatedData.dataPublicacao) : new Date();
         
         const informe = await db.informe.create({
             data: {

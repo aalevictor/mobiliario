@@ -53,7 +53,7 @@ const createExtensions = ({
   StarterKit.configure({
     blockquote: { HTMLAttributes: { class: "block-node" } },
     // bold
-    bulletList: { HTMLAttributes: { class: "list-node" } },
+    bulletList: { HTMLAttributes: { class: "list-disc pl-5 space-y-2 mt-2" } },
     code: { HTMLAttributes: { class: "inline", spellcheck: "false" } },
     codeBlock: false,
     // document
@@ -73,7 +73,7 @@ const createExtensions = ({
         class: "link",
       },
     },
-    orderedList: { HTMLAttributes: { class: "list-node" } },
+    orderedList: { HTMLAttributes: { class: "list-decimal pl-5 space-y-2 mt-2" } },
     paragraph: { HTMLAttributes: { class: "text-node" } },
     // strike
     // text
