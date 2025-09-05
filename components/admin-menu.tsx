@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Users, FileText, HelpCircle, Settings, Mail, Activity } from "lucide-react";
+import { Users, FileText, HelpCircle, Settings, Mail, Activity, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { auth } from "@/auth";
 import { retornaPermissao } from "@/services/usuarios";
@@ -46,12 +46,20 @@ export default async function AdminMenu() {
       showForAdmin: true
     },
     {
+      href: "/informes-admin",
+      label: "Informes",
+      icon: Info,
+      description: "Visualizar e gerenciar informes",
+      showForDev: true,
+      showForAdmin: true
+    },
+    {
       href: "/email-preview",
       label: "Emails",
       icon: Mail,
       description: "Visualizar templates de email",
       showForDev: true,
-      showForAdmin: true
+      showForAdmin: false
     },
     {
       href: "/logs",

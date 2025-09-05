@@ -185,7 +185,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                         Documentos Enviados
                     </CardTitle>
                     <CardDescription className="text-sm sm:text-base">
-                        Lista de documentos de habilitação já enviados.
+                        Lista de documentos já enviados.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="px-4 sm:px-6">
@@ -264,7 +264,8 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                                     Enviar Novos Documentos
                                 </CardTitle>
                                 <CardDescription className="text-sm sm:text-base">
-                                    Envie novos documentos de habilitação. Limite máximo total: {formatFileSize(MAX_TOTAL_SIZE)}
+                                    <p>Envie aqui os documentos necessários para inscrição, nos termos do item 9.2 do Edital.</p>
+                                    <p className="text-xs">Limite máximo total: {formatFileSize(MAX_TOTAL_SIZE)}</p>
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="px-4 sm:px-6 space-y-4">
@@ -282,7 +283,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                                     control={form.control}
                                     name="documentos"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="w-full mt-4">
                                             <FormLabel>Documentos de Habilitação</FormLabel>
                                             <FormControl>
                                                 <DragDropInput

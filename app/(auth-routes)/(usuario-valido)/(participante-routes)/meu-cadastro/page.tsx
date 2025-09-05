@@ -40,7 +40,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                         <TabsTrigger value="endereco">Endereço</TabsTrigger>
                         <TabsTrigger value="participantes">Participantes</TabsTrigger>
                         <TabsTrigger value="documentacao">Documentação</TabsTrigger>
-                        {podeEnviarProjetos && <TabsTrigger value="projetos">Projetos</TabsTrigger>}
+                        {podeEnviarProjetos && <TabsTrigger value="projetos">Propostas Técnicas</TabsTrigger>}
                     </TabsList>
                 </div>
                 <div className="w-full flex flex-col gap-3">

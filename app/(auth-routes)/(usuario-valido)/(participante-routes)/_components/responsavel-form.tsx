@@ -97,7 +97,7 @@ export default function ResponsavelForm({ cadastro, atualizarPagina }: Responsav
                                 <FormItem>
                                     <FormLabel className="text-sm sm:text-base">Telefone</FormLabel>
                                     <FormControl>
-                                        <Input 
+                                        <Input
                                             {...field} 
                                             placeholder="(11) 99999-9999"
                                             className="h-10 sm:h-11"

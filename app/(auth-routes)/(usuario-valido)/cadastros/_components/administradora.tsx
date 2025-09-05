@@ -11,6 +11,14 @@ import Link from 'next/link';
 
 export const administradoraColumns: ColumnDef<ICadastro>[] = [
 	{
+		accessorKey: 'data_inscricao',
+		header: 'Data de inscrição',
+		cell: ({ row }) => {
+			console.log(row.original.criadoEm);
+			return row.original.criadoEm ? `${new Date(row.original.criadoEm).toLocaleDateString('pt-BR')}, ${new Date(row.original.criadoEm).toLocaleTimeString('pt-BR')}` : 'N/A';
+		},
+	},
+	{
 		accessorKey: 'protocolo',
 		header: 'Protocolo',
 	},

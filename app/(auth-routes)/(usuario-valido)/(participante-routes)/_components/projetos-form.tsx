@@ -180,10 +180,10 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                 <CardHeader className="px-4 sm:px-6">
                     <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
                         <FolderOpen className="h-5 w-5" />
-                        Projetos Enviados
+                        Propostas Técnicas Enviadas
                     </CardTitle>
                     <CardDescription className="text-sm sm:text-base">
-                        Lista de projetos já enviados.
+                        Lista de propostas técnicas já enviadas.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="px-4 sm:px-6">
@@ -246,8 +246,8 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                     ) : (
                         <div className="text-center py-8 text-gray-500">
                             <FolderOpen className="h-12 w-12 mx-auto mb-3 text-gray-300" />
-                            <p>Nenhum projeto enviado</p>
-                            <p className="text-sm">Utilize o formulário abaixo para enviar seus projetos</p>
+                            <p>Nenhuma proposta técnica enviada</p>
+                            <p className="text-sm">Utilize o formulário abaixo para enviar sua proposta técnica</p>
                         </div>
                     )}
                 </CardContent>
@@ -260,10 +260,11 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                                 <Separator />
                                 <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
                                     <Upload className="h-5 w-5" />
-                                    Enviar Novos Projetos
+                                    Enviar proposta técnica
                                 </CardTitle>
                                 <CardDescription className="text-sm sm:text-base">
-                                    Envie novos projetos. Limite máximo total: {formatFileSize(MAX_TOTAL_SIZE)}
+                                    <p>Fase 1: Envie sua proposta técnica em nível de Estudo Preliminar</p>
+                                    <p className="text-xs">Limite máximo total: {formatFileSize(MAX_TOTAL_SIZE)}</p>
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="px-4 sm:px-6 space-y-4">
@@ -281,7 +282,7 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                                     control={form.control}
                                     name="projetos"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="w-full mt-4">
                                             <FormLabel>Arquivos de Projeto</FormLabel>
                                             <FormControl>
                                                 <DragDropInput

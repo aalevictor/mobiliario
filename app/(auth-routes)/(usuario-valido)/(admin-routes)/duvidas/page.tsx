@@ -7,6 +7,7 @@ import { columns } from './_components/columns';
 import { buscarDuvidas } from '@/services/duvidas';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import ExportarDuvidas from './_components/exportar-duvidas';
 
 export default async function DuvidasSuspense({
 	searchParams,
@@ -83,6 +84,7 @@ async function Duvidas({
 						]}
 						className='max-md:w-full'
 					/>
+					<ExportarDuvidas />
 				</CardContent>
 		  	</Card>
 			<Card className='pt-0'>

@@ -178,6 +178,7 @@ async function buscarCadastros(
     cep: true,
     cidade: true,
     uf: true,
+    criadoEm: true,
     avaliacao_licitadora: {
       select: {
         id: true,
@@ -261,6 +262,58 @@ async function atualizarAvaliacaoLicitadora(id: string, avaliadorId: string, dat
   return avaliacao_licitadora;
 }
 
+async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (string | null)[][] }> {
+  const cadastros = await db.cadastro.findMany({
+    orderBy: { criadoEm: 'asc' },
+    select: {
+      protocolo: true,
+      nome: true,
+      email: true,
+      carteira_tipo: true,
+      carteira_numero: true,
+      participantes: {
+        select: {
+          nome: true,
+          documento: true,
+        }
+      }
+    }
+  });
+
+  const headers = [
+    "ID",
+    "Nome",
+    "E-mail",
+    "CAU/CREA",
+    "Equipe",
+    "Membro 1 da Equipe",
+    "CPF Membro 1 da Equipe",
+    "Membro 2 da Equipe",
+    "CPF Membro 2 da Equipe",
+    "Membro 3 da Equipe",
+    "CPF Membro 3 da Equipe"
+  ];
+  
+  const rows = cadastros.map((cadastro) => {
+    const participantes = cadastro.participantes.length > 3 ? cadastro.participantes.slice(0, 3) : cadastro.participantes || [];
+    return [
+      cadastro.protocolo,
+      cadastro.nome,
+      cadastro.email,
+      `${cadastro.carteira_tipo} - ${cadastro.carteira_numero}`,
+      participantes.length > 0 ? "Sim" : "Não",
+      participantes[0] ? participantes[0].nome : "",
+      participantes[0] ? participantes[0].documento : "",
+      participantes[1] ? participantes[1].nome : "",
+      participantes[1] ? participantes[1].documento : "",
+      participantes[2] ? participantes[2].nome : "",
+      participantes[2] ? participantes[2].documento : "",
+    ];
+  });
+
+  return { headers, rows };
+}
+
 async function buscarCadastro(id: number) {
   const cadastro = await db.cadastro.findUnique({
     where: { id },
@@ -293,4 +346,4 @@ async function buscarCadastroJulgadora(id: number) {
   return cadastro;
 }
 
-export { geraProtocolo, buscarCadastro, buscarCadastroJulgadora, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
+export { geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };

@@ -57,8 +57,8 @@ export const ImageEditBlock: React.FC<ImageEditBlockProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-1">
-        <Label htmlFor="image-link">Attach an image link</Label>
+      <div className="space-y-2">
+        <Label htmlFor="image-link">Anexar link de imagem</Label>
         <div className="flex">
           <Input
             id="image-link"
@@ -72,12 +72,12 @@ export const ImageEditBlock: React.FC<ImageEditBlockProps> = ({
             }
           />
           <Button type="submit" className="ml-2">
-            Submit
+            Enviar
           </Button>
         </div>
       </div>
       <Button type="button" className="w-full" onClick={handleClick}>
-        Upload from your computer
+        Enviar arquivo
       </Button>
       <input
         type="file"

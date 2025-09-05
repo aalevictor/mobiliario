@@ -42,11 +42,11 @@ export const columns: ColumnDef<Duvida>[] = [
 	},
 	{
 		accessorKey: 'actions',
-		header: () => <p className='text-center'>Ações</p>,
+		header: '',
 		cell: ({ row }) => {
 			return (
 				<div
-					className='flex gap-2 items-center justify-center'
+					className='flex gap-2 items-center justify-end'
 					key={row.id}
                 >
                     <ModalPergunta duvida={row.original} />

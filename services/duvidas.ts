@@ -132,4 +132,21 @@ async function buscarDuvidas(
     };
 }
 
-export { criarDuvida, responderDuvida, buscarDuvida, buscarDuvidas }
+async function buscarDuvidasExportacao(): Promise<{ headers: string[], rows: (string | null)[][] }> {
+    const duvidas = await db.duvida.findMany({
+        orderBy: { criadoEm: 'asc' },
+        select: {
+            pergunta: true,
+            email: true,
+            nome: true,
+            resposta: true,
+            criadoEm: true,
+        },
+    });
+    return {
+        headers: ["Nome", "E-mail", "Pedido endereçado"],
+        rows: duvidas.map((duvida) => [duvida.nome, duvida.email, duvida.pergunta]),
+    };
+}
+
+export { criarDuvida, responderDuvida, buscarDuvida, buscarDuvidas, buscarDuvidasExportacao }
