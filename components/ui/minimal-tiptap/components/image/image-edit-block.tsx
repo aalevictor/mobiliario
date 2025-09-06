@@ -64,7 +64,7 @@ export const ImageEditBlock: React.FC<ImageEditBlockProps> = ({
             id="image-link"
             type="url"
             required
-            placeholder="https://example.com"
+            placeholder="https://exemplo.com"
             value={link}
             className="grow"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

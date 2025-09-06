@@ -54,30 +54,30 @@ export const LinkEditBlock = ({
           <Input
             type="url"
             required
-            placeholder="Enter URL"
+            placeholder="Digite a URL"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
         </div>
 
         <div className="space-y-1">
-          <Label>Display Text (optional)</Label>
+          <Label>Texto de exibição (opcional)</Label>
           <Input
             type="text"
-            placeholder="Enter display text"
+            placeholder="Digite o texto de exibição"
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
         </div>
 
         <div className="flex items-center space-x-2">
-          <Label>Open in New Tab</Label>
+          <Label>Abrir em nova aba</Label>
           <Switch checked={isNewTab} onCheckedChange={setIsNewTab} />
         </div>
 
         <div className="flex justify-end space-x-2">
           <Button type="button" onClick={handleSave}>
-            Save
+            Salvar
           </Button>
         </div>
       </div>
