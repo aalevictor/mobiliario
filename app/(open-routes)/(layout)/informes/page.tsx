@@ -2,34 +2,127 @@ import * as React from "react";
 
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { listarInformes } from "@/services/informes";
+// import { listarInformes } from "@/services/informes";
 import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "Comissão Julgadora ",
+    subtitulo: "Resumo Curricular dos Membros",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">Titulares:</p>
+          <ol class="list-decimal list-inside space-y-2">
+            <li><strong>Luiza Vidotto Bernardo:</strong> Arquiteta e Urbanista pela USP e especialista em Gestão de Projetos pela PUC, atua nas interseções entre design e espaço, com experiência em design de ambientes, arquiteturas efêmeras e design gráfico. Fez intercâmbio acadêmico na UNAM, Cidade do México. Pesquisa aspectos sensíveis da experiência urbana latino-americana, narrativas visuais e cartografias poéticas. Integrou a equipe do pavilhão da FA-UNAM no Festival Mextrópoli (2019). Participou de projetos colaborativos de arquitetura pneumática, junto ao Coletivo Inflou (2018, 2019, 2022 e 2023). Desenvolveu trabalhos que receberam o iF Design Award (2023 e 2024), o LAD Awards (2024) e o Design for a Better World (2024), além de terem sido selecionados na 9° Bienal Iberoamericana de Diseño e na 14º Bienal Brasileira de Design.</li>
+            <li><strong>Andrea Perez de Souza Moraes:</strong> Arquiteta e Urbanista formada pela FAUUSP e Especialista em Arquitetura da Paisagem pelo Senac. Trabalha na Prefeitura de São Paulo desde 2002. Atualmente é Assessora Técnica na Assessoria Técnica de Obras e Serviços da Secretaria Municipal das Subprefeituras. Participou da criação e implantação dos Plays Lúdicos em praças do município voltados para crianças da primeira Infância. Tem participado, desde 2019 até hoje da adaptação dos passeios públicos para a acessibilidade e desenho universal, inseridos na PEC- Plano Emergencial de Calçadas. Sua experiência inclui a criação e manutenção de inúmeras praças e implantação de alguns parques lineares, entre 2005 e 2012.</li>
+            <li><strong>Silvana Serafino Cambiaghi:</strong> Arquiteta, Mestre em Desenho Universal pela FAU/USP; uma das fundadoras da Comissão Permanente de Acessibilidade de São Paulo (CPA), atual presidente da Comissão representando o Conselho de Arquitetura e Urbanismo de São Paulo – CAUSP que é Conselheira Estadual. Coordenadora da Pós Arquitetura Humanizada, Acessibilidade e ambientes Sustentáveis da USCS, e dos cursos de Acessibilidade da Associação Brasileira de Normas Técnicas - ABNT Foi Comentarista da Rádio Eldorado sobre Desenho Universal. Ministra palestras no Brasil e no exterior, ganhando em 2000, o prêmio internacional “Horizontes que convergem” conferido pela Universidad de Guanajuato (México). Ganhou o 22º Prêmio Design do Museu da Casa Brasileira em 2008 com a autoria do livro, “Desenho Universal: Métodos e Técnicas para arquitetos e Urbanistas” - editora Senac. Socia Diretora da “Design Universal Consultoria”.</li>
+            <li><strong>Lucas Lavecchia de Gouvêa:</strong> Formado em arquitetura e urbanismo e pós-graduado em sociedade, cultura e educação pela escola de sociologia política. Atua na Secretaria do Verde e do Meio Ambiente (SVMA), onde desenvolve projetos de destaque voltados à sustentabilidade, requalificação e implantação de parques, com visão social voltada à inclusão e ao acesso democrático ao espaço público.</li>
+            <li><strong>Aparecida Regina Lopes Monteiro:</strong> Arquiteta Urbanista, pela FAU de Braz Cubas, Gerente de Cidades pela FAAP – Faculdades Armando Álvares Penteado, especialista em Direito Urbanístico pela Faculdade de Direito São Francisco da Universidade de São Paulo. Trabalha na Prefeitura do Município de São Paulo desde 1976 onde coordenou trabalhos como a elaboração de Código de Obras e Polos Geradores de Tráfego e Plano Diretor da Cidade entre outros de interesse público. Atuou na Câmara Municipal como Assessora Tecnica Legislativa de 1993 a 2000 e na Assembleia Legislativa de 2001 a 2002. Foi Diretora de Meio Ambiente e Paisagem Urbana da então EMURB – Empresa Municipal de Urbanização de 2005 até 2012. Em fevereiro de 2010 foi nomeada Presidente da CPPU - Comissão de Proteção à Paisagem Urbana de São Paulo e permaneceu até dezembro de 2012. Como atividade pessoal e de cidadania atuou no Movimento de Defesa de São Paulo e foi presidente por (5) cinco anos. Atualmente é Superintendente de Paisagem Urbana da São Paulo Urbanismo - SPUrbanismo e novamente foi nomeada presidente da CPPU - Comissão de Proteção à Paisagem Urbana de São Paulo onde permanece até hoje e cujas atividades consistem em desenvolver políticas públicas para garantir a qualidade de vida dos cidadãos através de projetos urbanos inclusivos e democráticos expressando a beleza e harmonia que promovem a estética da cidade.</li>
+            <li><strong>Beatriz Messeder Sanches Jalbut:</strong> Arquiteta com bacharelado em Arquitetura e Urbanismo pela FAAP. Especialização em restauro, intervenção e conservação de bens patrimoniais pela Unicamp. Durante a fase acadêmica, realizou estudo sobre patrimônio e design na Florence University of Arts na Itália e curso presencial sobre a história da arquitetura e o desenvolvimento urbano de Boston em Harvard. Aprimorou os conhecimentos na área de planejamento urbano e regulação de cidades pelo Insper. Interessada especialmente na área de urbanismo, patrimônio histórico, legislação, obras, consultorias e projetos, trabalhou como arquiteta residente e gestora de contratos na Concrejato Obras Especiais. Foi sócia do escritório de projetos Studio ArquitetUras, e atualmente a frente da coordenação técnica do Conselho de Política Urbana da Associação Comercial de São Paulo que atua na área de consultoria em legislação urbana, planejamento e urbanismo, além de ser professora convidada no curso de Especialização em Legalização de Imóveis e Aprovação de Projetos da UNINOVE.</li>
+            <li><strong>Marcelo Consiglio Barbosa:</strong> Formou-se pela FAU/Mackenzie em 1984 e é mestre em Projeto de Edificações pela FAU/USP (2001) e doutor pela FAU/Mackenzie (2012) com a tese “Adolf Franz Heep – Um Arquiteto Moderno”. Lecionou na Universidade Presbiteriana Mackenzie de 2005 à 2023 na cadeira de projetos. Autor do livro Adolf Franz Heep – Um Arquiteto Moderno, Editora Monolito (2017). Ex Vice-presidente e atual Conselheiro da AsBEA/São Paulo (2012/atual) Criador do Podcast Betoneira junto com André Scarpa desde 2021 a atual. Desde 1992 tem o escritório de arquitetura e design Bacco Arquitetos Associados junto com Jupira Corbucci.</li>
+          </ol>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">Suplentes:</p>
+          <ol class="list-decimal list-inside space-y-2">
+            <li><strong>André de Paula Andreis:</strong> Arquiteto e urbanista formado pela UNESP (2014) e mestre em Gestão e Políticas Públicas pela FGV/EAESP (2021). Atualmente é assessor técnico e chefe do Núcleo de Desenho Urbano da SPUrbanismo, onde coordena equipe e desenvolve projetos estratégicos de requalificação urbana. Sua experiência inclui a concepção e execução de projetos para espaços públicos e mobiliário urbano, elaboração de planos de intervenção voltados à mobilidade ativa, sustentabilidade e ao uso democrático da cidade. Participou de iniciativas como o Programa Vila Reencontro, Territórios Educadores, Centro Aberto, Urbanismo Tático no Minhocão, Requalificação dos Calçadões do Centro Histórico, Programa de Parklets Municipais. Atuou ainda pelo Fundo Social de São Paulo do Governo do Estado de São Paulo, contribuindo para a concepção, projeto e execução de unidades do Programa Praças da Cidadania, voltado à integração social e oferta de serviços públicos em áreas vulneráveis.</li>
+            <li><strong>Renato Salgado:</strong> Arquiteto (formado pela FAUUSP - Faculdade de Arquitetura e Urbanismo da Universidade de São Paulo, em 1987). Em 2013, obteve mestrado com pesquisa em projetos de sinalização em parques urbanos, no departamento de Design e Arquitetura da mesma FAUUSP. Trabalha com design há mais de 35 anos. À frente da Zol Design, empresa fundada em 1997 e dirigida por ele desde então, desenvolve, com uma equipe multidisciplinar, amplos projetos de comunicação visual em sinalização, design ambiental, digital e gráfico, atendendo demandas de diversos segmentos: governamentais, corporativo, cultural e educacional. Representante titular do IAB-SP (Instituto de Arquitetos do Brasil, filial de São Paulo) na CPPU (Comissão de Proteção da Paisagem Urbana) da Secretaria de Desenvolvimento Urbano Municipal da cidade de São Paulo, de julho de 2013 a março de 2017. Consultor em design e identidade cultural em projetos transdisciplinares, também atua como professor de design ambiental, notadamente de sinalização e projeto de exposições em graduação e pós-graduação em várias universidades brasileiras.</li>
+          </ol>
+        </div>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-09-08T11:00:00"),
+    publicado: true
+  },
+  {
     titulo: "1º Bloco de Respostas aos Pedidos de Esclarecimento",
     subtitulo: "Publicado no Diário Oficial da Cidade de São Paulo em 08/09/2025, nos termos do Item 4 do Edital nº 001/SP-URB/2025:",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>Desde a publicação do Edital até a presente data (05/09/2025 às 12h), foram processados 6 Pedidos de Esclarecimento, sendo 4 via Plataforma Digital Online do Concurso e 2 recebidos diretamente via e-mail. Relacionamos a seguir os pedidos de esclarecimento, cada qual seguido de resposta redigida por esta Coordenação:</p>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">1. Pedido de Esclarecimento feito via Plataforma Digital processado em 27/08/2025:</p>
+          <p><strong>Texto: </strong> Sou tecnóloga em construção de edifícios pela Fatec ,com CREA ativo ,posso participar? Faço engenha civil ,porém só concluo em 2026</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>Nos termos do item 8.3.4.2 do Edital nº 001/SP-URB/2025, não há a exigência quanto à formação acadêmica em relação aos demais membros da equipe, mantendo-se a exigência para o responsável técnico, enquanto representante legal pelo projeto correspondente à proposta técnica, sendo obrigatoriamente um(a) arquiteto(a) e urbanista regularmente registrado(a) no Conselho de Arquitetura e Urbanismo – CAU ou um(a) engenheiro(a) regularmente registrado(a) no Conselho Regional de Engenharia e Agronomia - CREA nos termos do item 8.3.1, no momento da inscrição.</p>
+          <p>Portanto, tecnólogos(as) em construção de edifícios e profissionais de outras disciplinas, tanto como pessoa física quanto jurídica, podem participar como membros da equipe, devendo, para tanto, declarar sua participação por meio de Declaração de Participação na Equipe, conforme modelo constante do ANEXO III do Edital, nos termos do item 8.3.4, sem prejuízo da apresentação dos demais documentos necessários.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">2. Pedido de Esclarecimento feito via Plataforma Digital processado em 29/08/2025:</p>
+          <p><strong>Texto: </strong> Sou designer de produto. posso participar do concurso? se sim, quais documentos eu preciso apresentar?</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>Nos termos do item 8.3.4.2 do Edital nº 001/SP-URB/2025, não há a exigência quanto à formação acadêmica em relação aos demais membros de uma equipe, desde que se mantenha a exigência para o responsável técnico, enquanto representante legal pelo projeto correspondente à proposta técnica, sendo este obrigatoriamente um(a) arquiteto(a) e urbanista registrado(a) no Conselho de Arquitetura e Urbanismo – CAU ou um(a) engenheiro(a) registrado(a) no Conselho Regional de Engenharia e Agronomia - CREA nos termos do item 8.3.1. Portanto, designers de produtos e profissionais de outras disciplinas, tanto como pessoa física quanto jurídica, podem participar como membros da equipe, devendo, para tanto, declarar sua participação por meio de Declaração de Participação na Equipe, conforme modelo constante do ANEXO III do Edital, nos termos do item 8.3.4, sem prejuízo da apresentação dos demais documentos necessários.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">3. Pedido de Esclarecimento feito via Plataforma Digital processado em 02/09/2025:</p>
+          <p><strong>Texto: </strong> Podem formar parte da equipe pessoas não brasileiras?</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>Os profissionais que se enquadram no item 8.3.4.2 do Edital nº 001/SP-URB/2025, enquanto representante legal pelo projeto correspondente à proposta técnica, sendo este obrigatoriamente um(a) arquiteto(a) e urbanista regularmente registrado(a) no Conselho de Arquitetura e Urbanismo – CAU ou um(a) engenheiro(a) regularmente registrado(a) no Conselho Regional de Engenharia e Agronomia - CREA nos termos do item 8.3.1, podem participar como membros da equipe, devendo, para tanto, declarar sua participação por meio de Declaração de Participação na Equipe, conforme modelo constante do ANEXO III do Edital, nos termos do item 8.3.4, sem prejuízo da apresentação dos demais documentos necessários.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">4. Pedido de Esclarecimento feito via e-mail processado em 02/09/2025:</p>
+          <p><strong>Texto: </strong> Gostaria de solicitar um esclarecimento a respeito do edital, especificamente quanto à divisão em três grupos. Não ficou claro se as propostas devem obrigatoriamente contemplar os três grupos ou se é possível escolher apenas um deles para o desenvolvimento da proposta.</p>
+          <p>Por exemplo, tenho interesse no Grupo 3 – Paisagem, ambientação e adaptação climática. Nesse caso, a minha proposta pode se restringir exclusivamente a este grupo?</p>
+          <p>Agradeço desde já pela atenção e aguardo o vosso retorno.</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>Conforme o item 1.3 do Edital nº 001/SP-URB/2025, é obrigatória a apresentação de propostas técnicas em ambas as fases do concurso para os elementos e famílias de elementos dos 3 (três grupos).</p>
+          <p>Nos termos do item 7 do Termo de Referência e item 6.3 do Edital, é condição de desclassificação das propostas técnicas pela Comissão Julgadora a não apresentação da totalidade dos elementos exigidos, conforme item 1 do Edital (Do Objeto) e observado o contido no item 1.4, segundo o qual, as propostas poderão apresentar soluções integradas que agrupem, em um único elemento ou sistema, as funções atribuídas a dois ou mais elementos do mobiliário, desde que garantidas as funções de cada elemento obrigatório, conforme disposições do Termo de Referência.</p>
+          <p>Portanto, a não apresentação de propostas técnicas dos elementos ou família de elementos relativos a um ou mais grupos, resultará em desclassificação.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">5. Pedido de Esclarecimento feito via e-mail processado em 02/09/2025:</p>
+          <p><strong>Texto: </strong> Boa tarde! Venho por meio deste solicitar os esclarecimentos abaixo, visto não ter obtido sucesso através do site:</p>
+          <p>1) Sobre o Anexo VII, do TERMO DE CESSÃO DE DIREITOS AUTORAIS, itens 4, 5 e 6, respectivamente:</p>
+          <p>"nas hipóteses de adaptações e adequações dos PROJETOS"</p>
+          <p>"podendo qualquer um deles reutilizar os planos ou projetos originais para outras áreas ou localidades além daquela para a qual foram originalmente feitos, com as adaptações técnicas que considerar necessárias, independentemente de qualquer autorização ou remuneração do CEDENTE pela subcessão ou reutilização."</p>
+          <p>"O CEDENTE se compromete a não fazer o aproveitamento substancial dos PROJETOS em outros projetos que venha a elaborar, de modo a preservar a originalidade dos serviços, salvo com autorização do CESSIONÁRIO"</p>
+          <p>Nos trechos acima destacados o autor do projeto é cedente dos direitos autorais do projeto ao cessionário, podendo este livremente modificá-lo ou autorizar terceiros a fazê-lo. Considerando que a autoria é indissociável de seu autor, ainda que tenha seus direitos patrimoniais cedidos, gostaria de entender como a organização do concurso vê a questão das alterações a revelia frente ao Código de Ética ao qual respondem os Arquitetos e Urbanistas em seu item: "3.2.9. O arquiteto e urbanista deve declarar-se impedido de assumir a autoria de trabalho que não tenha realizado, bem como de representar ou ser representado por outrem de modo falso ou enganoso."</p>
+          <p>2) Sobre a preservação da originalidade do projeto, não pude compreender como ela estaria preservada pelo cessionário (além do cedente) se estará sujeita a adaptações e reutilizações à revelia do autor. Poderiam explicar melhor este ponto?</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p class="font-bold">Resposta à Questão 1:</p>
+          <p>Em análise ao pedido de esclarecimento, à luz do conteúdo do Anexo VIII do Edital e da legislação que o ampara – notadamente a da Lei Federal 13.303/2016 e as normativas do Regulamento de Licitações e Contratos da SP URBANISMO (NP 58.04) – entendemos que, embora seja obrigatória a cessão dos direitos patrimoniais e autorais (artigo 80 da Lei 13.303/2016 e item 4.5.4 da NP 58.04), em caso de alteração dos projetos vencedores por parte do Cessionário, deve-se assegurar as condições de consentimento pelo autor original acerca da alteração projetual precedida do registro de Responsabilidade Técnica relativa à alteração, resultando-se em obra de autoria e responsabilidade da Cessionária ou de coautoria e corresponsabilidade entre autor original e cessionária, nos termos da Resolução nº 67 do CAU/BR, referenciada no item 22.4 do Edital nº 001/SP-URB/2025.</p>
+          <p>Na medida em que o Edital relaciona a Resolução nº 67 do CAU/BR às disposições de cessão de direitos, carregando assim os procedimentos aplicáveis na aludida Resolução, entendemos assistir razão ao questionamento a respeito das alterações projetuais pelo Cessionário, tal como indicado no item 5 do Anexo VIII do Edital, evidenciando a ocorrência de erro material na exigência, motivo pelo qual é de rigor a supressão do trecho “autorização ou”, sendo considerada para os devidos fins a seguinte redação, sem a republicação do edital e devolução dos prazos, posto que não se vislumbra qualquer violação à lei e aos princípios que regem o concurso:</p>
+          <p>5. O CESSIONÁRIO poderá subceder livremente a PROPOSTA/PROJETOS a terceiros, em particular à Prefeitura do Município de São Paulo, no todo ou em parte, podendo qualquer um deles reutilizar os planos ou projetos originais para outras áreas ou localidades além daquela para a qual foram originalmente feitos, com as adaptações técnicas que considerar necessárias, independentemente de qualquer remuneração do CEDENTE pela subcessão ou reutilização.</p>
+          <p class="font-bold">Resposta à Questão 2:</p>
+          <p>Diante da resposta direcionada à questão anterior, as alterações ou adaptações deverão observar os procedimentos previstos na Resolução nº 67 do CAU/BR, tal como indicado no item 22.4.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">6. Pedido de Esclarecimento feito via Plataforma Digital processado em 04/09/2025:</p>
+          <p>Desde a publicação do Edital até a presente data (05/09/2025 às 12h), foram processados 6 Pedidos de Esclarecimento, sendo 4 via Plataforma Digital Online do Concurso e 2 recebidos diretamente via e-mail. Relacionamos a seguir os pedidos de esclarecimento, cada qual seguido de resposta redigida por esta Coordenação:</p></p>
+          <p><strong>Texto: </strong> Olá! É permitido utilizar elementos já existentes da cidade, como por exemplo o grafismo das calçada?</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>O objeto do concurso é definido no item 1 do Edital nº 001/SP-URB/2025. A elaboração das propostas técnicas para os elementos exigidos no item 1 deve seguir as devidas disposições legais e normativas pertinentes e o contido no Termo de Referência, especialmente quanto ao item 8 (Diretrizes Específicas para as Propostas Técnicas). A definição conceitual, o partido adotado, a materialidade, bem como demais soluções apresentadas nas propostas são de responsabilidade do proponente, sendo avaliadas pela comissão julgadora segundo os critérios definidos no item 6 do Edital e 7 do Termo de Referência.</p>
+        </div>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-09-08T11:00:00"),
+    publicado: true
   },
   {
     titulo: "Comissão Julgadora",
     subtitulo: "Composição de membros titulares e suplentes, nos termos do Item 5 do Edital nº 001/SP-URB/2025. Publicada no Diário Oficial da Cidade de São Paulo em 08/09/2025",
     conteudo: `
-      <div class="space-y-2">
-        <p class="font-bold">Titulares:</p>
-        <ol class="list-decimal list-inside">
-          <li><strong>Luiza Vidotto Bernardo</strong> (indicada da São Paulo Urbanismo, RF 0060771);</li>
-          <li><strong>Andrea Perez de Souza Moraes</strong> (indicada da Secretaria Municipal das Subprefeituras - SMUSUB, RF 7273193);</li>
-          <li><strong>Silvana Serafino Cambiaghi</strong> (indicada da Comissão Permanente de Acessibilidade – CPA, CAU A9030-1);</li>
-          <li><strong>Lucas Lavecchia de Gouvêa</strong> (indicado da Secretaria Municipal do verde e Meio Ambiente - SVMA, RF 8254125);</li>
-          <li><strong>Aparecida Regina Lopes Monteiro</strong> (indicada da Comissão de Proteção da Paisagem Urbana - CPPU, RF 0059471);</li>
-          <li><strong>Beatriz Messeder Sanches Jalbut</strong> (indicada da Associação Comercial de São Paulo - ACSP, CAU-SP A83664-8);</li>
-          <li><strong>Marcelo Consiglio Barbosa</strong> (indicado da Associação Brasileira dos Escritórios de Arquitetura de São Paulo – AsBEA-SP, CAU-SP A11372-7);</li>
-        </ol>
-        <p class="font-bold">Suplentes:</p>
-        <ol class="list-decimal list-inside">
-          <li><strong>André de Paula Andreis</strong> (indicado da São Paulo Urbanismo, RF 0060453);</li>
-          <li><strong>Renato Salgado</strong> (indicado da Secretaria Municipal de Urbanismo e Licenciamento – SMUL, CAU A85963-0);</li>
-        </ol>
+      <div class="flex flex-col gap-4 text-justify">
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">Titulares:</p>
+          <ol class="list-decimal list-inside space-y-2">
+            <li><strong>Luiza Vidotto Bernardo</strong> (indicada da São Paulo Urbanismo, RF 0060771);</li>
+            <li><strong>Andrea Perez de Souza Moraes</strong> (indicada da Secretaria Municipal das Subprefeituras - SMUSUB, RF 7273193);</li>
+            <li><strong>Silvana Serafino Cambiaghi</strong> (indicada da Comissão Permanente de Acessibilidade - CPA, CAU A9030-1);</li>
+            <li><strong>Lucas Lavecchia de Gouvêa</strong> (indicado da Secretaria Municipal do verde e Meio Ambiente - SVMA, RF 8254125);</li>
+            <li><strong>Aparecida Regina Lopes Monteiro</strong> (indicada da Comissão de Proteção da Paisagem Urbana - CPPU, RF 0059471);</li>
+            <li><strong>Beatriz Messeder Sanches Jalbut</strong> (indicada da Associação Comercial de São Paulo - ACSP, CAU-SP A83664-8);</li>
+            <li><strong>Marcelo Consiglio Barbosa</strong> (indicado da Associação Brasileira dos Escritórios de Arquitetura de São Paulo - AsBEA-SP, CAU-SP A11372-7);</li>
+          </ol>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">Suplentes:</p>
+          <ol class="list-decimal list-inside space-y-2">
+            <li><strong>André de Paula Andreis</strong> (indicado da São Paulo Urbanismo, RF 0060453);</li>
+            <li><strong>Renato Salgado</strong> (indicado da Secretaria Municipal de Urbanismo e Licenciamento - SMUL, CAU A85963-0);</li>
+          </ol>
+        </div>
       </div>
     `,
     dataPublicacao: new Date("2025-09-08T11:00:00"),
@@ -47,7 +140,7 @@ export default async function Informes() {
         </CardDescription>
         </CardHeader>
       </Card>
-      <div className="relative mx-auto w-[90%] lg:w-[800px] mx-auto gap-12 flex flex-col my-4">
+      <div className="relative w-[90%] lg:w-[800px] mx-auto gap-12 flex flex-col my-4">
         <Separator
           orientation="vertical"
           className="bg-muted absolute left-2 top-4"

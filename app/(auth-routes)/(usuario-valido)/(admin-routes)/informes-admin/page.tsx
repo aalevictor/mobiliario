@@ -54,8 +54,7 @@ async function InformesAdmin({
 }: {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	const router = useRouter();
-	router.push('/informes');
+	redirect('/informes');
 	let { pagina = 1, limite = 10, total = 0 } = await searchParams;
 	const { busca = '' } = await searchParams;
 	let dados: Informe[] = [];

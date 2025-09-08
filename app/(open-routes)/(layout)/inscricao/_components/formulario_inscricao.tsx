@@ -211,7 +211,7 @@ export default function FormularioInscricao() {
                 <CardHeader>
                     <CardTitle className="text-lg sm:text-xl">Resumo dos Dados</CardTitle>
                     <CardDescription className="text-sm sm:text-base">
-                        Revise todas as informações preenchidas antes de enviar seu pré-cadastro.
+                        Revise todas as informações preenchidas antes de enviar seu cadastro.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -372,7 +372,6 @@ export default function FormularioInscricao() {
                                             </FormLabel>
                                             <ul className="text-xs text-gray-600 space-y-1 ml-0">
                                                 <li>• A falsidade das informações prestadas implica nas sanções previstas em lei;</li>
-                                                <li>• Este é um período de pré-inscrição e os dados poderão ser editados posteriormente, de acordo com os prazos contidos no Cronograma do Concurso;</li>
                                                 <li>• Aceito os termos e condições do concurso conforme edital publicado;</li>
                                                 <li>• As informações serão utilizadas exclusivamente para fins do concurso.</li>
                                             </ul>
@@ -430,9 +429,6 @@ export default function FormularioInscricao() {
                             </CardHeader>
                             <CardContent>
                                 <div className="flex flex-col gap-4">
-                                    <span className="font-semibold">
-                                        Etapa de Pré-inscrição (item 12.3.1 do Edital) 
-                                    </span>
                                     <span className="font-bold text-red-500">
                                         O interessado deverá atentar para o item 9.2 do Edital (Documentos necessários para inscrição). 
                                     </span>

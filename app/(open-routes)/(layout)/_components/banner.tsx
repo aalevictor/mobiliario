@@ -154,7 +154,7 @@ export default function Banner() {
                             size="lg"
                             className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
                         >
-                            Faça já sua pré-inscrição
+                            Faça já sua inscrição
                         </Button>
                     </Link> :
                     <Button
