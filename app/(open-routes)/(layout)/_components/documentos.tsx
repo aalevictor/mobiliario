@@ -6,9 +6,11 @@ import Informes from "@/components/icones/informes";
 import Termo from "@/components/icones/termo";
 import ModalPergunta from "@/components/modal-pergunta";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export default function Documentos({ permissao }: { permissao: string }) {
+    const router = useRouter();
     const dataInicial = new Date('2025-08-25T00:00:00');
     const agora = new Date();
     const temPermissao = permissao === "ADMIN" || permissao === "DEV";
@@ -191,10 +193,10 @@ export default function Documentos({ permissao }: { permissao: string }) {
                         </p>
                         <Button
                             size="lg"
-                            className="px-4 py-1 text-lg opacity-50 cursor-not-allowed font-semibold"
-                            disabled
+                            className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
+                            onClick={() => router.push('/informes')}
                         >
-                            Em breve
+                            Acessar informes
                         </Button>
                     </div>
                     <Informes size={160} />

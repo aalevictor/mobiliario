@@ -8,7 +8,7 @@ import { columns } from './_components/columns';
 import { ArquivoInforme, Usuario, Link as LinkInforme } from '@prisma/client';
 import { retornaPermissao } from '@/services/usuarios';
 import { auth } from '@/auth';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { PlusIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -54,6 +54,8 @@ async function InformesAdmin({
 }: {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+	const router = useRouter();
+	router.push('/informes');
 	let { pagina = 1, limite = 10, total = 0 } = await searchParams;
 	const { busca = '' } = await searchParams;
 	let dados: Informe[] = [];
