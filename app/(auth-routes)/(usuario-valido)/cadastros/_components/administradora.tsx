@@ -62,6 +62,7 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 		accessorKey: 'doc_especifica',
 		header: () => <p className='text-center'>Documentação específica</p>,
 		cell: ({ row }) => {
+			console.log(row.original.arquivos);
 			const doc_especifica = row.original.arquivos?.filter(arquivo => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA);
 			const doc_especifica_length = doc_especifica?.length || 0;
 			return (

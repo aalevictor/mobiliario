@@ -13,8 +13,6 @@ import { redirect } from 'next/navigation';
 import { retornaPermissao, verificarPermissoes } from '@/services/usuarios';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Separator } from '@radix-ui/react-select';
-import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
 import ExportarCadastros from './_components/exportar-cadastros';
 export default async function CadastrosSuspense({
 	searchParams,

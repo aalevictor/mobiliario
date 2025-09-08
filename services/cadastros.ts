@@ -198,6 +198,7 @@ async function buscarCadastros(
       select: {
         id: true,
         caminho: true,
+        tipo: true
       }
     }
   }: ["JULGADORA"].includes(permissao)	?  {
