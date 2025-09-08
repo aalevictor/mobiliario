@@ -17,19 +17,19 @@ export default async function Navbar() {
         </Link>
         {/* Menu desktop */}
         <nav className="hidden md:flex gap-6" role="navigation" aria-label="Navegação principal">
-          <Link href="/#top" className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B] rounded px-1">
+          <Link href="/#top" className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B] rounded-md px-1">
             Início
           </Link>
           <Link 
             href="/#info" 
-            className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B] rounded px-1"
+            className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B] rounded-md px-1"
             aria-label="Ir para seção de informações do concurso"
           >
             Informações
           </Link>
           <Link 
             href="/#docs" 
-            className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B] rounded px-1"
+            className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#A5942B] rounded-md px-1"
             aria-label="Ir para seção de bases do concurso"
           >
             Bases do Concurso

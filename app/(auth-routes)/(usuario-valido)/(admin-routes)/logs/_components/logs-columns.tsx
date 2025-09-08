@@ -118,7 +118,7 @@ const LogDetails = ({ log }: { log: LogEntry }) => (
         <h4 className="font-semibold mb-2">Requisição HTTP</h4>
         <div className="space-y-2 text-sm">
           {log.metodo && <div><strong>Método:</strong> <Badge variant="outline">{log.metodo}</Badge></div>}
-          {log.endpoint && <div><strong>Endpoint:</strong> <code className="bg-gray-100 px-2 py-1 rounded">{log.endpoint}</code></div>}
+          {log.endpoint && <div><strong>Endpoint:</strong> <code className="bg-gray-100 px-2 py-1 rounded-md">{log.endpoint}</code></div>}
         </div>
       </div>
     )}
@@ -126,7 +126,7 @@ const LogDetails = ({ log }: { log: LogEntry }) => (
     {log.erro && (
       <div>
         <h4 className="font-semibold mb-2 text-red-600">Erro</h4>
-        <pre className="bg-red-50 p-3 rounded border text-sm overflow-x-auto whitespace-pre-wrap">
+        <pre className="bg-red-50 p-3 rounded-md border text-sm overflow-x-auto whitespace-pre-wrap">
           {log.erro}
         </pre>
       </div>
@@ -193,7 +193,7 @@ export const LogsColumns: ColumnDef<LogEntry>[] = [
       if (!value) return <span className="text-gray-400">-</span>;
       
       return (
-        <code className="bg-gray-100 px-2 py-1 rounded text-xs">
+        <code className="bg-gray-100 px-2 py-1 rounded-md text-xs">
           {value.length > 30 ? `${value.substring(0, 30)}...` : value}
         </code>
       );

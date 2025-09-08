@@ -13,6 +13,8 @@ import { Save, Eye, EyeOff } from "lucide-react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { MinimalTiptapEditor } from "@/components/ui/minimal-tiptap"
+import { Separator } from "@/components/ui/separator"
+import InformeComponent from "@/components/informe"
 
 interface FormInformeProps {
     informe: Informe | null
@@ -39,6 +41,8 @@ export default function FormInforme({ informe }: FormInformeProps) {
         return d.toISOString().slice(0, 16);
     };
 
+    const dataPublicacao = new Date(informe?.dataPublicacao || new Date())
+
     const form = useForm<InformeForm>({
         resolver: zodResolver(informeSchema),
         defaultValues: {
@@ -46,9 +50,7 @@ export default function FormInforme({ informe }: FormInformeProps) {
             subtitulo: informe?.subtitulo || "",
             conteudo: informe?.conteudo || "",
             publicado: informe?.publicado ?? false,
-            dataPublicacao: informe?.dataPublicacao 
-                ? formatDateForInput(new Date(informe.dataPublicacao))
-                : undefined,
+            dataPublicacao: formatDateForInput(dataPublicacao),
         }
     })
 
@@ -142,7 +144,6 @@ export default function FormInforme({ informe }: FormInformeProps) {
                                     type="datetime-local"
                                     {...field}
                                     className="w-full"
-                                    min={formatDateForInput(new Date())}
                                 />
                             </FormControl>
                             <div className="text-xs text-gray-600">
@@ -216,8 +217,28 @@ export default function FormInforme({ informe }: FormInformeProps) {
                         )
                     }}
                 />
-
-                <div className="flex gap-4 pt-4">
+                <div className="relative mx-auto w-[90%] lg:w-[800px] mx-auto gap-12 flex flex-col my-4">
+                    <Separator
+                        orientation="vertical"
+                        className="bg-muted absolute left-2 top-4"
+                    />
+                    <InformeComponent informe={{
+                        titulo: form.watch('titulo'),
+                        subtitulo: form.watch('subtitulo'),
+                        conteudo: form.watch('conteudo'),
+                        dataPublicacao,
+                        publicado: form.watch('publicado'),
+                    }} />
+                </div>
+                <div className="flex gap-4 pt-4 justify-end">                    
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => router.back()}
+                        disabled={isPending}
+                    >
+                        Cancelar
+                    </Button>
                     <Button
                         type="submit"
                         disabled={isPending}
@@ -234,15 +255,6 @@ export default function FormInforme({ informe }: FormInformeProps) {
                                 {informe ? 'Atualizar' : 'Salvar'} Informe
                             </>
                         )}
-                    </Button>
-                    
-                    <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => router.back()}
-                        disabled={isPending}
-                    >
-                        Cancelar
                     </Button>
                 </div>
             </form>

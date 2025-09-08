@@ -368,7 +368,7 @@ function StepConnector({ isComplete }: StepConnectorProps) {
 	};
 
 	return (
-		<div className='relative mx-2 h-0.5 flex-1 overflow-hidden rounded bg-muted'>
+		<div className='relative mx-2 h-0.5 flex-1 overflow-hidden rounded-md bg-muted'>
 			<motion.div
 				className='absolute left-0 top-0 h-full'
 				variants={lineVariants}

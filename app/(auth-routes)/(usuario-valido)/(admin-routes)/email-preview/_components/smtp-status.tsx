@@ -355,7 +355,7 @@ export default function SMTPStatus() {
               </span>
             </div>
             <p className="text-xs text-yellow-800 dark:text-yellow-200">
-              Configure as seguintes variáveis no arquivo <code className="bg-yellow-100 px-1 rounded">.env</code>:
+              Configure as seguintes variáveis no arquivo <code className="bg-yellow-100 px-1 rounded-md">.env</code>:
             </p>
             <ul className="text-xs text-yellow-800 dark:text-yellow-200 mt-2 space-y-1">
               <li>• <code>MAIL_HOST</code> - Servidor SMTP</li>

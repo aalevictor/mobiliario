@@ -62,10 +62,10 @@ export function LogsStats({ stats }: LogsStatsProps) {
         {[...Array(4)].map((_, i) => (
           <Card key={i} className="animate-pulse">
             <CardHeader>
-              <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+              <div className="h-4 bg-gray-200 rounded-md w-3/4"></div>
             </CardHeader>
             <CardContent>
-              <div className="h-8 bg-gray-200 rounded w-1/2"></div>
+              <div className="h-8 bg-gray-200 rounded-md w-1/2"></div>
             </CardContent>
           </Card>
         ))}

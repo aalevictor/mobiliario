@@ -318,7 +318,7 @@ const DragDropInput = forwardRef<DragDropInputRef, DragDropInputProps>(
 											<Image
 												src={file.preview || '/placeholder.svg'}
 												alt={file.name}
-												className='w-8 h-8 object-cover rounded mr-2'
+												className='w-8 h-8 object-cover rounded-md mr-2'
 											/>
 										) : (
 											<FileIcon className='w-8 h-8 p-1.5 mr-2 text-gray-500' />

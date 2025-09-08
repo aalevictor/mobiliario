@@ -38,7 +38,7 @@ export default function DataTable<TData, TValue>({
 	return (
 	
 			<div className={cn('rounded-md', className)}>
-				<Table className='bg-background dark:bg-muted/50 rounded'>
+				<Table className='bg-background dark:bg-muted/50 rounded-md'>
 					<TableHeader className='bg-primary hover:bg-primary'>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow

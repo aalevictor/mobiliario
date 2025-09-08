@@ -82,7 +82,7 @@ export default function Footer() {
 								href="https://prefeitura.sp.gov.br/" 
 								target="_blank" 
 								rel="noopener noreferrer" 
-								className="hover:text-white transition-colors underline decoration-white/30 hover:decoration-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded px-1"
+								className="hover:text-white transition-colors underline decoration-white/30 hover:decoration-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded-md px-1"
 							>
 								Prefeitura de São Paulo
 							</Link>
@@ -96,7 +96,7 @@ export default function Footer() {
 							href="https://prefeitura.sp.gov.br/"
 							target="_blank" 
 							rel="noopener noreferrer"
-							className="text-white/70 hover:text-white transition-colors underline decoration-white/30 hover:decoration-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded px-1"
+							className="text-white/70 hover:text-white transition-colors underline decoration-white/30 hover:decoration-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded-md px-1"
 						>
 							Prefeitura
 						</Link>
@@ -104,7 +104,7 @@ export default function Footer() {
 							href="https://prefeitura.sp.gov.br/licenciamento" 
 							target="_blank" 
 							rel="noopener noreferrer"
-							className="text-white/70 hover:text-white transition-colors underline decoration-white/30 hover:decoration-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded px-1"
+							className="text-white/70 hover:text-white transition-colors underline decoration-white/30 hover:decoration-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded-md px-1"
 						>
 							SMUL
 						</Link>
@@ -112,7 +112,7 @@ export default function Footer() {
 							href="https://prefeitura.sp.gov.br/sp_urbanismo" 
 							target="_blank" 
 							rel="noopener noreferrer"
-							className="text-white/70 hover:text-white transition-colors underline decoration-white/30 hover:decoration-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded px-1"
+							className="text-white/70 hover:text-white transition-colors underline decoration-white/30 hover:decoration-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded-md px-1"
 						>
 							SP Urbanismo
 						</Link>
