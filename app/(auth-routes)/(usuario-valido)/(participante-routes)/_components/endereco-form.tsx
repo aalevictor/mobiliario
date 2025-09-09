@@ -11,6 +11,7 @@ import { ViaCepResposta } from "@/types/cep"
 import { formatarCEP } from "@/lib/utils"
 import { toast } from "sonner"
 import { ICadastro } from "../../cadastros/page"
+import { useState } from "react"
 
 interface EnderecoFormProps {
     cadastro: ICadastro
@@ -27,6 +28,7 @@ const formSchema = z.object({
 })
 
 export default function EnderecoForm({ cadastro, atualizarPagina }: EnderecoFormProps) {
+    const [temLogradouro, setTemLogradouro] = useState(true)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -51,12 +53,14 @@ export default function EnderecoForm({ cadastro, atualizarPagina }: EnderecoForm
     }
 
     async function buscaCEP(cep: string) {
+        setTemLogradouro(true)
         cep = cep.replace(/\D/g, "").trim().substring(0, 8);
         if (cep.length === 8) {
             try {
                 const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
                 const data: ViaCepResposta = await response.json();
-                form.setValue("logradouro", data.logradouro || "")
+                if (data.logradouro && data.logradouro.trim() !== "") form.setValue("logradouro", data.logradouro || "")
+                else setTemLogradouro(false)
                 form.setValue("cidade", data.localidade || "")
                 form.setValue("uf", data.uf || "")
             } catch (error) {
@@ -111,7 +115,7 @@ export default function EnderecoForm({ cadastro, atualizarPagina }: EnderecoForm
                                     <FormControl>
                                         <Input 
                                             {...field}
-                                            disabled
+                                            disabled={temLogradouro}
                                             className="h-10 sm:h-11 disabled:opacity-100"
                                             placeholder="Rua, Avenida, etc."
                                         />
