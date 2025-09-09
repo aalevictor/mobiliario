@@ -52,6 +52,7 @@ export default function FormularioInscricao() {
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
     const [participantesExistentes, setParticipantesExistentes] = useState<{ nome: string; documento: string }[]>([]);
     const [transition, startTransition] = useTransition();
+    const [temLogradouro, setTemLogradouro] = useState(true);
 
     const [participanteNome, setParticipanteNome] = useState("");
     const [participanteDocumento, setParticipanteDocumento] = useState("");
@@ -130,7 +131,8 @@ export default function FormularioInscricao() {
                 const data: ViaCepResposta = await response.json();
                 form.setValue("uf", data.uf ? data.uf : "");
                 form.setValue("cidade", data.localidade ? data.localidade : "");
-                form.setValue("logradouro", data.logradouro ? data.logradouro : "");
+                if (data.logradouro && data.logradouro.trim() !== "") form.setValue("logradouro", data.logradouro ? data.logradouro : "");
+                else setTemLogradouro(false);
             } catch (error) {
                 console.error("Erro ao buscar CEP:", error);
             }
@@ -647,6 +649,7 @@ export default function FormularioInscricao() {
                                                     placeholder="00000-000" 
                                                     className="h-10 sm:h-11"
                                                     onChange={async (e) => {
+                                                        setTemLogradouro(true)
                                                         const cep = formatarCEP(e.target.value)
                                                         field.onChange(cep)
                                                         limparCampos()
@@ -665,7 +668,7 @@ export default function FormularioInscricao() {
                                                     {...field}
                                                     placeholder="Digite o logradouro"
                                                     className="h-10 sm:h-11 disabled:opacity-100"
-                                                    disabled
+                                                    disabled={temLogradouro}
                                                 />
                                             </FormControl>
                                             <FormMessage />
