@@ -22,7 +22,7 @@ async function bind(login: string, senha: string) {
 		if (process.env.ENVIRONMENT === 'local') return usuario;
 		if (usuario.tipo === 'INTERNO') {
 			try {
-				await ldap.bind(`${login}${process.env.LDAP_DOMAIN}`, senha);
+				await ldap.bind(`${usuario.login}${process.env.LDAP_DOMAIN}`, senha);
 				await ldap.unbind();
 			} catch (err) {
 				console.log(err);

@@ -75,6 +75,7 @@ export function LoginForm({
 										<Input
 											{...field}
 											className='dark:bg-background bg-muted'
+											placeholder='exemplo@email.com'
 										/>
 									</FormControl>
 									<FormDescription />
@@ -95,6 +96,7 @@ export function LoginForm({
 											{...field}
 											type='password'
 											className='dark:bg-background bg-muted'
+											placeholder='*********'
 										/>
 									</FormControl>
 									<FormDescription />

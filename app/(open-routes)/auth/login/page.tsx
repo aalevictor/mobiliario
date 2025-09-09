@@ -11,7 +11,7 @@ export default function Login() {
 						<Card className='overflow-hidden py-0 max-sm:border-none max-sm:shadow-none'>
 							<CardContent className='relative grid p-0 md:grid-cols-2 items-center bg-[#e9edde]'>
 								<LoginForm />
-								<div className='flex flex-row gap-2 justify-center items-center p-10 bg-[#a5942b] hidden md:block'>
+								<div className='flex-row gap-2 justify-center items-center p-10 bg-[#a5942b] hidden md:flex'>
 									<Image
 										width={1200}
 										height={1200}
