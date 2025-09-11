@@ -7,6 +7,104 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "2º Bloco de Respostas aos Pedidos de Esclarecimento",
+    subtitulo: "Publicado no Diário Oficial da Cidade de São Paulo em 11/09/2025, nos termos do Item 4 do Edital nº 001/SP-URB/2025:",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>A Ata nº 01 de Respostas aos pedidos de Esclarecimento da Coordenação do Concurso tratou de pedidos processados desde a abertura e publicação do Edital (25/08/2025) até o dia 05/09/2025 às 12h, que resultou na publicação do 1º Bloco de Respostas aos Pedidos de Esclarecimento no dia 08/09/2025, tanto no Diário Oficial da Cidade de São Paulo, quanto na Plataforma Digital Online do Concurso.</p>
+        <p>Assim, a presente ata considera os pedidos de esclarecimento processados entre o dia 05/09/2025 às 12h01 até a presente data (10/09/2025) às 12h. Neste período foram processados 10 (dez) Pedidos de Esclarecimento, sendo 5 (cinco) via Plataforma Digital Online do Concurso e 5 (cinco) recebidos diretamente via e-mail. Do total, 5 (cinco) dos pedidos foram agrupados no Tema “Documentos Necessários para Inscrição”; e 2 (dois) dos pedidos foram agrupados no Tema “Questões Operacionais da Plataforma” pois diziam respeito a questões sobre a utilização da plataforma digital pelos interessados, que foram respondidas diretamente por e-mail por esta Coordenação, respostas estas aqui transcritas.</p>
+        <p class="italic text-red-600">Observação: Tal como feito no Bloco 1 de Respostas aos Pedidos de Esclarecimento, para fins de publicação, as indicações de nomes, assinaturas e autoria dos pedidos (via e-mail ou via Plataforma Digital) foram suprimidos, para preservar o sigilo dos potenciais participantes.</p>
+        <p>Relacionamos a seguir os pedidos de esclarecimento, cada qual seguido de resposta redigida por esta Coordenação:</p>
+        <p class="font-bold mt-4">TEMA: DOCUMENTOS NECESSÁRIOS PARA INSCRIÇÃO (5 Pedidos de Esclarecimento)</p>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">1. Pedido de Esclarecimento feito via Plataforma Digital processado em 09/09/2025:</p>
+          <p><strong>Texto: </strong> Em relação aos documentos, todos precisam estar em situação regular? Estou com problemas no CADIN municipal e não conseguiria resovler até o dia 15/09.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">2.	Pedido de Esclarecimento feito via E-MAIL processado em 10/09/2025:</p>
+          <p><strong>Texto: </strong>1. Irei me inscrever com mais uma pessoa (equipe) e como pessoas físicas, nesse caso é necessário que ambas as pessoas mandem todos os documentos necessários, ou apenas o responsável técnico, enquanto ela enviará apenas a declaração de participação em equipe?</p>
+          <p>2. O CAU/CREA é necessário apenas para o responsável técnico, certo?</p>
+          <p>3. Há alguma taxa de inscrição para o concurso? Procurei no edital e não achei nada sobre gratuidade ou taxas.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">3.	Pedido de Esclarecimento feito via Plataforma Digital processado em 10/09/2025:</p>
+          <p><strong>Texto: </strong> Os documentos para inscrição do item 9.2, incluindo a Carta de Declarações Obrigatórias, devem ser apresentados por todos os membros da equipe, ou somente pelo responsável pela inscrição?</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">4.	Pedido de Esclarecimento feito via E-MAIL processado em 10/09/2025:</p>
+          <p><strong>Texto: </strong> Gostaria de esclarecer algumas dúvidas em relação à documentação de inscrição. Sobre a prova de regularidade fiscal do meu município, esse documento pode levar até 10 dias úteis para ser emitido. Caso não seja disponibilizado a tempo, o requerimento funcionaria temporariamente até a emissão?</p>
+          <p>Quanto à documentação do CAU, apenas a Certidão de Registro é suficiente ou também é necessária a carteira do Conselho? No meu caso, não tenho a carteira, mas possuo o registro ativo.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">5.	Pedido de Esclarecimento feito via E-MAIL processado em 10/09/2025:</p>
+          <p><strong>Texto: </strong> [...] estou passando por um problema com um dos documentos solicitados para a inscrição: "Prova de regularidade fiscal para com a Fazenda Municipal do domicílio ou sede da interessada expedida pelo órgão competente;". Não entendi muito bem o que seria isso, mas ao ligar para a prefeitura, foi me dito que só existe a certidão negativa de débitos de IPTU, e a certidão negativa mobiliária (Cadastro CCM). Esse primeiro é necessário ter imóvel na cidade e eu não possuo, e o segundo o prazo para solicitação é de 8 dias úteis (o que ira ultrapassar a data de inscrição).</p>
+          <p>Eu gostaria de confirmar se é algum desses documentos mesmo, e caso seja, há algo que eu posso fazer em relação a esse documento que o prazo é de 8 dias, como entregar depois ou algo assim?</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>Em que pese a exigência de demonstração de regularidade perante o CADIN Municipal a Comissão esclarece que tal providência tem por objetivo a verificação da regularidade fiscal dos participantes em momento antecedente à realização do Concurso, sendo necessária a apresentação do documento com ou sem indicação de pendência fiscal (negativado ou positivado). No entanto, eventual situação de irregularidade não terá o condão de impedir a inscrição de qualquer candidato, ficando mantida tal exigência quando do pagamento dos prêmios. Isso se estende a todos os documentos de regularidade fiscal exigidos (itens 9.2.3, 9.2.4 e 9.2.5).</p>
+          <p>Para o caso dos interessados (pessoa física residente ou pessoa jurídica sediada) no município de São Paulo, a prova de regularidade fiscal para com a Fazenda Municipal (item 9.2.4) corresponde ao Cadastro Informativo Municipal de São Paulo CADIN (item 9.2.5). Para municípios que eventualmente não possuam um cadastro único de informações fiscais, poderão ser apresentadas o documento ou conjunto de documentos equivalentes que atestem a situação fiscal, como certidões expedidas pelo órgão municipal competente.</p>
+          <p>Caso não haja tempo hábil para emissão dos documentos de regularidade fiscal até a data limite das inscrições, serão admitidas provas que atestem a solicitação do documento perante o ente público competente (requerimento ou protocolo), mantida a exigência de apresentação final do documento que demonstre a regularidade quando do pagamento dos prêmios.</p>
+          <p>Quanto à comprovação de registro no CAU, é suficiente a Certidão de Registro e Quitação emitida pelo Conselho. Tanto tal comprovação perante o CAU quanto documento equivalente perante o CREA deverá ser obrigatoriamente vinculado ao responsável técnico pelo projeto no momento da inscrição, não sendo exigidos para os demais membros da equipe, exceto em caso de corresponsabilidade técnica pelo projeto, devendo, neste caso, aos responsáveis técnicos apresentar a comprovação de registro e regularidade no CAU ou CREA.</p>
+          <p>Para fins de inscrição, nos termos do 12.3 do Edital, o responsável técnico ou um dos responsáveis técnicos (em caso de responsabilidade compartilhada) deverá efetuar o cadastro, e encaminhar a documentação necessária, incluindo as Declarações Obrigatórias (Modelos: Anexo I – pessoa física ou Anexo II – pessoa jurídica) – de apresentação exclusiva do responsável técnico. Em caso de equipe apenas o Responsável Técnico (ou um dos responsáveis técnicos) será considerado o representante legal, sendo este responsável pelas ações da equipe. Aos demais membros da equipe, é exigido somente a apresentação da Declaração de participação na Equipe (Modelo: Anexo III).</p>
+          <p>Nos termos do item 12.1 do Edital, a inscrição no Concurso é gratuita.</p>
+        </div>
+        <p class="font-bold mt-4">TEMA: QUESTÕES OPERACIONAIS DA PLATAFORMA (2 Pedidos de Esclarecimento)</p>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">6.	Pedido de Esclarecimento feito via E-MAIL processado em 09/09/2025:</p>
+          <p><strong>Texto: </strong> Estou tentando realizar minha inscrição no formulário disponível no site da Prefeitura de São Paulo, porém não estou conseguindo concluir o preenchimento, pois o campo referente ao logradouro não fica habilitado.</p>
+          <p>Estou tentando realizar minha inscrição no formulário disponível no site da Prefeitura de São Paulo, porém não estou conseguindo concluir o preenchimento, pois o campo referente ao logradouro não fica habilitado.</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso enviada por e-mail ao interessado:</p>
+          <p>Prezado interessado.</p>
+          <p>Obrigado por nos alertar sobre esse problema que você encontrou.</p>
+          <p>Já acionamos a equipe de desenvolvimento que prontamente o resolveu.</p>
+          <p>Solicitamos que tente novamente efetuar a inscrição.</p>
+          <p>Caso tenha algum outro problema, não deixe de nos contatar novamente.</p>
+          <p>Atenciosamente,</p>    
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">7.	Pedido de Esclarecimento feito via Plataforma Digital processado em 09/09/2025:</p>
+          <p><strong>Texto: </strong> Boa tarde, meu ID está aparecendo como inválido .. nao consigo entrar na área de participação.</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso enviada por e-mail ao interessado:</p>
+          <p>Prezado Interessado,</p>
+          <p>Registramos sua indicação de eventual problema de funcionalidade da plataforma e encaminhamos à equipe de desenvolvimento que procedeu com a seguinte orientação:</p>
+          <p>O acesso à área restrita é feito preenchendo em "login" o e-mail cadastrado e em "senha", a senha cadastrada. Durante o cadastro inicial, um e-mail é enviado para o e-mail cadastrado com a senha de acesso inicial. Após o primeiro login, você deverá alterar a sua senha por uma senha da sua escolha.</p>
+          <p>Pedimos que verifique se dessa forma consegue acessar a área restrita.</p>
+        </div>
+        <p class="font-bold mt-4">DEMAIS PEDIDOS DE ESCLARECIMENTO NÃO AGRUPADOS POR TEMA:</p>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">8.	Pedido de Esclarecimento feito via Plataforma Digital processado em 09/09/2025:</p>
+          <p><strong>Texto: </strong>Como seria a entrega da proposta técnica e estudo preliminar, seria já o projeto? É um prazo bem apertado, gostaria de saber o nível de detalhe a ser entregue.</p>
+          <p>Estou tentando realizar minha inscrição no formulário disponível no site da Prefeitura de São Paulo, porém não estou conseguindo concluir o preenchimento, pois o campo referente ao logradouro não fica habilitado.</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso enviada por e-mail ao interessado:</p>
+          <p>As propostas técnicas deverão ser desenvolvidas conforme prazos e determinações constantes do Edital nº 001/SP-URB/2025 e Termo de Referência. O item 6 "Normas de Apresentação das Propostas" do Termo de Referência orienta o participante quanto ao conteúdo técnico a ser apresentado em cada uma das fases do concurso, sendo tratadas no item 6.1 "Fase 1: Estudo Preliminar", as orientações específicas para a apresentação da proposta técnica em nível de Estudo Preliminar.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">9.	Pedido de Esclarecimento feito via E-MAIL processado em 09/09/2025:</p>
+          <p><strong>Texto: </strong> Não ficou claro para mim quanto a quantidade de elementos que devem ser apresentados.</p>
+          <p>Seria alguma dessas opções:</p>
+          <ol class="list-decimal list-inside space-y-2">
+            <li>Todos os grupos (todos os elementos)</li>
+            <li>Escolher um grupo e apresentar todos os elementos dentro dele</li>
+            <li>Escolher um grupo e apresentar apenas uma família ou elemento dentro dele</li>
+          </ol> 
+          <p class="font-bold">Resposta da Coordenação do Concurso enviada por e-mail ao interessado:</p>
+          <p>Conforme o item 1.3 do Edital nº 001/SP-URB/2025, é obrigatória a apresentação de propostas técnicas em ambas as fases do concurso para os elementos e famílias de elementos dos 3 (três grupos).</p>
+          <p>Nos termos do item 7 do Termo de Referência e item 6.3 do Edital, é condição de desclassificação das propostas técnicas pela Comissão Julgadora a não apresentação da totalidade dos elementos exigidos, conforme item 1 do Edital (Do Objeto) e observado o contido no item 1.4, segundo o qual, as propostas poderão apresentar soluções integradas que agrupem, em um único elemento ou sistema, as funções atribuídas a dois ou mais elementos do mobiliário, desde que garantidas as funções de cada elemento obrigatório, conforme disposições do Termo de Referência.</p>
+          <p>Portanto, a não apresentação de propostas técnicas dos elementos ou família de elementos relativos a um ou mais grupos, resultará em desclassificação.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">10. Pedido de Esclarecimento feito via Plataforma Digital processado em 09/09/2025:</p>
+          <p><strong>Texto: </strong>Qual a finalidade e onde podemos utilizar esse certificado?</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso enviada por e-mail ao interessado:</p>
+          <p>A finalidade é atestar a participação ou premiação no Concurso, nos termos do item 4.2.9 do Edital. Fica a critério do participante a utilização do certificado para fins variados, atendida a legislação aplicável.</p>
+        </div>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-09-11T12:00:00"),
+    publicado: true
+  },
+  {
     titulo: "Comissão Julgadora ",
     subtitulo: "Resumo Curricular dos Membros",
     conteudo: `
