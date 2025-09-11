@@ -66,7 +66,8 @@ export default async function Informes() {
         <div class="space-y-2 mt-4">
           <p class="font-bold">6.	Pedido de Esclarecimento feito via E-MAIL processado em 09/09/2025:</p>
           <p><strong>Texto: </strong> Estou tentando realizar minha inscrição no formulário disponível no site da Prefeitura de São Paulo, porém não estou conseguindo concluir o preenchimento, pois o campo referente ao logradouro não fica habilitado.</p>
-          <p>Estou tentando realizar minha inscrição no formulário disponível no site da Prefeitura de São Paulo, porém não estou conseguindo concluir o preenchimento, pois o campo referente ao logradouro não fica habilitado.</p>
+          <p>Ao inserir o meu CEP, correspondente ao município de xxxxxx, o sistema reconhece corretamente a cidade e a UF, mas não disponibiliza a opção de digitar o logradouro. Ressalto que em xxxxxxxxx há apenas um CEP geral, válido para todo o município, o que pode estar causando essa dificuldade.</p> 
+          <p>Peço, por gentileza, orientação sobre como proceder para concluir minha inscrição corretamente.</p>
           <p class="font-bold">Resposta da Coordenação do Concurso enviada por e-mail ao interessado:</p>
           <p>Prezado interessado.</p>
           <p>Obrigado por nos alertar sobre esse problema que você encontrou.</p>
