@@ -13,7 +13,7 @@ export default async function Informes() {
       <div class="flex flex-col gap-4 text-justify">
         <p>A Ata nº 01 de Respostas aos pedidos de Esclarecimento da Coordenação do Concurso tratou de pedidos processados desde a abertura e publicação do Edital (25/08/2025) até o dia 05/09/2025 às 12h, que resultou na publicação do 1º Bloco de Respostas aos Pedidos de Esclarecimento no dia 08/09/2025, tanto no Diário Oficial da Cidade de São Paulo, quanto na Plataforma Digital Online do Concurso.</p>
         <p>Assim, a presente ata considera os pedidos de esclarecimento processados entre o dia 05/09/2025 às 12h01 até a presente data (10/09/2025) às 12h. Neste período foram processados 10 (dez) Pedidos de Esclarecimento, sendo 5 (cinco) via Plataforma Digital Online do Concurso e 5 (cinco) recebidos diretamente via e-mail. Do total, 5 (cinco) dos pedidos foram agrupados no Tema “Documentos Necessários para Inscrição”; e 2 (dois) dos pedidos foram agrupados no Tema “Questões Operacionais da Plataforma” pois diziam respeito a questões sobre a utilização da plataforma digital pelos interessados, que foram respondidas diretamente por e-mail por esta Coordenação, respostas estas aqui transcritas.</p>
-        <p class="italic text-red-600">Observação: Tal como feito no Bloco 1 de Respostas aos Pedidos de Esclarecimento, para fins de publicação, as indicações de nomes, assinaturas e autoria dos pedidos (via e-mail ou via Plataforma Digital) foram suprimidos, para preservar o sigilo dos potenciais participantes.</p>
+        <p class="italic">Observação: Tal como feito no Bloco 1 de Respostas aos Pedidos de Esclarecimento, para fins de publicação, as indicações de nomes, assinaturas e autoria dos pedidos (via e-mail ou via Plataforma Digital) foram suprimidos, para preservar o sigilo dos potenciais participantes.</p>
         <p>Relacionamos a seguir os pedidos de esclarecimento, cada qual seguido de resposta redigida por esta Coordenação:</p>
         <p class="font-bold mt-4">TEMA: DOCUMENTOS NECESSÁRIOS PARA INSCRIÇÃO (5 Pedidos de Esclarecimento)</p>
         <div class="space-y-2 mt-4">
@@ -76,7 +76,7 @@ export default async function Informes() {
           <p class="font-bold">8.	Pedido de Esclarecimento feito via Plataforma Digital processado em 09/09/2025:</p>
           <p><strong>Texto: </strong>Como seria a entrega da proposta técnica e estudo preliminar, seria já o projeto? É um prazo bem apertado, gostaria de saber o nível de detalhe a ser entregue.</p>
           <p>Estou tentando realizar minha inscrição no formulário disponível no site da Prefeitura de São Paulo, porém não estou conseguindo concluir o preenchimento, pois o campo referente ao logradouro não fica habilitado.</p>
-          <p class="font-bold">Resposta da Coordenação do Concurso enviada por e-mail ao interessado:</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
           <p>As propostas técnicas deverão ser desenvolvidas conforme prazos e determinações constantes do Edital nº 001/SP-URB/2025 e Termo de Referência. O item 6 "Normas de Apresentação das Propostas" do Termo de Referência orienta o participante quanto ao conteúdo técnico a ser apresentado em cada uma das fases do concurso, sendo tratadas no item 6.1 "Fase 1: Estudo Preliminar", as orientações específicas para a apresentação da proposta técnica em nível de Estudo Preliminar.</p>
         </div>
         <div class="space-y-2 mt-4">
@@ -88,7 +88,7 @@ export default async function Informes() {
             <li>Escolher um grupo e apresentar todos os elementos dentro dele</li>
             <li>Escolher um grupo e apresentar apenas uma família ou elemento dentro dele</li>
           </ol> 
-          <p class="font-bold">Resposta da Coordenação do Concurso enviada por e-mail ao interessado:</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
           <p>Conforme o item 1.3 do Edital nº 001/SP-URB/2025, é obrigatória a apresentação de propostas técnicas em ambas as fases do concurso para os elementos e famílias de elementos dos 3 (três grupos).</p>
           <p>Nos termos do item 7 do Termo de Referência e item 6.3 do Edital, é condição de desclassificação das propostas técnicas pela Comissão Julgadora a não apresentação da totalidade dos elementos exigidos, conforme item 1 do Edital (Do Objeto) e observado o contido no item 1.4, segundo o qual, as propostas poderão apresentar soluções integradas que agrupem, em um único elemento ou sistema, as funções atribuídas a dois ou mais elementos do mobiliário, desde que garantidas as funções de cada elemento obrigatório, conforme disposições do Termo de Referência.</p>
           <p>Portanto, a não apresentação de propostas técnicas dos elementos ou família de elementos relativos a um ou mais grupos, resultará em desclassificação.</p>
@@ -96,7 +96,7 @@ export default async function Informes() {
         <div class="space-y-2 mt-4">
           <p class="font-bold">10. Pedido de Esclarecimento feito via Plataforma Digital processado em 09/09/2025:</p>
           <p><strong>Texto: </strong>Qual a finalidade e onde podemos utilizar esse certificado?</p>
-          <p class="font-bold">Resposta da Coordenação do Concurso enviada por e-mail ao interessado:</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
           <p>A finalidade é atestar a participação ou premiação no Concurso, nos termos do item 4.2.9 do Edital. Fica a critério do participante a utilização do certificado para fins variados, atendida a legislação aplicável.</p>
         </div>
       </div>
