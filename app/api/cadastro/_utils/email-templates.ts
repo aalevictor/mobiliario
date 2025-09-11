@@ -405,6 +405,100 @@ export const templateNotificacao = (nome: string, titulo: string, mensagem: stri
   });
 };
 
+// Template de notificação geral
+export const templateFinalizar = (): string => {
+  return gerarEmailTemplate({
+    nome: "Participante",
+    titulo: "Concurso do Mobiliário Urbano: Finalize sua inscrição!",
+    subtitulo: "Informação importante sobre o concurso",
+    conteudoPrincipal: `
+      <p>Prezado(a) pré-inscrito(a).</p>
+      <br />
+      <p>Agradecemos seu interesse no concurso e esperamos que aproveite essa importante oportunidade de contribuir com novos projetos de Mobiliário Urbano para a Cidade de São Paulo.</p>
+      <p>Assim, reforçamos que para o prosseguimento de sua inscrição, é necessário submeter via Plataforma Online (https://concursomoburb.prefeitura.sp.gov.br/) os documentos necessários para inscrição até o dia 15/09/2025, conforme consta do Cronograma (item 21 do Edital).</p>
+      <p>Caso não apresente os documentos, sua inscrição será indeferida. Caso já tenha apresentado, é possível ainda fazer uma conferência, complementando-os se necessário, até a data informada.</p>
+      <p>Fique atento aos Informes na Plataforma Online e no Diário Oficial da Cidade de São Paulo. Lá você encontra informações importantes sobre o concurso e pode acessar os blocos de resposta aos pedidos de esclarecimento, nos termos do item 7.2 do Edital nº 001/SP-URB/2025. Já foram publicados 2 blocos de respostas aos pedidos de esclarecimento.</p>
+      <p>Portanto, até o dia <strong>15/09/2025</strong> você deverá submeter os documentos necessários para inscrição, conforme item 9.2 do Edital:</p>
+      <p>•	Carta de Declarações Obrigatórias de pessoa física ou pessoa jurídica assinada, conforme item 10 do Edital e ANEXO I ou ANEXO II.</p>
+      <p>•	Declaração de Participação na Equipe, em caso de inscrição em equipe, assinada pelos membros que a constituem, conforme ANEXO III.</p>
+      <p>•	Prova de regularidade fiscal para com a Fazenda Nacional e relativa à Seguridade Social (INSS), que será efetuada mediante apresentação de certidão expedida conjuntamente pela Secretaria da Receita Federal do Brasil (RFB) e pela Procuradoria-Geral da Fazenda Nacional (PGFN), referente a todos os créditos tributários federais e à Dívida Ativa da União (DAU) por elas administrados;</p>
+      <p>•	Prova de regularidade fiscal para com a Fazenda Municipal do domicílio ou sede da interessada expedida pelo órgão competente;</p>
+      <p>•	Cadastro Informativo Municipal de São Paulo - CADIN.</p>
+      <p>•	Comprovação de Registro ou Certidão de inscrição da pessoa física ou pessoa jurídica no Conselho de Arquitetura e Urbanismo - CAU ou no Conselho de Engenharia e Agronomia - CREA da região da sede da empresa.
+      <p>No caso de Pessoa Jurídica, o RESPONSÁVEL TÉCNICO pelo projeto deverá estar vinculado à Pessoa Jurídica como integrante do quadro social, como empregado ou como contratado.</p>
+      <p>De acordo com o item 12.3.1.2.1 do Edital, todos os documentos devem ser submetidos em formato PDF, não podendo ultrapassar 20Mb (vinte megabites) no total, e devem ser nomeados, conforme as NORMAS DE APRESENTAÇÃO DE DOCUMENTOS DE HABILITAÇÃO - Anexo IV do Edital.</p>
+      <p>Depois de submeter a documentação, fique atento ao CRONOGRAMA e aos informes na PLATAFORMA DO CONCURSO, pois divulgaremos a lista dos IDs deferidos e indeferidos, nos termos do item 12.3.1.3 do Edital.</p>
+      <p>Caso seu ID constar como DEFERIDO, você será considerado INSCRITO no concurso e estará apto para submeter sua proposta técnica em nível de Estudo Preliminar.</p>
+      <p>Caso conste como INDEFERIDO, você poderá apresentar um recurso em até 3 dias após a publicação da lista. Neste caso, siga as orientações do item 12.3.1.4 do Edital.</p>
+      <p>A publicação final dos IDs deferidos e indeferidos será no dia 03/10/2025.</p>
+      <p>Observação: nos termos do item 21.2 do Edital, eventuais alterações no cronograma podem acontecer. Caso ocorram serão notificadas na Plataforma Online do Concurso e no Diário Oficial. Fique atento!</p>
+      <p>Acesse aqui a plataforma e submeta sua documentação. </p>
+      <p>Desejamos sucesso em sua jornada!</p>
+      <br />
+      <p>Atenciosamente,</p>
+      <p>Coordenação do Concurso.</p>
+    `,
+    botaoTexto: 'Ver Detalhes',
+    botaoUrl: `${process.env.NEXT_PUBLIC_APP_URL}`
+  });
+};
+
+export const templateDuvidasPadraoPlataforma = () => {
+  return gerarEmailTemplate({
+    nome: "Interessado(a)",
+    titulo: "Concurso do Mobiliário Urbano: Pedidos de Esclarecimento",
+    subtitulo: "Informação importante sobre o concurso",
+    conteudoPrincipal: `
+      <p>Prezado(a) interessado(a).</p>
+      <br />
+      <p>Nos termos do item 7.2 do Edital nº 001/SP-URB/2025, os Pedidos de Esclarecimento são analisados e as respostas são publicadas no Diário Oficial da Cidade de São Paulo e disponibilizadas na Plataforma Digital Online do Concurso em “Informes”.</p>
+      <p>O 1º Bloco de Respostas foi publicado em 08/09/2025 e o 2º Bloco de Respostas foi publicado em 11/09/2025. Caso tenha enviado um pedido de esclarecimento recentemente, fique atento, pois os esclarecimentos logo serão publicados.</p>
+      <p>Nos termos do item 7.2 do Edital, cabe aos participantes acessar a Plataforma Digital Online e acompanhar as publicações no Diário Oficial da Cidade de São Paulo para obtenção das informações prestadas.</p>
+      <br />
+      <p>Desejamos sucesso em sua jornada!</p>
+      <br />
+      <p>Atenciosamente,</p>
+      <p>Coordenação do Concurso.</p>
+    `,
+    botaoTexto: 'Ver Detalhes',
+    botaoUrl: `${process.env.NEXT_PUBLIC_APP_URL}`
+  });
+}
+
+export const templateDuvidasPadraoEmail = () => {
+  return gerarEmailTemplate({
+    nome: "Interessado(a)",
+    titulo: "Concurso do Mobiliário Urbano: Pedidos de Esclarecimento",
+    subtitulo: "Informação importante sobre o concurso",
+    conteudoPrincipal: `
+      <p>Prezado(a) interessado(a).</p>
+      <br />
+      <p>Nos termos do item 7.2 do Edital nº 001/SP-URB/2025, os Pedidos de Esclarecimento são analisados e as respostas são publicadas no Diário Oficial da Cidade de São Paulo e disponibilizadas na Plataforma Digital Online do Concurso em “Informes”.</p>
+      <p>O 1º Bloco de Respostas foi publicado em 08/09/2025 e o 2º Bloco de Respostas foi publicado em 11/09/2025. Caso tenha enviado um pedido de esclarecimento recentemente, fique atento, pois os esclarecimentos logo serão publicados.</p>
+      <p>Nos termos do item 7.2 do Edital, cabe aos participantes acessar a Plataforma Digital Online e acompanhar as publicações no Diário Oficial da Cidade de São Paulo para obtenção das informações prestadas.</p>
+      <br />
+      <p>Desejamos sucesso em sua jornada!</p>
+      <br />
+      <p>Atenciosamente,</p>
+      <p>Coordenação do Concurso.</p>
+    `,
+    botaoTexto: 'Ver Detalhes',
+    botaoUrl: `${process.env.NEXT_PUBLIC_APP_URL}`
+  });
+}
+
+// Template de notificação geral
+export const templateNovo = (nome: string, titulo: string, mensagem: string): string => {
+  return gerarEmailTemplate({
+    nome,
+    titulo,
+    subtitulo: 'Informação importante sobre o concurso',
+    conteudoPrincipal: mensagem,
+    botaoTexto: 'Ver Detalhes',
+    botaoUrl: `${process.env.NEXT_PUBLIC_APP_URL}`
+  });
+};
+
 // Template de lembrete
 export const templateLembrete = (nome: string, evento: string, data: string): string => {
   return gerarEmailTemplate({

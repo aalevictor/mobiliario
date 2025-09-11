@@ -143,6 +143,17 @@ async function criarPreCadastro(
   return preCadastroSaved;
 }
 
+async function emailsParticipantes() {
+  const emailsParticipantes = await db.cadastro.findMany({
+    select: {
+      email: true,
+    }
+  });
+  const emails = [];
+  for (const item of emailsParticipantes) emails.push(item.email);
+  return emails;
+}
+
 async function meuCadastro(id: string) {
   const cadastro = await db.cadastro.findUnique({ 
     where: { usuarioId: id },
@@ -347,4 +358,4 @@ async function buscarCadastroJulgadora(id: number) {
   return cadastro;
 }
 
-export { geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
+export { emailsParticipantes, geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };

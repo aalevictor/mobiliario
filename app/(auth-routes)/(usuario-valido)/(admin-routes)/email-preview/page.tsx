@@ -13,7 +13,10 @@ import {
   templateLembrete, 
   templateBoasVindasParticipante,
   templateNovaDuvidaCoordenacao,
-  gerarEmailTemplate
+  gerarEmailTemplate,
+  templateFinalizar,
+  templateDuvidasPadraoEmail,
+  templateDuvidasPadraoPlataforma
 } from "@/app/api/cadastro/_utils/email-templates";
 import { 
   Mail, 
@@ -75,6 +78,27 @@ export default function EmailPreviewPage() {
       descricao: "Comunicações importantes sobre o concurso",
       icone: Bell,
       template: () => templateNotificacao(previewData.nome, previewData.titulo, previewData.mensagem)
+    },
+    {
+      id: "finalizeInscricao",
+      nome: "Finalizar Inscrição",
+      descricao: "Email para finalizar inscrição de participante",
+      icone: Bell,
+      template: () => templateFinalizar()
+    },
+    {
+      id: "duvidasPadraoEmail",
+      nome: "Dúvidas Padrão Email",
+      descricao: "Email para duvidas padrao email",
+      icone: Bell,
+      template: () => templateDuvidasPadraoEmail()
+    },
+    {
+      id: "duvidasPadraoPlataforma",
+      nome: "Dúvidas Padrão Plataforma",
+      descricao: "Email para dúvidas padrão da plataforma",
+      icone: Bell,
+      template: () => templateDuvidasPadraoPlataforma()
     },
     {
       id: "nova-duvida",

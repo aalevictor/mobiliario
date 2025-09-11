@@ -5,6 +5,18 @@ import { templateNovaDuvidaCoordenacao, templateNovaDuvidaParticipante } from "@
 import { AuditLogger } from "@/lib/audit-logger";
 import { NivelLog } from "@prisma/client";
 
+async function emailsDuvidas() {
+    const emailsDuvidas = await db.duvida.findMany({
+        select: { email: true },
+        distinct: ["email"]
+    })
+    const emails: string[] = [];
+    emailsDuvidas && emailsDuvidas.length > 0 && emailsDuvidas.forEach((item) => {
+        emails.push(item.email);
+    })
+    return emails;
+}
+
 async function criarDuvida(data: { pergunta: string, email: string, nome: string }) {
     const duvida = await db.duvida.create({ data });
     if (!duvida) throw new Error("Erro ao criar duvida");
@@ -149,4 +161,4 @@ async function buscarDuvidasExportacao(): Promise<{ headers: string[], rows: (st
     };
 }
 
-export { criarDuvida, responderDuvida, buscarDuvida, buscarDuvidas, buscarDuvidasExportacao }
+export { emailsDuvidas, criarDuvida, responderDuvida, buscarDuvida, buscarDuvidas, buscarDuvidasExportacao }
