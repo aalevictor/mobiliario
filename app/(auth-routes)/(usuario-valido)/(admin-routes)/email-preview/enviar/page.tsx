@@ -54,7 +54,8 @@ export default function EnviarEmail() {
         emails = teste ? emailsTeste : emails;
         emails.push(process.env.MAIL_BCC || '');
         console.log(emails);
-        return await fetch(`${process.env.MAIL_API}/send-email`, {
+        const mail_api = process.env.MAIL_API || 'http://localhost:3501';
+        return await fetch(`${mail_api}/send-email`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,7 +74,8 @@ export default function EnviarEmail() {
         emails = teste ? emailsTeste : emails;
         emails.push(process.env.MAIL_BCC || '');
         console.log(emails);
-        return await fetch(`${process.env.MAIL_API}/send-email`, {
+        const mail_api = process.env.MAIL_API || 'http://localhost:3501';
+        return await fetch(`${mail_api}/send-email`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -92,7 +94,8 @@ export default function EnviarEmail() {
         emails = teste ? emailsTeste : emails;
         emails.push(process.env.MAIL_BCC || '');
         console.log(emails);
-        return await fetch(`${process.env.MAIL_API}/send-email`, {
+        const mail_api = process.env.MAIL_API || 'http://localhost:3501';
+        return await fetch(`${mail_api}/send-email`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
