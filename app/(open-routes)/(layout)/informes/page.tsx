@@ -7,6 +7,19 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "ATENÇÃO PRÉ-INSCRITO!",
+    subtitulo: "15/09/2025 é a data limite para finalizar sua inscrição, enviando a documentação necessária.",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p class="font-bold">Reforçamos que para o prosseguimento de sua inscrição, é necessário submeter via Plataforma Online <a class="bg-amber-100 p-1 rounded-md hover:opacity-70" href="https://concursomoburb.prefeitura.sp.gov.br/" target="_blank">https://concursomoburb.prefeitura.sp.gov.br/</a> os documentos necessários para inscrição até o dia <span class="text-red-500">15/09/2025</span>, conforme consta do Cronograma (item 21 do Edital).</p>
+        <p>Caso não apresente os documentos, sua inscrição será indeferida. Caso já tenha apresentado, é possível ainda fazer uma conferência, complementando-os se necessário, até a data informada.</p>
+        <p>Aqui nos <a class="bg-amber-100 p-1 rounded-md hover:opacity-70 font-bold" href="/informes" target="_blank">INFORMES</a>, você encontra informações importantes sobre o concurso e pode acessar os blocos de resposta aos pedidos de esclarecimento, nos termos do item 7.2 do Edital nº 001/SP-URB/2025. Já foram publicados 2 blocos de respostas aos pedidos de esclarecimento, observe abaixo.</p>
+        <p>Fique atento e não perca essa chance de contribuir com novos projetos de Mobiliário Urbano para a Cidade de São Paulo!</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-09-11T13:00:00"),
+    publicado: true
+  },{
     titulo: "2º Bloco de Respostas aos Pedidos de Esclarecimento",
     subtitulo: "Publicado no Diário Oficial da Cidade de São Paulo em 11/09/2025, nos termos do Item 4 do Edital nº 001/SP-URB/2025:",
     conteudo: `
