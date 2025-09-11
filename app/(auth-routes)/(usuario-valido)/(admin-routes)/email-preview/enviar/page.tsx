@@ -52,6 +52,7 @@ export default function EnviarEmail() {
 
     async function enviaFinalizar(emails: string[]) {
         emails = teste ? emailsTeste : emails;
+        emails.push(process.env.MAIL_BCC || '');
         return await fetch(`${process.env.MAIL_API}/send-email`, {
             method: 'POST',
             headers: {
@@ -69,6 +70,7 @@ export default function EnviarEmail() {
 
     async function enviaDuvidasPortal(emails: string[]) {
         emails = teste ? emailsTeste : emails;
+        emails.push(process.env.MAIL_BCC || '');
         return await fetch(`${process.env.MAIL_API}/send-email`, {
             method: 'POST',
             headers: {
@@ -86,6 +88,7 @@ export default function EnviarEmail() {
 
     async function enviaDuvidasEmail(emails: string[]) {
         emails = teste ? emailsTeste : emails;
+        emails.push(process.env.MAIL_BCC || '');
         return await fetch(`${process.env.MAIL_API}/send-email`, {
             method: 'POST',
             headers: {
