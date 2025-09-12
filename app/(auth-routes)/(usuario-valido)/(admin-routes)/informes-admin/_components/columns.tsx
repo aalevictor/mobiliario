@@ -22,10 +22,7 @@ export const columns: ColumnDef<Informe>[] = [
 		accessorKey: 'dataPublicacao',
 		header: 'Data de Publicação',
         cell: ({ row }) => {
-            const dataPublicacao = new Date(row.original.dataPublicacao);
-            const agora = new Date();
-            const isAgendado = dataPublicacao > agora && row.original.publicado;
-            
+            const dataPublicacao = new Date(row.original.dataPublicacao);            
             return (
                 <div className='flex items-center justify-center'>
                     <p>{dataPublicacao.toLocaleDateString('pt-BR', {

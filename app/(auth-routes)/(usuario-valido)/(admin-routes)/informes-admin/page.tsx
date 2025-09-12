@@ -8,7 +8,7 @@ import { columns } from './_components/columns';
 import { ArquivoInforme, Usuario, Link as LinkInforme } from '@prisma/client';
 import { retornaPermissao } from '@/services/usuarios';
 import { auth } from '@/auth';
-import { redirect, useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { PlusIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
