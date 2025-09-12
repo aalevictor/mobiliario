@@ -57,7 +57,7 @@ export default function EnviarForm({
         emails = teste ? emailsTeste : emails;
         emails.push(mailBcc);
         console.log(emails);
-        return await fetch(`${mailApi}/send-email`, {
+        return await fetch('/api/mail', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export default function EnviarForm({
         emails = teste ? emailsTeste : emails;
         emails.push(mailBcc);
         console.log(emails);
-        return await fetch(`${mailApi}/send-email`, {
+        return await fetch('/api/mail', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export default function EnviarForm({
         emails = teste ? emailsTeste : emails;
         emails.push(mailBcc);
         console.log(emails);
-        return await fetch(`${mailApi}/send-email`, {
+        return await fetch('/api/mail', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
