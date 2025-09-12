@@ -408,12 +408,10 @@ export const templateNotificacao = (nome: string, titulo: string, mensagem: stri
 // Template de notificação geral
 export const templateFinalizar = (): string => {
   return gerarEmailTemplate({
-    nome: "Participante",
+    nome: "Pré-inscrito(a)",
     titulo: "Concurso do Mobiliário Urbano: Finalize sua inscrição!",
     subtitulo: "Informação importante sobre o concurso",
     conteudoPrincipal: `
-      <p>Prezado(a) pré-inscrito(a).</p>
-      <br />
       <p>Agradecemos seu interesse no concurso e esperamos que aproveite essa importante oportunidade de contribuir com novos projetos de Mobiliário Urbano para a Cidade de São Paulo.</p>
       <p>Assim, reforçamos que para o prosseguimento de sua inscrição, é necessário submeter via Plataforma Online (https://concursomoburb.prefeitura.sp.gov.br/) os documentos necessários para inscrição até o dia 15/09/2025, conforme consta do Cronograma (item 21 do Edital).</p>
       <p>Caso não apresente os documentos, sua inscrição será indeferida. Caso já tenha apresentado, é possível ainda fazer uma conferência, complementando-os se necessário, até a data informada.</p>
@@ -432,7 +430,7 @@ export const templateFinalizar = (): string => {
       <p>Caso conste como INDEFERIDO, você poderá apresentar um recurso em até 3 dias após a publicação da lista. Neste caso, siga as orientações do item 12.3.1.4 do Edital.</p>
       <p>A publicação final dos IDs deferidos e indeferidos será no dia 03/10/2025.</p>
       <p>Observação: nos termos do item 21.2 do Edital, eventuais alterações no cronograma podem acontecer. Caso ocorram serão notificadas na Plataforma Online do Concurso e no Diário Oficial. Fique atento!</p>
-      <p>Acesse aqui a plataforma e submeta sua documentação. </p>
+      <a href="https://concursomoburb.prefeitura.sp.gov.br/">Acesse aqui a plataforma e submeta sua documentação.</a>
       <p>Desejamos sucesso em sua jornada!</p>
       <br />
       <p>Atenciosamente,</p>
@@ -449,8 +447,6 @@ export const templateDuvidasPadraoPlataforma = () => {
     titulo: "Concurso do Mobiliário Urbano: Pedidos de Esclarecimento",
     subtitulo: "Informação importante sobre o concurso",
     conteudoPrincipal: `
-      <p>Prezado(a) interessado(a).</p>
-      <br />
       <p>Nos termos do item 7.2 do Edital nº 001/SP-URB/2025, os Pedidos de Esclarecimento são analisados e as respostas são publicadas no Diário Oficial da Cidade de São Paulo e disponibilizadas na Plataforma Digital Online do Concurso em “Informes”.</p>
       <p>O 1º Bloco de Respostas foi publicado em 08/09/2025 e o 2º Bloco de Respostas foi publicado em 11/09/2025. Caso tenha enviado um pedido de esclarecimento recentemente, fique atento, pois os esclarecimentos logo serão publicados.</p>
       <p>Nos termos do item 7.2 do Edital, cabe aos participantes acessar a Plataforma Digital Online e acompanhar as publicações no Diário Oficial da Cidade de São Paulo para obtenção das informações prestadas.</p>
@@ -471,8 +467,6 @@ export const templateDuvidasPadraoEmail = () => {
     titulo: "Concurso do Mobiliário Urbano: Pedidos de Esclarecimento",
     subtitulo: "Informação importante sobre o concurso",
     conteudoPrincipal: `
-      <p>Prezado(a) interessado(a).</p>
-      <br />
       <p>Nos termos do item 7.2 do Edital nº 001/SP-URB/2025, os Pedidos de Esclarecimento são analisados e as respostas são publicadas no Diário Oficial da Cidade de São Paulo e disponibilizadas na Plataforma Digital Online do Concurso em “Informes”.</p>
       <p>O 1º Bloco de Respostas foi publicado em 08/09/2025 e o 2º Bloco de Respostas foi publicado em 11/09/2025. Caso tenha enviado um pedido de esclarecimento recentemente, fique atento, pois os esclarecimentos logo serão publicados.</p>
       <p>Nos termos do item 7.2 do Edital, cabe aos participantes acessar a Plataforma Digital Online e acompanhar as publicações no Diário Oficial da Cidade de São Paulo para obtenção das informações prestadas.</p>
