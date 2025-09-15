@@ -94,12 +94,12 @@ async function Cadastros({
         <div className="relative h-full container mx-auto px-4 py-6 max-w-8xl space-y-2">
 		    <Card>
 				<CardHeader>
-				<CardTitle className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-					Cadastros
-				</CardTitle>
-				<CardDescription>
-					Visualize, edite e gerencie todos os cadastros
-				</CardDescription>
+                    <CardTitle className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                        Cadastros
+                    </CardTitle>
+                    <CardDescription>
+                        Visualize, edite e gerencie todos os cadastros
+                    </CardDescription>
 				</CardHeader>
 			</Card>
 			<Card>

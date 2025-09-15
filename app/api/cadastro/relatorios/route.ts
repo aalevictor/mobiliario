@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { buscarCadastrosExportacao } from "@/services/cadastros";
 import { NextResponse } from "next/server";
+import * as XLSX from 'xlsx';
 
 export async function GET() {
   const session = await auth();
@@ -13,14 +14,22 @@ export async function GET() {
     return NextResponse.json({ error: "Sem permissão para exportar cadastros" }, { status: 403 });
   }
   const { headers, rows } = await buscarCadastrosExportacao();
-  const csvContent = [
-    headers.join(','),
-    ...rows.map(row => row.join(','))
-  ].join('\n');
-  const filename = `cadastros-${new Date().toISOString().split('T')[0]}.csv`;
-  return new NextResponse(csvContent, {
+  
+  // Criar workbook e worksheet
+  const workbook = XLSX.utils.book_new();
+  const worksheetData = [headers, ...rows];
+  const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+  
+  // Adicionar worksheet ao workbook
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Cadastros');
+  
+  // Gerar buffer do arquivo XLSX
+  const xlsxBuffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+  
+  const filename = `teste-cadastros-${new Date().toISOString().split('T')[0]}.xlsx`;
+  return new NextResponse(xlsxBuffer, {
     headers: {
-      'Content-Type': 'text/csv; charset=utf-8',
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       'Content-Disposition': `attachment; filename="${filename}"`,
     },
   });

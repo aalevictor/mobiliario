@@ -40,7 +40,7 @@ const schema = z.object({
 export default function FormularioInscricao() {
     const router = useRouter();
     const dataAberturaPreCadastro = new Date('2025-08-25 00:00:00');
-    const dataLimitePreCadastro = new Date('2025-09-15 23:59:59.999');
+    const dataLimitePreCadastro = new Date('2025-09-22 23:59:59.999');
     const dataAtual = new Date();
     const podePreCadastrar = dataAtual >= dataAberturaPreCadastro && dataAtual <= dataLimitePreCadastro;
     if (!podePreCadastrar) {

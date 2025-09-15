@@ -6,6 +6,10 @@ import { useState } from "react";
 
 export default function Informacoes() {
   const [value, setValue] = useState<string | undefined>(undefined)
+  
+  const dataAtual = new Date();
+  const prorrogacao = new Date('2025-09-15 08:00:00');
+  const isProrrogado = dataAtual >= prorrogacao;
   return (
     <section className="w-[90%] lg:w-[600px] mx-auto" id="info" role="region" aria-labelledby="info-heading">
         <h2 id="info-heading" className=" text-[#3B2D3A] intersect:motion-preset-slide-up motion-delay-150 text-2xl md:text-3xl font-bold text-center mb-8 uppercase">
@@ -27,7 +31,7 @@ export default function Informacoes() {
             >
                 <AccordionItem
                     value="item-1"
-                    className={`border rounded-lg intersect:motion-preset-slide-up motion-delay-150 ${value === "item-1" ? "bg-white" : ""}`}
+                    className={`border rounded-lg intersect:motion-preset-slide-up motion-delay-150 ${value === "item-1" ? "!bg-white" : ""}`}
                     style={value === "item-1" ? {
                         clipPath:
                         "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
@@ -140,7 +144,7 @@ export default function Informacoes() {
             >
                 <AccordionItem
                     value="item-2"
-                    className={`border rounded-lg intersect:motion-preset-slide-up motion-delay-150 ${value === "item-2" ? "bg-white" : ""}`}
+                    className={`border rounded-lg intersect:motion-preset-slide-up motion-delay-150 ${value === "item-2" ? "!bg-white" : ""}`}
                     style={value === "item-2" ? {
                         clipPath:
                         "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
@@ -163,27 +167,28 @@ export default function Informacoes() {
                     </AccordionTrigger>
                     <AccordionContent className="py-4 px-9">
                         <div role="region" aria-labelledby="cronograma-content">
+                            {isProrrogado && <p className="font-bold text-red-500">Atenção: Confira as novas datas</p>}
                             <p className="text-muted-foreground text-justify mt-2 mb-2">
-                                <strong>25/08/2025:</strong> Publicação do Edital nº 001/SP-URB/2025. 
+                                <strong>25/08/2025:</strong> Publicação do Edital nº 001/SP-URB/2025.
                             </p>
                             <p className="text-muted-foreground text-justify mb-2">
                                 <strong>25/08/2025 a 14/09/2025:</strong> Prazo para pedidos de esclarecimentos. 
                             </p>
                             <p className="text-muted-foreground text-justify mb-2">
-                                <strong>08/09/2025 a 15/09/2025: PERÍODO DE INSCRIÇÕES e submissão da DOCUMENTAÇÃO NECESSÁRIA PARA INSCRIÇÃO</strong>. 
+                                <strong>08/09/2025 a {isProrrogado ? <span className="text-red-500">22/09/2025</span> : '15/09/2025'} PERÍODO DE INSCRIÇÕES e submissão da DOCUMENTAÇÃO NECESSÁRIA PARA INSCRIÇÃO</strong>. 
                             </p>
                             <p className="text-muted-foreground text-justify mb-2">
-                                <strong>23/09/2025:</strong> 1ª Publicação da lista de IDs deferidos e habilitados para participar no concurso. 
+                                <strong>{isProrrogado ? '30/09/2025' : '23/09/2025'}:</strong> 1ª Publicação da lista de IDs deferidos e habilitados para participar no concurso. 
                             </p>
                             <p className="text-muted-foreground text-justify mb-4">
-                                <strong>03/10/2025:</strong> Publicação final da lista de IDs deferidos para submissão das Propostas Técnicas em nível de Estudo Preliminar <strong>(FASE 1)</strong>. 
+                                <strong>{isProrrogado ? '10/10/2025' : '03/10/2025'}:</strong> Publicação final da lista de IDs deferidos para submissão das Propostas Técnicas em nível de Estudo Preliminar <strong>(FASE 1)</strong>. 
                             </p>
                             <p className="text-muted-foreground text-justify font-semibold mb-2">
                                 FASE 1: 
                             </p>
                             <ol className="text-muted-foreground list-disc pl-5 space-y-2 text-justify mb-4">
                                 <li className="text-muted-foreground text-justify">
-                                    <strong>06/10/2025 a 17/10/2025:</strong> Período de submissão das <strong>PROPOSTAS TÉCNICAS </strong> 
+                                    {isProrrogado ? <span className="font-bold text-red-500">13/10/2025 a 27/10/2025:</span> : <strong>06/10/2025 a 17/10/2025:</strong>} Período de submissão das <strong>PROPOSTAS TÉCNICAS </strong> 
                                     em nível de <strong>ESTUDO PRELIMINAR</strong>. 
                                 </li>
                                 <li className="text-muted-foreground text-justify">

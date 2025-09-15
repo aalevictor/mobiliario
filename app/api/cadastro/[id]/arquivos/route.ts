@@ -16,7 +16,7 @@ export async function POST(
         }
 
         const dataAberturaCadastro = new Date('2025-09-08 00:00:00');
-        const dataLimiteCadastro = new Date('2025-09-15 23:59:59.999');
+        const dataLimiteCadastro = new Date('2025-09-22 23:59:59.999');
         const dataAtual = new Date();
         if (dataAtual < dataAberturaCadastro || dataAtual > dataLimiteCadastro) {
             return NextResponse.json({ error: "Não é possível enviar documentos neste momento. O período de envio de documentos está encerrado." }, { status: 400 });

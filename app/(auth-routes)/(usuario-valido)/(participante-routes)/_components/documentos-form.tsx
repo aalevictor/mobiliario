@@ -37,7 +37,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
     // Filtrar apenas documentos específicos
     const documentos = cadastro.arquivos?.filter(arquivo => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA) || []
     const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
-    const dataLimiteDocumento = new Date("2025-09-15 23:59:59.999")
+    const dataLimiteDocumento = new Date("2025-09-22 23:59:59.999")
     const dataAtual = new Date()
     const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
     // Calcular tamanho total dos documentos existentes

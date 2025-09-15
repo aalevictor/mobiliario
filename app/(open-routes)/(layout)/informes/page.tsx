@@ -7,6 +7,92 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "INSCRIÇÕES PRORROGADAS!",
+    subtitulo: "Conforme publicação no Diário Oficial da Cidade de São Paulo (15/09/2025) foram prorrogadas as datas de inscrição e a data limite de submissão das propostas técnicas em nível Estudo Preliminar da Fase 1! Confira as novas datas: ",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p class="font-bold">De 08/09/2025 a <span class="text-red-500">22/09/2025 (nova data)</span>: </p>
+        <p>Período de inscrições e submissão da documentação necessária para inscrição na plataforma digital online do concurso. </p>
+        <p class="italic">Item de referência no Edital: 12.1</p>
+      </div>
+      <div class="flex flex-col gap-4 text-justify">
+        <p class="font-bold">30/09/2025 (nova data): </p>
+        <p>1ª Publicação da lista de IDs deferidos e habilitados para participar no concurso. </p>
+        <p class="italic">Item de referência no Edital: 12.3.1.3 </p>
+      </div>
+      <div class="flex flex-col gap-4 text-justify">
+        <p class="font-bold">10/10/2025 (nova data): </p>
+        <p>Publicação final da lista de IDs deferidos para submissão das Propostas Técnicas em nível de Estudo Preliminar (FASE 1). </p>
+        <p class="italic">Item de referência no Edital: 12.3.1.5 </p>
+      </div>
+      <div class="flex flex-col gap-4 text-justify">
+        <p class="font-bold text-red-500">De 13/10/2025 a 27/10/2025 (nova data): </p>
+        <p class="font-bold">Período de submissão das Propostas Técnicas em nível de Estudo Preliminar (FASE 1). </p>
+        <p class="italic">Item de referência no Edital: 13.1 </p>
+      </div>
+      <div class="flex flex-col gap-4 text-justify">
+        <p class="font-bold">03/11/2025 (nova data): </p>
+        <p>Publicação da lista de IDs deferidos para julgamento das Propostas Técnicas em nível de Estudo Preliminar (FASE 1). </p>
+        <p class="italic">Item de referência no Edital: 13.2 </p>
+      </div>
+      <div class="flex flex-col gap-4 text-justify">
+        <p class="font-bold">De 10/11/2025 (nova data) a 23/11/2025: </p>
+        <p>Período de análise individual das Propostas Técnicas em nível de Estudo Preliminar pelos membros da Comissão Julgadora (FASE 1). </p>
+        <p class="italic">Item de referência no Edital: 14.1 </p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-09-15T08:00:00"),
+    publicado: true
+  },{
+    titulo: "3º Bloco de Respostas aos Pedidos de Esclarecimento ",
+    subtitulo: "Publicado no Diário Oficial da Cidade de São Paulo em 15/09/2025, nos termos do Item 4 do Edital nº 001/SP-URB/2025: ",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>A Ata nº 01 de Respostas aos pedidos de Esclarecimento da Coordenação do Concurso tratou de pedidos processados desde a abertura e publicação do Edital (25/08/2025) até o dia 05/09/2025 às 12h, que resultou na publicação do 1º Bloco de Respostas aos Pedidos de Esclarecimento no dia 08/09/2025, tanto no Diário Oficial da Cidade de São Paulo, quanto na Plataforma Digital Online do Concurso. </p>
+        <p>A Ata nº 02 considerou os pedidos de esclarecimento processados entre o dia 05/09/2025 às 12h01 até a 10/09/2025 às 12h, que resultou na publicação do 2º Bloco de Respostas aos Pedidos de Esclarecimento no dia 11/09/2025, tanto no Diário Oficial da Cidade de São Paulo, quanto na Plataforma Digital Online do Concurso. </p>
+        <p>A presente ata considera, portanto, os pedidos de esclarecimento processados entre o dia 10/09/2025 às 12h01 até 12/09/2025 às 12h. Neste período foram processados 4 (quatro) Pedidos de Esclarecimento recebidos diretamente via e-mail e 1 (um) pedido recebido via Plataforma Digital Online. </p>
+        <p class="italic">Observação: Tal como feito nos Blocos 1 e 2 de Respostas aos Pedidos de Esclarecimento, para fins de publicação, as indicações de nomes, assinaturas e autoria dos pedidos (via e-mail ou via Plataforma Digital) foram suprimidos, para preservar o sigilo dos potenciais participantes.  </p>
+        <p>Relacionamos a seguir os pedidos de esclarecimento, cada qual seguido de resposta redigida por esta Coordenação: </p>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">1. Pedido de Esclarecimento feito via E-MAIL processado em 10/09/2025:</p>
+          <p>No Anexo VI - TERMO DE COMPROMISSO DE EXECUÇÃO DE PROTÓTIPOS E PROJETOS EM NÍVEL BÁSICO, deve ser inserido agora, ou somente após a classificação para FASE 2? O modelo é para ser preenchido apenas com os dados do responsável pela equipe ou deve possuir os dados de todos os participantes?</p>
+          <p>No Anexo VIII -  TERMO DE CESSÃO DE DIREITOS AUTORAIS, deverá ser preenchido sem assinatura mesmo? Deve possuir todos os presentes da equipe ? Inserir agora ou na próxima fase que esse documento deverá ser apresentado?</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso: </p>
+          <p>O Termo de Compromisso de Execução de Protótipos (Modelo - Anexo VI) é exigido somente para os classificados para a Fase 2 do Concurso e deve ser apresentado, nos termos de item 14.4.2.2 do Edital, com a totalidade dos documentos de habilitação em até 2 (dois) dias úteis após a publicação final da lista de pontuação da Fase 1 (item 14.3). O modelo deve ser preenchido apenas com os dados do responsável pelo projeto e representante legal da equipe. </p>
+          <p>Nos termos do item 22.4 do Edital, o Termo de Cessão de Direitos Autorais (Modelo - Anexo VIII) deve ser apresentado pelos participantes vencedores, conhecidos quando da publicação da classificação final, nos termos do item 18.4. Conforme item 22.4.1.1 do Edital, em caso de participação em equipe, a critério dos participantes, poderá ser feito um único Termo com a qualificação e assinatura de todos os Autores e ou um Termo para cada um dos Autores com suas respetivas qualificações e assinaturas. Portanto a apresentação deste documento não deve ser feita no período de inscrições. </p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">2. Pedido de Esclarecimento feito via E-MAIL processado em 10/09/2025 (questão encaminhada em complemento ao questionamento processado e respondido no Bloco 2, item 5). </p>
+          <p>Uma observação, estou me inscrevendo como pessoa Fisica, e esse documento que pelo que eu entendi é de pessoa juridica, mas no edital não está no mesmo local de pessoa juridica, então eu precisaria dele mesmo?</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso: </p>
+          <p>A documentação de regularidade fiscal exigida nos termos do item 9.2 cabe também à Pessoa Física.  </p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">3. Pedido de Esclarecimento feito via E-MAIL processado em 11/09/2025. </p>
+          <p>Referente ao item 8.7 do Edital, atualmente sou residente bolsista do PROGRAMA DE QUALIFICAÇÃO EM POLÍTICAS PÚBLICAS PARA ARQUITETOS E URBANISTAS da parceria entre CAU/SP e Prefeitura de São Paulo, meu contrato é diretamente com o CAU/SP e atuo na equipe de PLANURB da Secretaria Municipal de Urbanismo e Licenciamento (SMUL) como bolsista, nosso contrato terminará por volta do dia 06/10/2025, eu gostaria de saber se posso participar desse concurso? </p>
+          <p class="font-bold">Resposta da Coordenação do Concurso: </p>
+          <p>O caso relatado incide nas hipóteses previstas no item 8.7 do Edital (reproduzido nos modelos de Declarações Obrigatórias – Anexo I e II), estando o interessado impedido de participar do concurso. </p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">4. Pedido de Esclarecimento feito via Plataforma Digital processado em 11/09/2025: </p>
+          <p>O item 1.5 do edital descreve três linhas temáticas para elaboração das propostas. Devemos atender a todas elas ou escolher entre elas? </p>
+          <p class="font-bold">Resposta da Coordenação do Concurso: </p>
+          <p>Nos termos do item 1.3 do Edital nº 001/SP-URB/2025, as propostas deverão contemplar as 3 (três) linhas temáticas. O grau de aderência das propostas à temática será avaliado pela Comissão Julgadora, conforme item 7 do Termo de Referência.  </p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">Pedido de Esclarecimento feito via e-mail processado em 12/09/2025: </p>
+          <p>Li os esclarecimentos anteriores sobre esse tópico, mas, ainda assim, não compreendi totalmente. Gostaria de tirar uma dúvida sobre os grupos de mobiliário que deverão ser abrangidos. A pergunta seria: Todos os elementos e famílias dos 3 grupos deverão ser abrangidos, ou se tratam de sugestões? Isso é, cada grupo ou pessoa participante deverá produzir soluções que contemplem todas as seguintes capacidades: quiosque multiuso, sanitário público, totem multiuso, bebedouro, bancos, papeleiras, paraciclos, totem orientativo, guarda-copos, balizadores, floreira, vaso, elemento de sombreamento verde, tutor para plantas e protetor de raízes? Ou os grupos poderão escolher 1 elemento de cada um dos grupos para ser abrangido dentro do projeto? </p>
+          <p class="font-bold">Resposta da Coordenação do Concurso: </p>
+          <p>Tanto participantes inscritos individualmente quanto em equipe devem apresentar a totalidade dos elementos exigidos, contemplando integralmente os três grupos. Assim, reiteramos a resposta já apresentada na questão 4 do 1º Bloco (08/09/2025) e na questão 9 do 2º Bloco (11/09/2025) de respostas aos Pedidos de Esclarecimento: </p>
+          <p>Conforme o item 1.3 do Edital nº 001/SP-URB/2025, é obrigatória a apresentação de propostas técnicas em ambas as fases do concurso para os elementos e famílias de elementos dos 3 (três grupos), conforme o item 1.3 do Edital nº 001/SP-URB/2025. </p>
+          <p>Nos termos do item 7 do Termo de Referência e item 6.3 do Edital, é condição de desclassificação das propostas técnicas pela Comissão Julgadora a não apresentação da totalidade dos elementos exigidos, conforme item 1 do Edital (Do Objeto) e observado o contido no item 1.4, segundo o qual, as propostas poderão apresentar soluções integradas que agrupem, em um único elemento ou sistema, as funções atribuídas a dois ou mais elementos do mobiliário, desde que garantidas as funções de cada elemento obrigatório, conforme disposições do Termo de Referência. </p>
+          <p>Portanto, a não apresentação de propostas técnicas dos elementos ou família de elementos relativos a um ou mais grupos, resultará em desclassificação. </p>
+        </div>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-09-15T08:00:00"),
+    publicado: true
+  },{
     titulo: "ATENÇÃO PRÉ-INSCRITO!",
     subtitulo: "15/09/2025 é a data limite para finalizar sua inscrição, enviando a documentação necessária.",
     conteudo: `
@@ -240,6 +326,7 @@ export default async function Informes() {
     dataPublicacao: new Date("2025-09-08T11:00:00"),
     publicado: true
   }];
+  const agora = new Date();
   return (
     <div className="relative h-full container mx-auto px-4 py-6 max-w-8xl space-y-6">
       <Card>
@@ -258,7 +345,7 @@ export default async function Informes() {
           className="bg-muted absolute left-2 top-4"
         />
         {informes.map((entry, index) => (
-          <InformeComponent key={index} informe={entry} />
+          entry.publicado && agora >= entry.dataPublicacao && <InformeComponent key={index} informe={entry} />
         ))}
       </div>
     </div>

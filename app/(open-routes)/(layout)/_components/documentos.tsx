@@ -145,10 +145,13 @@ export default function Documentos({ permissao }: { permissao: string }) {
                         PEDIDOS DE ESCLARECIMENTOS
                     </h2>
                     <div className="col-span-2">
-                        <p className="text-[#3B2D3A] mb-4">
+                        {podeEnviarDuvidas ? <p className="text-[#3B2D3A] mb-4">
                             Os interessados podem submeter pedidos de esclarecimento nos termos dos itens <strong>7.1 e 7.2 </strong> 
                             do Edital, <strong>até o dia 14/09/2025</strong>, conforme consta no cronograma.
-                        </p>
+                        </p> : <>
+                            <p className="text-[#3B2D3A] mb-4">Nos termos dos itens 7.1 e 7.2 do Edital, os pedidos de esclarecimento poderiam ser encaminhados até o dia 14/09/2025, conforme consta no cronograma (item 21 do Edital).</p>
+                            <p className="text-[#3B2D3A] mb-4">Na pagina de <strong>INFORMES</strong>, você pode acessar os blocos de respostas aos pedidos de esclarecimento.</p>
+                        </>}
                         {podeEnviarDuvidas ? <ModalPergunta>
                             <Button
                                 size="lg"
