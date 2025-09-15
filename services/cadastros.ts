@@ -278,6 +278,7 @@ async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (
   const cadastros = await db.cadastro.findMany({
     orderBy: { criadoEm: 'asc' },
     select: {
+      criadoEm: true,
       protocolo: true,
       nome: true,
       email: true,
@@ -296,6 +297,7 @@ async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (
   });
 
   const headers = [
+    "Data",
     "ID",
     "Nome",
     "E-mail",
@@ -311,6 +313,7 @@ async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (
   const rows = cadastros.map((cadastro) => {
     const participantes = cadastro.participantes.length > 3 ? cadastro.participantes.slice(0, 3) : cadastro.participantes || [];
     return [
+      `${cadastro.criadoEm.toLocaleDateString()}, ${cadastro.criadoEm.toLocaleTimeString()}`,
       cadastro.protocolo,
       cadastro.nome,
       cadastro.email,
