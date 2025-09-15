@@ -283,6 +283,9 @@ async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (
       email: true,
       carteira_tipo: true,
       carteira_numero: true,
+      cep: true,
+      cidade: true,
+      uf: true,
       participantes: {
         select: {
           nome: true,
@@ -298,12 +301,11 @@ async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (
     "E-mail",
     "CAU/CREA",
     "Equipe",
-    "Membro 1 da Equipe",
-    "CPF Membro 1 da Equipe",
-    "Membro 2 da Equipe",
-    "CPF Membro 2 da Equipe",
-    "Membro 3 da Equipe",
-    "CPF Membro 3 da Equipe"
+    "Número de Membros",
+    "Membros",
+    "CEP",
+    "Cidade",
+    "UF",
   ];
   
   const rows = cadastros.map((cadastro) => {
@@ -314,12 +316,11 @@ async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (
       cadastro.email,
       `${cadastro.carteira_tipo} - ${cadastro.carteira_numero}`,
       participantes.length > 0 ? "Sim" : "Não",
-      participantes[0] ? participantes[0].nome : "",
-      participantes[0] ? participantes[0].documento : "",
-      participantes[1] ? participantes[1].nome : "",
-      participantes[1] ? participantes[1].documento : "",
-      participantes[2] ? participantes[2].nome : "",
-      participantes[2] ? participantes[2].documento : "",
+      `${participantes.length}`,
+      participantes.map((participante) => `${participante.nome} - ${participante.documento}`).join("\n"),
+      cadastro.cep,
+      cadastro.cidade,
+      cadastro.uf,
     ];
   });
 

@@ -80,7 +80,7 @@ export default async function Informes() {
           <p>Nos termos do item 1.3 do Edital nº 001/SP-URB/2025, as propostas deverão contemplar as 3 (três) linhas temáticas. O grau de aderência das propostas à temática será avaliado pela Comissão Julgadora, conforme item 7 do Termo de Referência.  </p>
         </div>
         <div class="space-y-2 mt-4">
-          <p class="font-bold">Pedido de Esclarecimento feito via e-mail processado em 12/09/2025: </p>
+          <p class="font-bold">5. Pedido de Esclarecimento feito via e-mail processado em 12/09/2025: </p>
           <p>Li os esclarecimentos anteriores sobre esse tópico, mas, ainda assim, não compreendi totalmente. Gostaria de tirar uma dúvida sobre os grupos de mobiliário que deverão ser abrangidos. A pergunta seria: Todos os elementos e famílias dos 3 grupos deverão ser abrangidos, ou se tratam de sugestões? Isso é, cada grupo ou pessoa participante deverá produzir soluções que contemplem todas as seguintes capacidades: quiosque multiuso, sanitário público, totem multiuso, bebedouro, bancos, papeleiras, paraciclos, totem orientativo, guarda-copos, balizadores, floreira, vaso, elemento de sombreamento verde, tutor para plantas e protetor de raízes? Ou os grupos poderão escolher 1 elemento de cada um dos grupos para ser abrangido dentro do projeto? </p>
           <p class="font-bold">Resposta da Coordenação do Concurso: </p>
           <p>Tanto participantes inscritos individualmente quanto em equipe devem apresentar a totalidade dos elementos exigidos, contemplando integralmente os três grupos. Assim, reiteramos a resposta já apresentada na questão 4 do 1º Bloco (08/09/2025) e na questão 9 do 2º Bloco (11/09/2025) de respostas aos Pedidos de Esclarecimento: </p>
