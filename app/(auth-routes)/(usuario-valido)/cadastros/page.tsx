@@ -70,7 +70,7 @@ async function Cadastros({
     const permissao: Permissao | null = await retornaPermissao(session.user.id);
     if (!permissao) return redirect('/');
 	let { pagina = 1, limite = 10, total = 0 } = await searchParams;
-	const { busca = '' } = await searchParams;
+	const { busca = '', documentosEnviados, projetosEnviados } = await searchParams;
 	let dados: ICadastro[] = [];
 	try {
         const data = await buscarCadastros(
@@ -78,6 +78,8 @@ async function Cadastros({
             +pagina,
             +limite,
             busca as string,
+            documentosEnviados === 'true' || undefined,
+            projetosEnviados === 'true' || undefined,
         );
         if (data) {
             const paginado = data as IPaginadoCadastro;
@@ -89,6 +91,11 @@ async function Cadastros({
 	} catch (error) {
 		console.error(error);
 	}
+
+    const selectArquivos = [
+        { label: 'Enviou arquivos', value: 'true' },
+        { label: 'Nenhum arquivo enviado', value: 'false' },
+    ]
 
     return (
         <div className="relative h-full container mx-auto px-4 py-6 max-w-8xl space-y-2">
@@ -102,22 +109,34 @@ async function Cadastros({
                     </CardDescription>
 				</CardHeader>
 			</Card>
-			<Card>
+			{["ADMIN", "DEV"].includes(permissao) && <Card>
 				<CardContent className='flex justify-between items-end max-md:flex-col max-md:gap-4'>
-                    {["ADMIN", "DEV"].includes(permissao) && <Filtros
+                    <Filtros
                         camposFiltraveis={[
                             {
                                 nome: 'Busca',
                                 tag: 'busca',
                                 tipo: 0,
                                 placeholder: 'Digite o nome, email ou cnpj',
+                            },{
+                                nome: 'Documentos Enviados',
+                                tag: 'documentosEnviados',
+                                tipo: 2,
+                                placeholder: 'Documentos Enviados',
+                                valores: selectArquivos,
+                            },{
+                                nome: 'Projetos Enviados',
+                                tag: 'projetosEnviados',
+                                tipo: 2,
+                                placeholder: 'Projetos Enviados',
+                                valores: selectArquivos,
                             }
                         ]}
                         className='max-md:w-full'
-                    />}
+                    />
                     <ExportarCadastros />
 				</CardContent>
-		  	</Card>
+		  	</Card>}
 			<Card className='pt-0'>
 				<CardContent className='p-0'>
 					<div className='w-full rounded-lg overflow-hidden mb-4'>

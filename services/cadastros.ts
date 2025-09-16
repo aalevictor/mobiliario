@@ -172,6 +172,8 @@ async function buscarCadastros(
   pagina: number = 1,
   limite: number = 10,
   busca?: string,
+  documentosEnviados?: boolean,
+  projetosEnviados?: boolean,
 ) {
   [pagina, limite] = verificaPagina(pagina, limite);
   const select = ["ADMIN", "DEV"].includes(permissao) ? {
@@ -240,13 +242,17 @@ async function buscarCadastros(
   const total = await db.cadastro.count({ where: searchParams });
   if (total == 0) return { total: 0, pagina: 0, limite: 0, data: [] };
   [pagina, limite] = verificaLimite(pagina, limite, total);
-  const cadastros = await db.cadastro.findMany({
+  let cadastros = await db.cadastro.findMany({
       where: searchParams,
       select,
       orderBy: { criadoEm: 'asc' },
       skip: (pagina - 1) * limite,
       take: limite,
   });
+  if (documentosEnviados)
+    cadastros = cadastros.filter((cadastro) => cadastro.arquivos.some((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA));
+  if (projetosEnviados)
+    cadastros = cadastros.filter((cadastro) => cadastro.arquivos.some((arquivo) => arquivo.tipo === TipoArquivo.PROJETOS));
   return {
       total: +total,
       pagina: +pagina,
