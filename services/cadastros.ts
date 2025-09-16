@@ -287,6 +287,11 @@ async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (
       cep: true,
       cidade: true,
       uf: true,
+      arquivos: {
+        select: {
+          tipo: true,
+        }
+      },
       participantes: {
         select: {
           nome: true,
@@ -305,6 +310,8 @@ async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (
     "Equipe",
     "Número de Membros",
     "Membros",
+    "Documentos enviados",
+    "Projetos enviados",
     "CEP",
     "Cidade",
     "UF",
@@ -312,8 +319,11 @@ async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (
   
   const rows = cadastros.map((cadastro) => {
     const participantes = cadastro.participantes.length > 3 ? cadastro.participantes.slice(0, 3) : cadastro.participantes || [];
+    const arquivos = cadastro.arquivos || [];
+    const arquivosEnviados = arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA).length || 0;
+    const projetosEnviados = arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.PROJETOS).length || 0;
     return [
-      `${cadastro.criadoEm.toLocaleDateString()}, ${cadastro.criadoEm.toLocaleTimeString()}`,
+      `${cadastro.criadoEm}`,
       cadastro.protocolo,
       cadastro.nome,
       cadastro.email,
@@ -321,6 +331,8 @@ async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (
       participantes.length > 0 ? "Sim" : "Não",
       `${participantes.length}`,
       participantes.map((participante) => `${participante.nome} - ${participante.documento}`).join("\n"),
+      `${arquivosEnviados}`,
+      `${projetosEnviados}`,
       cadastro.cep,
       cadastro.cidade,
       cadastro.uf,
