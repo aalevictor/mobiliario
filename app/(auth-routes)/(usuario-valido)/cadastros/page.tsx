@@ -70,7 +70,7 @@ async function Cadastros({
     const permissao: Permissao | null = await retornaPermissao(session.user.id);
     if (!permissao) return redirect('/');
 	let { pagina = 1, limite = 10, total = 0 } = await searchParams;
-	const { busca = '', documentosEnviados, projetosEnviados } = await searchParams;
+	const { busca = '', documentosEnviados = '', projetosEnviados = '' } = await searchParams;
 	let dados: ICadastro[] = [];
 	try {
         const data = await buscarCadastros(
@@ -78,8 +78,8 @@ async function Cadastros({
             +pagina,
             +limite,
             busca as string,
-            documentosEnviados === 'true' || undefined,
-            projetosEnviados === 'true' || undefined,
+            documentosEnviados as string,
+            projetosEnviados as string,
         );
         if (data) {
             const paginado = data as IPaginadoCadastro;

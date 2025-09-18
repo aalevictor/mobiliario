@@ -7,6 +7,75 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "4º Bloco de Respostas aos Pedidos de Esclarecimento ",
+    subtitulo: "Publicado no Diário Oficial da Cidade de São Paulo em 18/09/2025, nos termos do Item 4 do Edital nº 001/SP-URB/2025: ",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>A Ata nº 01 de Respostas aos pedidos de Esclarecimento da Coordenação do Concurso tratou de pedidos processados desde a abertura e publicação do Edital (25/08/2025) até o dia 05/09/2025 às 12h, que resultou na publicação do 1º Bloco de Respostas aos Pedidos de Esclarecimento no dia 08/09/2025, tanto no Diário Oficial da Cidade de São Paulo, quanto na Plataforma Digital Online do Concurso. </p>
+        <p>A Ata nº 02 considerou os pedidos de esclarecimento processados entre o dia 05/09/2025 às 12h01 até a 10/09/2025 às 12h, que resultou na publicação do 2º Bloco de Respostas aos Pedidos de Esclarecimento no dia 11/09/2025, tanto no Diário Oficial da Cidade de São Paulo, quanto na Plataforma Digital Online do Concurso. </p>
+        <p>A Ata nº 03 considerou os pedidos de esclarecimento processados entre o dia 10/09/2025 às 12h01 até 12/09/2025 às 12h. que resultaram na publicação do 3º Bloco de Respostas aos Pedidos de Esclarecimento no dia 15/09/2025, tanto no Diário Oficial da Cidade de São Paulo, quanto na Plataforma Digital Online do Concurso.</p>
+        <p>A Ata nº 04 tratou especificamente da prorrogação dos prazos de inscrições e submissão das propostas técnicas em nível de estudo preliminar. O novo cronograma foi publicado tanto no Diário Oficial da Cidade de São Paulo quanto na Plataforma Digital Online.</p>
+        <p>A presente ata considerou os pedidos de esclarecimento processados entre o dia 12/09/2025 às 12h01 até o dia 14/09/2025 às 23h59, data e horário limite para submissão dos pedidos de esclarecimento nos termos do item 7.1 e 21 do Edital. Assim, o presente bloco de resposta aos pedidos de esclarecimento, constitui o último a ser publicado, em cumprimento às disposições do Edital. No período foram processados 05 (cinco) pedidos via Plataforma Digital e 02 (dois) via e-mail.</p>
+        <p class="italic">Observação: Tal como feito nos Blocos 1, 2 e 3 de Respostas aos Pedidos de Esclarecimento, para fins de publicação, as indicações de nomes, assinaturas e autoria dos pedidos (via e-mail ou via Plataforma Digital) foram suprimidos, para preservar o sigilo dos potenciais participantes.</p>
+        <p>Relacionamos a seguir os pedidos de esclarecimento, cada qual seguido de resposta redigida por esta Coordenação: </p>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">1. Pedido de Esclarecimento feito via PLATAFORMA DIGITAL processado em 12/09/2025:</p>
+          <p>Não tenho a carteira do Cau sempre comprovo com termo de quitação e e Certidão de Registro aqui na minha cidade demora um pouco para fazer sera que existe uma razoabilidade quanto a isso?</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>A Certidão de Registro e Quitação emitida pelo Conselho de Arquitetura e Urbanismo (CAU) é suficiente para a comprovação do devido registro na instituição. Tanto essa comprovação perante o CAU quanto documento equivalente emitido pelo CREA deverão, obrigatoriamente, estar vinculados ao responsável técnico pelo projeto no momento da inscrição. Não será exigida a apresentação desses documentos pelos demais membros da equipe, exceto nos casos em que houver corresponsabilidade técnica pelo projeto, devendo neste caso, cada responsável técnico apresentar a comprovação de registro e regularidade junto ao CAU ou ao CREA.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">2.	Pedido de Esclarecimento feito via PLATAFORMA DIGITAL processado em 12/09/2025:</p>
+          <p>É uma possível uma instituição educacional ser o CNPJ inscrito e ter como responsável de projeto um arquiteto regular no CAU? Para que os alunos e a instituição possam participar</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>Conforme item 8.2 do edital, poderão se inscrever no concurso pessoas física ou jurídica, de nacionalidade brasileira, admitindo-se brasileiros natos ou naturalizados, legalmente formado e em pleno gozo de seus direitos profissionais. A participação poderá ser por equipe, sendo que neste caso, esta poderá ser composta por pessoas físicas e/ou jurídicas, que deverão declarar sua participação por meio da Declaração de Participação na Equipe, vide item 8.3.4, sendo obrigatória a apresentação de um arquiteto e urbanista registrado no Conselho de Arquitetura e Urbanismo – CAU ou um engenheiro registrado no CREA, em pleno gozo de seus direitos profissionais, para ser o RESPONSÁVEL TÉCNICO pelo projeto correspondente à PROPOSTA TÉCNICA (item 8.3.1).</p>
+          <p>Nos termos do item 8.3.2 do edital, no caso de inscrição como Pessoa Jurídica, o RESPONSÁVEL TÉCNICO pelo projeto deverá estar vinculado à Pessoa Jurídica como integrante do quadro social, como empregado ou como contratado, o que deverá ser comprovado através de documentos vigentes na data da inscrição, através da assinatura da Declaração de Vínculo à Pessoa Jurídica.</p>
+          <p>A equipe será representada por um único profissional, definido no ato da inscrição, que responderá por todas as ações necessárias no processo do Concurso, providenciando e assinando a documentação exigida, conforme item 8.3.4.1. Nos termos do item 8.3.4.2, não há exigência quanto à formação acadêmica em relação aos demais membros, mantendo-se a exigência para o RESPONSÁVEL TÉCNICO, enquanto representante legal conforme é explicitado no item 8.2.</p>
+          <p>Por fim, ressalta-se que, de acordo com o item 8.3.4.3 do edital, todos os vínculos e relações criadas no trabalho em equipe são de responsabilidade total e integral do profissional representante, cabendo a este todas as incidências legais, as responsabilidades sobre o trabalho e as relações trabalhistas ou pertinentes à participação no Concurso, não gerando qualquer relação legal com a entidade promotora e organizadora.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">3.	Pedido de Esclarecimento feito via PLATAFORMA DIGITAL processado em 12/09/2025:</p>
+          <p>Olá, gostaria de saber se as assinaturas podem ser feitas pelo sistema gov de assinatura digital.</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>Sim, as assinaturas poderão ser realizadas por meio do sistema de assinatura eletrônica Gov.br.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">4.	Pedido de Esclarecimento feito via PLATAFORMA DIGITAL processado em 12/09/2025:</p>
+          <p>O banco Neon SA é uma insituição permitida neste edital? Utilizei para a PNAB 2024, é uma conta que eu gostaria de usar em mais um edital.</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>O edital não apresenta restrições quanto a instituição bancária a ser utilizada.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">5.	Pedido de Esclarecimento feito via PLATAFORMA DIGITAL processado em 12/09/2025:</p>
+          <p>O concurso é Pessoa Jurídica ou Pessoa Física? Como faz inscrição se na mesmo exige documentos de Pessoa Jurídica?</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>Conforme item 8.2 do edital, poderão se inscrever no concurso pessoas física ou jurídica, de nacionalidade brasileira, admitindo-se brasileiros natos ou naturalizados, legalmente formado e em pleno gozo de seus direitos profissionais. A participação poderá ser individual ou por equipe, sendo, no caso individual, esta sendo representada por uma única pessoa física ou por pessoa jurídica enquadrada como empresa individual, vide item 8.3.3 do edital, e, no caso de participação por equipe, poderá ser composta por pessoas físicas e/ou jurídicas, que deverão declarar sua participação por meio da Declaração de Participação na Equipe, conforme modelo constante no ANEXO III do Edital, vide item 8.3.4.</p>
+          <p>O Concurso estabelece a documentação aplicável tanto para pessoas físicas quanto para pessoas jurídicas e, quando necessário, especifica os documentos que devem ser apresentados em cada caso. A relação da documentação exigida encontra-se no item 9 do edital. Nos termos do item 9.1, a documentação de habilitação deverá ser apresentada em nome da PESSOA FÍSICA ou PESSOA JURÍDICA correspondente ao RESPONSÁVEL TÉCNICO pelos projetos apresentados, com o mesmo número do CPF ou CNPJ e endereço. O item 9.2 apresenta os documentos necessários para a inscrição, abrangendo tanto pessoas físicas quanto jurídicas, enquanto o item 9.3.1 dispõe sobre a documentação exigida especificamente de pessoas físicas para a fase 2 do concurso.</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">6.	Pedido de Esclarecimento (via e-mail) sobre funcionalidade da plataforma processado em 12/09/2025:</p>
+          <p>estamos há três dias tentando realizar a inscrição no concurso em diferentes computadores e navegadores de internet e sempre chegamos nessa mensagem de erro.</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>Você já está na lista de pré-inscritos do concurso, registrado neste mesmo e-mail pelo qual você nos contatou. Você deve ter recebido algum email de comunicação confirmando sua pré-inscrição, no dia em que ela foi efetuada (03/09/2025).
+          Pra acessar a área do pré-inscrito, você precisará utilizar o email cadastrado com a senha de primeiro acesso que foi enviada junto a confirmação, no link abaixo:
+          https://concursomoburb.prefeitura.sp.gov.br/auth/login
+          Caso você não encontre a senha inicial, você também pode fazer a recuperação da sua senha no link abaixo:
+          https://concursomoburb.prefeitura.sp.gov.br/auth/reset
+          </p>
+          <p><strong>Resposta do Interessado (12/09/2025):<strong> conseguimos, desculpe o incomodo</p>
+          <p><strong>Observação da Coordenação:<strong> a questão foi solucionada</p>
+        </div>
+        <div class="space-y-2 mt-4">
+          <p class="font-bold">7.	Pedido de Esclarecimento (via e-mail) sobre funcionalidade da plataforma processado em 14/09/2025:</p>
+          <p>Sou XXXXXXXXX, responsável pela equipe XXXXXXXXXX. Ao subir os documentos no site da forma indicada no edital, em cada arquivo enviado foi automaticamente adicionado um número antes do ID da equipe (exemplo: 123456789-MOB-2025...). Gostaria de chegar se esse é um procedimento padrão do site ou se houve algum bug. Gostaria de ter certeza que a inscrição da minha equipe não foi prejudicada.</p>
+          <p class="font-bold">Resposta da Coordenação do Concurso:</p>
+          <p>O procedimento descrito é padrão do sistema. Os números que aparecem antes do ID do participante (individual ou equipe) são gerados automaticamente pela plataforma e não prejudicam a inscrição.</p>
+        </div>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-09-18T12:30:00"),
+    publicado: true
+  },{
     titulo: "INSCRIÇÕES PRORROGADAS!",
     subtitulo: "Conforme publicação no Diário Oficial da Cidade de São Paulo (15/09/2025) foram prorrogadas as datas de inscrição e a data limite de submissão das propostas técnicas em nível Estudo Preliminar da Fase 1! Confira as novas datas: ",
     conteudo: `

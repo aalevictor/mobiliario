@@ -172,8 +172,8 @@ async function buscarCadastros(
   pagina: number = 1,
   limite: number = 10,
   busca?: string,
-  documentosEnviados?: boolean,
-  projetosEnviados?: boolean,
+  documentosEnviados?: string,
+  projetosEnviados?: string,
 ) {
   [pagina, limite] = verificaPagina(pagina, limite);
   const select = ["ADMIN", "DEV"].includes(permissao) ? {
@@ -229,7 +229,53 @@ async function buscarCadastros(
       }
     }
   }: { id: true };
-  const searchParams = {
+  interface some {
+    tipo?: any;
+  }
+
+  interface none {
+    tipo?: any
+  }
+  interface arquivos {
+    none?: none,
+    some?: some
+  }
+
+  let arquivos: arquivos = {};
+  let AND: { arquivos: arquivos }[] = [];
+
+  if (documentosEnviados === "true" || projetosEnviados === "true") {
+    if (documentosEnviados === "true" && projetosEnviados === "true")
+      arquivos.some = { tipo: TipoArquivo.DOC_ESPECIFICA || TipoArquivo.PROJETOS }
+    else if (documentosEnviados === "true")
+      arquivos.some = { tipo: TipoArquivo.DOC_ESPECIFICA }
+    else if (projetosEnviados === "true")
+      arquivos.some = { tipo: TipoArquivo.PROJETOS }
+  }
+
+  if (documentosEnviados === "false" || projetosEnviados === "false") {
+    if (documentosEnviados === "false" && projetosEnviados === "false")
+      arquivos.none = { tipo: TipoArquivo.DOC_ESPECIFICA || TipoArquivo.PROJETOS }
+    else if (documentosEnviados === "false")
+      arquivos.none = { tipo: TipoArquivo.DOC_ESPECIFICA }
+    else if (projetosEnviados === "false")
+      arquivos.none = { tipo: TipoArquivo.PROJETOS }
+  }
+
+  if (documentosEnviados === "true" && projetosEnviados === "false") {
+    arquivos.some = { tipo: TipoArquivo.DOC_ESPECIFICA }
+    arquivos.none = { tipo: TipoArquivo.PROJETOS }
+  }
+
+  if (documentosEnviados === "false" && projetosEnviados === "true") {
+    arquivos.some = { tipo: TipoArquivo.PROJETOS }
+    arquivos.none = { tipo: TipoArquivo.DOC_ESPECIFICA }
+  }
+
+  if (arquivos.some) AND.push({ arquivos: { some: arquivos.some }});
+  if (arquivos.none) AND.push({ arquivos: { none: arquivos.none }});
+
+  const where: any = {
     ...(busca && {
         OR: [
             { nome: { contains: busca } },
@@ -238,26 +284,23 @@ async function buscarCadastros(
             { cpf: { contains: busca } },
         ],
     }),
-  };
-  const total = await db.cadastro.count({ where: searchParams });
+    ...(AND.length > 0 && { AND }),
+  }
+  const total = await db.cadastro.count({ where });
   if (total == 0) return { total: 0, pagina: 0, limite: 0, data: [] };
   [pagina, limite] = verificaLimite(pagina, limite, total);
   let cadastros = await db.cadastro.findMany({
-      where: searchParams,
-      select,
-      orderBy: { criadoEm: 'asc' },
-      skip: (pagina - 1) * limite,
-      take: limite,
+    where,
+    select,
+    orderBy: { criadoEm: 'asc' },
+    skip: (pagina - 1) * limite,
+    take: limite,
   });
-  if (documentosEnviados)
-    cadastros = cadastros.filter((cadastro) => cadastro.arquivos.some((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA));
-  if (projetosEnviados)
-    cadastros = cadastros.filter((cadastro) => cadastro.arquivos.some((arquivo) => arquivo.tipo === TipoArquivo.PROJETOS));
   return {
-      total: +total,
-      pagina: +pagina,
-      limite: +limite,
-      data: cadastros,
+    total: +total,
+    pagina: +pagina,
+    limite: +limite,
+    data: cadastros,
   };
 }
 
@@ -324,7 +367,7 @@ async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (
   ];
   
   const rows = cadastros.map((cadastro) => {
-    const participantes = cadastro.participantes.length > 3 ? cadastro.participantes.slice(0, 3) : cadastro.participantes || [];
+    const participantes = cadastro.participantes || [];
     const arquivos = cadastro.arquivos || [];
     const arquivosEnviados = arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA).length || 0;
     const projetosEnviados = arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.PROJETOS).length || 0;
