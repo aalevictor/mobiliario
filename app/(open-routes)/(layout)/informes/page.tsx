@@ -62,8 +62,8 @@ export default async function Informes() {
           Caso você não encontre a senha inicial, você também pode fazer a recuperação da sua senha no link abaixo:
           https://concursomoburb.prefeitura.sp.gov.br/auth/reset
           </p>
-          <p><strong>Resposta do Interessado (12/09/2025):<strong> conseguimos, desculpe o incomodo</p>
-          <p><strong>Observação da Coordenação:<strong> a questão foi solucionada</p>
+          <p><strong>Resposta do Interessado (12/09/2025):</strong> conseguimos, desculpe o incomodo</p>
+          <p><strong>Observação da Coordenação:</strong> a questão foi solucionada</p>
         </div>
         <div class="space-y-2 mt-4">
           <p class="font-bold">7.	Pedido de Esclarecimento (via e-mail) sobre funcionalidade da plataforma processado em 14/09/2025:</p>
