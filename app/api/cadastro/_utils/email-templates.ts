@@ -458,7 +458,7 @@ export const templateFinalizarNovo = (): string => {
       <p>•	Prova de regularidade fiscal para com a Fazenda Municipal do domicílio ou sede da interessada expedida pelo órgão competente;</p>
       <p>•	Cadastro Informativo Municipal de São Paulo - CADIN.</p>
       <p>•	Comprovação de Registro ou Certidão de inscrição da pessoa física ou pessoa jurídica no Conselho de Arquitetura e Urbanismo - CAU ou no Conselho de Engenharia e Agronomia - CREA da região da sede da empresa.
-      <p>No caso de Pessoa Jurídica, o RESPONSÁVEL TÉCNICO pelo projeto deverá estar vinculado à Pessoa Jurídica como integrante do quadro social, como empregado ou como contratado, <strong>, devendo-se apresentar a documentação pertinente, conforme item 9.2.6.1 do Edital.</strong></p>
+      <p>No caso de Pessoa Jurídica, o RESPONSÁVEL TÉCNICO pelo projeto deverá estar vinculado à Pessoa Jurídica como integrante do quadro social, como empregado ou como contratado, <strong>devendo-se apresentar a documentação pertinente, conforme item 9.2.6.1 do Edital.</strong></p>
       <p>De acordo com o item 12.3.1.2.1 do Edital, todos os documentos devem ser submetidos em formato PDF, não podendo ultrapassar 20Mb (vinte megabites) no total, e devem ser nomeados, conforme as NORMAS DE APRESENTAÇÃO DE DOCUMENTOS DE HABILITAÇÃO - Anexo IV do Edital.</p>
       <p>Depois de submeter a documentação, fique atento ao CRONOGRAMA e aos informes na PLATAFORMA DO CONCURSO, pois divulgaremos a lista dos IDs deferidos e indeferidos, nos termos do item 12.3.1.3 do Edital.</p>
       <p>Caso seu ID constar como DEFERIDO, você será considerado INSCRITO no concurso e estará apto para submeter sua proposta técnica em nível de Estudo Preliminar.</p>
