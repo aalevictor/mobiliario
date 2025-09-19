@@ -1,6 +1,6 @@
 "use client"
 
-import { templateDuvidasPadraoEmail, templateDuvidasPadraoPlataforma, templateFinalizar } from "@/app/api/cadastro/_utils/email-templates";
+import { templateDuvidasPadraoEmail, templateDuvidasPadraoPlataforma, templateFinalizar, templateFinalizarNovo } from "@/app/api/cadastro/_utils/email-templates";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -46,6 +46,9 @@ export default function EnviarForm({
             case "3":
                 resultado = await enviaDuvidasEmail(emailsDuvidasEmail);
                 break;
+            case "4":
+                resultado = await enviaFinalizarNovo(emailsParticipantes);
+                break;
             default:
                 break;
         }
@@ -68,6 +71,25 @@ export default function EnviarForm({
                 bcc: emails,
                 subject: 'Concurso do Mobiliário Urbano: Finalize sua inscrição!',
                 html: templateFinalizar(),
+            }),
+        });
+    }
+
+    async function enviaFinalizarNovo(emails: string[]) {
+        emails = teste ? emailsTeste : emails;
+        emails.push(mailBcc);
+        console.log(emails);
+        return await fetch('/api/mail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                from: mailFrom,
+                to: '',
+                bcc: emails,
+                subject: 'Concurso do Mobiliário Urbano: Finalize sua inscrição!',
+                html: templateFinalizarNovo(),
             }),
         });
     }
@@ -139,6 +161,7 @@ export default function EnviarForm({
                                 <SelectGroup>
                                     <SelectLabel>Tipo</SelectLabel>
                                     <SelectItem value="1">Finalizar inscrição</SelectItem>
+                                    <SelectItem value="4">Finalizar inscrição Novo</SelectItem>
                                     <SelectItem value="2">Pedido Esclarecimento - Portal</SelectItem>
                                     <SelectItem value="3">Pedido Esclarecimento - Email</SelectItem>
                                 </SelectGroup>

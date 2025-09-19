@@ -8,9 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { 
-  templateConfirmacaoInscricao, 
-  templateNotificacao, 
-  templateLembrete, 
+  templateConfirmacaoInscricao,
+  templateNotificacao,
+  templateLembrete,
   templateBoasVindasParticipante,
   templateNovaDuvidaCoordenacao,
   gerarEmailTemplate,
