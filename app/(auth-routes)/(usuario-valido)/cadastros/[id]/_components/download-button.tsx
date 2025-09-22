@@ -71,6 +71,7 @@ export default function DownloadButton({ cadastroId, arquivoId, nomeArquivo, cla
             onClick={handleDownload}
             disabled={isDownloading}
             className={className}
+            title="Baixar PDF"
         >
             {isDownloading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />

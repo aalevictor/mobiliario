@@ -10,6 +10,7 @@ import { Arquivo, Participante, TipoArquivo } from "@prisma/client";
 import { auth } from "@/auth";
 import { retornaPermissao, verificarPermissoes } from "@/services/usuarios";
 import DownloadButton from "./_components/download-button";
+import ViewModalButton from "./_components/view-modal-button";
 import ViewButton from "./_components/view-button";
 
 
@@ -178,6 +179,12 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                                                         nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
                                                         className="cursor-pointer"
                                                     />
+                                                    <ViewModalButton
+                                                        cadastroId={cadastro.id!}
+                                                        arquivoId={arquivo.id}
+                                                        nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
+                                                        className="cursor-pointer"
+                                                    />
                                                     <DownloadButton
                                                         cadastroId={cadastro.id!}
                                                         arquivoId={arquivo.id}
@@ -231,6 +238,12 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                                             {podeDownload && arquivo.id && (
                                                 <div className="flex gap-2">
                                                     <ViewButton
+                                                        cadastroId={cadastro.id!}
+                                                        arquivoId={arquivo.id}
+                                                        nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
+                                                        className="cursor-pointer"
+                                                    />
+                                                    <ViewModalButton
                                                         cadastroId={cadastro.id!}
                                                         arquivoId={arquivo.id}
                                                         nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
@@ -308,6 +321,12 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                                     {podeDownload && arquivo.id && (
                                         <div className="flex gap-2">
                                             <ViewButton
+                                                cadastroId={+id}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
+                                                className="cursor-pointer"
+                                            />
+                                            <ViewModalButton
                                                 cadastroId={+id}
                                                 arquivoId={arquivo.id}
                                                 nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}

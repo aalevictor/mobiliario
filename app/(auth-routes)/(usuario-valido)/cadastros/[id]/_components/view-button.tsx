@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Eye, Loader2 } from "lucide-react"
+import { Eye, Loader2, ViewIcon } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 
@@ -82,11 +82,12 @@ export default function ViewButton({ cadastroId, arquivoId, nomeArquivo, classNa
             onClick={handleView}
             disabled={isLoading}
             className={className}
+            title="Visualizar PDF em nova aba"
         >
             {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-                <Eye className="h-4 w-4" />
+                <ViewIcon className="h-4 w-4" />
             )}
         </Button>
     )
