@@ -323,9 +323,66 @@ async function atualizarAvaliacaoLicitadora(id: string, avaliadorId: string, dat
   return avaliacao_licitadora;
 }
 
-async function buscarCadastrosExportacao(): Promise<{ headers: string[], rows: (string | null)[][] }> {
+async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEnviados }: { busca?: string, documentosEnviados?: string, projetosEnviados?: string }): Promise<{ headers: string[], rows: (string | null)[][] }> {
+  interface some {
+    tipo?: any;
+  }
+
+  interface none {
+    tipo?: any
+  }
+  interface arquivos {
+    none?: none,
+    some?: some
+  }
+  let arquivos: arquivos = {};
+  let AND: { arquivos: arquivos }[] = [];
+
+  if (documentosEnviados === "true" || projetosEnviados === "true") {
+    if (documentosEnviados === "true" && projetosEnviados === "true")
+      arquivos.some = { tipo: TipoArquivo.DOC_ESPECIFICA || TipoArquivo.PROJETOS }
+    else if (documentosEnviados === "true")
+      arquivos.some = { tipo: TipoArquivo.DOC_ESPECIFICA }
+    else if (projetosEnviados === "true")
+      arquivos.some = { tipo: TipoArquivo.PROJETOS }
+  }
+
+  if (documentosEnviados === "false" || projetosEnviados === "false") {
+    if (documentosEnviados === "false" && projetosEnviados === "false")
+      arquivos.none = { tipo: TipoArquivo.DOC_ESPECIFICA || TipoArquivo.PROJETOS }
+    else if (documentosEnviados === "false")
+      arquivos.none = { tipo: TipoArquivo.DOC_ESPECIFICA }
+    else if (projetosEnviados === "false")
+      arquivos.none = { tipo: TipoArquivo.PROJETOS }
+  }
+
+  if (documentosEnviados === "true" && projetosEnviados === "false") {
+    arquivos.some = { tipo: TipoArquivo.DOC_ESPECIFICA }
+    arquivos.none = { tipo: TipoArquivo.PROJETOS }
+  }
+
+  if (documentosEnviados === "false" && projetosEnviados === "true") {
+    arquivos.some = { tipo: TipoArquivo.PROJETOS }
+    arquivos.none = { tipo: TipoArquivo.DOC_ESPECIFICA }
+  }
+
+  if (arquivos.some) AND.push({ arquivos: { some: arquivos.some }});
+  if (arquivos.none) AND.push({ arquivos: { none: arquivos.none }});
+
+  const where: any = {
+    ...(busca && {
+        OR: [
+            { nome: { contains: busca } },
+            { email: { contains: busca } },
+            { cnpj: { contains: busca } },
+            { cpf: { contains: busca } },
+        ],
+    }),
+    ...(AND.length > 0 && { AND }),
+  }
   const cadastros = await db.cadastro.findMany({
     orderBy: { criadoEm: 'asc' },
+    where,
     select: {
       criadoEm: true,
       protocolo: true,

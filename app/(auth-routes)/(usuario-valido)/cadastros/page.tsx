@@ -134,7 +134,11 @@ async function Cadastros({
                         ]}
                         className='max-md:w-full'
                     />
-                    <ExportarCadastros />
+                    <ExportarCadastros filtros={{
+                        busca: busca as string,
+                        documentosEnviados: documentosEnviados as string,
+                        projetosEnviados: projetosEnviados as string,
+                    }} />
 				</CardContent>
 		  	</Card>}
 			<Card className='pt-0'>

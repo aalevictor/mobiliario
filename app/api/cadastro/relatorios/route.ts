@@ -1,19 +1,23 @@
 import { auth } from "@/auth";
 import { buscarCadastrosExportacao } from "@/services/cadastros";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import * as XLSX from 'xlsx';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const session = await auth();
   if (!session) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   }
+  const { searchParams } = new URL(request.url);
+  const busca = searchParams.get('busca') || '';
+  const documentosEnviados = searchParams.get('documentosEnviados') || '';
+  const projetosEnviados = searchParams.get('projetosEnviados') || '';
   const { verificarPermissoes } = await import('@/services/usuarios');
   const isAdmin = await verificarPermissoes(session.user.id, ["DEV", "ADMIN"]);
   if (!isAdmin) {
     return NextResponse.json({ error: "Sem permissão para exportar cadastros" }, { status: 403 });
   }
-  const { headers, rows } = await buscarCadastrosExportacao();
+  const { headers, rows } = await buscarCadastrosExportacao({ busca, documentosEnviados, projetosEnviados });
   
   // Criar workbook e worksheet
   const workbook = XLSX.utils.book_new();

@@ -4,11 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Download, Loader2 } from "lucide-react";
 import { useTransition } from "react";
 
-export default function ExportarCadastros() {
+export interface IFiltrosCadastro {
+    busca?: string;
+    documentosEnviados?: string;
+    projetosEnviados?: string;
+}
+export default function ExportarCadastros({ filtros }: { filtros?: IFiltrosCadastro }) {
     const [isPending, startTransition] = useTransition();
     const handleExportar = async () => {
         startTransition(async () => {
-            const response = await fetch('/api/cadastro/relatorios');
+            const response = await fetch(`/api/cadastro/relatorios?busca=${filtros?.busca}&documentosEnviados=${filtros?.documentosEnviados}&projetosEnviados=${filtros?.projetosEnviados}`);
             if (!response.ok) throw new Error('Erro ao exportar cadastros');
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
