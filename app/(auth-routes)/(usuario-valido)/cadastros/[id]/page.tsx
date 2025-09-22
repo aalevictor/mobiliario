@@ -10,6 +10,7 @@ import { Arquivo, Participante, TipoArquivo } from "@prisma/client";
 import { auth } from "@/auth";
 import { retornaPermissao, verificarPermissoes } from "@/services/usuarios";
 import DownloadButton from "./_components/download-button";
+import ViewButton from "./_components/view-button";
 
 
 async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string }) {
@@ -170,12 +171,20 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                                                 </div>
                                             </div>
                                             {podeDownload && arquivo.id && (
-                                                <DownloadButton
-                                                    cadastroId={cadastro.id!}
-                                                    arquivoId={arquivo.id}
-                                                    nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
-                                                    className="cursor-pointer"
-                                                />
+                                                <div className="flex gap-2">
+                                                    <ViewButton
+                                                        cadastroId={cadastro.id!}
+                                                        arquivoId={arquivo.id}
+                                                        nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
+                                                        className="cursor-pointer"
+                                                    />
+                                                    <DownloadButton
+                                                        cadastroId={cadastro.id!}
+                                                        arquivoId={arquivo.id}
+                                                        nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
+                                                        className="cursor-pointer"
+                                                    />
+                                                </div>
                                             )}
                                         </div>
                                     ))}
@@ -220,12 +229,20 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                                                 </div>
                                             </div>
                                             {podeDownload && arquivo.id && (
-                                                <DownloadButton
-                                                    cadastroId={cadastro.id!}
-                                                    arquivoId={arquivo.id}
-                                                    nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
-                                                    className="cursor-pointer"
-                                                />
+                                                <div className="flex gap-2">
+                                                    <ViewButton
+                                                        cadastroId={cadastro.id!}
+                                                        arquivoId={arquivo.id}
+                                                        nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
+                                                        className="cursor-pointer"
+                                                    />
+                                                    <DownloadButton
+                                                        cadastroId={cadastro.id!}
+                                                        arquivoId={arquivo.id}
+                                                        nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
+                                                        className="cursor-pointer"
+                                                    />
+                                                </div>
                                             )}
                                         </div>
                                     ))}
@@ -289,12 +306,20 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                                         </div>
                                     </div>
                                     {podeDownload && arquivo.id && (
-                                        <DownloadButton
-                                            cadastroId={+id}
-                                            arquivoId={arquivo.id}
-                                            nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
-                                            className="cursor-pointer"
-                                        />
+                                        <div className="flex gap-2">
+                                            <ViewButton
+                                                cadastroId={+id}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
+                                                className="cursor-pointer"
+                                            />
+                                            <DownloadButton
+                                                cadastroId={+id}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
+                                                className="cursor-pointer"
+                                            />
+                                        </div>
                                     )}
                                 </div>
                             ))}
