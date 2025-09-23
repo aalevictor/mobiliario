@@ -14,6 +14,10 @@ import { retornaPermissao, verificarPermissoes } from '@/services/usuarios';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Separator } from '@radix-ui/react-select';
 import ExportarCadastros from './_components/exportar-cadastros';
+import ExportarParticipantes from './_components/exportar-participantes';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { MoreHorizontal } from 'lucide-react';
 export default async function CadastrosSuspense({
 	searchParams,
 }: {
@@ -146,12 +150,27 @@ async function Cadastros({
                         ]}
                         className='max-md:w-full'
                     />
-                    <ExportarCadastros filtros={{
-                        busca: busca as string,
-                        documentosEnviados: documentosEnviados as string,
-                        projetosEnviados: projetosEnviados as string,
-                        tipoInscricao: tipoInscricao as string,
-                    }} />
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button>
+                                <MoreHorizontal className='w-4 h-4' />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <ExportarParticipantes filtros={{
+                                busca: busca as string,
+                                documentosEnviados: documentosEnviados as string,
+                                projetosEnviados: projetosEnviados as string,
+                                tipoInscricao: tipoInscricao as string,
+                            }} />
+                            <ExportarCadastros filtros={{
+                                busca: busca as string,
+                                documentosEnviados: documentosEnviados as string,
+                                projetosEnviados: projetosEnviados as string,
+                                tipoInscricao: tipoInscricao as string,
+                            }} />
+                        </DropdownMenuContent>
+                    </DropdownMenu>
 				</CardContent>
 		  	</Card>}
 			<Card className='pt-0'>

@@ -10,17 +10,17 @@ export interface IFiltrosCadastro {
     projetosEnviados?: string;
     tipoInscricao?: string;
 }
-export default function ExportarCadastros({ filtros }: { filtros?: IFiltrosCadastro }) {
+export default function ExportarParticipantes({ filtros }: { filtros?: IFiltrosCadastro }) {
     const [isPending, startTransition] = useTransition();
     const handleExportar = async () => {
         startTransition(async () => {
-            const response = await fetch(`/api/cadastro/relatorios?busca=${filtros?.busca}&documentosEnviados=${filtros?.documentosEnviados}&projetosEnviados=${filtros?.projetosEnviados}&tipoInscricao=${filtros?.tipoInscricao}`);
-            if (!response.ok) throw new Error('Erro ao exportar cadastros');
+            const response = await fetch(`/api/cadastro/relatorios-participantes?busca=${filtros?.busca}&documentosEnviados=${filtros?.documentosEnviados}&projetosEnviados=${filtros?.projetosEnviados}&tipoInscricao=${filtros?.tipoInscricao}`);
+            if (!response.ok) throw new Error('Erro ao exportar participantes');
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `cadastros-${new Date().toISOString().split('T')[0]}.xlsx`;
+            a.download = `cadastros-participantes-${new Date().toISOString().split('T')[0]}.xlsx`;
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
@@ -31,7 +31,7 @@ export default function ExportarCadastros({ filtros }: { filtros?: IFiltrosCadas
     return (
         <DropdownMenuItem className='hover:opacity-80' onClick={handleExportar} disabled={isPending}>
             <Download className='w-4 h-4' />
-            {isPending ? <Loader2 className='w-4 h-4 animate-spin' /> : 'Exportar Cadastros'}
+            {isPending ? <Loader2 className='w-4 h-4 animate-spin' /> : 'Exportar Participantes'}
         </DropdownMenuItem>
     )
 }

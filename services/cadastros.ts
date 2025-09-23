@@ -469,6 +469,126 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
   return { headers, rows };
 }
 
+async function buscarParticipantesExportacao({ busca, documentosEnviados, projetosEnviados, tipoInscricao }: { busca?: string, documentosEnviados?: string, projetosEnviados?: string, tipoInscricao?: string }): Promise<{ headers: string[], rows: (string | null | undefined)[][] }> {
+  interface some {
+    tipo?: any;
+  }
+
+  interface none {
+    tipo?: any
+  }
+  interface arquivos {
+    none?: none,
+    some?: some
+  }
+  let arquivos: arquivos = {};
+  let AND: any[] = [];
+
+  if (documentosEnviados === "true" || projetosEnviados === "true") {
+    if (documentosEnviados === "true" && projetosEnviados === "true")
+      arquivos.some = { tipo: TipoArquivo.DOC_ESPECIFICA || TipoArquivo.PROJETOS }
+    else if (documentosEnviados === "true")
+      arquivos.some = { tipo: TipoArquivo.DOC_ESPECIFICA }
+    else if (projetosEnviados === "true")
+      arquivos.some = { tipo: TipoArquivo.PROJETOS }
+  }
+
+  if (documentosEnviados === "false" || projetosEnviados === "false") {
+    if (documentosEnviados === "false" && projetosEnviados === "false")
+      arquivos.none = { tipo: TipoArquivo.DOC_ESPECIFICA || TipoArquivo.PROJETOS }
+    else if (documentosEnviados === "false")
+      arquivos.none = { tipo: TipoArquivo.DOC_ESPECIFICA }
+    else if (projetosEnviados === "false")
+      arquivos.none = { tipo: TipoArquivo.PROJETOS }
+  }
+
+  if (documentosEnviados === "true" && projetosEnviados === "false") {
+    arquivos.some = { tipo: TipoArquivo.DOC_ESPECIFICA }
+    arquivos.none = { tipo: TipoArquivo.PROJETOS }
+  }
+
+  if (documentosEnviados === "false" && projetosEnviados === "true") {
+    arquivos.some = { tipo: TipoArquivo.PROJETOS }
+    arquivos.none = { tipo: TipoArquivo.DOC_ESPECIFICA }
+  }
+
+  if (arquivos.some) AND.push({ arquivos: { some: arquivos.some }});
+  if (arquivos.none) AND.push({ arquivos: { none: arquivos.none }});
+
+  const where: any = {
+    ...(busca && {
+        OR: [
+            { nome: { contains: busca } },
+            { email: { contains: busca } },
+            { cnpj: { contains: busca } },
+            { cpf: { contains: busca } },
+        ],
+    }),
+    ...(AND.length > 0 && { AND }),
+    ...(tipoInscricao === "PJ" && { cnpj: { not: null } }),
+    ...(tipoInscricao === "PJ" && { cnpj: { not: "" } }),
+    ...(tipoInscricao === "PF" && { 
+      OR: [
+        { cnpj: null },
+        { cnpj: "" }
+      ]
+    }),
+  }
+
+  const cadastros = await db.cadastro.findMany({
+    orderBy: { criadoEm: 'asc' },
+    where,
+    select: {
+      criadoEm: true,
+      protocolo: true,
+      nome: true,
+      cpf: true,
+      participantes: {
+        select: {
+          nome: true,
+          documento: true,
+        }
+      }
+    }
+  });
+
+  const headers = [
+    "Data",
+    "ID",
+    "Nome Principal",
+    "CPF Principal",
+    "Nome Participante",
+    "CPF Participante",
+  ];
+  
+  const rows: (string | null)[][] = [];
+  cadastros.map((cadastro) => {
+    if (cadastro.participantes && cadastro.participantes.length > 0) {
+      cadastro.participantes.map(participante => {
+        rows.push([
+          `${cadastro.criadoEm}`,
+          cadastro.protocolo,
+          cadastro.nome,
+          cadastro.cpf,
+          `${participante.nome}`,
+          `${participante.documento}`,
+        ]);
+      });
+    } else {
+      rows.push([
+        `${cadastro.criadoEm}`,
+        cadastro.protocolo,
+        cadastro.nome,
+        cadastro.cpf,
+        "-",
+        "-",
+      ]);
+    }
+  });
+
+  return { headers, rows };
+}
+
 async function buscarCadastro(id: number) {
   const cadastro = await db.cadastro.findUnique({
     where: { id },
@@ -501,4 +621,4 @@ async function buscarCadastroJulgadora(id: number) {
   return cadastro;
 }
 
-export { emailsParticipantes, geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
+export { buscarParticipantesExportacao, emailsParticipantes, geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
