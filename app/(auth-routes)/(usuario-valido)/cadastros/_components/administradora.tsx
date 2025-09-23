@@ -33,20 +33,20 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 	},
 	{
 		accessorKey: 'id',
-		header: 'ID sequencial',
+		header: '#',
 	},
 	{
 		accessorKey: 'protocolo',
-		header: 'Protocolo',
+		header: 'ID',
 	},
 	{
 		accessorKey: 'nome',
 		header: 'Nome',
 	},
-	{
-		accessorKey: 'email',
-		header: 'E-mail',
-	},
+	// {
+	// 	accessorKey: 'email',
+	// 	header: 'E-mail',
+	// },
 	{
 		accessorKey: 'carteira',
 		header: 'Carteira',
@@ -54,13 +54,13 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 			return `${row.original.carteira_tipo} - ${row.original.carteira_numero}`;
 		},
 	},
-	{
-		accessorKey: 'equipe',
-		header: 'Equipe',
-		cell: ({ row }) => {
-			return row.original.participantes?.length && row.original.participantes?.length > 0 ? 'Sim' : 'Não';
-		},	
-	},
+	// {
+	// 	accessorKey: 'equipe',
+	// 	header: 'Equipe',
+	// 	cell: ({ row }) => {
+	// 		return row.original.participantes?.length && row.original.participantes?.length > 0 ? 'Sim' : 'Não';
+	// 	},	
+	// },
 	{
 		accessorKey: 'participantes',
 		header: () => <p className='text-center'>Participantes</p>,
