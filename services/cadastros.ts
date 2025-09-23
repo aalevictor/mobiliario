@@ -402,6 +402,7 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
     orderBy: { criadoEm: 'asc' },
     where,
     select: {
+      id: true,
       criadoEm: true,
       protocolo: true,
       nome: true,
@@ -427,6 +428,7 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
 
   const headers = [
     "Data",
+    "ID sequencial",
     "ID",
     "Nome",
     "E-mail",
@@ -448,6 +450,7 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
     const projetosEnviados = arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.PROJETOS).length || 0;
     return [
       `${cadastro.criadoEm}`,
+      `${cadastro.id}`,
       cadastro.protocolo,
       cadastro.nome,
       cadastro.email,

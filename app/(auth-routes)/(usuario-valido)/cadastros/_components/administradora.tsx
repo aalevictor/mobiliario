@@ -11,12 +11,29 @@ import Link from 'next/link';
 
 export const administradoraColumns: ColumnDef<ICadastro>[] = [
 	{
+		accessorKey: 'acoes',
+		header: "",
+		cell: ({ row }) => {
+			return (
+				<div className='flex items-center justify-end gap-2'>
+					<Link href={`/cadastros/${row.original.id}`}>
+						<Button size='sm' variant='outline' className='cursor-pointer'>Ver dados</Button>
+					</Link>
+				</div>
+			);
+		},
+	},
+	{
 		accessorKey: 'data_inscricao',
 		header: 'Data de inscrição',
 		cell: ({ row }) => {
 			console.log(row.original.criadoEm);
 			return row.original.criadoEm ? `${new Date(row.original.criadoEm).toLocaleDateString('pt-BR')}, ${new Date(row.original.criadoEm).toLocaleTimeString('pt-BR')}` : 'N/A';
 		},
+	},
+	{
+		accessorKey: 'id',
+		header: 'ID sequencial',
 	},
 	{
 		accessorKey: 'protocolo',
@@ -85,19 +102,6 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 					<Badge variant='default'>
 						{projetos_length > 0 ? projetos_length : 'Nenhum'} arquivo{projetos_length > 1 ? 's' : ''}
 					</Badge>
-				</div>
-			);
-		},
-	},
-	{
-		accessorKey: 'acoes',
-		header: "",
-		cell: ({ row }) => {
-			return (
-				<div className='flex items-center justify-end gap-2'>
-					<Link href={`/cadastros/${row.original.id}`}>
-						<Button size='sm' variant='outline' className='cursor-pointer'>Ver dados</Button>
-					</Link>
 				</div>
 			);
 		},
