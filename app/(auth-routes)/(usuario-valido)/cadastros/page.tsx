@@ -70,7 +70,7 @@ async function Cadastros({
     const permissao: Permissao | null = await retornaPermissao(session.user.id);
     if (!permissao) return redirect('/');
 	let { pagina = 1, limite = 10, total = 0 } = await searchParams;
-	const { busca = '', documentosEnviados = '', projetosEnviados = '' } = await searchParams;
+	const { busca = '', documentosEnviados = '', projetosEnviados = '', tipoInscricao = '' } = await searchParams;
 	let dados: ICadastro[] = [];
 	try {
         const data = await buscarCadastros(
@@ -80,6 +80,7 @@ async function Cadastros({
             busca as string,
             documentosEnviados as string,
             projetosEnviados as string,
+            tipoInscricao as string,
         );
         if (data) {
             const paginado = data as IPaginadoCadastro;
@@ -95,6 +96,11 @@ async function Cadastros({
     const selectArquivos = [
         { label: 'Enviou arquivos', value: 'true' },
         { label: 'Nenhum arquivo enviado', value: 'false' },
+    ]
+
+    const selectTipoInscricao = [
+        { label: 'Pessoa Física', value: 'PF' },
+        { label: 'Pessoa Jurídica', value: 'PJ' },
     ]
 
     return (
@@ -130,7 +136,13 @@ async function Cadastros({
                                 tipo: 2,
                                 placeholder: 'Projetos Enviados',
                                 valores: selectArquivos,
-                            }
+                            },{
+                                nome: 'Tipo de Inscrição',
+                                tag: 'tipoInscricao',
+                                tipo: 2,
+                                placeholder: 'Tipo de Inscrição',
+                                valores: selectTipoInscricao,
+                            },
                         ]}
                         className='max-md:w-full'
                     />
@@ -138,6 +150,7 @@ async function Cadastros({
                         busca: busca as string,
                         documentosEnviados: documentosEnviados as string,
                         projetosEnviados: projetosEnviados as string,
+                        tipoInscricao: tipoInscricao as string,
                     }} />
 				</CardContent>
 		  	</Card>}

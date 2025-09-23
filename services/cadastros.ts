@@ -174,6 +174,7 @@ async function buscarCadastros(
   busca?: string,
   documentosEnviados?: string,
   projetosEnviados?: string,
+  tipoInscricao?: string,
 ) {
   [pagina, limite] = verificaPagina(pagina, limite);
   const select = ["ADMIN", "DEV"].includes(permissao) ? {
@@ -242,7 +243,7 @@ async function buscarCadastros(
   }
 
   let arquivos: arquivos = {};
-  let AND: { arquivos: arquivos }[] = [];
+  let AND: any[] = [];
 
   if (documentosEnviados === "true" || projetosEnviados === "true") {
     if (documentosEnviados === "true" && projetosEnviados === "true")
@@ -274,7 +275,8 @@ async function buscarCadastros(
 
   if (arquivos.some) AND.push({ arquivos: { some: arquivos.some }});
   if (arquivos.none) AND.push({ arquivos: { none: arquivos.none }});
-
+  console.log(tipoInscricao);
+  
   const where: any = {
     ...(busca && {
         OR: [
@@ -285,6 +287,14 @@ async function buscarCadastros(
         ],
     }),
     ...(AND.length > 0 && { AND }),
+    ...(tipoInscricao === "PJ" && { cnpj: { not: null } }),
+    ...(tipoInscricao === "PJ" && { cnpj: { not: "" } }),
+    ...(tipoInscricao === "PF" && { 
+      OR: [
+        { cnpj: null },
+        { cnpj: "" }
+      ]
+    }),
   }
   const total = await db.cadastro.count({ where });
   if (total == 0) return { total: 0, pagina: 0, limite: 0, data: [] };
@@ -323,7 +333,7 @@ async function atualizarAvaliacaoLicitadora(id: string, avaliadorId: string, dat
   return avaliacao_licitadora;
 }
 
-async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEnviados }: { busca?: string, documentosEnviados?: string, projetosEnviados?: string }): Promise<{ headers: string[], rows: (string | null)[][] }> {
+async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEnviados, tipoInscricao }: { busca?: string, documentosEnviados?: string, projetosEnviados?: string, tipoInscricao?: string }): Promise<{ headers: string[], rows: (string | null)[][] }> {
   interface some {
     tipo?: any;
   }
@@ -336,7 +346,7 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
     some?: some
   }
   let arquivos: arquivos = {};
-  let AND: { arquivos: arquivos }[] = [];
+  let AND: any[] = [];
 
   if (documentosEnviados === "true" || projetosEnviados === "true") {
     if (documentosEnviados === "true" && projetosEnviados === "true")
@@ -379,6 +389,14 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
         ],
     }),
     ...(AND.length > 0 && { AND }),
+    ...(tipoInscricao === "PJ" && { cnpj: { not: null } }),
+    ...(tipoInscricao === "PJ" && { cnpj: { not: "" } }),
+    ...(tipoInscricao === "PF" && { 
+      OR: [
+        { cnpj: null },
+        { cnpj: "" }
+      ]
+    }),
   }
   const cadastros = await db.cadastro.findMany({
     orderBy: { criadoEm: 'asc' },
