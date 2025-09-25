@@ -7,7 +7,7 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
-    titulo: "PRAZO SUPLEMENTAR PARA SUBMISSÃO DE DOCUMENTOS: de 8h às 12h do dia 26/09/2025 (sexta-feira no período da manhã)",
+    titulo: "PRAZO SUPLEMENTAR PARA SUBMISSÃO DE DOCUMENTOS: <span class='text-red-500'>de 8h às 12h do dia 26/09/2025 (sexta-feira no período da manhã)</span>",
     subtitulo: "Deliberação da Coordenação do Concurso Público Nacional de Projetos para Elementos de Mobiliário Urbano da Cidade de São Paulo – Edital nº 001/SP-URB/2025), publicado no Diário oficial da Cidade de São Paulo em 25/09/2025",
     conteudo: `
       <p>CONSIDERANDO as 3 (três) notificações recebidas por e-mail a respeito de possíveis falhas do sistema da Plataforma Digital Online;</p>

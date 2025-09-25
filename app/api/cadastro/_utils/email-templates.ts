@@ -476,6 +476,26 @@ export const templateFinalizarNovo = (): string => {
   });
 };
 
+export const templatePrazoSuplementar = (): string => {
+  return gerarEmailTemplate({
+    nome: "Pré-inscrito(a)",
+    titulo: "Concurso do Mobiliário Urbano: abertura de período suplementar para submissão de documentos: AMANHÃ (sexta-feira, 26/09/2025) das 8h às 12h",
+    subtitulo: "Informação importante sobre o concurso",
+    conteudoPrincipal: `
+      <p>A Coordenação do concurso recebeu algumas notificações acerca de possíveis falhas no sistema para a submissão de documentos no dia 22/09/2025, data final de inscrições e submissão de documentos.</p>
+      <p>Após avaliação junto à Assessoria de Tecnologia (ATIC) da Secretaria de Urbanismo e Licenciamento (SMUL), a Coordenação do Concurso publicou na data de hoje (25/09/2025) no Diário Oficial da Cidade de São Paulo e nos <a href="https://concursomoburb.prefeitura.sp.gov.br/informes">Informes</a> da <a href="https://concursomoburb.prefeitura.sp.gov.br">Plataforma Digital Online do Concurso</a>, uma deliberação de prazo suplementar exclusivamente para envio dos documentos que por ventura possa ter sido prejudicado em razão do elevado número de solicitações processadas próximo ao horário limite e por eventuais problemas de comunicação ocasionados por quedas de rede elétrica e de internet, em consequência das chuvas e rajadas de vento ocorridas em 22/09/2025.</p>
+      <p>O prazo suplementar, nos termos dos itens 11.7 e 11.7.1 do Edital nº 001/SP-URB/2025, se dará somente pelo período entre as <strong><span style="color: #FF0000;">8h e 12h do dia 26/09/2025<span>, exclusivamente para submissão de documentos novos no sistema, com datas de processamento e assinatura até 22/09/2025 às 23h59, não sendo autorizada a substituição ou supressão de quaisquer documentos já submetidos na plataforma.</strong></p>
+      <p><strong>Qualquer pré-inscrito poderá apresentar a documentação, que deverá ser submetida preferencialmente via Plataforma Digital Online ou pelo e-mail <a href="mailto:concursomoburb.sp2025@spurbanismo.sp.gov.br">concursomoburb.sp2025@spurbanismo.sp.gov.br</a>. Caso seja enviado por e-mail, favor indicar no assunto seu código identificador (ID), com o formato MOB-2025-1234567890.</strong></p>
+      <p>Confira a íntegra a deliberação nos <a href="https://concursomoburb.prefeitura.sp.gov.br/informes">Informes</a> da <a href="https://concursomoburb.prefeitura.sp.gov.br">Plataforma Digital Online do Concurso</a></p>
+      <br />
+      <p>Atenciosamente,</p>
+      <p>Coordenação do Concurso.</p>
+    `,
+    botaoTexto: 'Ver Detalhes',
+    botaoUrl: `${process.env.NEXT_PUBLIC_APP_URL}`
+  });
+};
+
 export const templateDuvidasPadraoPlataforma = () => {
   return gerarEmailTemplate({
     nome: "Interessado(a)",

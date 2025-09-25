@@ -21,9 +21,13 @@ export default function InformeComponent({ informe }: { informe: Partial<Informe
                     "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
                 }}
             >
-                <h2 className="text-[#3B2D3A] text-2xl lg:text-3xl font-bold">
+                {/* <h2 className="text-[#3B2D3A] text-2xl lg:text-3xl font-bold">
                     {informe.titulo || ""}
-                </h2>
+                </h2> */}
+                <h2
+                    className="text-[#3B2D3A] text-2xl lg:text-3xl font-bold"
+                    dangerouslySetInnerHTML={{ __html: informe.titulo || "" }}
+                />
                 {informe.subtitulo && <h4 className="text-[#3B2D3A] text-md lg:text-lg text-muted-foreground">{informe.subtitulo}</h4>}
                 <InformeConteudo conteudo={informe.conteudo} />
             </div>
