@@ -66,6 +66,41 @@ export default function Documentos({ permissao }: { permissao: string }) {
                     }}
                 >
                     <h2 className="text-[#3B2D3A] text-2xl lg:text-3xl font-bold col-span-3">
+                        INFORMES
+                    </h2>
+                    <div className="col-span-2">
+                        <p className="text-[#3B2D3A] mb-4">
+                            Aqui você acompanha os informes do concurso, como blocos de respostas aos pedidos 
+                            de esclarecimento, lista de IDs deferidos e indeferidos na etapa de inscrição, 
+                            lista de classificação dos IDs na primeira fase, lista final dos IDs vencedores, 
+                            entre outras informações importantes. Fique atento!
+                        </p>
+                        <Button
+                            size="lg"
+                            className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
+                            onClick={() => router.push('/informes')}
+                        >
+                            Acessar informes
+                        </Button>
+                    </div>
+                    <Informes size={160} />
+                </div>
+            </div>
+            <div 
+                className="w-full flex p-[3px] bg-[#D0DBBF]"
+                style={{
+                    clipPath:
+                    "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
+                }}
+            >
+                <div
+                    className="grid grid-cols-3 w-full bg-white p-8 gap-4"
+                    style={{
+                        clipPath:
+                        "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
+                    }}
+                >
+                    <h2 className="text-[#3B2D3A] text-2xl lg:text-3xl font-bold col-span-3">
                         EDITAL
                     </h2>
                     <div className="col-span-2">
@@ -168,41 +203,6 @@ export default function Documentos({ permissao }: { permissao: string }) {
                         </Button>}
                     </div>
                     <Esclarecimentos size={160} />
-                </div>
-            </div>
-            <div 
-                className="w-full flex p-[3px] bg-[#D0DBBF]"
-                style={{
-                    clipPath:
-                    "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
-                }}
-            >
-                <div
-                    className="grid grid-cols-3 w-full bg-white p-8 gap-4"
-                    style={{
-                        clipPath:
-                        "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
-                    }}
-                >
-                    <h2 className="text-[#3B2D3A] text-2xl lg:text-3xl font-bold col-span-3">
-                        INFORMES
-                    </h2>
-                    <div className="col-span-2">
-                        <p className="text-[#3B2D3A] mb-4">
-                            Aqui você acompanha os informes do concurso, como blocos de respostas aos pedidos 
-                            de esclarecimento, lista de IDs deferidos e indeferidos na etapa de inscrição, 
-                            lista de classificação dos IDs na primeira fase, lista final dos IDs vencedores, 
-                            entre outras informações importantes. Fique atento!
-                        </p>
-                        <Button
-                            size="lg"
-                            className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
-                            onClick={() => router.push('/informes')}
-                        >
-                            Acessar informes
-                        </Button>
-                    </div>
-                    <Informes size={160} />
                 </div>
             </div>
         </section>

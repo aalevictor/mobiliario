@@ -7,6 +7,19 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "PRAZO SUPLEMENTAR PARA SUBMISSÃO DE DOCUMENTOS: de 8h às 12h do dia 26/09/2025 (sexta-feira no período da manhã)",
+    subtitulo: "Deliberação da Coordenação do Concurso Público Nacional de Projetos para Elementos de Mobiliário Urbano da Cidade de São Paulo – Edital nº 001/SP-URB/2025), publicado no Diário oficial da Cidade de São Paulo em 25/09/2025",
+    conteudo: `
+      <p>CONSIDERANDO as 3 (três) notificações recebidas por e-mail a respeito de possíveis falhas do sistema da Plataforma Digital Online;</p>
+      <p>CONSIDERANDO a manifestação técnica de SMUL/ATIC, segundo a qual pôde-se inferir que não houve prejuízo no registro de novas inscrições, conforme se constata por meio de logs e e-mails enviados aos pré-inscritos, com registros realizados bem próximos ao horário de encerramento. E que, ainda conforme a aludida manifestação, embora tenham sido processados com sucesso diversos envios de documentos, é plausível que um ou outro não tenha alcançado êxito, em razão do elevado número de solicitações processadas próximo ao horário limite, somada a possibilidade de eventuais problemas de comunicação ocasionados por quedas de rede elétrica e de internet, em consequência das chuvas e rajadas de vento ocorridas em 22/09/2025 em diversas localidades, inclusive nesta Capital.</p>
+      <p>A Coordenação do Concurso, nos termos das atribuições definidas no Edital nº 001/SP-URB/2025, DELIBERA:</p>
+      <p>1. Pela abertura de prazo suplementar exclusivamente para submissão de documentação necessária dos pré-inscritos, tendo em vista que algumas submissões podem ter sido prejudicadas em razão do elevado número de solicitações processadas próximo ao horário limite, somada a possibilidade de eventuais problemas de comunicação ocasionados por quedas de rede elétrica e de internet, em consequência das chuvas e rajadas de vento ocorridas em 22/09/2025, conforme indicação da Manifestação Técnica de SMUL/ATIC.</p>
+      <p class="font-bold">2. Por aceitar somente a submissão de documentos novos no sistema, com datas de processamento e assinatura até 22/09/2025 às 23h59, não sendo autorizada a substituição ou supressão de quaisquer documentos já submetidos na plataforma.</p>
+      <p>3. Que, por equivalência ao tempo inferido da indisponibilidade temporária da Plataforma Digital Online nos termos dos itens 11.7 e 11.7.1, <span class="font-bold">o prazo suplementar se dará somente pelo período entre as <span class="text-red-500">8h e 12h do dia 26/09/2025</span>, cabendo aos pré-inscritos submeter a documentação preferencialmente via Plataforma Digital Online ou pelo e-mail <a href="mailto:concursomoburb.sp2025@spurbanismo.sp.gov.br" class="text-blue-500 underline">concursomoburb.sp2025@spurbanismo.sp.gov.br</a></p>
+    `,
+    dataPublicacao: new Date("2025-09-25T11:00:00"),
+    publicado: true
+  },{
     titulo: "4º Bloco de Respostas aos Pedidos de Esclarecimento ",
     subtitulo: "Publicado no Diário Oficial da Cidade de São Paulo em 18/09/2025, nos termos do Item 4 do Edital nº 001/SP-URB/2025: ",
     conteudo: `
