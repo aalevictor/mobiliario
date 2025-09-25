@@ -5,6 +5,11 @@ import { auth } from "@/auth";
 export async function DELETE(
     request: NextRequest, context: { params: Promise<{ id: string, participanteId: string }>}
 ) {
+    const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
+    const dataLimiteDocumento = new Date("2025-09-22 23:59:59.999")
+    const dataAtual = new Date()
+    const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
+    if (!podeEnviarDocumento) return NextResponse.json({ error: "Não é possível remover participantes fora do período de inscrição." }, { status: 400 });
     try {
         const session = await auth();
         const { id, participanteId } = await context.params;

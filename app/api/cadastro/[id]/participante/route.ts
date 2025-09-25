@@ -3,6 +3,11 @@ import { db } from "@/lib/prisma";
 import { auth } from "@/auth";
 
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }>}) {
+    const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
+    const dataLimiteDocumento = new Date("2025-09-22 23:59:59.999")
+    const dataAtual = new Date()
+    const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
+    if (!podeEnviarDocumento) return NextResponse.json({ error: "Não é possível adicionar participantes fora do período de inscrição." }, { status: 400 });
     try {
         const session = await auth();
         if (!session?.user?.id) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });

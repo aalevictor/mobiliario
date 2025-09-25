@@ -4,6 +4,11 @@ import { auth } from "@/auth";
 import { verificarPermissoes } from "@/services/usuarios";
 
 export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+    const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
+    const dataLimiteDocumento = new Date("2025-09-22 23:59:59.999")
+    const dataAtual = new Date()
+    const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
+    if (!podeEnviarDocumento) return NextResponse.json({ error: "Não é possível atualizar os dados do cadastro fora do período de inscrição." }, { status: 400 });
     const session = await auth();
     if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     const permissao = await verificarPermissoes(session.user.id, ["ADMIN", "DEV"]);

@@ -31,6 +31,10 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
     const [participantesExistentes, setParticipantesExistentes] = useState<Partial<Participante>[]>(
         cadastro.participantes || []
     )
+    const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
+    const dataLimiteDocumento = new Date("2025-09-22 23:59:59.999")
+    const dataAtual = new Date()
+    const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
 
     const [mostrarFormulario, setMostrarFormulario] = useState(false)
 
@@ -47,6 +51,10 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
     const isEquipe = participantesExistentes.length > 0
 
     const adicionarParticipante = async (data: NovoParticipante) => {
+        if (!podeEnviarDocumento){
+            toast.error("Não é possível adicionar participantes fora do período de inscrição.")
+            return;
+        }
         try {
             if (data.documento.length === 14 && !validaCPF(data.documento)){
                 toast.error("CPF inválido")
@@ -80,6 +88,10 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
     }
 
     const removerParticipante = async (participanteId: number) => {
+        if (!podeEnviarDocumento){
+            toast.error("Não é possível remover participantes fora do período de inscrição.")
+            return;
+        }
         try {
             const response = await fetch(`/api/cadastro/${cadastro.id}/participante/${participanteId}`, {
                 method: "DELETE",
@@ -141,7 +153,7 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
                                 ({participantesExistentes.length} {participantesExistentes.length === 1 ? 'participante' : 'participantes'})
                             </span>
                         </div>
-                        <Button
+                        {podeEnviarDocumento && <Button
                             onClick={() => setMostrarFormulario(!mostrarFormulario)}
                             variant="outline"
                             size="sm"
@@ -149,7 +161,7 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
                         >
                             <Plus className="h-4 w-4" />
                             Adicionar Participante
-                        </Button>
+                        </Button>}
                     </div>
                     {participantesExistentes.length > 0 ? (
                         <div className="space-y-3">
@@ -180,7 +192,7 @@ export default function ParticipantesForm({ cadastro, atualizarPagina }: Partici
                         <div className="text-center py-8 text-gray-500">
                             <User className="h-12 w-12 mx-auto mb-3 text-gray-300" />
                             <p>Nenhum participante cadastrado</p>
-                            <p className="text-sm">{`Clique em "Adicionar Participante" para começar`}</p>
+                            {podeEnviarDocumento && <p className="text-sm">{`Clique em "Adicionar Participante" para começar`}</p>}
                         </div>
                     )}
                 </div>

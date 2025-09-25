@@ -25,6 +25,11 @@ const formSchema = z.object({
 })
 
 export default function ResponsavelForm({ cadastro, atualizarPagina }: ResponsavelFormProps) {
+    const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
+    const dataLimiteDocumento = new Date("2025-09-22 23:59:59.999")
+    const dataAtual = new Date()
+    const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -36,6 +41,10 @@ export default function ResponsavelForm({ cadastro, atualizarPagina }: Responsav
         },
     })
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        if (!podeEnviarDocumento) {
+            toast.error("Não é possível atualizar os dados do responsável fora do período de inscrição.")
+            return
+        }
         if (data.cnpj && data.cnpj.length > 0 && (data.cnpj.length !== 18 || !validaCNPJ(data.cnpj))) {
             toast.error("CNPJ inválido")
             return
@@ -101,6 +110,7 @@ export default function ResponsavelForm({ cadastro, atualizarPagina }: Responsav
                                             {...field} 
                                             placeholder="(11) 99999-9999"
                                             className="h-10 sm:h-11"
+                                            disabled={!podeEnviarDocumento}
                                             onChange={(e) => {
                                                 const telefone = formatarTelefone(e.target.value)
                                                 field.onChange(telefone)
@@ -132,6 +142,7 @@ export default function ResponsavelForm({ cadastro, atualizarPagina }: Responsav
                                             {...field}
                                             placeholder="00.000.000/0000-00"
                                             className="h-10 sm:h-11 disabled:opacity-100"
+                                            disabled={!podeEnviarDocumento}
                                             onChange={(e) => {
                                                 const cnpj = formatarCNPJ(e.target.value)
                                                 field.onChange(cnpj)
@@ -165,7 +176,7 @@ export default function ResponsavelForm({ cadastro, atualizarPagina }: Responsav
                             </div>
                         )}
                     </CardContent>
-                    <CardFooter className="px-4 sm:px-6 pt-4">
+                    {podeEnviarDocumento && <CardFooter className="px-4 sm:px-6 pt-4">
                         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto sm:ml-auto">
                             <Button 
                                 type="submit" 
@@ -175,7 +186,7 @@ export default function ResponsavelForm({ cadastro, atualizarPagina }: Responsav
                                 Salvar Alterações
                             </Button>
                         </div>
-                    </CardFooter>
+                    </CardFooter>}
                 </form>
             </Form>
         </Card>

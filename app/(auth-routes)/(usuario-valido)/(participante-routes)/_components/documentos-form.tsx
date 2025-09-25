@@ -38,8 +38,11 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
     const documentos = cadastro.arquivos?.filter(arquivo => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA) || []
     const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
     const dataLimiteDocumento = new Date("2025-09-22 23:59:59.999")
+    const dataAberturaComplementar = new Date("2025-09-26 08:00:00")
+    const dataLimiteComplementar = new Date("2025-09-26 12:00:00")
     const dataAtual = new Date()
     const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
+    const podeEnviarComplementar = dataAtual >= dataAberturaComplementar && dataAtual <= dataLimiteComplementar
     // Calcular tamanho total dos documentos existentes
     const tamanhoTotalExistente = documentos.reduce((total, doc) => {
         return total + (doc.tamanho || 0)
@@ -53,6 +56,10 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
             documentos: []
         }
     })
+
+    function podeExcluirArquivoNovo(dataArquivo: Date) {
+        return dataArquivo >= dataAberturaComplementar && dataArquivo <= dataLimiteComplementar;
+    }
     
     const formatFileSize = (bytes: number): string => {
         if (bytes < 1024) return bytes + ' B'
@@ -62,6 +69,10 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
     }
     
     const onSubmit = (data: UploadForm) => {
+        if (!podeEnviarDocumento && !podeEnviarComplementar) {
+            toast.error("Não é possível enviar documentos fora do período de inscrição.")
+            return
+        }
         startTransition(async () => {
             try {
                 const formData = new FormData()
@@ -176,7 +187,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
         form.setValue('documentos', files)
     }
 
-    return podeEnviarDocumento ? <div className="space-y-6">
+    return <div className="space-y-6">
             {/* Lista de Documentos Existentes */}
             <Card className="w-full max-w-4xl mx-auto">
                 <CardHeader className="px-4 sm:px-6">
@@ -219,7 +230,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                                                 <Download className="h-4 w-4" />
                                             )}
                                         </Button>
-                                        <Button
+                                        {podeExcluirArquivoNovo(new Date(documento.criadoEm || 0)) && <Button
                                             variant="destructive"
                                             size="sm"
                                             disabled={deletingFileId === documento.id}
@@ -230,7 +241,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                                             ) : (
                                                 <Trash2 className="h-4 w-4" />
                                             )}
-                                        </Button>
+                                        </Button>}
                                     </div>
                                 </div>
                             ))}
@@ -249,12 +260,12 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                         <div className="text-center py-8 text-gray-500">
                             <FileText className="h-12 w-12 mx-auto mb-3 text-gray-300" />
                             <p>Nenhum documento enviado</p>
-                            <p className="text-sm">Utilize o formulário abaixo para enviar seus documentos</p>
+                            {(podeEnviarComplementar || podeEnviarDocumento) && <p className="text-sm">Utilize o formulário abaixo para enviar seus documentos</p>}
                         </div>
                     )}
                 </CardContent>
                 {/* Formulário de Upload */}
-                {espacoDisponivel > 0 && (
+                {espacoDisponivel > 0 && (podeEnviarComplementar || podeEnviarDocumento) && (
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
                             <CardHeader className="px-4 sm:px-6 gap-4">
@@ -338,11 +349,11 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                 </Alert>
             )}
         </div>
-    : <div className="text-center py-8 text-gray-500">
-        <Card className="w-full max-w-4xl mx-auto">
-            <AlertCircle className="h-12 w-12 mx-auto mb-3 text-primary" />
-            <p>Não é possível enviar documentos neste momento.</p>
-            <p className="text-sm">O período de envio de documentos é de {dataAberturaDocumento.toLocaleDateString('pt-BR')} a {dataLimiteDocumento.toLocaleDateString('pt-BR')}</p>
-        </Card>
-    </div>
+    // <div className="text-center py-8 text-gray-500">
+    //     <Card className="w-full max-w-4xl mx-auto">
+    //         <AlertCircle className="h-12 w-12 mx-auto mb-3 text-primary" />
+    //         <p>Não é possível enviar documentos neste momento.</p>
+    //         <p className="text-sm">O período de envio de documentos é de {dataAberturaDocumento.toLocaleDateString('pt-BR')} a {dataLimiteDocumento.toLocaleDateString('pt-BR')}</p>
+    //     </Card>
+    // </div>
 }

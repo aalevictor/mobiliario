@@ -8,6 +8,9 @@ export async function DELETE(
     request: NextRequest,
     context: { params: Promise<{ id: string; arquivoId: string }> }
 ) {
+    const dataAberturaComplementar = new Date("2025-09-26 08:00:00")
+    const dataLimiteComplementar = new Date("2025-09-26 12:00:00");
+    
     try {
         const session = await auth();
         if (!session) {
@@ -28,7 +31,6 @@ export async function DELETE(
         if (!cadastro) {
             return NextResponse.json({ error: "Cadastro não encontrado" }, { status: 404 });
         }
-
         // Buscar o arquivo
         const arquivo = await db.arquivo.findFirst({
             where: {
@@ -39,6 +41,10 @@ export async function DELETE(
 
         if (!arquivo) {
             return NextResponse.json({ error: "Arquivo não encontrado" }, { status: 404 });
+        }
+
+        if (new Date(arquivo.criadoEm || 0) < dataAberturaComplementar || new Date(arquivo.criadoEm || 0) > dataLimiteComplementar) {
+            return NextResponse.json({ error: "Não é possível remover documentos fora do período de inscrição." }, { status: 400 });
         }
 
         // Deletar arquivo do sistema de arquivos

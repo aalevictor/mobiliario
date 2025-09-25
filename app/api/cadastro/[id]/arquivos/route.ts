@@ -9,17 +9,18 @@ export async function POST(
     request: NextRequest,
     context: { params: Promise<{ id: string }> }
 ) {
+    const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
+    const dataLimiteDocumento = new Date("2025-09-22 23:59:59.999")
+    const dataAberturaComplementar = new Date("2025-09-26 08:00:00")
+    const dataLimiteComplementar = new Date("2025-09-26 12:00:00")
+    const dataAtual = new Date()
+    const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
+    const podeEnviarComplementar = dataAtual >= dataAberturaComplementar && dataAtual <= dataLimiteComplementar
+    if (!podeEnviarDocumento && !podeEnviarComplementar) return NextResponse.json({ error: "Não é possível atualizar os dados do cadastro fora do período de inscrição." }, { status: 400 });
     try {
         const session = await auth();
         if (!session) {
             return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-        }
-
-        const dataAberturaCadastro = new Date('2025-09-08 00:00:00');
-        const dataLimiteCadastro = new Date('2025-09-22 23:59:59.999');
-        const dataAtual = new Date();
-        if (dataAtual < dataAberturaCadastro || dataAtual > dataLimiteCadastro) {
-            return NextResponse.json({ error: "Não é possível enviar documentos neste momento. O período de envio de documentos está encerrado." }, { status: 400 });
         }
 
         const { id } = await context.params;

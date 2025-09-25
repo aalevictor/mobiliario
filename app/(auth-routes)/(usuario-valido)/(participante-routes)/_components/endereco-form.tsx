@@ -28,6 +28,11 @@ const formSchema = z.object({
 })
 
 export default function EnderecoForm({ cadastro, atualizarPagina }: EnderecoFormProps) {
+    const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
+    const dataLimiteDocumento = new Date("2025-09-22 23:59:59.999")
+    const dataAtual = new Date()
+    const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
+
     const [temLogradouro, setTemLogradouro] = useState(true)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -42,6 +47,10 @@ export default function EnderecoForm({ cadastro, atualizarPagina }: EnderecoForm
     })
     
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        if (!podeEnviarDocumento) {
+            toast.error("Não é possível atualizar os dados de endereço fora do período de inscrição.")
+            return
+        }
         const atualizarCadastro = await fetch(`/api/cadastro/${cadastro.id}`, {
             method: "PUT",
             body: JSON.stringify(data),
@@ -104,6 +113,7 @@ export default function EnderecoForm({ cadastro, atualizarPagina }: EnderecoForm
                                                 limpaEndereco()
                                                 if (cep.length === 9) buscaCEP(cep)
                                             }}
+                                            disabled={!podeEnviarDocumento}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -115,7 +125,7 @@ export default function EnderecoForm({ cadastro, atualizarPagina }: EnderecoForm
                                     <FormControl>
                                         <Input 
                                             {...field}
-                                            disabled={temLogradouro}
+                                            disabled={temLogradouro || !podeEnviarDocumento}
                                             className="h-10 sm:h-11 disabled:opacity-100"
                                             placeholder="Rua, Avenida, etc."
                                         />
@@ -131,6 +141,7 @@ export default function EnderecoForm({ cadastro, atualizarPagina }: EnderecoForm
                                             {...field}
                                             placeholder="00"
                                             className="h-10 sm:h-11"
+                                            disabled={!podeEnviarDocumento}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -140,7 +151,7 @@ export default function EnderecoForm({ cadastro, atualizarPagina }: EnderecoForm
                                 <FormItem className="md:col-span-2">
                                     <FormLabel className="text-sm sm:text-base">Complemento</FormLabel>
                                     <FormControl>
-                                        <Input {...field} placeholder="Apto, Bloco, etc." className="h-10 sm:h-11" />
+                                        <Input {...field} placeholder="Apto, Bloco, etc." className="h-10 sm:h-11" disabled={!podeEnviarDocumento} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -180,7 +191,7 @@ export default function EnderecoForm({ cadastro, atualizarPagina }: EnderecoForm
                             </div>
                         )}
                     </CardContent>
-                    <CardFooter className="px-4 sm:px-6 pt-4">
+                    {podeEnviarDocumento && <CardFooter className="px-4 sm:px-6 pt-4">
                         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto sm:ml-auto">
                             <Button 
                                 type="submit" 
@@ -190,7 +201,7 @@ export default function EnderecoForm({ cadastro, atualizarPagina }: EnderecoForm
                                 Salvar Alterações
                             </Button>
                         </div>
-                    </CardFooter>
+                    </CardFooter>}
                 </form>
             </Form>
         </Card>
