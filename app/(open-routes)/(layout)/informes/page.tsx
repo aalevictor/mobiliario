@@ -96,34 +96,36 @@ export default async function Informes() {
     subtitulo: "Conforme publicação no Diário Oficial da Cidade de São Paulo (15/09/2025) foram prorrogadas as datas de inscrição e a data limite de submissão das propostas técnicas em nível Estudo Preliminar da Fase 1! Confira as novas datas: ",
     conteudo: `
       <div class="flex flex-col gap-4 text-justify">
-        <p class="font-bold">De 08/09/2025 a <span class="text-red-500">22/09/2025 (nova data)</span>: </p>
-        <p>Período de inscrições e submissão da documentação necessária para inscrição na plataforma digital online do concurso. </p>
-        <p class="italic">Item de referência no Edital: 12.1</p>
-      </div>
-      <div class="flex flex-col gap-4 text-justify">
-        <p class="font-bold">30/09/2025 (nova data): </p>
-        <p>1ª Publicação da lista de IDs deferidos e habilitados para participar no concurso. </p>
-        <p class="italic">Item de referência no Edital: 12.3.1.3 </p>
-      </div>
-      <div class="flex flex-col gap-4 text-justify">
-        <p class="font-bold">10/10/2025 (nova data): </p>
-        <p>Publicação final da lista de IDs deferidos para submissão das Propostas Técnicas em nível de Estudo Preliminar (FASE 1). </p>
-        <p class="italic">Item de referência no Edital: 12.3.1.5 </p>
-      </div>
-      <div class="flex flex-col gap-4 text-justify">
-        <p class="font-bold text-red-500">De 13/10/2025 a 27/10/2025 (nova data): </p>
-        <p class="font-bold">Período de submissão das Propostas Técnicas em nível de Estudo Preliminar (FASE 1). </p>
-        <p class="italic">Item de referência no Edital: 13.1 </p>
-      </div>
-      <div class="flex flex-col gap-4 text-justify">
-        <p class="font-bold">03/11/2025 (nova data): </p>
-        <p>Publicação da lista de IDs deferidos para julgamento das Propostas Técnicas em nível de Estudo Preliminar (FASE 1). </p>
-        <p class="italic">Item de referência no Edital: 13.2 </p>
-      </div>
-      <div class="flex flex-col gap-4 text-justify">
-        <p class="font-bold">De 10/11/2025 (nova data) a 23/11/2025: </p>
-        <p>Período de análise individual das Propostas Técnicas em nível de Estudo Preliminar pelos membros da Comissão Julgadora (FASE 1). </p>
-        <p class="italic">Item de referência no Edital: 14.1 </p>
+        <div class="flex flex-col text-justify">
+          <p class="font-bold">De 08/09/2025 a <span class="text-red-500">22/09/2025 (nova data)</span>: </p>
+          <p>Período de inscrições e submissão da documentação necessária para inscrição na plataforma digital online do concurso. </p>
+          <p class="italic">Item de referência no Edital: 12.1</p>
+        </div>
+        <div class="flex flex-col text-justify">
+          <p class="font-bold">30/09/2025 (nova data): </p>
+          <p>1ª Publicação da lista de IDs deferidos e habilitados para participar no concurso. </p>
+          <p class="italic">Item de referência no Edital: 12.3.1.3 </p>
+        </div>
+        <div class="flex flex-col text-justify">
+          <p class="font-bold">10/10/2025 (nova data): </p>
+          <p>Publicação final da lista de IDs deferidos para submissão das Propostas Técnicas em nível de Estudo Preliminar (FASE 1). </p>
+          <p class="italic">Item de referência no Edital: 12.3.1.5 </p>
+        </div>
+        <div class="flex flex-col text-justify">
+          <p class="font-bold text-red-500">De 13/10/2025 a 27/10/2025 (nova data): </p>
+          <p class="font-bold">Período de submissão das Propostas Técnicas em nível de Estudo Preliminar (FASE 1). </p>
+          <p class="italic">Item de referência no Edital: 13.1 </p>
+        </div>
+        <div class="flex flex-col text-justify">
+          <p class="font-bold">03/11/2025 (nova data): </p>
+          <p>Publicação da lista de IDs deferidos para julgamento das Propostas Técnicas em nível de Estudo Preliminar (FASE 1). </p>
+          <p class="italic">Item de referência no Edital: 13.2 </p>
+        </div>
+        <div class="flex flex-col text-justify">
+          <p class="font-bold">De 10/11/2025 (nova data) a 23/11/2025: </p>
+          <p>Período de análise individual das Propostas Técnicas em nível de Estudo Preliminar pelos membros da Comissão Julgadora (FASE 1). </p>
+          <p class="italic">Item de referência no Edital: 14.1 </p>
+        </div>
       </div>
     `,
     dataPublicacao: new Date("2025-09-15T08:00:00"),
