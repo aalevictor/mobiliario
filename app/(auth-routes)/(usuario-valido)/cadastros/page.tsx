@@ -15,6 +15,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Separator } from '@radix-ui/react-select';
 import ExportarCadastros from './_components/exportar-cadastros';
 import ExportarParticipantes from './_components/exportar-participantes';
+import ExportarArquivos from './_components/exportar-arquivos';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
@@ -151,7 +152,7 @@ async function Cadastros({
                         className='max-md:w-full'
                     />
                     <DropdownMenu>
-                        <DropdownMenuTrigger>
+                        <DropdownMenuTrigger asChild>
                             <Button>
                                 <MoreHorizontal className='w-4 h-4' />
                             </Button>
@@ -168,6 +169,19 @@ async function Cadastros({
                                 documentosEnviados: documentosEnviados as string,
                                 projetosEnviados: projetosEnviados as string,
                                 tipoInscricao: tipoInscricao as string,
+                            }} />
+                            <ExportarArquivos filtros={{
+                                busca: busca as string,
+                                documentosEnviados: documentosEnviados as string,
+                                projetosEnviados: projetosEnviados as string,
+                                tipoInscricao: tipoInscricao as string,
+                            }} />
+                            <ExportarArquivos filtros={{
+                                busca: busca as string,
+                                documentosEnviados: documentosEnviados as string,
+                                projetosEnviados: projetosEnviados as string,
+                                tipoInscricao: tipoInscricao as string,
+                                novos: true
                             }} />
                         </DropdownMenuContent>
                     </DropdownMenu>

@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { buscarCadastrosExportacao, buscarParticipantesExportacao } from "@/services/cadastros";
+import { buscarArquivosExportacao, buscarCadastrosExportacao, buscarParticipantesExportacao } from "@/services/cadastros";
 import { NextRequest, NextResponse } from "next/server";
 import * as XLSX from 'xlsx';
 
@@ -13,13 +13,14 @@ export async function GET(request: NextRequest) {
   const documentosEnviados = searchParams.get('documentosEnviados') || '';
   const projetosEnviados = searchParams.get('projetosEnviados') || '';
   const tipoInscricao = searchParams.get('tipoInscricao') || '';
+  const novos = searchParams.get('novos') == 'true';
 
   const { verificarPermissoes } = await import('@/services/usuarios');
   const isAdmin = await verificarPermissoes(session.user.id, ["DEV", "ADMIN"]);
   if (!isAdmin) {
-    return NextResponse.json({ error: "Sem permissão para exportar cadastros" }, { status: 403 });
+    return NextResponse.json({ error: "Sem permissão para exportar arquivos" }, { status: 403 });
   }
-  const { headers, rows } = await buscarParticipantesExportacao({ busca, documentosEnviados, projetosEnviados, tipoInscricao });
+  const { headers, rows } = await buscarArquivosExportacao({ busca, documentosEnviados, projetosEnviados, tipoInscricao });
   
   // Criar workbook e worksheet
   const workbook = XLSX.utils.book_new();
@@ -27,12 +28,12 @@ export async function GET(request: NextRequest) {
   const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
   
   // Adicionar worksheet ao workbook
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Participantes');
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Arquivos');
   
   // Gerar buffer do arquivo XLSX
   const xlsxBuffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
   
-  const filename = `participantes-${new Date().toISOString().split('T')[0]}.xlsx`;
+  const filename = `arquivos-${new Date().toISOString().split('T')[0]}.xlsx`;
   return new NextResponse(xlsxBuffer, {
     headers: {
       'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

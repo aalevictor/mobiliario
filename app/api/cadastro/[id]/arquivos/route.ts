@@ -12,7 +12,7 @@ export async function POST(
     const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
     const dataLimiteDocumento = new Date("2025-09-22 23:59:59.999")
     const dataAberturaComplementar = new Date("2025-09-26 08:00:00")
-    const dataLimiteComplementar = new Date("2025-09-26 12:00:00")
+    const dataLimiteComplementar = new Date("2025-09-26 15:00:00")
     const dataAtual = new Date()
     const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
     const podeEnviarComplementar = dataAtual >= dataAberturaComplementar && dataAtual <= dataLimiteComplementar
