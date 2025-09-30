@@ -39,6 +39,7 @@ export interface Informe {
     criadoEm: Date;
     atualizadoEm: Date;
 	links: Partial<LinkInforme>[];
+	download: React.ReactNode | null;
 	arquivos: ArquivoInforme[];
 }
 

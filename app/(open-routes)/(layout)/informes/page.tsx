@@ -4,9 +4,45 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import { Separator } from "@/components/ui/separator";
 // import { listarInformes } from "@/services/informes";
 import InformeComponent from "@/components/informe";
+import { Button } from "@/components/ui/button";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "<span class='text-red-500'>1ª lista de IDs deferidos e indeferidos para inscrição no Concurso, nos termos do item 12.3.1.3 do Edital nº 001/SP-URB/2025</span>",
+    subtitulo: "Publicada no Diário Oficial da Cidade de São Paulo em 30/09/2025",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>A Coordenação do Concurso, nos termos das competências atribuídas pelo itens 4 do Edital nº 001/SP-URB/2025 publicado em 25 de agosto de 2025 (Edital: 141066448 e publicação: 141068804), registra, por meio desta, a conclusão da análise da habilitação dos pré-inscritos, nos termos do item 12.3.1.3, segundo o qual “Após a análise da habilitação dos pré-inscritos, será divulgada na PLATAFORMA ONLINE DO CONCURSO na data constante do item 21 deste Edital “Cronograma”, a lista de IDs deferidos e indeferidos, acompanhados das motivações em caso de indeferimento”.</p>
+        <p>A publicação da lista de que trata o aludido item também deverá ser realizada no Diário Oficial da Cidade de São Paulo, indicando os despachos de deferimento e indeferimento para cada código identificador (ID), seguido das motivações para os casos de indeferimento. Para a plataforma Digital Online a lista indica, adicionalmente, as seguintes informações:</p>
+        <p><strong>1ª coluna:</strong> Número do ID;</p>
+        <p><strong>2ª coluna:</strong> Documentos exigidos para inscrição;</p>
+        <p><strong>3ª coluna:</strong> “Código da Documentação”, nos termos do anexo IV do Edital;</p>
+        <p><strong>4ª coluna:</strong> “Situação do documento apresentado”, compreendendo as seguintes possibilidades:</p>
+        <ul class="ml-8 list-disc list-inside">
+          <li><strong>Documento Adequado: </strong>quando o documento foi apresentado, conforme exigências constantes do Edital.</li> 
+          <li><strong>Documento Inadequado ou Insuficiente: </strong>quando o documento foi apresentado, mas com indicativo de irregularidade ou incompleto (sem assinatura, por exemplo).</li> 
+          <li><strong>Documento não Apresentado: </strong>ausência do documento exigido </li>
+          <li><strong>Não se aplica: </strong>quando, para a categoria de inscrição pleiteada, a documentação não é exigida.</li> 
+        </ul>
+        <p><strong>5ª coluna:</strong> “Parecer da documentação”, compreendendo as seguintes possibilidades:</p>
+        <ul class="ml-8 list-disc list-inside">
+          <li><strong>Documentação Aprovada: </strong>quando a documentação foi considerada suficiente para inscrição, nos termos do edital;</li> 
+          <li><strong>Documentação Reprovada: </strong>quando a documentação foi considerada insuficiente para inscrição, se aplicando para os casos de documentos inadequados ou insuficientes ou documentos não apresentados;</li> 
+          <li><strong>Não se aplica: </strong>quando, para a categoria de inscrição pleiteada, a documentação não é exigida.</li> 
+        </ul>
+        <p><strong>6ª coluna:</strong> “Considerações da análise”, contendo eventuais considerações da Coordenação do Concurso acerca da documentação apresentada;</p>
+        <p><strong>7ª coluna:</strong> “Despacho”, compreendendo o DEFERIMENTO ou INDEFERIMENTO da inscrição;</p> 
+        <p><strong>8ª coluna:</strong> “Motivo do despacho”, compreendendo somente os casos de indeferimento, indicando os termos do Edital que motivam a decisão. Exemplos: “Ausência total da documentação exigida”, quando nenhum dos documentos foram apresentados, ou ”apresentação insuficiente” quando algum dos documentos tem sido apresentado, sem assinatura, ou com indicação de impedimento para participação no concurso”.</p>
+        <p>Nos termos do item 12.3.1.4 do Edital, para os IDs que receberam INDEFERIMENTO, será permitida a apresentação de recurso em até 3 dias úteis da data de publicação desta lista, via Plataforma Digital Online, devendo-se apresentar as alegações e documentos que solucionem os apontamentos da motivação do indeferimento. Será obrigatória a apresentação da CARTA DE INTERPOSIÇÃO DE RECURSO, conforme modelo constante do ANEXO V do Edital. Caso o interessado enfrente dificuldades de acesso à Plataforma Digital Online, será permitido o envio da documentação de recurso para o e-mail do concurso (<a class="text-blue-500 underline" href="mailto:concursomoburb.sp2025@spurbanismo.sp.gov.br">concursomoburb.sp2025@spurbanismo.sp.gov.br</a>).</p>
+        <p>Pra os casos indeferidos nos termos dos itens 8.3.4.4 e 8.3.4.4.1, quando o participante ou integrante da equipe constou cadastrado em mais de uma inscrição, ou seja, seu nome, CPF ou CNPJ constou em mais de um ID (código identificador da inscrição), será necessária apresentar o recurso somente para a inscrição na qual o participante estiver corretamente cadastrado. Este recurso não dispensa a apresentação da CARTA DE INTERPOSIÇÃO DE RECURSO, conforme modelo constante do ANEXO V do Edital, atendidas as demais disposições do item 12.3.1.4 do Edital.</p>
+        <p>Nos termos dos itens 12.3.1.5 e 12.3.1.6, a publicação final da lista de <strong>IDs deferidos</strong> se dará após a análise dos eventuais recursos, conforme o cronograma do Edital (com alterações publicadas em 15/09/2025).</p>
+        <p><strong>Os IDs deferidos</strong> serão considerados <strong>inscritos no CONCURSO</strong> e ficarão automaticamente habilitados à Etapa 2 de submissão das <strong>Propostas em Nível de Estudo Preliminar</strong>.</p>
+        <a href="/listas/lista01.pdf" download class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer">Confira aqui a lista</a>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-09-30T12:00:00"),
+    publicado: true
+  },{
     titulo: "PRAZO SUPLEMENTAR PARA SUBMISSÃO DE DOCUMENTOS: <span class='text-red-500'>de 8h às 12h do dia 26/09/2025 (sexta-feira no período da manhã)</span>",
     subtitulo: "Deliberação da Coordenação do Concurso Público Nacional de Projetos para Elementos de Mobiliário Urbano da Cidade de São Paulo – Edital nº 001/SP-URB/2025), publicado no Diário oficial da Cidade de São Paulo em 25/09/2025",
     conteudo: `

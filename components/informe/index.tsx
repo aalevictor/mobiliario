@@ -15,7 +15,7 @@ export default function InformeComponent({ informe }: { informe: Partial<Informe
             }}
         >
             <div
-                className="flex flex-col w-full bg-white p-8 gap-1"
+                className="flex flex-col w-full bg-white p-8 gap-2"
                 style={{
                     clipPath:
                     "polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px)",
@@ -28,8 +28,9 @@ export default function InformeComponent({ informe }: { informe: Partial<Informe
                     className="text-[#3B2D3A] text-2xl lg:text-3xl font-bold"
                     dangerouslySetInnerHTML={{ __html: informe.titulo || "" }}
                 />
-                {informe.subtitulo && <h4 className="text-[#3B2D3A] text-md lg:text-lg text-muted-foreground">{informe.subtitulo}</h4>}
+                {informe.subtitulo && <h4 className="text-[#3B2D3A] text-md lg:text-lg">{informe.subtitulo}</h4>}
                 <InformeConteudo conteudo={informe.conteudo} />
+                {informe.download && informe.download}
             </div>
         </div>
     </div>
