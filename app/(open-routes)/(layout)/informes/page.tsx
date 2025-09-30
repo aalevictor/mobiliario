@@ -4,7 +4,6 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import { Separator } from "@/components/ui/separator";
 // import { listarInformes } from "@/services/informes";
 import InformeComponent from "@/components/informe";
-import { Button } from "@/components/ui/button";
 
 export default async function Informes() {
   const informes = [{
@@ -40,7 +39,7 @@ export default async function Informes() {
         <a href="/listas/lista01.pdf" download class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer">Confira aqui a lista</a>
       </div>
     `,
-    dataPublicacao: new Date("2025-09-30T12:00:00"),
+    dataPublicacao: new Date("2025-09-30T08:00:00"),
     publicado: true
   },{
     titulo: "PRAZO SUPLEMENTAR PARA SUBMISSÃO DE DOCUMENTOS: <span class='text-red-500'>de 8h às 12h do dia 26/09/2025 (sexta-feira no período da manhã)</span>",
