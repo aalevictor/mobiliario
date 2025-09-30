@@ -496,6 +496,45 @@ export const templatePrazoSuplementar = (): string => {
   });
 };
 
+export const templateListaInscritos = (): string => {
+  return gerarEmailTemplate({
+    nome: "Participante",
+    titulo: "Divulgação da 1ª lista de IDs Deferidos e Indeferidos para Inscrição",
+    subtitulo: "Informação importante sobre o concurso",
+    conteudoPrincipal: `
+      <p>Está disponível e nos <a href="https://concursomoburb.prefeitura.sp.gov.br/informes">Informes</a> da <a href="https://concursomoburb.prefeitura.sp.gov.br">Plataforma Digital Online do Concurso</a>, a <strong>1ª LISTA DE IDs DEFERIDOS E INDEFERIDOS PARA INSCRIÇÕES</strong>, nos termos do item 12.3.1.3 do Edital nº 001/SP-URB/2025.</p>
+      <p>A lista também foi publicada no Diário Oficial da Cidade de São Paulo, indicando os despachos de deferimento e indeferimento para cada código identificador (ID), seguido das motivações para os casos de indeferimento.</p>
+      <p>Na lista foram indicados:</p>
+      <p><strong>1ª coluna:</strong> Número do ID;</p>
+      <p><strong>2ª coluna:</strong> Documentos exigidos para inscrição; </p>
+      <p><strong>3ª coluna:</strong> “Código da Documentação”, nos termos do anexo IV do Edital; </p>
+      <p><strong>4ª coluna:</strong> “Situação do documento apresentado”, compreendendo as seguintes possibilidades:  </p>
+      <ul style="margin-left: 20px;">
+        <li><strong>Documento Adequado:</strong> quando o documento foi apresentado, conforme exigências constantes do Edital.</li>
+        <li><strong>Documento Inadequado ou Insuficiente:</strong> quando o documento foi apresentado, mas com indicativo de irregularidade ou incompleto (sem assinatura, por exemplo).</li> 
+        <li><strong>Documento não Apresentado:</strong> ausência do documento exigido </li>
+        <li><strong>Não se Aplica:</strong> quando, para a categoria de inscrição pleiteada, a documentação não é exigida. </li>
+      </ul>
+      <p><strong>5ª coluna:</strong> “Parecer da documentação”, compreendendo as seguintes possibilidades: </p>
+      <ul style="margin-left: 20px;">
+        <li><strong>Documentação Aprovada:</strong> quando a documentação foi considerada suficiente para inscrição, nos termos do edital;</li>
+        <li><strong>Documentação Reprovada:</strong> quando a documentação foi considerada insuficiente para inscrição, se aplicando para os casos de documentos inadequados ou insuficientes ou documentos não apresentados;</li> 
+        <li><strong>Não se Aplica:</strong> quando, para a categoria de inscrição pleiteada, a documentação não é exigida. </li>
+      </ul>
+      <p><strong>6ª coluna:</strong> “Considerações da análise”, contendo eventuais considerações da Coordenação do Concurso acerca da documentação apresentada;</p>
+      <p><strong>7ª coluna:</strong> “Despacho”, compreendendo o DEFERIMENTO ou INDEFERIMENTO da inscrição; </p>
+      <p><strong>8ª coluna:</strong> “Motivo do despacho”, compreendendo somente os casos de indeferimento, indicando os termos do Edital que motivam a decisão. Exemplos: “Ausência total da documentação exigida”, quando nenhum dos documentos foram apresentados, ou ”apresentação insuficiente” quando algum dos documentos tem sido apresentado, sem assinatura, ou com indicação de impedimento para participação no concurso”.</p>
+      <p>Nos termos do item 12.3.1.4 do Edital, para os IDs que receberam INDEFERIMENTO, será permitida a apresentação de recurso em até 3 dias úteis da data de publicação desta lista, via Plataforma Digital Online, devendo-se apresentar as alegações e documentos que solucionem os apontamentos da motivação do indeferimento. Será obrigatória a apresentação da CARTA DE INTERPOSIÇÃO DE RECURSO, conforme modelo constante do ANEXO V do Edital. Caso o interessado enfrente dificuldades de acesso à Plataforma Digital Online, será permitido o envio da documentação de recurso para o e-mail do concurso (<a class="text-blue-500 underline" href="mailto:concursomoburb.sp2025@spurbanismo.sp.gov.br">concursomoburb.sp2025@spurbanismo.sp.gov.br</a>).</p>
+      <p>Pra os casos indeferidos nos termos dos itens 8.3.4.4 e 8.3.4.4.1, quando o participante ou integrante da equipe constou cadastrado em mais de uma inscrição, ou seja, seu nome, CPF ou CNPJ constou em mais de um ID (código identificador da inscrição), será necessária apresentar o recurso somente para a inscrição na qual o participante estiver corretamente cadastrado. Este recurso não dispensa a apresentação da CARTA DE INTERPOSIÇÃO DE RECURSO, conforme modelo constante do ANEXO V do Edital, atendidas as demais disposições do item 12.3.1.4 do Edital.</p>
+      <br />
+      <p>Atenciosamente,</p>
+      <p>Coordenação do Concurso.</p>
+    `,
+    botaoTexto: 'Ver Detalhes',
+    botaoUrl: `${process.env.NEXT_PUBLIC_APP_URL}`
+  });
+};
+
 export const templateDuvidasPadraoPlataforma = () => {
   return gerarEmailTemplate({
     nome: "Interessado(a)",
