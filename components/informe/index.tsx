@@ -30,7 +30,6 @@ export default function InformeComponent({ informe }: { informe: Partial<Informe
                 />
                 {informe.subtitulo && <h4 className="text-[#3B2D3A] text-md lg:text-lg">{informe.subtitulo}</h4>}
                 <InformeConteudo conteudo={informe.conteudo} />
-                {informe.download && informe.download}
             </div>
         </div>
     </div>
