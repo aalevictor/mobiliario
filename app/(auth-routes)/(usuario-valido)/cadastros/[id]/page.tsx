@@ -1,26 +1,23 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, FileText, FolderOpen, MapPin, User, Users } from "lucide-react";
 import { buscarCadastro, buscarCadastroJulgadora } from "@/services/cadastros";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import ModalLicitadora from "../_components/modal-licitadora";
-import { ICadastro } from "../page";
 import { Arquivo, Participante, TipoArquivo } from "@prisma/client";
 import { auth } from "@/auth";
 import { retornaPermissao, verificarPermissoes } from "@/services/usuarios";
 import DownloadButton from "./_components/download-button";
 import ViewModalButton from "./_components/view-modal-button";
 import ViewButton from "./_components/view-button";
+import CadastroClientWrapper from "./_components/cadastro-client-wrapper";
 
 
 async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string }) {
     const cadastro = await buscarCadastro(+id);
     if (!cadastro) redirect('/cadastros');
     const podeDownload = await verificarPermissoes(usuarioId, ["DEV", "ADMIN"]);
-    const projetos = cadastro.arquivos?.filter((arquivo: { tipo: string; }) => arquivo.tipo === TipoArquivo.PROJETOS) || [];
-    const documentos = cadastro.arquivos?.filter((arquivo: { tipo: string; }) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA) || [];
-
+    
     return (<div className="px-2 md:px-8 relative h-full container mx-auto py-8">
                 <div className="space-y-2 max-w-6xl mx-auto">
                     <Card>
@@ -147,128 +144,11 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                         </CardContent>
                     </Card>
 
-                    {/* Seção Documentação */}
-                    <Card>
-                        <CardHeader className="pb-4">
-                            <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                                    <FileText className="h-4 w-4 text-white" />
-                                </div>
-                                <CardTitle className="text-lg text-primary">Documentação Específica</CardTitle>
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            {documentos && documentos.length > 0 ? (
-                                <div className="space-y-3">
-                                    {documentos.map((arquivo: Partial<Arquivo>) => (
-                                        <div key={arquivo.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                            <div className="flex items-center gap-3">
-                                                <FileText className="h-5 w-5 text-gray-500" />
-                                                <div>
-                                                    <p className="font-medium">{arquivo.caminho?.split('/').pop() || 'Documento'}</p>
-                                                    <p className="text-sm text-gray-600">
-                                                        Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            {podeDownload && arquivo.id && (
-                                                <div className="flex gap-2">
-                                                    <ViewButton
-                                                        cadastroId={cadastro.id!}
-                                                        arquivoId={arquivo.id}
-                                                        nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
-                                                        className="cursor-pointer"
-                                                    />
-                                                    <ViewModalButton
-                                                        cadastroId={cadastro.id!}
-                                                        arquivoId={arquivo.id}
-                                                        nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
-                                                        className="cursor-pointer"
-                                                    />
-                                                    <DownloadButton
-                                                        cadastroId={cadastro.id!}
-                                                        arquivoId={arquivo.id}
-                                                        nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
-                                                        className="cursor-pointer"
-                                                    />
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="text-center py-8 text-gray-500">
-                                    <FileText className="h-12 w-12 mx-auto mb-3 text-gray-300" />
-                                    <p>Nenhum documento encontrado</p>
-                                    <p className="text-sm">Documentação específica não foi enviada</p>
-                                </div>
-                            )}
-                        </CardContent>
-                        {documentos && documentos.length > 0 && (
-                            <CardFooter className="flex justify-end">
-                                <ModalLicitadora cadastro={cadastro as ICadastro} />
-                            </CardFooter>
-                        )}
-                    </Card>
-
-                    {/* Seção Projetos */}
-                    <Card>
-                        <CardHeader className="pb-4">
-                            <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                                    <FolderOpen className="h-4 w-4 text-white" />
-                                </div>
-                                <CardTitle className="text-lg text-primary">Projetos</CardTitle>
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            {projetos && projetos.length > 0 ? (
-                                <div className="space-y-3">
-                                    {projetos.map((arquivo: Partial<Arquivo>) => (
-                                        <div key={arquivo.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                            <div className="flex items-center gap-3">
-                                                <FolderOpen className="h-5 w-5 text-gray-500" />
-                                                <div>
-                                                    <p className="font-medium">{arquivo.caminho?.split('/').pop() || 'Projeto'}</p>
-                                                    <p className="text-sm text-gray-600">
-                                                        Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            {podeDownload && arquivo.id && (
-                                                <div className="flex gap-2">
-                                                    <ViewButton
-                                                        cadastroId={cadastro.id!}
-                                                        arquivoId={arquivo.id}
-                                                        nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
-                                                        className="cursor-pointer"
-                                                    />
-                                                    <ViewModalButton
-                                                        cadastroId={cadastro.id!}
-                                                        arquivoId={arquivo.id}
-                                                        nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
-                                                        className="cursor-pointer"
-                                                    />
-                                                    <DownloadButton
-                                                        cadastroId={cadastro.id!}
-                                                        arquivoId={arquivo.id}
-                                                        nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
-                                                        className="cursor-pointer"
-                                                    />
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="text-center py-8 text-gray-500">
-                                    <FolderOpen className="h-12 w-12 mx-auto mb-3 text-gray-300" />
-                                    <p>Nenhum projeto encontrado</p>
-                                    <p className="text-sm">Projetos não foram enviados</p>
-                                </div>
-                            )}
-                        </CardContent>
-                    </Card>
+                    {/* Seções de Arquivos */}
+                    <CadastroClientWrapper 
+                        initialCadastro={cadastro}
+                        podeDownload={podeDownload}
+                    />
                 </div>
     </div>)
 }

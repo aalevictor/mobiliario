@@ -1,6 +1,6 @@
 /** @format */
 
-import { NivelLog, Permissao, Prisma, TipoArquivo, Tipo_Usuario } from "@prisma/client";
+import { Arquivo, Cadastro, NivelLog, Participante, Permissao, Prisma, TipoArquivo, Tipo_Usuario } from "@prisma/client";
 import { db } from "@/lib/prisma";
 import { PreCadastro } from "@/app/api/cadastro/pre-cadastro.dto";
 import { hashPassword } from "@/lib/password";
@@ -739,7 +739,12 @@ async function buscarArquivosExportacao({ busca, documentosEnviados, projetosEnv
   return { headers, rows };
 }
 
-async function buscarCadastro(id: number) {
+export interface ICadastroBusca extends Cadastro {
+  participantes: Participante[];
+  arquivos: Arquivo[];
+}
+
+async function buscarCadastro(id: number): Promise<ICadastroBusca | null> {
   const cadastro = await db.cadastro.findUnique({
     where: { id },
     include: {

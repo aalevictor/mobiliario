@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { verificarPermissoes } from "@/services/usuarios";
+import { buscarCadastro } from "@/services/cadastros";
 
 export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
     const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
@@ -28,4 +29,31 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
     });
     if (!cadastroAtualizado) return NextResponse.json({ error: "Erro ao atualizar cadastro" }, { status: 500 });
     return NextResponse.json({ message: "Cadastro atualizado com sucesso" }, { status: 200 });
+}
+
+export async function GET(
+    request: NextRequest,
+    context: { params: Promise<{ id: string }> }
+) {
+    try {
+        const session = await auth();
+        if (!session) {
+            return NextResponse.json({ error: 'Não autorizado' }, { status: 401 });
+        }
+
+        const { id } = await context.params;
+        const cadastro = await buscarCadastro(+id);
+        
+        if (!cadastro) {
+            return NextResponse.json({ error: 'Cadastro não encontrado' }, { status: 404 });
+        }
+
+        return NextResponse.json(cadastro);
+    } catch (error) {
+        console.error('Erro ao buscar cadastro:', error);
+        return NextResponse.json(
+            { error: 'Erro interno do servidor' },
+            { status: 500 }
+        );
+    }
 }

@@ -4,25 +4,23 @@ import { db } from "@/lib/prisma";
 import { Arquivo, TipoArquivo } from "@prisma/client";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
+import { verificarPermissoes } from "@/services/usuarios";
 
 export async function POST(
     request: NextRequest,
     context: { params: Promise<{ id: string }> }
 ) {
+    const session = await auth();
+    if (!session) {
+        return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+    }
+    const validaPermissao = await verificarPermissoes(session.user.id, ["DEV", "ADMIN"]);
     const dataAberturaRecurso = new Date("2025-09-30 00:00:00")
     const dataLimiteRecurso = new Date("2025-10-03 23:59:59.999")
     const dataAtual = new Date()
     const podeEnviarRecurso = dataAtual >= dataAberturaRecurso && dataAtual <= dataLimiteRecurso
-    if (!podeEnviarRecurso) return NextResponse.json({ error: "Não é possível atualizar os dados do cadastro fora do período de recurso." }, { status: 400 });
-    const { searchParams } = new URL(request.url);
-    const email = searchParams.get('email') || '';
-    const eEmail = email === "true";
+    if (!podeEnviarRecurso && !validaPermissao) return NextResponse.json({ error: "Não é possível atualizar os dados do cadastro fora do período de recurso." }, { status: 400 });
     try {
-        const session = await auth();
-        if (!session) {
-            return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-        }
-
         const { id } = await context.params;
         const cadastroId = parseInt(id);
 
@@ -30,7 +28,7 @@ export async function POST(
         const cadastro = await db.cadastro.findFirst({
             where: {
                 id: cadastroId,
-                usuarioId: session.user.id
+                ...(!validaPermissao && { usuarioId: session.user.id })
             }
         });
 
@@ -68,7 +66,7 @@ export async function POST(
             return total + arquivo.size;
         }, 0);
 
-        if (tamanhoTotalExistente + tamanhoNovosArquivos > maxSizeForType) {
+        if (tamanhoTotalExistente + tamanhoNovosArquivos > maxSizeForType && !validaPermissao) {
             const tipoDescricao = tipo === TipoArquivo.DOC_ESPECIFICA ? 'documentos' : 'projetos';
             const limite = tipo === TipoArquivo.DOC_ESPECIFICA ? '20MB' : '180MB';
             
@@ -92,7 +90,7 @@ export async function POST(
         for (const arquivo of arquivos) {
             // Gerar nome único para o arquivo
             const timestamp = Date.now();
-            const filename = `RECURSO-${eEmail ? "EMAIL-" : ""}${timestamp}-${arquivo.name.normalize('NFD').replaceAll(" ", "_").replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9._]/g, "")}`;
+            const filename = `RECURSO-${validaPermissao ? "EMAIL-" : ""}${timestamp}-${arquivo.name.normalize('NFD').replaceAll(" ", "_").replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9._]/g, "")}`;
             const filepath = join(uploadDir, filename);
             const relativePath = `uploads/cadastros/${id}/${filename}`;
             
