@@ -10,6 +10,7 @@ import ProjetosForm from "../_components/projetos-form";
 import { revalidatePath } from "next/cache";
 import { ICadastro } from "../../cadastros/page";
 import ProtocoloDisplay from "../_components/protocolo-display";
+import RecursoForm from "../_components/recurso-form";
 
 export default async function MeuCadastro(props: { searchParams: Promise<{ tab: string }> }) {
     const { tab } = await props.searchParams;
@@ -23,6 +24,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
     const dataLimiteProjetos = new Date('2025-10-17 23:59:59.999');
     const dataAtual = new Date();
     const podeEnviarProjetos = dataAtual >= dataAberturaProjetos && dataAtual <= dataLimiteProjetos && cadastro.avaliacao_licitadora?.aprovado;
+    const eDeferido = cadastro.avaliacao_licitadora && cadastro.avaliacao_licitadora.aprovado;
 
     async function atualizarPagina(tab: string) {
         "use server";
@@ -40,6 +42,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                         <TabsTrigger value="endereco">Endereço</TabsTrigger>
                         <TabsTrigger value="participantes">Participantes</TabsTrigger>
                         <TabsTrigger value="documentacao">Documentação</TabsTrigger>
+                        {cadastro.avaliacao_licitadora && !eDeferido && <TabsTrigger value="recurso">Recurso</TabsTrigger>}  
                         {podeEnviarProjetos && <TabsTrigger value="projetos">Propostas Técnicas</TabsTrigger>}
                     </TabsList>
                 </div>
@@ -59,6 +62,9 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                     <TabsContent value="documentacao" className="m-0">
                         <DocumentosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
                     </TabsContent>
+                    {cadastro.avaliacao_licitadora && !eDeferido && <TabsContent value="recurso" className="m-0">
+                        <RecursoForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                    </TabsContent>}
                     {podeEnviarProjetos && (
                         <TabsContent value="projetos" className="m-0">
                             <ProjetosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />

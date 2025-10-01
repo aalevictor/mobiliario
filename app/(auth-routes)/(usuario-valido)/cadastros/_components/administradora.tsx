@@ -24,6 +24,18 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 		},
 	},
 	{
+		accessorKey: 'status',
+		header: 'Status',
+		cell: ({ row }) => {
+			const avaliado = !!row.original.avaliacao_licitadora;
+			return (
+				<Badge variant={avaliado ? row.original.avaliacao_licitadora?.aprovado ? 'default' : 'destructive' : 'outline'}>
+					{avaliado ? (row.original.avaliacao_licitadora?.aprovado ? 'Deferido' : 'Indeferido') : 'Aguardando avaliação'}
+				</Badge>
+			);
+		},
+	},
+	{
 		accessorKey: 'data_inscricao',
 		header: 'Data de inscrição',
 		cell: ({ row }) => {

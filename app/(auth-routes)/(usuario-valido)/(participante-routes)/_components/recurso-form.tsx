@@ -15,7 +15,7 @@ import { TipoArquivo } from "@prisma/client"
 import { toast } from "sonner"
 import { Separator } from "@/components/ui/separator"
 
-interface DocumentosFormProps {
+interface RecursoFormProps {
     cadastro: ICadastro  
     atualizarPagina: (tab: string) => Promise<void>
 }
@@ -28,21 +28,21 @@ const uploadSchema = z.object({
 
 type UploadForm = z.infer<typeof uploadSchema>
 
-export default function DocumentosForm({ cadastro, atualizarPagina }: DocumentosFormProps) {
+export default function RecursoForm({ cadastro, atualizarPagina }: RecursoFormProps) {
     const [isPending, startTransition] = useTransition()
     const [deletingFileId, setDeletingFileId] = useState<string | null>(null)
     const [downloadingFileId, setDownloadingFileId] = useState<string | null>(null)
     const dragDropRef = useRef<DragDropInputRef>(null)
     
     // Filtrar apenas documentos específicos
-    const documentos = cadastro.arquivos?.filter(arquivo => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA) || []
-    const dataAberturaDocumento = new Date("2025-09-08 00:00:00")
-    const dataLimiteDocumento = new Date("2025-09-22 23:59:59.999")
-    const dataAberturaComplementar = new Date("2025-09-26 08:00:00")
-    const dataLimiteComplementar = new Date("2025-09-26 12:00:00")
+    const documentos = cadastro.arquivos?.filter(arquivo =>
+        arquivo.tipo === TipoArquivo.DOC_ESPECIFICA &&
+        arquivo.caminho?.split("/").pop()?.startsWith("RECURSO")
+    ) || []
+    const dataAberturaRecurso = new Date("2025-09-30 00:00:00")
+    const dataLimiteRecurso = new Date("2025-10-03 23:59:59.999")
     const dataAtual = new Date()
-    const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
-    const podeEnviarComplementar = dataAtual >= dataAberturaComplementar && dataAtual <= dataLimiteComplementar
+    const podeEnviarRecurso = dataAtual >= dataAberturaRecurso && dataAtual <= dataLimiteRecurso
     // Calcular tamanho total dos documentos existentes
     const tamanhoTotalExistente = documentos.reduce((total, doc) => {
         return total + (doc.tamanho || 0)
@@ -56,10 +56,6 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
             documentos: []
         }
     })
-
-    function podeExcluirArquivoNovo(dataArquivo: Date) {
-        return (dataArquivo >= dataAberturaComplementar && dataArquivo <= dataLimiteComplementar) && (dataAtual >= dataAberturaComplementar && dataAtual <= dataLimiteComplementar);
-    }
     
     const formatFileSize = (bytes: number): string => {
         if (bytes < 1024) return bytes + ' B'
@@ -69,8 +65,8 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
     }
     
     const onSubmit = (data: UploadForm) => {
-        if (!podeEnviarDocumento && !podeEnviarComplementar) {
-            toast.error("Não é possível enviar documentos fora do período de inscrição.")
+        if (!podeEnviarRecurso) {
+            toast.error("Não é possível enviar documentos fora do período de recurso.")
             return
         }
         startTransition(async () => {
@@ -85,7 +81,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                 formData.append('tipo', TipoArquivo.DOC_ESPECIFICA)
                 formData.append('cadastroId', cadastro.id?.toString() || '')
                 
-                const response = await fetch(`/api/cadastro/${cadastro.id}/arquivos`, {
+                const response = await fetch(`/api/cadastro/${cadastro.id}/recursos`, {
                     method: 'POST',
                     body: formData
                 })
@@ -108,7 +104,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
     const deletarDocumento = async (arquivoId: string) => {
         setDeletingFileId(arquivoId)
         try {
-            const response = await fetch(`/api/cadastro/${cadastro.id}/arquivos/${arquivoId}`, {
+            const response = await fetch(`/api/cadastro/${cadastro.id}/recursos/${arquivoId}`, {
                 method: 'DELETE'
             })
             
@@ -129,7 +125,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
     const downloadDocumento = async (arquivoId: string, nomeArquivo: string) => {
         setDownloadingFileId(arquivoId)
         try {
-            const response = await fetch(`/api/cadastro/${cadastro.id}/arquivos/${arquivoId}`)
+            const response = await fetch(`/api/cadastro/${cadastro.id}/recursos/${arquivoId}`)
             
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: 'Erro desconhecido' }))
@@ -193,10 +189,10 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                 <CardHeader className="px-4 sm:px-6">
                     <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
                         <FileText className="h-5 w-5" />
-                        Documentos Enviados
+                        Documentos de Recurso Enviados
                     </CardTitle>
                     <CardDescription className="text-sm sm:text-base">
-                        Lista de documentos já enviados.
+                        Lista de documentos de recurso já enviados.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="px-4 sm:px-6">
@@ -230,7 +226,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                                                 <Download className="h-4 w-4" />
                                             )}
                                         </Button>
-                                        {podeExcluirArquivoNovo(new Date(documento.criadoEm || 0)) && <Button
+                                        <Button
                                             variant="destructive"
                                             size="sm"
                                             disabled={deletingFileId === documento.id}
@@ -241,7 +237,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                                             ) : (
                                                 <Trash2 className="h-4 w-4" />
                                             )}
-                                        </Button>}
+                                        </Button>
                                     </div>
                                 </div>
                             ))}
@@ -260,22 +256,22 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                         <div className="text-center py-8 text-gray-500">
                             <FileText className="h-12 w-12 mx-auto mb-3 text-gray-300" />
                             <p>Nenhum documento enviado</p>
-                            {(podeEnviarComplementar || podeEnviarDocumento) && <p className="text-sm">Utilize o formulário abaixo para enviar seus documentos</p>}
+                            {podeEnviarRecurso && <p className="text-sm">Utilize o formulário abaixo para enviar seus documentos de recurso</p>}
                         </div>
                     )}
                 </CardContent>
                 {/* Formulário de Upload */}
-                {espacoDisponivel > 0 && (podeEnviarComplementar || podeEnviarDocumento) && (
+                {espacoDisponivel > 0 && podeEnviarRecurso && (
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
                             <CardHeader className="px-4 sm:px-6 gap-4">
                                 <Separator />
                                 <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
                                     <Upload className="h-5 w-5" />
-                                    Enviar Novos Documentos
+                                    Enviar Novos Documentos de Recurso
                                 </CardTitle>
                                 <CardDescription className="text-sm sm:text-base">
-                                    <p>Envie aqui os documentos necessários para inscrição, nos termos do item 9.2 do Edital.</p>
+                                    <p>Envie aqui os documentos necessários para o recurso.</p>
                                     <p className="text-xs">Limite máximo total: {formatFileSize(MAX_TOTAL_SIZE)}</p>
                                 </CardDescription>
                             </CardHeader>
@@ -295,7 +291,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                                     name="documentos"
                                     render={({ field }) => (
                                         <FormItem className="w-full mt-4">
-                                            <FormLabel>Documentos de Habilitação</FormLabel>
+                                            <FormLabel>Documentos de Recurso</FormLabel>
                                             <FormControl>
                                                 <DragDropInput
                                                     ref={dragDropRef}

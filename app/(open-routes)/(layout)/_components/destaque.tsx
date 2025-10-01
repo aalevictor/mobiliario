@@ -16,40 +16,33 @@ export default function Destaque() {
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-7xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold mb-5 text-[#3B2D3A] uppercase">
-                CONFIRA O CRONOGRAMA E FAÇA SUA INSCRIÇÃO
+                CONFIRA O CRONOGRAMA E ACOMPANHE OS INFORMES
               </h2>
               <p className="text-[#3B2D3A] mb-2">
-                Após a inscrição você terá acesso à área restrita, onde verá seu código identificador (ID) 
-                e poderá submeter os documentos necessários para inscrição entre os dias 
-                <strong> 08/09/2025 e 15/09/2025</strong>. 
-              </p>
-              <p className="text-[#3B2D3A] mb-2">
-                <strong>CONFIRA OS DOCUMENTOS NECESSÁRIOS PARA INSCRIÇÃO NO ITEM 9.2 DO EDITAL.</strong> 
-              </p>
-              <p className="text-[#3B2D3A] mb-8">
-                Não perca a chance de contribuir com ideias para o futuro da maior cidade do Brasil. Inscreva seu projeto e 
-                faça parte deste concurso!
+                {"O período de submissão das propostas técnicas em nível de Estudo Preliminar é entre os dias "}  
+                <strong>13/10/2025 e 27/10/2025</strong>. 
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {podePreCadastrar ?
-                    <Link
-                        href={"/inscricao"}
+                <Link
+                        href={"/informes"}
                     >
                     <Button
                         size="lg"
                         className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
                     >
-                        Faça já sua inscrição
+                        Informes
                     </Button>
-                </Link> :
+                </Link>
+                <Link
+                        href={"/meu-cadastro"}
+                    >
                     <Button
                         size="lg"
-                        className="px-4 py-1 text-lg opacity-50 cursor-not-allowed font-semibold"
-                        disabled
+                        className="px-4 py-1 text-lg hover:opacity-80 font-semibold cursor-pointer"
                     >
-                        Inscrições encerradas
+                        Área do Participante
                     </Button>
-                }
+                </Link>
               </div>
             </div>
           </div>

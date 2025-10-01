@@ -220,7 +220,7 @@ async function buscarCadastros(
     protocolo: true,
     arquivos: {
       where: {
-        tipo: TipoArquivo.DOC_ESPECIFICA,
+        tipo: TipoArquivo.PROJETOS,
       },
       select: {
         id: true,
@@ -295,6 +295,7 @@ async function buscarCadastros(
         { cnpj: "" }
       ]
     }),
+    ...(permissao === "JULGADORA" && { avaliacao_licitadora: { aprovado: true }}),
   }
   const total = await db.cadastro.count({ where });
   if (total == 0) return { total: 0, pagina: 0, limite: 0, data: [] };

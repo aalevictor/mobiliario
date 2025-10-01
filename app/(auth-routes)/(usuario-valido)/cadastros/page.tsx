@@ -16,6 +16,7 @@ import { Separator } from '@radix-ui/react-select';
 import ExportarCadastros from './_components/exportar-cadastros';
 import ExportarParticipantes from './_components/exportar-participantes';
 import ExportarArquivos from './_components/exportar-arquivos';
+import ImportarExcelWrapper from './_components/importar-excel-wrapper';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
@@ -151,40 +152,43 @@ async function Cadastros({
                         ]}
                         className='max-md:w-full'
                     />
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button>
-                                <MoreHorizontal className='w-4 h-4' />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <ExportarParticipantes filtros={{
-                                busca: busca as string,
-                                documentosEnviados: documentosEnviados as string,
-                                projetosEnviados: projetosEnviados as string,
-                                tipoInscricao: tipoInscricao as string,
-                            }} />
-                            <ExportarCadastros filtros={{
-                                busca: busca as string,
-                                documentosEnviados: documentosEnviados as string,
-                                projetosEnviados: projetosEnviados as string,
-                                tipoInscricao: tipoInscricao as string,
-                            }} />
-                            <ExportarArquivos filtros={{
-                                busca: busca as string,
-                                documentosEnviados: documentosEnviados as string,
-                                projetosEnviados: projetosEnviados as string,
-                                tipoInscricao: tipoInscricao as string,
-                            }} />
-                            <ExportarArquivos filtros={{
-                                busca: busca as string,
-                                documentosEnviados: documentosEnviados as string,
-                                projetosEnviados: projetosEnviados as string,
-                                tipoInscricao: tipoInscricao as string,
-                                novos: true
-                            }} />
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div className="flex gap-2">
+                        <ImportarExcelWrapper />
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button>
+                                    <MoreHorizontal className='w-4 h-4' />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <ExportarParticipantes filtros={{
+                                    busca: busca as string,
+                                    documentosEnviados: documentosEnviados as string,
+                                    projetosEnviados: projetosEnviados as string,
+                                    tipoInscricao: tipoInscricao as string,
+                                }} />
+                                <ExportarCadastros filtros={{
+                                    busca: busca as string,
+                                    documentosEnviados: documentosEnviados as string,
+                                    projetosEnviados: projetosEnviados as string,
+                                    tipoInscricao: tipoInscricao as string,
+                                }} />
+                                <ExportarArquivos filtros={{
+                                    busca: busca as string,
+                                    documentosEnviados: documentosEnviados as string,
+                                    projetosEnviados: projetosEnviados as string,
+                                    tipoInscricao: tipoInscricao as string,
+                                }} />
+                                <ExportarArquivos filtros={{
+                                    busca: busca as string,
+                                    documentosEnviados: documentosEnviados as string,
+                                    projetosEnviados: projetosEnviados as string,
+                                    tipoInscricao: tipoInscricao as string,
+                                    novos: true
+                                }} />
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
 				</CardContent>
 		  	</Card>}
 			<Card className='pt-0'>

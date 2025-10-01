@@ -11,6 +11,19 @@ import Link from 'next/link';
 
 export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 	{
+		accessorKey: 'acoes',
+		header: "",
+		cell: ({ row }) => {
+			return (
+				<div className='flex'>
+					<Link href={`/cadastros/${row.original.id}`}>
+						<Button size='sm' variant='outline' className='cursor-pointer'>Ver dados</Button>
+					</Link>
+				</div>
+			);
+		},
+	},
+	{
 		accessorKey: 'protocolo',
 		header: 'Inscrição',
 	},
@@ -25,19 +38,6 @@ export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 					<Badge variant='default'>
 						{projetos_length > 0 ? projetos_length : 'Nenhum'} arquivo{projetos_length > 1 ? 's' : ''}
 					</Badge>
-				</div>
-			);
-		},
-	},
-	{
-		accessorKey: 'acoes',
-		header: "",
-		cell: ({ row }) => {
-			return (
-				<div className='flex items-center justify-end'>
-					<Link href={`/cadastros/${row.original.id}`}>
-						<Button size='sm' variant='outline' className='cursor-pointer'>Ver dados</Button>
-					</Link>
 				</div>
 			);
 		},
