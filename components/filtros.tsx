@@ -102,15 +102,15 @@ export function Filtros({ camposFiltraveis, className }: FiltrosProps) {
 	function RenderTexto(campo: CampoFiltravel) {
 		return (
 			<div
-				className='flex flex-col w-full md:w-60'
+				className='flex flex-col w-full min-w-0 md:w-60 md:min-w-60'
 				key={campo.tag}>
-				<p>{campo.nome}</p>
+				<p className='text-sm font-medium mb-1 truncate'>{campo.nome}</p>
 				<Input
 					value={filtros[campo.tag]}
 					onChange={(e) =>
 						setFiltros((prev) => ({ ...prev, [campo.tag]: e.target.value }))
 					}
-					className='bg-background'
+					className='bg-background w-full'
 					placeholder={campo.placeholder}
 				/>
 			</div>
@@ -120,21 +120,19 @@ export function Filtros({ camposFiltraveis, className }: FiltrosProps) {
 	function RenderSelect(campo: CampoFiltravel) {
 		return (
 			<div
-				className='flex flex-col w-full md:w-60'
+				className='flex flex-col w-full min-w-0 md:w-60 md:min-w-60'
 				key={campo.tag}>
-				<p>{campo.nome}</p>
+				<p className='text-sm font-medium mb-1 truncate'>{campo.nome}</p>
 				<Select
 					onValueChange={(value) =>
 						setFiltros((prev) => ({ ...prev, [campo.tag]: value }))
 					}
 					value={filtros[campo.tag]}>
-					<SelectTrigger className='w-full md:w-60 text-nowrap bg-background'>
-						<SelectValue placeholder={campo.placeholder} />
+					<SelectTrigger className='w-full bg-background'>
+						<SelectValue placeholder={campo.placeholder} className='truncate' />
 					</SelectTrigger>
 					<SelectContent>
-						<SelectItem
-							value='all'
-							className='text-nowrap'>
+						<SelectItem value='all'>
 							Tudo
 						</SelectItem>
 						{campo.valores &&
@@ -157,23 +155,25 @@ export function Filtros({ camposFiltraveis, className }: FiltrosProps) {
 		const [open, setOpen] = useState(false);
 		const [value, setValue] = useState(campo.default || '');
 		const valores = campo.valores as CampoSelect[] || [];
-		return <div className='flex flex-col w-full md:w-60' key={campo.tag}>
-			<p>{campo.nome}</p>
+		return <div className='flex flex-col w-full min-w-0 md:w-60 md:min-w-60' key={campo.tag}>
+			<p className='text-sm font-medium mb-1 truncate'>{campo.nome}</p>
 			<Popover open={open} onOpenChange={setOpen}>
 				<PopoverTrigger asChild>
 					<Button
 					variant="outline"
 					role="combobox"
 					aria-expanded={open}
-					className="w-[200px] justify-between"
+					className="w-full justify-between"
 					>
-					{value
-						? valores.find((opcao) => opcao.label === value)?.label
-						: campo.placeholder }
+					<span className='truncate'>
+						{value
+							? valores.find((opcao) => opcao.label === value)?.label
+							: campo.placeholder }
+					</span>
 					<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 					</Button>
 				</PopoverTrigger>
-				<PopoverContent className="w-[200px] p-0">
+				<PopoverContent className="w-full p-0">
 					<Command>
 						<CommandInput placeholder="Buscar opção" />
 						<CommandList>
@@ -207,19 +207,29 @@ export function Filtros({ camposFiltraveis, className }: FiltrosProps) {
 	}
 
 	return (
-		<div className={cn('flex flex-col md:flex-row md:items-end gap-5 md:w-fit justify-start', className)}>
-			{renderFiltros()}
-			<div className="grid grid-cols-2">
-				<Button className='rounded-r-none w-full md:w-fit' disabled={isPending} onClick={() => startTransition(() => atualizaFiltros())} title='Aplicar filtros'>
-					<RefreshCw className={isPending ? 'animate-spin' : ''} />
+		<div className={cn('flex flex-col lg:flex-row lg:items-end gap-4 w-full overflow-x-auto', className)}>
+			<div className='flex flex-col sm:flex-row flex-wrap gap-4 flex-1 min-w-0'>
+				{renderFiltros()}
+			</div>
+			<div className="flex gap-2 shrink-0">
+				<Button 
+					size='sm'
+					disabled={isPending} 
+					onClick={() => startTransition(() => atualizaFiltros())} 
+					title='Aplicar filtros'
+					className='min-w-[40px]'
+				>
+					<RefreshCw className={cn('h-4 w-4', isPending ? 'animate-spin' : '')} />
 				</Button>
 				<Button
 					variant={'destructive'}
+					size='sm'
 					disabled={isPending}
-					className='rounded-l-none w-full md:w-fit'
 					onClick={() => startTransition(() => limpaFiltros())}
-					title='Limpar filtros'>
-					<X />
+					title='Limpar filtros'
+					className='min-w-[40px]'
+				>
+					<X className='h-4 w-4' />
 				</Button>
 			</div>
 		</div>

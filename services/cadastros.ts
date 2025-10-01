@@ -175,6 +175,7 @@ async function buscarCadastros(
   documentosEnviados?: string,
   projetosEnviados?: string,
   tipoInscricao?: string,
+  avaliacao?: string
 ) {
   [pagina, limite] = verificaPagina(pagina, limite);
   const select = ["ADMIN", "DEV"].includes(permissao) ? {
@@ -296,6 +297,9 @@ async function buscarCadastros(
       ]
     }),
     ...(permissao === "JULGADORA" && { avaliacao_licitadora: { aprovado: true }}),
+    ...(avaliacao === "AGUARDANDO" && { avaliacao_licitadora: null }),
+    ...(avaliacao === "DEFERIDO" && { avaliacao_licitadora: { aprovado: true } }),
+    ...(avaliacao === "INDEFERIDO" && { avaliacao_licitadora: { aprovado: false } }),
   }
   const total = await db.cadastro.count({ where });
   if (total == 0) return { total: 0, pagina: 0, limite: 0, data: [] };
@@ -413,8 +417,14 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
       cep: true,
       cidade: true,
       uf: true,
+      avaliacao_licitadora: {
+        select: {
+          aprovado: true,
+        }
+      },
       arquivos: {
         select: {
+          caminho: true,
           tipo: true,
         }
       },
@@ -429,6 +439,7 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
 
   const headers = [
     "Data",
+    "Situação",
     "ID sequencial",
     "ID",
     "Nome",
@@ -439,6 +450,7 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
     "Membros",
     "Documentos enviados",
     "Projetos enviados",
+    "Documentos de Recurso enviados",
     "CEP",
     "Cidade",
     "UF",
@@ -447,10 +459,14 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
   const rows = cadastros.map((cadastro) => {
     const participantes = cadastro.participantes || [];
     const arquivos = cadastro.arquivos || [];
-    const arquivosEnviados = arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA).length || 0;
+    const arquivosEnviados = arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && !arquivo.caminho.split("/").pop()?.startsWith("RECURSO-")).length || 0;
     const projetosEnviados = arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.PROJETOS).length || 0;
+    const recursosEnviados = arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && arquivo.caminho.split("/").pop()?.startsWith("RECURSO-")).length || 0;
+    const analisado = !!cadastro.avaliacao_licitadora
+    const situacao = analisado ? cadastro.avaliacao_licitadora?.aprovado ? "Deferido" : "Indeferido" : "Aguardando análise"
     return [
       `${cadastro.criadoEm}`,
+      `${situacao}`,
       `${cadastro.id}`,
       cadastro.protocolo,
       cadastro.nome,
@@ -461,6 +477,7 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
       participantes.map((participante) => `${participante.nome} - ${participante.documento}`).join("\n"),
       `${arquivosEnviados}`,
       `${projetosEnviados}`,
+      `${recursosEnviados}`,
       cadastro.cep,
       cadastro.cidade,
       cadastro.uf,
@@ -470,7 +487,7 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
   return { headers, rows };
 }
 
-async function buscarParticipantesExportacao({ busca, documentosEnviados, projetosEnviados, tipoInscricao }: { busca?: string, documentosEnviados?: string, projetosEnviados?: string, tipoInscricao?: string }): Promise<{ headers: string[], rows: (string | null | undefined)[][] }> {
+async function buscarParticipantesExportacao({ busca, documentosEnviados, projetosEnviados, tipoInscricao, avaliacao }: { busca?: string, documentosEnviados?: string, projetosEnviados?: string, tipoInscricao?: string, avaliacao?: string }): Promise<{ headers: string[], rows: (string | null | undefined)[][] }> {
   interface some {
     tipo?: any;
   }
@@ -534,6 +551,9 @@ async function buscarParticipantesExportacao({ busca, documentosEnviados, projet
         { cnpj: "" }
       ]
     }),
+    ...(avaliacao === "AGUARDANDO" && { avaliacao_licitadora: null }),
+    ...(avaliacao === "DEFERIDO" && { avaliacao_licitadora: { aprovado: true } }),
+    ...(avaliacao === "INDEFERIDO" && { avaliacao_licitadora: { aprovado: false } }),
   }
 
   const cadastros = await db.cadastro.findMany({

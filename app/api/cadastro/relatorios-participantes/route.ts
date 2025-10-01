@@ -13,13 +13,14 @@ export async function GET(request: NextRequest) {
   const documentosEnviados = searchParams.get('documentosEnviados') || '';
   const projetosEnviados = searchParams.get('projetosEnviados') || '';
   const tipoInscricao = searchParams.get('tipoInscricao') || '';
+  const avaliacao = searchParams.get('avaliacao') || '';
 
   const { verificarPermissoes } = await import('@/services/usuarios');
   const isAdmin = await verificarPermissoes(session.user.id, ["DEV", "ADMIN"]);
   if (!isAdmin) {
     return NextResponse.json({ error: "Sem permissão para exportar cadastros" }, { status: 403 });
   }
-  const { headers, rows } = await buscarParticipantesExportacao({ busca, documentosEnviados, projetosEnviados, tipoInscricao });
+  const { headers, rows } = await buscarParticipantesExportacao({ busca, documentosEnviados, projetosEnviados, tipoInscricao, avaliacao });
   
   // Criar workbook e worksheet
   const workbook = XLSX.utils.book_new();

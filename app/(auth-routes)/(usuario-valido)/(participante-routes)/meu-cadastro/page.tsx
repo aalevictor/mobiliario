@@ -11,6 +11,7 @@ import { revalidatePath } from "next/cache";
 import { ICadastro } from "../../cadastros/page";
 import ProtocoloDisplay from "../_components/protocolo-display";
 import RecursoForm from "../_components/recurso-form";
+import ModelosAba from "../_components/modelos-aba";
 
 export default async function MeuCadastro(props: { searchParams: Promise<{ tab: string }> }) {
     const { tab } = await props.searchParams;
@@ -20,8 +21,8 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
     const cadastro = await meuCadastro(session.user.id);
     if (!cadastro) redirect("/");
 
-    const dataAberturaProjetos = new Date('2025-10-06 00:00:00');
-    const dataLimiteProjetos = new Date('2025-10-17 23:59:59.999');
+    const dataAberturaProjetos = new Date('2025-10-13 00:00:00');
+    const dataLimiteProjetos = new Date('2025-10-28 23:59:59.999');
     const dataAtual = new Date();
     const podeEnviarProjetos = dataAtual >= dataAberturaProjetos && dataAtual <= dataLimiteProjetos && cadastro.avaliacao_licitadora?.aprovado;
     const eDeferido = cadastro.avaliacao_licitadora && cadastro.avaliacao_licitadora.aprovado;
@@ -42,7 +43,8 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                         <TabsTrigger value="endereco">Endereço</TabsTrigger>
                         <TabsTrigger value="participantes">Participantes</TabsTrigger>
                         <TabsTrigger value="documentacao">Documentação</TabsTrigger>
-                        {cadastro.avaliacao_licitadora && !eDeferido && <TabsTrigger value="recurso">Recurso</TabsTrigger>}  
+                        {cadastro.avaliacao_licitadora && !eDeferido && <TabsTrigger value="recurso">Recurso</TabsTrigger>}
+                        {eDeferido && <TabsTrigger value="modelos">Modelos</TabsTrigger>}
                         {podeEnviarProjetos && <TabsTrigger value="projetos">Propostas Técnicas</TabsTrigger>}
                     </TabsList>
                 </div>
@@ -64,6 +66,9 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                     </TabsContent>
                     {cadastro.avaliacao_licitadora && !eDeferido && <TabsContent value="recurso" className="m-0">
                         <RecursoForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                    </TabsContent>}
+                    {eDeferido && <TabsContent value="modelos" className="m-0">
+                        <ModelosAba />
                     </TabsContent>}
                     {podeEnviarProjetos && (
                         <TabsContent value="projetos" className="m-0">

@@ -9,12 +9,13 @@ export interface IFiltrosCadastro {
     documentosEnviados?: string;
     projetosEnviados?: string;
     tipoInscricao?: string;
+    avaliacao?: string;
 }
 export default function ExportarCadastros({ filtros }: { filtros?: IFiltrosCadastro }) {
     const [isPending, startTransition] = useTransition();
     const handleExportar = async () => {
         startTransition(async () => {
-            const response = await fetch(`/api/cadastro/relatorios?busca=${filtros?.busca}&documentosEnviados=${filtros?.documentosEnviados}&projetosEnviados=${filtros?.projetosEnviados}&tipoInscricao=${filtros?.tipoInscricao}`);
+            const response = await fetch(`/api/cadastro/relatorios?busca=${filtros?.busca}&documentosEnviados=${filtros?.documentosEnviados}&projetosEnviados=${filtros?.projetosEnviados}&tipoInscricao=${filtros?.tipoInscricao}&avaliacao=${filtros?.avaliacao}`);
             if (!response.ok) throw new Error('Erro ao exportar cadastros');
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);

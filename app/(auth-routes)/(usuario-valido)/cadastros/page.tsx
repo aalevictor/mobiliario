@@ -76,7 +76,7 @@ async function Cadastros({
     const permissao: Permissao | null = await retornaPermissao(session.user.id);
     if (!permissao) return redirect('/');
 	let { pagina = 1, limite = 10, total = 0 } = await searchParams;
-	const { busca = '', documentosEnviados = '', projetosEnviados = '', tipoInscricao = '' } = await searchParams;
+	const { busca = '', documentosEnviados = '', projetosEnviados = '', tipoInscricao = '', avaliacao = '' } = await searchParams;
 	let dados: ICadastro[] = [];
 	try {
         const data = await buscarCadastros(
@@ -87,6 +87,7 @@ async function Cadastros({
             documentosEnviados as string,
             projetosEnviados as string,
             tipoInscricao as string,
+            avaliacao as string,
         );
         if (data) {
             const paginado = data as IPaginadoCadastro;
@@ -109,6 +110,12 @@ async function Cadastros({
         { label: 'Pessoa Jurídica', value: 'PJ' },
     ]
 
+    const selectSituacao = [
+        { label: 'Aguardando avaliação', value: 'AGUARDANDO' },
+        { label: 'Deferido', value: 'DEFERIDO' },
+        { label: 'Indeferido', value: 'INDEFERIDO' },
+    ]
+
     return (
         <div className="relative h-full container mx-auto px-4 py-6 max-w-8xl space-y-2">
 		    <Card>
@@ -122,7 +129,7 @@ async function Cadastros({
 				</CardHeader>
 			</Card>
 			{["ADMIN", "DEV"].includes(permissao) && <Card>
-				<CardContent className='flex justify-between items-end max-md:flex-col max-md:gap-4'>
+				<CardContent>
                     <Filtros
                         camposFiltraveis={[
                             {
@@ -148,47 +155,58 @@ async function Cadastros({
                                 tipo: 2,
                                 placeholder: 'Tipo de Inscrição',
                                 valores: selectTipoInscricao,
+                            },{
+                                nome: 'Situação',
+                                tag: 'avaliacao',
+                                tipo: 2,
+                                placeholder: 'Situação',
+                                valores: selectSituacao,
                             },
                         ]}
-                        className='max-md:w-full'
                     />
-                    <div className="flex gap-2">
-                        <ImportarExcelWrapper />
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button>
-                                    <MoreHorizontal className='w-4 h-4' />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <ExportarParticipantes filtros={{
-                                    busca: busca as string,
-                                    documentosEnviados: documentosEnviados as string,
-                                    projetosEnviados: projetosEnviados as string,
-                                    tipoInscricao: tipoInscricao as string,
-                                }} />
-                                <ExportarCadastros filtros={{
-                                    busca: busca as string,
-                                    documentosEnviados: documentosEnviados as string,
-                                    projetosEnviados: projetosEnviados as string,
-                                    tipoInscricao: tipoInscricao as string,
-                                }} />
-                                <ExportarArquivos filtros={{
-                                    busca: busca as string,
-                                    documentosEnviados: documentosEnviados as string,
-                                    projetosEnviados: projetosEnviados as string,
-                                    tipoInscricao: tipoInscricao as string,
-                                }} />
-                                <ExportarArquivos filtros={{
-                                    busca: busca as string,
-                                    documentosEnviados: documentosEnviados as string,
-                                    projetosEnviados: projetosEnviados as string,
-                                    tipoInscricao: tipoInscricao as string,
-                                    novos: true
-                                }} />
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
+				</CardContent>
+		  	</Card>}
+			{["ADMIN", "DEV"].includes(permissao) && <Card>
+				<CardContent className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
+                    <ImportarExcelWrapper />
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button>
+                                <MoreHorizontal className='w-4 h-4' />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <ExportarParticipantes filtros={{
+                                busca: busca as string,
+                                documentosEnviados: documentosEnviados as string,
+                                projetosEnviados: projetosEnviados as string,
+                                tipoInscricao: tipoInscricao as string,
+                                avaliacao: avaliacao as string,
+                            }} />
+                            <ExportarCadastros filtros={{
+                                busca: busca as string,
+                                documentosEnviados: documentosEnviados as string,
+                                projetosEnviados: projetosEnviados as string,
+                                tipoInscricao: tipoInscricao as string,
+                                avaliacao: avaliacao as string,
+                            }} />
+                            <ExportarArquivos filtros={{
+                                busca: busca as string,
+                                documentosEnviados: documentosEnviados as string,
+                                projetosEnviados: projetosEnviados as string,
+                                tipoInscricao: tipoInscricao as string,
+                                avaliacao: avaliacao as string,
+                            }} />
+                            <ExportarArquivos filtros={{
+                                busca: busca as string,
+                                documentosEnviados: documentosEnviados as string,
+                                projetosEnviados: projetosEnviados as string,
+                                tipoInscricao: tipoInscricao as string,
+                                avaliacao: avaliacao as string,
+                                novos: true
+                            }} />
+                        </DropdownMenuContent>
+                    </DropdownMenu>
 				</CardContent>
 		  	</Card>}
 			<Card className='pt-0'>
