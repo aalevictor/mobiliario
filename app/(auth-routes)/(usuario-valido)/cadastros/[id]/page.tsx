@@ -1,10 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, FileText, FolderOpen, MapPin, User, Users } from "lucide-react";
+import { ArrowLeft, FolderOpen, MapPin, User, Users } from "lucide-react";
 import { buscarCadastro, buscarCadastroJulgadora } from "@/services/cadastros";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Arquivo, Participante, TipoArquivo } from "@prisma/client";
+import { Arquivo, Participante } from "@prisma/client";
 import { auth } from "@/auth";
 import { retornaPermissao, verificarPermissoes } from "@/services/usuarios";
 import DownloadButton from "./_components/download-button";

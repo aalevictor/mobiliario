@@ -33,7 +33,7 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
     const projetos = cadastro.arquivos?.filter((arquivo: { tipo: string; }) => arquivo.tipo === TipoArquivo.PROJETOS) || []
     const documentos = cadastro.arquivos?.filter((arquivo: { tipo: string; caminho: string }) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && !arquivo.caminho.split("/").pop()?.startsWith("RECURSO-")) || []
     const recursos = cadastro.arquivos?.filter((arquivo: { tipo: string; caminho: string }) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && arquivo.caminho.split("/").pop()?.startsWith("RECURSO-")) || []
-
+    const eDeferido = !!cadastro.avaliacao_licitadora && cadastro.avaliacao_licitadora.aprovado
     return (
         <>
             {/* Seção Documentos */}
@@ -101,7 +101,7 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
             </Card>
 
             {/* Seção Recurso */}
-            {recursos && recursos.length > 0 && (
+            {!eDeferido && (
                 <Card>
                     <CardHeader className="pb-4">
                         <div className="flex items-center gap-3">
