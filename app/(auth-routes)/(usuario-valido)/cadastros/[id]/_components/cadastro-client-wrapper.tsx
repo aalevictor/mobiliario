@@ -2,13 +2,15 @@
 
 import { useState, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { FileText, FolderOpen } from "lucide-react"
+import { FileText, FolderOpen, Loader2, Trash2 } from "lucide-react"
 import { Arquivo, TipoArquivo } from "@prisma/client"
 import { ICadastroBusca } from "@/services/cadastros"
 import DownloadButton from "./download-button"
 import ViewModalButton from "./view-modal-button"
 import ViewButton from "./view-button"
 import FormArquivos from "./form-arquivos"
+import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
 
 interface CadastroClientWrapperProps {
     initialCadastro: ICadastroBusca
@@ -17,6 +19,7 @@ interface CadastroClientWrapperProps {
 
 export default function CadastroClientWrapper({ initialCadastro, podeDownload }: CadastroClientWrapperProps) {
     const [cadastro, setCadastro] = useState(initialCadastro)
+    const [deletingFileId, setDeletingFileId] = useState<string | null>(null)
     
     const handleRefreshCadastro = useCallback(async () => {
         try {
@@ -29,6 +32,26 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
             console.error('Erro ao atualizar cadastro:', error)
         }
     }, [cadastro.id])
+    
+    const deletarDocumento = async (arquivoId: string) => {
+        setDeletingFileId(arquivoId)
+        try {
+            const response = await fetch(`/api/cadastro/${cadastro.id}/arquivos/${arquivoId}`, {
+                method: 'DELETE'
+            })
+            if (response.ok) {
+                toast.success('Documento removido com sucesso!')
+                await handleRefreshCadastro()
+            } else {
+                toast.error('Erro ao remover documento. Tente novamente.')
+            }
+        } catch (error) {
+            console.error('Erro ao deletar documento:', error)
+            toast.error('Erro ao remover documento. Tente novamente.')
+        } finally {
+            setDeletingFileId(null)
+        }
+    }
     
     const projetos = cadastro.arquivos?.filter((arquivo: { tipo: string; }) => arquivo.tipo === TipoArquivo.PROJETOS) || []
     const documentos = cadastro.arquivos?.filter((arquivo: { tipo: string; caminho: string }) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && !arquivo.caminho.split("/").pop()?.startsWith("RECURSO-")) || []
@@ -80,6 +103,20 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                                 nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
                                                 className="cursor-pointer"
                                             />
+                                            {arquivo.caminho?.split('/').pop()?.startsWith("EMAIL-") && (
+                                            <Button
+                                                variant="destructive"
+                                                size="sm"
+                                                disabled={deletingFileId === arquivo.id}
+                                                onClick={() => deletarDocumento(arquivo.id!)}
+                                                className="cursor-pointer hover:opacity-80"
+                                            >
+                                                {deletingFileId === arquivo.id ? (
+                                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                                ) : (
+                                                    <Trash2 className="h-4 w-4" />
+                                                )}
+                                            </Button>)}
                                         </div>
                                     )}
                                 </div>
@@ -145,6 +182,20 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                                     nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
                                                     className="cursor-pointer"
                                                 />
+                                                {arquivo.caminho?.split('/').pop()?.startsWith("RECURSO-EMAIL-") && (
+                                                <Button
+                                                    variant="destructive"
+                                                    size="sm"
+                                                    disabled={deletingFileId === arquivo.id}
+                                                    onClick={() => deletarDocumento(arquivo.id!)}
+                                                    className="cursor-pointer hover:opacity-80"
+                                                >
+                                                    {deletingFileId === arquivo.id ? (
+                                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                                    ) : (
+                                                        <Trash2 className="h-4 w-4" />
+                                                    )}
+                                                </Button>)}
                                             </div>
                                         )}
                                     </div>

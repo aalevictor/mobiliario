@@ -3,19 +3,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/prisma";
 import { unlink } from "fs/promises";
 import { join } from "path";
+import { verificarPermissoes } from "@/services/usuarios";
 
 export async function DELETE(
     request: NextRequest,
     context: { params: Promise<{ id: string; arquivoId: string }> }
 ) {
+    const session = await auth();
+    if (!session) {
+        return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+    }
+    const validaPermissao = await verificarPermissoes(session.user.id, ["DEV", "ADMIN"]);
     const dataAberturaComplementar = new Date("2025-09-26 08:00:00")
     const dataLimiteComplementar = new Date("2025-09-26 12:00:00");
     
     try {
-        const session = await auth();
-        if (!session) {
-            return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-        }
 
         const { id, arquivoId } = await context.params;
         const cadastroId = parseInt(id);
@@ -24,7 +26,7 @@ export async function DELETE(
         const cadastro = await db.cadastro.findFirst({
             where: {
                 id: cadastroId,
-                usuarioId: session.user.id
+                ...(!validaPermissao && { usuarioId: session.user.id })
             }
         });
 
@@ -44,7 +46,12 @@ export async function DELETE(
         }
 
         if (new Date(arquivo.criadoEm || 0) < dataAberturaComplementar || new Date(arquivo.criadoEm || 0) > dataLimiteComplementar) {
-            return NextResponse.json({ error: "Não é possível remover documentos fora do período de inscrição." }, { status: 400 });
+            if (validaPermissao) {
+                if (!arquivo.caminho.split("/").pop()?.startsWith("EMAIL-") && !arquivo.caminho.split("/").pop()?.startsWith("RECURSO-EMAIL-"))
+                    return NextResponse.json({ error: "Não é possível remover documentos fora do período de inscrição." }, { status: 400 });
+            } else {
+                return NextResponse.json({ error: "Não é possível remover documentos fora do período de inscrição." }, { status: 400 });
+            }
         }
 
         // Deletar arquivo do sistema de arquivos
