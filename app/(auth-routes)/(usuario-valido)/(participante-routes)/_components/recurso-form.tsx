@@ -226,7 +226,7 @@ export default function RecursoForm({ cadastro, atualizarPagina }: RecursoFormPr
                                                 <Download className="h-4 w-4" />
                                             )}
                                         </Button>
-                                        <Button
+                                        {/* <Button
                                             variant="destructive"
                                             size="sm"
                                             disabled={deletingFileId === documento.id}
@@ -237,7 +237,7 @@ export default function RecursoForm({ cadastro, atualizarPagina }: RecursoFormPr
                                             ) : (
                                                 <Trash2 className="h-4 w-4" />
                                             )}
-                                        </Button>
+                                        </Button> */}
                                     </div>
                                 </div>
                             ))}

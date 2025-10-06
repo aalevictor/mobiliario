@@ -103,7 +103,7 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                                 nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
                                                 className="cursor-pointer"
                                             />
-                                            {arquivo.caminho?.split('/').pop()?.startsWith("EMAIL-") && (
+                                            {/* {arquivo.caminho?.split('/').pop()?.startsWith("EMAIL-") && (
                                             <Button
                                                 variant="destructive"
                                                 size="sm"
@@ -116,7 +116,7 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                                 ) : (
                                                     <Trash2 className="h-4 w-4" />
                                                 )}
-                                            </Button>)}
+                                            </Button>)} */}
                                         </div>
                                     )}
                                 </div>
@@ -182,7 +182,7 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                                     nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
                                                     className="cursor-pointer"
                                                 />
-                                                {arquivo.caminho?.split('/').pop()?.startsWith("RECURSO-EMAIL-") && (
+                                                {/* {arquivo.caminho?.split('/').pop()?.startsWith("RECURSO-EMAIL-") && (
                                                 <Button
                                                     variant="destructive"
                                                     size="sm"
@@ -195,7 +195,7 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                                     ) : (
                                                         <Trash2 className="h-4 w-4" />
                                                     )}
-                                                </Button>)}
+                                                </Button>)} */}
                                             </div>
                                         )}
                                     </div>

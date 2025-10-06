@@ -230,7 +230,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                                                 <Download className="h-4 w-4" />
                                             )}
                                         </Button>
-                                        {podeExcluirArquivoNovo(new Date(documento.criadoEm || 0)) && <Button
+                                        {/* {podeExcluirArquivoNovo(new Date(documento.criadoEm || 0)) && <Button
                                             variant="destructive"
                                             size="sm"
                                             disabled={deletingFileId === documento.id}
@@ -241,7 +241,7 @@ export default function DocumentosForm({ cadastro, atualizarPagina }: Documentos
                                             ) : (
                                                 <Trash2 className="h-4 w-4" />
                                             )}
-                                        </Button>}
+                                        </Button>} */}
                                     </div>
                                 </div>
                             ))}
