@@ -13,8 +13,8 @@ export default async function Informes() {
       <div class="flex flex-col gap-4 text-justify">
         <p>A submissão das propostas técnicas da Fase 1 deverá ser realizada a partir do dia 13/10/2025 até o dia <span class='text-red-500 font-bold'>27/10/2025</span>, conforme consta do Cronograma (com alteração publicada no dia 15/09/2025).</p>
         <p>Na Plataforma Digital Online, os modelos indicados no Termo de Referência (Anexos de 01 a 08), estão disponíveis para download na aba "Modelos", localizada na área restrita do participante <span class='font-bold'>INSCRITO.</span></p>
-        <p>Antes de submeter a proposta técnica, releia atentamente o Edital e o Termo de Referência. Os arquivos devem ser adequadamente apresentados em formato digital, <span class='font-bold'>em PDF e sem indicação de autoria</span>, tal como exigido no item <strong>6 - NORMAS DE APRESENTAÇÃO</strong> do Termo de Referência.</p>
-        <p><strong>Atenção!</strong> Antes de submeter a proposta, <strong>certifique-se que nas propriedades (e metadados) do arquivo PDF não conste quaisquer informações de autoria ou que permitam identificá-la.</strong> Seu conteúdo também não pode apresentar marcas identificadoras da autoria.</p>
+        <p>Antes de submeter a proposta técnica, releia atentamente o Edital e o Termo de Referência. Os arquivos devem ser adequadamente apresentados em formato digital, <strong>em PDF</strong>, seguindo as NORMAS DE APRESENTAÇÃO do Termo de Referência (item 6). </p>
+        <p><strong>Atenção!</strong> Antes de submeter a proposta, <strong>certifique-se que nas propriedades (e metadados) do arquivo PDF não constem quaisquer informações de autoria ou que permitam identificá-la.</strong> Seu conteúdo também não pode apresentar marcas identificadoras da autoria.</p>
         <p>Continue atento aos informes e boa sorte!</p>
       </div>
     `,
