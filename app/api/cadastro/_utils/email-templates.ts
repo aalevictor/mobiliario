@@ -544,7 +544,6 @@ export const templateListaFinalInscritos = (): string => {
     subtitulo: "Informação importante sobre o concurso",
     conteudoPrincipal: `
       <p>Está disponível e nos <a href="https://concursomoburb.prefeitura.sp.gov.br/informes">Informes</a> da <a href="https://concursomoburb.prefeitura.sp.gov.br">Plataforma Digital Online do Concurso</a>, a <strong>LISTA FINAL de IDs deferidos e indeferidos para inscrição no Concurso, nos termos do Item 12.3.1.5 do Edital</strong> nº 001/SP-URB/2025.</p>
-      <p>A lista também foi publicada no Diário Oficial da Cidade de São Paulo, indicando os despachos de deferimento e indeferimento para cada código identificador (ID), seguido das motivações para os casos de indeferimento.</p>
       <p>Os Códigos Identificadores (IDs) DEFERIDOS estão INSCRITOS no concurso e habilitados à etapa de submissão das Propostas em Nível de Estudo Preliminar (Fase 1).</p>
       <br />
       <p>Atenciosamente,</p>
@@ -564,7 +563,8 @@ export const templateInformacoesAprovados = (): string => {
       <p>É com satisfação que informamos que sua pré-inscrição foi deferida, conforme consta da Lista Final IDs inscritos no Concurso, disponível e nos <a href="https://concursomoburb.prefeitura.sp.gov.br/informes">Informes</a> da <a href="https://concursomoburb.prefeitura.sp.gov.br">Plataforma Digital Online do Concurso</a>. Portanto, você está habilitado à etapa de submissão das Propostas em Nível de Estudo Preliminar (Fase 1).</p>
       <p><strong>FIQUE ATENTO!</strong> A submissão das propostas técnicas da Fase 1 deverá ser realizada a partir do dia 13/10/2025 até o dia <span class='text-red-500 font-bold'>27/10/2025</span>, conforme consta do Cronograma (com alteração publicada no dia 15/09/2025).</p>
       <p>Na Plataforma Digital Online, os modelos indicados no Termo de Referência (Anexos de 01 a 08), estão disponíveis para download na aba "Modelos", localizada na área restrita do participante <strong>INSCRITO</strong>.</p>
-      <p><strong>Atenção!</strong> Antes de submeter a proposta técnica, releia atentamente o Edital e o Termo de Referência. <strong>Certifique-se que nas propriedades (e metadados) do arquivo PDF não conste quaisquer informações de autoria ou que permitam identificá-la.</strong> Seu conteúdo também não pode apresentar marcas identificadoras da autoria, tal como exigido no item <strong>6 - NORMAS DE APRESENTAÇÃO</strong> do Termo de Referência. Na página da Adobe, você pode ter mais informações sobre como suprimir informações das propriedades e metadados do PDF. Link: https://helpx.adobe.com/br/acrobat/using/pdf-properties-metadata.html</p>
+      <p>Antes de submeter a proposta técnica, releia atentamente o Edital e o Termo de Referência. Os arquivos devem ser adequadamente apresentados em formato digital, <strong>em PDF</strong>, seguindo as NORMAS DE APRESENTAÇÃO do Termo de Referência (item 6).</p>
+      <p><strong>Atenção!</strong> Antes de submeter a proposta, <strong>certifique-se que nas propriedades (e metadados) do arquivo PDF não conste quaisquer informações de autoria ou que permitam identificá-la.</strong> Seu conteúdo também não pode apresentar marcas identificadoras da autoria. Na página da Adobe, você pode ter mais informações sobre como suprimir informações das propriedades e metadados do PDF. Link: https://helpx.adobe.com/br/acrobat/using/pdf-properties-metadata.html</p>
       <br />
       <p>Desejamos sucesso em sua jornada!</p>
       <br />

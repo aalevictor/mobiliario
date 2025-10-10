@@ -145,16 +145,20 @@ async function criarPreCadastro(
 
 async function emailsParticipantes() {
   const emailsParticipantes = await db.cadastro.findMany({
-    select: {
-      email: true,
-      avaliacao_licitadora: {
-        select: { parecer: true }
-      }
-    }
+    select: { email: true }
   });
-  return emailsParticipantes;
   const emails = [];
   for (const item of emailsParticipantes) emails.push(item.email);
+  return emails;
+}
+
+async function emailsAprovados() {
+  const emailsAprovados = await db.cadastro.findMany({
+    select: { email: true },
+    where: { avaliacao_licitadora: { aprovado: true } }
+  });
+  const emails = [];
+  for (const item of emailsAprovados) emails.push(item.email);
   return emails;
 }
 
@@ -782,4 +786,4 @@ async function buscarCadastroJulgadora(id: number) {
   return cadastro;
 }
 
-export { buscarArquivosExportacao, buscarParticipantesExportacao, emailsParticipantes, geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
+export { buscarArquivosExportacao, buscarParticipantesExportacao, emailsParticipantes, emailsAprovados, geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
