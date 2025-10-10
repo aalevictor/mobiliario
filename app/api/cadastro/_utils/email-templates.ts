@@ -558,7 +558,7 @@ export const templateListaFinalInscritos = (): string => {
 export const templateInformacoesAprovados = (): string => {
   return gerarEmailTemplate({
     nome: "Participante",
-    titulo: "LISTA FINAL de IDs inscritos no Concurso. Item 12.3.1.5 do Edital",
+    titulo: "Atenção participante inscrito! Você está na Fase 1 do Concurso",
     subtitulo: "Informação importante sobre o concurso",
     conteudoPrincipal: `
       <p>É com satisfação que informamos que sua pré-inscrição foi deferida, conforme consta da Lista Final IDs inscritos no Concurso, disponível e nos <a href="https://concursomoburb.prefeitura.sp.gov.br/informes">Informes</a> da <a href="https://concursomoburb.prefeitura.sp.gov.br">Plataforma Digital Online do Concurso</a>. Portanto, você está habilitado à etapa de submissão das Propostas em Nível de Estudo Preliminar (Fase 1).</p>
