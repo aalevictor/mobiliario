@@ -15,7 +15,7 @@ export default async function EnviarEmail() {
     const emailsAprovados: string[] = [];
     preInscritos.forEach(item => {
         emailsParticipantesLista.push(item.email);
-        if (item.avaliacao_licitadora?.parecer) emailsAprovados.push(item.email);
+        if (item.avaliacao_licitadora?.aprovado === true) emailsAprovados.push(item.email);
     });
     const emailsDuvidasPortal = await emailsDuvidas();
 
