@@ -10,7 +10,13 @@ export default async function EnviarEmail() {
         "srmarceloj@gmail.com",
         "marcela.rzd@gmail.com"
     ];
-    const emailsParticipantesLista = await emailsParticipantes();
+    const preInscritos = await emailsParticipantes();
+    const emailsParticipantesLista: string[] = [];
+    const emailsAprovados: string[] = [];
+    preInscritos.forEach(item => {
+        emailsParticipantesLista.push(item.email);
+        if (item.avaliacao_licitadora?.parecer) emailsAprovados.push(item.email);
+    });
     const emailsDuvidasPortal = await emailsDuvidas();
 
     return (
@@ -18,6 +24,7 @@ export default async function EnviarEmail() {
             emailsParticipantes={emailsParticipantesLista}
             emailsDuvidasPortal={emailsDuvidasPortal}
             emailsDuvidasEmail={emailsDuvidasEmail}
+            emailsAprovados={emailsAprovados}
             mailApi={process.env.MAIL_API || ""}
             mailFrom={process.env.MAIL_FROM || ""}
             mailBcc={process.env.MAIL_BCC || ""}

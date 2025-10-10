@@ -147,8 +147,12 @@ async function emailsParticipantes() {
   const emailsParticipantes = await db.cadastro.findMany({
     select: {
       email: true,
+      avaliacao_licitadora: {
+        select: { parecer: true }
+      }
     }
   });
+  return emailsParticipantes;
   const emails = [];
   for (const item of emailsParticipantes) emails.push(item.email);
   return emails;

@@ -7,6 +7,34 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "<span class='text-red-500'>Fase 1: Atenção participante inscrito!</span>",
+    subtitulo: "Fique atento ao cronograma e às normas e orientações para submissão de sua proposta técnica",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>A submissão das propostas técnicas da Fase 1 deverá ser realizada a partir do dia 13/10/2025 até o dia <span class='text-red-500 font-bold'>27/10/2025</span>, conforme consta do Cronograma (com alteração publicada no dia 15/09/2025).</p>
+        <p>Na Plataforma Digital Online, os modelos indicados no Termo de Referência (Anexos de 01 a 08), estão disponíveis para download na aba "Modelos", localizada na área restrita do participante <span class='font-bold'>INSCRITO.</span></p>
+        <p>Antes de submeter a proposta técnica, releia atentamente o Edital e o Termo de Referência. Os arquivos devem ser adequadamente apresentados em formato digital, <span class='font-bold'>em PDF e sem indicação de autoria</span>, tal como exigido no item <strong>6 - NORMAS DE APRESENTAÇÃO</strong> do Termo de Referência.</p>
+        <p><strong>Atenção!</strong> Antes de submeter a proposta, <strong>certifique-se que nas propriedades (e metadados) do arquivo PDF não conste quaisquer informações de autoria ou que permitam identificá-la.</strong> Seu conteúdo também não pode apresentar marcas identificadoras da autoria.</p>
+        <p>Continue atento aos informes e boa sorte!</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-10-11T08:00:00"),
+    publicado: true
+  },{
+    titulo: "<span class='text-red-500'>LISTA FINAL de IDs deferidos e indeferidos para inscrição </span>",
+    subtitulo: "Publicada no Diário Oficial da Cidade de São Paulo em 10/10/2025, nos termos do item 12.3.1.5 do Edital nº 001/SP-URB/2025",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>A Coordenação do Concurso, nos termos das competências atribuídas pelo item 4 do Edital nº 001/SP-URB/2025 publicado em 25 de agosto de 2025 (Edital: 141066448 e publicação: 141068804), registra, por meio desta, a conclusão da análise da habilitação dos pré-inscritos, nos termos do item 12.3.1.3.</p>
+        <p>A <a href="/listas/lista-recursos.pdf" download class="text-primary underline">Lista de Recursos deferidos e indeferidos</a> registra a análise dos recursos apresentados tempestivamente nos termos do item 12.3.1.4.</p>
+        <p>A publicação da <span class='text-red-500 font-bold'>LISTA FINAL de IDs</span> deferidos e indeferidos atende ao item 12.3.1.5 sendo realizada também no Diário Oficial da Cidade de São Paulo.</p>
+        <p>Nos termos do item 12.3.1.6, <span class='font-bold'>Os IDs deferidos estão inscritos no concurso e habilitados à etapa de submissão das Propostas em Nível de Estudo Preliminar (Fase 1).</span></p>
+        <a href="/listas/lista02.pdf" download class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer">Confira aqui a lista</a>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-10-10T08:00:00"),
+    publicado: true
+  },{
     titulo: "<span class='text-red-500'>1ª lista de IDs deferidos e indeferidos para inscrição no Concurso, nos termos do item 12.3.1.3 do Edital nº 001/SP-URB/2025</span>",
     subtitulo: "Publicada no Diário Oficial da Cidade de São Paulo em 30/09/2025",
     conteudo: `
