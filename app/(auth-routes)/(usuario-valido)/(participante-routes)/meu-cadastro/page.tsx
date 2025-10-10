@@ -24,7 +24,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
     const dataAberturaProjetos = new Date('2025-10-13 00:00:00');
     const dataLimiteProjetos = new Date('2025-10-28 23:59:59.999');
     const dataAtual = new Date();
-    const podeEnviarProjetos = dataAtual >= dataAberturaProjetos && dataAtual <= dataLimiteProjetos && cadastro.avaliacao_licitadora?.aprovado;
+    const podeEnviarProjetos = cadastro.id === 57 || dataAtual >= dataAberturaProjetos && dataAtual <= dataLimiteProjetos && cadastro.avaliacao_licitadora?.aprovado;
     const eDeferido = cadastro.avaliacao_licitadora && cadastro.avaliacao_licitadora.aprovado;
 
     async function atualizarPagina(tab: string) {

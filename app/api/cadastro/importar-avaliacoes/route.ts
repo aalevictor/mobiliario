@@ -66,6 +66,8 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        console.log(data);
+
         let sucessos = 0;
         let erros = 0;
         const mensagens: string[] = [];
@@ -79,7 +81,7 @@ export async function POST(request: NextRequest) {
             const linha = data[i];
             
             // Pular linhas vazias
-            if (!linha || linha.length < 3 || !linha[0]) {
+            if (!linha || linha.length < 2 || !linha[0]) {
                 continue;
             }
 

@@ -11,9 +11,10 @@ interface ViewModalButtonProps {
     arquivoId: string
     nomeArquivo: string
     className?: string
+    tipo?: string
 }
 
-export default function ViewModalButton({ cadastroId, arquivoId, nomeArquivo, className }: ViewModalButtonProps) {
+export default function ViewModalButton({ cadastroId, arquivoId, nomeArquivo, className, tipo = 'arquivos' }: ViewModalButtonProps) {
     const [isLoading, setIsLoading] = useState(false)
     const [pdfUrl, setPdfUrl] = useState<string | null>(null)
     const [isOpen, setIsOpen] = useState(false)
@@ -21,7 +22,7 @@ export default function ViewModalButton({ cadastroId, arquivoId, nomeArquivo, cl
     const handleView = async () => {
         setIsLoading(true)
         try {
-            const response = await fetch(`/api/cadastro/${cadastroId}/arquivos/${arquivoId}`)
+            const response = await fetch(`/api/cadastro/${cadastroId}/${tipo}/${arquivoId}`)
             
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: 'Erro desconhecido' }))

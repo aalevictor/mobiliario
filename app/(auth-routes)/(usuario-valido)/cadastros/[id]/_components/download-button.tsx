@@ -10,15 +10,16 @@ interface DownloadButtonProps {
     arquivoId: string
     nomeArquivo: string
     className?: string
+    tipo?: string
 }
 
-export default function DownloadButton({ cadastroId, arquivoId, nomeArquivo, className }: DownloadButtonProps) {
+export default function DownloadButton({ cadastroId, arquivoId, nomeArquivo, className, tipo = 'arquivos' }: DownloadButtonProps) {
     const [isDownloading, setIsDownloading] = useState(false)
 
     const handleDownload = async () => {
         setIsDownloading(true)
         try {
-            const response = await fetch(`/api/cadastro/${cadastroId}/arquivos/${arquivoId}`)
+            const response = await fetch(`/api/cadastro/${cadastroId}/${tipo}/${arquivoId}`)
             
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: 'Erro desconhecido' }))

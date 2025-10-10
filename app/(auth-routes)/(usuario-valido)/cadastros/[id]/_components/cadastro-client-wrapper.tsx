@@ -248,18 +248,21 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                                 arquivoId={arquivo.id}
                                                 nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
                                                 className="cursor-pointer"
+                                                tipo="projetos"
                                             />
                                             <ViewModalButton
                                                 cadastroId={cadastro.id!}
                                                 arquivoId={arquivo.id}
                                                 nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
                                                 className="cursor-pointer"
+                                                tipo="projetos"
                                             />
                                             <DownloadButton
                                                 cadastroId={cadastro.id!}
                                                 arquivoId={arquivo.id}
                                                 nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
                                                 className="cursor-pointer"
+                                                tipo="projetos"
                                             />
                                         </div>
                                     )}

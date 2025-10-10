@@ -10,15 +10,16 @@ interface ViewButtonProps {
     arquivoId: string
     nomeArquivo: string
     className?: string
+    tipo?: string
 }
 
-export default function ViewButton({ cadastroId, arquivoId, nomeArquivo, className }: ViewButtonProps) {
+export default function ViewButton({ cadastroId, arquivoId, nomeArquivo, className, tipo = 'arquivos' }: ViewButtonProps) {
     const [isLoading, setIsLoading] = useState(false)
 
     const handleView = async () => {
         setIsLoading(true)
         try {
-            const response = await fetch(`/api/cadastro/${cadastroId}/arquivos/${arquivoId}`)
+            const response = await fetch(`/api/cadastro/${cadastroId}/${tipo}/${arquivoId}`)
             
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: 'Erro desconhecido' }))

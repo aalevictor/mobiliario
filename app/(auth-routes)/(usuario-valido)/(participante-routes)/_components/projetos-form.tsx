@@ -71,7 +71,7 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                 formData.append('tipo', TipoArquivo.PROJETOS)
                 formData.append('cadastroId', cadastro.id?.toString() || '')
                 
-                const response = await fetch(`/api/cadastro/${cadastro.id}/arquivos`, {
+                const response = await fetch(`/api/cadastro/${cadastro.id}/projetos`, {
                     method: 'POST',
                     body: formData
                 })
@@ -94,7 +94,7 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
     const deletarProjeto = async (arquivoId: string) => {
         setDeletingFileId(arquivoId)
         try {
-            const response = await fetch(`/api/cadastro/${cadastro.id}/arquivos/${arquivoId}`, {
+            const response = await fetch(`/api/cadastro/${cadastro.id}/projetos/${arquivoId}`, {
                 method: 'DELETE'
             })
             
@@ -115,7 +115,7 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
     const downloadProjeto = async (arquivoId: string, nomeArquivo: string) => {
         setDownloadingFileId(arquivoId)
         try {
-            const response = await fetch(`/api/cadastro/${cadastro.id}/arquivos/${arquivoId}`)
+            const response = await fetch(`/api/cadastro/${cadastro.id}/projetos/${arquivoId}`)
             
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: 'Erro desconhecido' }))
