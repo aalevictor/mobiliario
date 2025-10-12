@@ -20,22 +20,24 @@ export async function DELETE(
     const dataAberturaProjetos = new Date("2025-10-13 00:00:00")
     const dataLimiteProjetos = new Date("2025-10-27 23:59:59.999");
     const dataAtual = new Date();
-    const podeExcluirProjetos = cadastroId === 57 || (dataAtual >= dataAberturaProjetos && dataAtual <= dataLimiteProjetos);
+    const cadastro = await db.cadastro.findFirst({
+        where: { 
+            id: cadastroId,
+            ...(!validaPermissao && { usuarioId: session.user.id })
+        },
+        include: {
+            avaliacao_licitadora: {
+                select: {
+                    aprovado: true
+                }
+            }
+        }
+    });
+    if (!cadastro) return NextResponse.json({ error: "Cadastro não encontrado" }, { status: 404 });
+    const eDeferido = cadastro.avaliacao_licitadora && cadastro.avaliacao_licitadora.aprovado;
+    const podeExcluirProjetos = cadastroId === 57 || (dataAtual >= dataAberturaProjetos && dataAtual <= dataLimiteProjetos && eDeferido);
     
     try {
-
-
-        // Verificar se o cadastro pertence ao usuário
-        const cadastro = await db.cadastro.findFirst({
-            where: {
-                id: cadastroId,
-                ...(!validaPermissao && { usuarioId: session.user.id })
-            }
-        });
-
-        if (!cadastro) {
-            return NextResponse.json({ error: "Cadastro não encontrado" }, { status: 404 });
-        }
         // Buscar o arquivo
         const arquivo = await db.arquivo.findFirst({
             where: {
