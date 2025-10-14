@@ -109,6 +109,8 @@ export async function alterarSenha(id: string, data: { senha: string, confirmarS
 
 export async function verificarPermissoes(id: string, permissoes: string[] = []) {
     const usuario = await db.usuario.findUnique({ where: { id } });
+    console.log(usuario?.permissao);
+    console.log({permissoes})
     if (usuario && (permissoes.length === 0 || permissoes.includes(usuario.permissao))) return true;
     return false;
 }

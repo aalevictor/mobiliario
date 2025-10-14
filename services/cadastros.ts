@@ -9,6 +9,7 @@ import { IAvaliacaoLicitadora } from "@/app/api/cadastro/[id]/avaliacao-licitado
 import { getCurrentUserForEmail } from "@/lib/email-logger";
 import { templateBoasVindasCoordenacao, templateBoasVindasParticipante } from "@/app/api/cadastro/_utils/email-templates";
 import { AuditLogger } from "@/lib/audit-logger";
+import { auth } from "@/auth";
 
 function geraProtocolo(id: number) {
   const mascara = 17529 * id ** 2 + 85474;
@@ -186,6 +187,10 @@ async function buscarCadastros(
   avaliacao?: string
 ) {
   [pagina, limite] = verificaPagina(pagina, limite);
+  const session = await auth();
+  if (!session || !session.user) {
+    throw new Error('Usuário não autenticado');
+  }
   const select = ["ADMIN", "DEV"].includes(permissao) ? {
     id: true,
     protocolo: true,
@@ -235,7 +240,26 @@ async function buscarCadastros(
         id: true,
         caminho: true,
         tipo: true,
-        criadoEm: true
+        criadoEm: true,
+      },
+    },
+    avaliacoes_julgadora: {
+      select: {
+        id: true,
+        linhaTematica1: true,
+        linhaTematica2: true,
+        linhaTematica3: true,
+        conceitoProjetual: true,
+        atendimentoNormas: true,
+        insercaoUrbana: true,
+        qualidadeFuncional: true,
+        exequibilidade: true,
+        economicidade: true,
+        qualidadeGrafica: true,
+        observacoes: true,
+      },
+      where: {
+        avaliadorId: session.user.id,
       }
     }
   }: { id: true };
@@ -765,7 +789,7 @@ async function buscarCadastro(id: number): Promise<ICadastroBusca | null> {
   return cadastro as ICadastroBusca | null;
 }
 
-async function buscarCadastroJulgadora(id: number) {
+async function buscarCadastroJulgadora(id: number, avaliadorId: string) {
   const cadastro = await db.cadastro.findUnique({
     where: { id },
     select: {
@@ -781,6 +805,25 @@ async function buscarCadastroJulgadora(id: number) {
           criadoEm: true
         }
       },
+      avaliacoes_julgadora: {
+        select: {
+          id: true,
+          linhaTematica1: true,
+          linhaTematica2: true,
+          linhaTematica3: true,
+          conceitoProjetual: true,
+          atendimentoNormas: true,
+          insercaoUrbana: true,
+          qualidadeFuncional: true,
+          exequibilidade: true,
+          economicidade: true,
+          qualidadeGrafica: true,
+          observacoes: true,
+          criadoEm: true,
+          atualizadoEm: true,
+        },
+        where: { avaliadorId }
+      }
     }
   });
   return cadastro;

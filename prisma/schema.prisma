@@ -82,16 +82,32 @@ model Avaliacao_Licitadora {
 }
 
 model Avaliacao_Julgadora {
-  id           String   @id @default(uuid())
-  cadastroId   Int
-  avaliadorId  String
-  parecer      String?
-  aprovado     Boolean  @default(false)
-  observacoes  String?
-  criadoEm     DateTime @default(now())
-  atualizadoEm DateTime @default(now()) @updatedAt
-  avaliador    Usuario  @relation(fields: [avaliadorId], references: [id])
-  cadastro     Cadastro @relation(fields: [cadastroId], references: [id])
+  id                  String   @id @default(uuid())
+
+  cadastroId          Int
+  avaliadorId         String
+
+  linhaTematica1      Float?   @default(0.0)
+  linhaTematica2      Float?   @default(0.0)
+  linhaTematica3      Float?   @default(0.0)
+
+  conceitoProjetual   Float?   @default(0.0)
+  atendimentoNormas   Float?   @default(0.0)
+  insercaoUrbana      Float?   @default(0.0)
+  qualidadeFuncional  Float?   @default(0.0)
+  exequibilidade      Float?   @default(0.0)
+  economicidade       Float?   @default(0.0)
+  qualidadeGrafica    Float?   @default(0.0)
+
+  observacoes         String?  @db.Text
+  
+  criadoEm            DateTime @default(now())
+  atualizadoEm        DateTime @default(now()) @updatedAt
+
+  avaliado            Boolean  @default(false)
+
+  avaliador           Usuario  @relation(fields: [avaliadorId], references: [id])
+  cadastro            Cadastro @relation(fields: [cadastroId], references: [id])
 
   @@unique([cadastroId, avaliadorId])
   @@map("avaliacoes_julgadoras")

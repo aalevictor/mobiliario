@@ -50,6 +50,7 @@ export async function POST(
         // Definir limites baseados no tipo de arquivo
         const MAX_SIZE_DOC_ESPECIFICA = 20 * 1024 * 1024; // 50MB
         const MAX_SIZE_PROJETOS = 180 * 1024 * 1024; // 200MB
+        const MAX_ARQUIVOS_PROJETOS = 5;
         
         const maxSizeForType = tipo === TipoArquivo.DOC_ESPECIFICA ? MAX_SIZE_DOC_ESPECIFICA : MAX_SIZE_PROJETOS;
 
@@ -60,6 +61,12 @@ export async function POST(
                 tipo: tipo
             }
         });
+
+        const quantArquivos = arquivosExistentes.length;
+        const quantArquivosEnviados = arquivos.length;
+        if (tipo === TipoArquivo.PROJETOS && quantArquivosEnviados   >= MAX_ARQUIVOS_PROJETOS) {
+            return NextResponse.json({ error: `Número máximo de ${MAX_ARQUIVOS_PROJETOS} arquivos de projeto atingido` }, { status: 400 });
+        }
 
         const tamanhoTotalExistente = arquivosExistentes.reduce((total: number, arquivo: Partial<Arquivo>) => {
             return total + (arquivo.tamanho || 0);

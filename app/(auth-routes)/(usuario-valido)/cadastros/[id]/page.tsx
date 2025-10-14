@@ -11,6 +11,8 @@ import DownloadButton from "./_components/download-button";
 import ViewModalButton from "./_components/view-modal-button";
 import ViewButton from "./_components/view-button";
 import CadastroClientWrapper from "./_components/cadastro-client-wrapper";
+import AvaliacaoJulgadora from "./_components/avaliacao-julgadora"
+import IniciarAvaliacaoButton from "./_components/iniciar-avaliacao-button";
 
 
 async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string }) {
@@ -154,7 +156,7 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
 }
 
 async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: string }) {
-    const cadastro = await buscarCadastroJulgadora(+id);
+    const cadastro = await buscarCadastroJulgadora(+id, usuarioId);
     if (!cadastro) redirect('/cadastros');
     const podeDownload = await verificarPermissoes(usuarioId, ["JULGADORA"]);
     return (<div className="px-0 md:px-8 relative h-full container mx-auto py-8">
@@ -205,18 +207,21 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                                                 arquivoId={arquivo.id}
                                                 nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
                                                 className="cursor-pointer"
+                                                tipo="projetos"
                                             />
                                             <ViewModalButton
                                                 cadastroId={+id}
                                                 arquivoId={arquivo.id}
                                                 nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
                                                 className="cursor-pointer"
+                                                tipo="projetos"
                                             />
                                             <DownloadButton
                                                 cadastroId={+id}
                                                 arquivoId={arquivo.id}
                                                 nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
                                                 className="cursor-pointer"
+                                                tipo="projetos"
                                             />
                                         </div>
                                     )}
@@ -229,6 +234,29 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                             <p>Nenhum projeto encontrado</p>
                             <p className="text-sm">Projetos não foram enviados</p>
                         </div>
+                    )}
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="pb-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <FolderOpen className="h-4 w-4 text-white" />
+                        </div>
+                        <CardTitle className="text-lg text-primary">Avaliação</CardTitle>
+                    </div>
+                    <CardDescription className="text-sm text-gray-500">
+                        FASE 1: Estudo Preliminar 
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    {cadastro.avaliacoes_julgadora.length > 0 ? (
+                        <AvaliacaoJulgadora 
+                            avaliacao={cadastro.avaliacoes_julgadora[0]} 
+                            cadastroId={+id}
+                        />
+                    ) : (
+                        <IniciarAvaliacaoButton cadastroId={+id} />
                     )}
                 </CardContent>
             </Card>
