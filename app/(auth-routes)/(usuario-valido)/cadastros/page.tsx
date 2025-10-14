@@ -128,7 +128,7 @@ async function Cadastros({
                     </CardDescription>
 				</CardHeader>
 			</Card>
-			{["ADMIN", "DEV"].includes(permissao) && <Card>
+			{["ADMIN", "DEV"].includes(permissao) ? <Card>
 				<CardContent>
                     <Filtros
                         camposFiltraveis={[
@@ -162,6 +162,20 @@ async function Cadastros({
                                 placeholder: 'Situação',
                                 valores: selectSituacao,
                             },
+                        ]}
+                    />
+				</CardContent>
+		  	</Card> : <Card>
+				<CardContent>
+                    <Filtros
+                        camposFiltraveis={[
+                            {
+                                nome: 'Projetos Enviados',
+                                tag: 'projetosEnviados',
+                                tipo: 2,
+                                placeholder: 'Projetos Enviados',
+                                valores: selectArquivos,
+                            }
                         ]}
                     />
 				</CardContent>

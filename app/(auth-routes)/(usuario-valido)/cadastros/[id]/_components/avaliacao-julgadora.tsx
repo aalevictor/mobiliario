@@ -253,7 +253,6 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
                     <strong>Observação:</strong> As notas poderão variar de 0 (zero) a 10 (dez), admitidas frações com uma casa decimal.
                 </p>
             </div>
-
             <Table>
                  <TableHeader>
                      <TableRow>
