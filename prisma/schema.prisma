@@ -70,7 +70,7 @@ model Avaliacao_Licitadora {
   id           String   @id @default(uuid())
   cadastroId   Int      @unique
   avaliadorId  String
-  parecer      String?
+  parecer      String?  @db.Text
   aprovado     Boolean  @default(false)
   observacoes  String?
   criadoEm     DateTime @default(now())
