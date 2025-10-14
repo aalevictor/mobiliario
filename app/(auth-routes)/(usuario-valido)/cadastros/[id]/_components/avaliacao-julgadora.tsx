@@ -250,7 +250,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
         <div className="space-y-6">
             <div className="bg-blue-50 p-4 rounded-lg">
                 <p className="text-sm text-blue-800">
-                    <strong>Observação:</strong> As notas poderão variar de 0 (zero) a 10 (dez), admitidas frações com uma casa decimais.
+                    <strong>Observação:</strong> As notas poderão variar de 0 (zero) a 10 (dez), admitidas frações com uma casa decimal.
                 </p>
             </div>
 
