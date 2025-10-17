@@ -7,7 +7,7 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
-    titulo: "<span class='text-red-500'>Informe aos participantes</span>",
+    titulo: "<span>Informe aos participantes</span>",
     subtitulo: "Encerramento do acesso à plataforma para participantes com inscrição indeferida",
     conteudo: `
       <div class="flex flex-col gap-4 text-justify">
