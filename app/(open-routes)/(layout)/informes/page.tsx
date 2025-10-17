@@ -18,7 +18,7 @@ export default async function Informes() {
     dataPublicacao: new Date("2025-10-17T08:00:00"),
     publicado: true
   },{
-    titulo: "<span class='text-red-500'>Fase 1: Atenção participante inscrito!</span>",
+    titulo: "<span class='text-red-500' id='projetos'>Fase 1: Atenção participante inscrito!</span>",
     subtitulo: "Fique atento ao cronograma e às normas e orientações para submissão de sua proposta técnica",
     conteudo: `
       <div class="flex flex-col gap-4 text-justify">
