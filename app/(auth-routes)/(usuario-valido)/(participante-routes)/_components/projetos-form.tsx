@@ -194,7 +194,7 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                                     <div className="flex items-center gap-3">
                                         <FolderOpen className="h-5 w-5 text-gray-500" />
                                         <div>
-                                            <p className="font-medium">{projeto.caminho?.split('/').pop() || 'Projeto'}</p>
+                                            <p className="font-medium">{projeto.caminho?.split('/').pop()?.split('-').slice(1).join('-') || 'Projeto'}</p>
                                             <p className="text-sm text-gray-600">
                                                 {formatFileSize(projeto.tamanho || 0)} • Enviado em{' '}
                                                 {projeto.criadoEm ? new Date(projeto.criadoEm).toLocaleDateString('pt-BR') : '---'}

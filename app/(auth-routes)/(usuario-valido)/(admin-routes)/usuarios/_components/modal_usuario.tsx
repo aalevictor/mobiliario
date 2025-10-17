@@ -53,8 +53,6 @@ export default function ModalUsuario({ usuario, children }: { usuario?: Usuario,
             if (response.ok) {
                 const data: Permissao = await response.json();
                 setPermissao(data);
-            } else {
-                console.log(response);
             }
         };
         fetchPermissao();

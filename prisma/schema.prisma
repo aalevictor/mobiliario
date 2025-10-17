@@ -82,32 +82,34 @@ model Avaliacao_Licitadora {
 }
 
 model Avaliacao_Julgadora {
-  id                  String   @id @default(uuid())
+  id                    String   @id @default(uuid())
 
-  cadastroId          Int
-  avaliadorId         String
+  cadastroId            Int
+  avaliadorId           String
 
-  linhaTematica1      Float?   @default(0.0)
-  linhaTematica2      Float?   @default(0.0)
-  linhaTematica3      Float?   @default(0.0)
+  linhaTematica1        Float?   @default(0.0)
+  linhaTematica2        Float?   @default(0.0)
+  linhaTematica3        Float?   @default(0.0)
 
-  conceitoProjetual   Float?   @default(0.0)
-  atendimentoNormas   Float?   @default(0.0)
-  insercaoUrbana      Float?   @default(0.0)
-  qualidadeFuncional  Float?   @default(0.0)
-  exequibilidade      Float?   @default(0.0)
-  economicidade       Float?   @default(0.0)
-  qualidadeGrafica    Float?   @default(0.0)
+  conceitoProjetual     Float?   @default(0.0)
+  atendimentoNormas     Float?   @default(0.0)
+  insercaoUrbana        Float?   @default(0.0)
+  qualidadeFuncional    Float?   @default(0.0)
+  exequibilidade        Float?   @default(0.0)
+  economicidade         Float?   @default(0.0)
+  qualidadeGrafica      Float?   @default(0.0)
 
-  observacoes         String?  @db.Text
+  // desclassificado       Boolean  @default(false)
+  // desclassificadoMotivo String?  @db.Text
+  observacoes           String?  @db.Text
+  avaliado              Boolean  @default(false)
+  desclassificado       Boolean  @default(false)
   
-  criadoEm            DateTime @default(now())
-  atualizadoEm        DateTime @default(now()) @updatedAt
+  criadoEm              DateTime @default(now())
+  atualizadoEm          DateTime @default(now()) @updatedAt
 
-  avaliado            Boolean  @default(false)
-
-  avaliador           Usuario  @relation(fields: [avaliadorId], references: [id])
-  cadastro            Cadastro @relation(fields: [cadastroId], references: [id])
+  avaliador             Usuario  @relation(fields: [avaliadorId], references: [id])
+  cadastro              Cadastro @relation(fields: [cadastroId], references: [id])
 
   @@unique([cadastroId, avaliadorId])
   @@map("avaliacoes_julgadoras")

@@ -1,6 +1,6 @@
 "use client"
 
-import { templateDuvidasPadraoEmail, templateDuvidasPadraoPlataforma, templateFinalizar, templateFinalizarNovo, templateInformacoesAprovados, templateListaFinalInscritos, templateListaInscritos, templatePrazoSuplementar } from "@/app/api/cadastro/_utils/email-templates";
+import { templateDuvidasPadraoEmail, templateDuvidasPadraoPlataforma, templateEncerramentoAcesso, templateFinalizar, templateFinalizarNovo, templateInformacoesAprovados, templateListaFinalInscritos, templateListaInscritos, templatePrazoSuplementar } from "@/app/api/cadastro/_utils/email-templates";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -62,6 +62,9 @@ export default function EnviarForm({
                 break;
             case "8":
                 resultado = await enviaInformacoesAprovados(emailsAprovados);
+                break;
+            case "9":
+                resultado = await enviaEncerramentoAcesso(emailsParticipantes);
                 break;
             default:
                 break;
@@ -165,6 +168,25 @@ export default function EnviarForm({
         });
     }
 
+    async function enviaEncerramentoAcesso(emails: string[]) {
+        emails = teste ? emailsTeste : emails;
+        emails.push(mailBcc);
+        console.log(emails);
+        return await fetch('/api/mail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                from: mailFrom,
+                to: '',
+                bcc: emails,
+                subject: 'Concurso do Mobiliário Urbano: Informe aos participantes',
+                html: templateEncerramentoAcesso(),
+            }),
+        });
+    }
+
     async function enviaInformacoesAprovados(emails: string[]) {
         console.log(emails);
         emails = teste ? emailsTeste : emails;
@@ -255,6 +277,7 @@ export default function EnviarForm({
                                     <SelectItem value="6">Lista de Inscritos</SelectItem>
                                     <SelectItem value="7">Lista Final de Inscritos</SelectItem>
                                     <SelectItem value="8">Informações para aprovados</SelectItem>
+                                    <SelectItem value="9">Encerramento de acesso</SelectItem>
                                     <SelectItem value="2">Pedido Esclarecimento - Portal</SelectItem>
                                     <SelectItem value="3">Pedido Esclarecimento - Email</SelectItem>
                                 </SelectGroup>

@@ -32,7 +32,6 @@ export async function criarUsuario(dados: ICreateUsuario) {
         }
 		if (await buscarPorEmail(email)) return null;
 		const senhaHash = hashPassword(senha);
-        console.log({ senha })
 		const usuario = await db.usuario.create({
 			data: { email, nome, permissao, senha: senhaHash, tipo: 'EXTERNO', alterarSenha },
 		});
@@ -109,8 +108,6 @@ export async function alterarSenha(id: string, data: { senha: string, confirmarS
 
 export async function verificarPermissoes(id: string, permissoes: string[] = []) {
     const usuario = await db.usuario.findUnique({ where: { id } });
-    console.log(usuario?.permissao);
-    console.log({permissoes})
     if (usuario && (permissoes.length === 0 || permissoes.includes(usuario.permissao))) return true;
     return false;
 }

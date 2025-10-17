@@ -66,8 +66,6 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        console.log(data);
-
         let sucessos = 0;
         let erros = 0;
         const mensagens: string[] = [];

@@ -7,6 +7,17 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "<span class='text-red-500'>Informe aos participantes</span>",
+    subtitulo: "Encerramento do acesso à plataforma para participantes com inscrição indeferida",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>A Coordenação do Concurso, nos termos das competências atribuídas pelo item 4 do Edital nº 001/SP-URB/2025, publicado em 25 de agosto de 2025, agradece aos interessados em participar do certame que tiveram sua pré-inscrição indeferida pelos motivos constantes da <a href="/listas/lista01.pdf" download class="text-primary underline">1ª Lista</a>, publicada em 30/09/2025, ou da <a href="/listas/lista-recursos.pdf" download class="text-primary underline">Lista de Recursos</a>, publicada em 10/10/2025. Esses interessados terão seu acesso à plataforma encerrado em 3 (três) dias corridos, contados a partir da presente data.</p>
+        <p>Aos participantes que tiveram sua inscrição deferida, e que se encontram, portanto, na Fase 1, reiteramos o Informe publicado em 11/10/2025, recomendando atenção ao conteúdo do Edital e do Termo de Referência acerca da apresentação das propostas técnicas, bem como à observância da temática do concurso, das diretrizes técnicas e do cronograma — que estabelece como data limite para submissão dos estudos preliminares o dia 27/10/2025.</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-10-17T08:00:00"),
+    publicado: true
+  },{
     titulo: "<span class='text-red-500'>Fase 1: Atenção participante inscrito!</span>",
     subtitulo: "Fique atento ao cronograma e às normas e orientações para submissão de sua proposta técnica",
     conteudo: `

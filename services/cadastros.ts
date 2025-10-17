@@ -308,7 +308,6 @@ async function buscarCadastros(
 
   if (arquivos.some) AND.push({ arquivos: { some: arquivos.some }});
   if (arquivos.none) AND.push({ arquivos: { none: arquivos.none }});
-  console.log(tipoInscricao);
   
   const where: any = {
     ...(busca && {

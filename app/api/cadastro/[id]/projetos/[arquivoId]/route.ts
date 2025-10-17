@@ -101,7 +101,6 @@ export async function GET(
         console.log(`GET /api/cadastro/${id}/projetos/${arquivoId} - Usuário: ${session.user.id}`);
         // Verificar permissões - proprietário do cadastro ou admin/dev
         const isAdmin = await verificarPermissoes(session.user.id, ["DEV", "ADMIN", "JULGADORA"]);
-        console.log({isAdmin});
         const cadastro = await db.cadastro.findFirst({
             where: {
                 id: cadastroId,
