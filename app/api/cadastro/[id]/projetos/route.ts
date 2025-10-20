@@ -100,7 +100,7 @@ export async function POST(
         for (const arquivo of arquivos) {
             // Gerar nome único para o arquivo
             const timestamp = Date.now();
-            const filename = `${validaPermissao ? "EMAIL-" : ""}${timestamp}-${arquivo.name.normalize('NFD').replaceAll(" ", "_").replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9._]/g, "")}`;
+            const filename = `${validaPermissao ? "EMAIL-" : ""}${timestamp}-${arquivo.name.normalize('NFD').replaceAll(" ", "_").replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9._-]/g, "")}`;
             const filepath = join(uploadDir, filename);
             // Usar barras normais para o caminho relativo (padrão web)
             const relativePath = `uploads/cadastros/${id}/${filename}`;
