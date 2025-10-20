@@ -78,6 +78,8 @@ model Avaliacao_Licitadora {
   avaliador    Usuario  @relation(fields: [avaliadorId], references: [id])
   cadastro     Cadastro @relation(fields: [cadastroId], references: [id])
 
+  liberadoAval Boolean  @default(false)
+
   @@map("avaliacoes_licitadoras")
 }
 

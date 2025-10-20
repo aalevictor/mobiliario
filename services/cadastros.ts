@@ -213,6 +213,23 @@ async function buscarCadastros(
         parecer: true,
         aprovado: true,
         observacoes: true,
+        liberadoAval: true,
+      }
+    },
+    avaliacoes_julgadora: {
+      select: {
+        id: true,
+        linhaTematica1: true,
+        linhaTematica2: true,
+        linhaTematica3: true,
+        conceitoProjetual: true,
+        atendimentoNormas: true,
+        insercaoUrbana: true,
+        qualidadeFuncional: true,
+        exequibilidade: true,
+        economicidade: true,
+        qualidadeGrafica: true,
+        observacoes: true,
       }
     },
     participantes: {
@@ -257,6 +274,9 @@ async function buscarCadastros(
         economicidade: true,
         qualidadeGrafica: true,
         observacoes: true,
+        desclassificado: true,
+        criadoEm: true,
+        atualizadoEm: true,
       },
       where: {
         avaliadorId: session.user.id,
@@ -327,7 +347,7 @@ async function buscarCadastros(
         { cnpj: "" }
       ]
     }),
-    ...(permissao === "JULGADORA" && { avaliacao_licitadora: { aprovado: true }}),
+    ...(permissao === "JULGADORA" && { avaliacao_licitadora: { aprovado: true, liberadoAval: true }}),
     ...(avaliacao === "AGUARDANDO" && { avaliacao_licitadora: null }),
     ...(avaliacao === "DEFERIDO" && { avaliacao_licitadora: { aprovado: true } }),
     ...(avaliacao === "INDEFERIDO" && { avaliacao_licitadora: { aprovado: false } }),
@@ -818,6 +838,7 @@ async function buscarCadastroJulgadora(id: number, avaliadorId: string) {
           economicidade: true,
           qualidadeGrafica: true,
           observacoes: true,
+          desclassificado: true,
           criadoEm: true,
           atualizadoEm: true,
         },

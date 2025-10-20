@@ -265,6 +265,114 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                                 <CardDescription className="text-sm sm:text-base">
                                     <p>Fase 1: Envie sua proposta técnica em nível de Estudo Preliminar</p>
                                     <p className="text-xs">Limite máximo total: {formatFileSize(MAX_TOTAL_SIZE)}</p>
+                                    <div className="flex items-start p-4 border rounded-lg bg-gray-50 mt-4">
+                                        <div className="w-full overflow-x-auto">
+                                            <h4 className="text-sm sm:text-base font-semibold text-gray-800 text-center uppercase">FASE 1</h4>
+                                            <table className="w-full mt-2 text-[11px] sm:text-xs text-gray-800 border-collapse">
+                                                <thead>
+                                                    <tr>
+                                                        <th colSpan={8} className="border px-2 py-2 bg-gray-900 text-white text-center uppercase tracking-wide">Nomenclatura de documentos</th>
+                                                    </tr>
+                                                    <tr className="bg-gray-100">
+                                                        <th className="border px-2 py-1">Parte inicial</th>
+                                                        <th className="border px-2 py-1">Parte 1</th>
+                                                        <th className="border px-2 py-1">Parte 2</th>
+                                                        <th className="border px-2 py-1">Parte 3</th>
+                                                        <th className="border px-2 py-1">Parte 4</th>
+                                                        <th className="border px-2 py-1">Parte 5</th>
+                                                        <th className="border px-2 py-1">Parte 6</th>
+                                                        <th className="border px-2 py-1">Parte final</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="border px-2 py-1">Identificação do participante</th>
+                                                        <th className="border px-2 py-1">Sigla</th>
+                                                        <th className="border px-2 py-1">Edição</th>
+                                                        <th className="border px-2 py-1">Etapa de projeto</th>
+                                                        <th className="border px-2 py-1">Disciplina</th>
+                                                        <th className="border px-2 py-1">Tipo de documento</th>
+                                                        <th className="border px-2 py-1">Número do documento</th>
+                                                        <th className="border px-2 py-1">Revisão</th>
+                                                    </tr>
+                                                    <tr className="bg-white">
+                                                        <td className="border px-2 py-1 text-center">19 caracteres</td>
+                                                        <td className="border px-2 py-1 text-center">3 caracteres</td>
+                                                        <td className="border px-2 py-1 text-center">2 caracteres</td>
+                                                        <td className="border px-2 py-1 text-center">1 caracter</td>
+                                                        <td className="border px-2 py-1 text-center">2 caracteres</td>
+                                                        <td className="border px-2 py-1 text-center">2 caracteres</td>
+                                                        <td className="border px-2 py-1 text-center">3 caracteres</td>
+                                                        <td className="border px-2 py-1 text-center">1 caracter</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="border px-2 py-1 text-center">letras maiúsculas, números e traços</td>
+                                                        <td className="border px-2 py-1 text-center">letras maiúsculas</td>
+                                                        <td className="border px-2 py-1 text-center">números</td>
+                                                        <td className="border px-2 py-1 text-center">números</td>
+                                                        <td className="border px-2 py-1 text-center">letras maiúsculas</td>
+                                                        <td className="border px-2 py-1 text-center">letras maiúsculas</td>
+                                                        <td className="border px-2 py-1 text-center">números</td>
+                                                        <td className="border px-2 py-1 text-center">número</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr className="border text-center uppercase tracking-wide">
+                                                        <td>{(cadastro.protocolo ?? 'MOB-2025-0000000000')}</td>
+                                                        <td>CMU</td>
+                                                        <td>01</td>
+                                                        <td>1</td>
+                                                        <td>MU</td>
+                                                        <td>DE</td>
+                                                        <td>001</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr className="border px-2 py-2 text-center text-2xl uppercase tracking-wide">
+                                                        <td colSpan={8}>
+                                                            {(cadastro.protocolo ?? 'MOB-2025-0000000000')}_CMU_01_1_MU_DE_001_0.pdf
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                            <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] sm:text-xs">
+                                                <div className="bg-white border rounded p-2">
+                                                    <p className="font-semibold">Exemplo de submissão de documentos do participante:</p>
+                                                    <ul className="list-disc ml-4 mt-1 font-mono">
+                                                        <li>{(cadastro.protocolo ?? 'MOB-2025-0000000000')}_CMU_01_1_MU_DE_001_0.pdf</li>
+                                                        <li>{(cadastro.protocolo ?? 'MOB-2025-0000000000')}_CMU_01_1_MU_DE_002_0.pdf</li>
+                                                        <li>{(cadastro.protocolo ?? 'MOB-2025-0000000000')}_CMU_01_1_MU_DE_003_0.pdf</li>
+                                                        <li>{(cadastro.protocolo ?? 'MOB-2025-0000000000')}_CMU_01_1_MU_DE_004_0.pdf</li>
+                                                        <li>{(cadastro.protocolo ?? 'MOB-2025-0000000000')}_CMU_01_1_MU_DE_005_0.pdf</li>
+                                                    </ul>
+                                                </div>
+                                                <div className="bg-white border rounded p-2">
+                                                    <p className="text-[11px] sm:text-xs">
+                                                        Atenção: Ao organizar os desenhos nas pranchas, é obrigatório seguir a
+                                                        sequência de Grupos e Elementos de Mobiliário Urbano apresentada no Edital do Concurso.
+                                                    </p>
+                                                </div>
+                                                <div className="bg-white border rounded p-2">
+                                                    <p className="font-semibold">Parte 6 | Número do documento</p>
+                                                    <ul className="grid grid-cols-5 gap-1 mt-1 font-mono text-center">
+                                                        <li>001</li>
+                                                        <li>002</li>
+                                                        <li>003</li>
+                                                        <li>004</li>
+                                                        <li>005</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div className="mt-2 text-right">
+                                                <a
+                                                    href="/modelos/CMU_Nomenclatura-dos-arquivos.zip"
+                                                    className="text-xs underline text-blue-600 hover:text-blue-700"
+                                                    download
+                                                >
+                                                    Baixar guia de nomenclatura
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="px-4 sm:px-6 space-y-4">

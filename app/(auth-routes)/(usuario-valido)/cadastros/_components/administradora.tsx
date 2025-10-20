@@ -8,16 +8,38 @@ import { ICadastro } from '../page';
 import { TipoArquivo } from '@prisma/client';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Check, Eye } from 'lucide-react';
+import { toast } from 'sonner';
+
+async function liberarAvaliacao(cadastroId: number) {
+	const result = await fetch(`/api/cadastro/${cadastroId}/liberar`, {
+		method: 'PATCH',
+	});
+	if (result.ok) {
+		toast.success('Avaliação liberada com sucesso!');
+		window.location.reload();
+	} else {
+		const error = await result.json();
+		toast.error(error.error || 'Erro ao liberar avaliação');
+	}
+}
 
 export const administradoraColumns: ColumnDef<ICadastro>[] = [
 	{
 		accessorKey: 'acoes',
 		header: "",
 		cell: ({ row }) => {
+			const indeferido = !!row.original.avaliacao_licitadora && row.original.avaliacao_licitadora.aprovado === false;
+			const liberado = !!row.original.avaliacao_licitadora?.liberadoAval;
 			return (
-				<div className='flex items-center justify-end gap-2'>
-					<Link href={`/cadastros/${row.original.id}`}>
-						<Button size='sm' variant='outline' className='cursor-pointer'>Ver dados</Button>
+				<div className='flex justify-end gap-2'>
+					{!liberado && !indeferido && (
+						<Button title='Liberar cadastro para avaliação' size='sm' variant='outline' className='cursor-pointer' onClick={async () => row.original.id && await liberarAvaliacao(+row.original.id)}>
+							<Check className='w-4 h-4' />
+						</Button>
+					)}
+					<Link href={`/cadastros/${row.original.id}`} title='Visualizar dados'>
+						<Button size='sm' variant='outline' className='cursor-pointer'><Eye className='w-4 h-4' /></Button>
 					</Link>
 				</div>
 			);
@@ -30,6 +52,7 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 			const avaliado = !!row.original.avaliacao_licitadora;
 			const indeferido = row.original.avaliacao_licitadora && row.original.avaliacao_licitadora.aprovado === false;
 			const arquivos = row.original.arquivos?.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && arquivo.caminho?.split("/").pop()?.startsWith("RECURSO-")) || [];
+			const liberado = !!row.original.avaliacao_licitadora?.liberadoAval;
 			return (
 				<div className='flex gap-2'>
 					<Badge variant={avaliado ? row.original.avaliacao_licitadora?.aprovado ? 'default' : 'destructive' : 'outline'}>
@@ -37,6 +60,9 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 					</Badge>
 					{indeferido && <Badge variant={arquivos.length > 0 ? 'default' : 'destructive'}>
 						{arquivos.length || 0}
+					</Badge>}
+					{liberado && <Badge variant='default'>
+						{'Liberado'}
 					</Badge>}
 				</div>
 			);
@@ -46,7 +72,6 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 		accessorKey: 'data_inscricao',
 		header: 'Data de inscrição',
 		cell: ({ row }) => {
-			console.log(row.original.criadoEm);
 			return row.original.criadoEm ? `${new Date(row.original.criadoEm).toLocaleDateString('pt-BR')}, ${new Date(row.original.criadoEm).toLocaleTimeString('pt-BR')}` : 'N/A';
 		},
 	},
@@ -66,13 +91,13 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 	// 	accessorKey: 'email',
 	// 	header: 'E-mail',
 	// },
-	{
-		accessorKey: 'carteira',
-		header: 'Carteira',
-		cell: ({ row }) => {
-			return `${row.original.carteira_tipo} - ${row.original.carteira_numero}`;
-		},
-	},
+	// {
+	// 	accessorKey: 'carteira',
+	// 	header: 'Carteira',
+	// 	cell: ({ row }) => {
+	// 		return `${row.original.carteira_tipo} - ${row.original.carteira_numero}`;
+	// 	},
+	// },
 	// {
 	// 	accessorKey: 'equipe',
 	// 	header: 'Equipe',
@@ -80,36 +105,35 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 	// 		return row.original.participantes?.length && row.original.participantes?.length > 0 ? 'Sim' : 'Não';
 	// 	},	
 	// },
-	{
-		accessorKey: 'participantes',
-		header: () => <p className='text-center'>Participantes</p>,
-		cell: ({ row }) => {
-			const participantes_length = row.original.participantes?.length || 0;
-			return (
-				<div className='flex items-center justify-center'>
-					<Badge variant='default'>
-						{participantes_length > 0 ? participantes_length : 'Nenhum'} participante{participantes_length > 1 ? 's' : ''}
-					</Badge>
-				</div>
-			);
-		},
-	},
-	{
-		accessorKey: 'doc_especifica',
-		header: () => <p className='text-center'>Documentação específica</p>,
-		cell: ({ row }) => {
-			console.log(row.original.arquivos);
-			const doc_especifica = row.original.arquivos?.filter(arquivo => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA);
-			const doc_especifica_length = doc_especifica?.length || 0;
-			return (
-				<div className='flex items-center justify-center'>
-					<Badge variant='default'>
-						{doc_especifica_length > 0 ? doc_especifica_length : 'Nenhum'} arquivo{doc_especifica_length > 1 ? 's' : ''}
-					</Badge>
-				</div>
-			);
-		},
-	},
+	// {
+	// 	accessorKey: 'participantes',
+	// 	header: () => <p className='text-center'>Participantes</p>,
+	// 	cell: ({ row }) => {
+	// 		const participantes_length = row.original.participantes?.length || 0;
+	// 		return (
+	// 			<div className='flex items-center justify-center'>
+	// 				<Badge variant='default'>
+	// 					{participantes_length > 0 ? participantes_length : 'Nenhum'} participante{participantes_length > 1 ? 's' : ''}
+	// 				</Badge>
+	// 			</div>
+	// 		);
+	// 	},
+	// },
+	// {
+	// 	accessorKey: 'doc_especifica',
+	// 	header: () => <p className='text-center'>Documentação específica</p>,
+	// 	cell: ({ row }) => {
+	// 		const doc_especifica = row.original.arquivos?.filter(arquivo => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA);
+	// 		const doc_especifica_length = doc_especifica?.length || 0;
+	// 		return (
+	// 			<div className='flex items-center justify-center'>
+	// 				<Badge variant='default'>
+	// 					{doc_especifica_length > 0 ? doc_especifica_length : 'Nenhum'} arquivo{doc_especifica_length > 1 ? 's' : ''}
+	// 				</Badge>
+	// 			</div>
+	// 		);
+	// 	},
+	// },
 	{
 		accessorKey: 'projetos',
 		header: () => <p className='text-center'>Projetos</p>,

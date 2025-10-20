@@ -14,7 +14,8 @@ const avaliacaoSchema = z.object({
     exequibilidade: z.number().min(0).max(10),
     economicidade: z.number().min(0).max(10),
     qualidadeGrafica: z.number().min(0).max(10),
-    observacoes: z.string().optional()
+    observacoes: z.string().optional(),
+    desclassificado: z.boolean().optional(),
 })
 
 export async function PUT(

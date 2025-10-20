@@ -11,7 +11,9 @@ async function bind(login: string, senha: string) {
 		const ldap = new Client({
 			url: process.env.LDAP_SERVER || 'ldap://1.1.1.1',
 		});
-		
+		const agora = new Date();
+		const dataEncerramentoIndeferidos = new Date("2025-10-21T00:00:00.000Z");
+		const validarIndeferido = agora >= dataEncerramentoIndeferidos;
 		usuario = await db.usuario.findFirst({ where: {
 			OR: [
 				{ login },
@@ -30,6 +32,17 @@ async function bind(login: string, senha: string) {
 			}
 		} else if (usuario.tipo === 'EXTERNO' && usuario.senha) {
 			const validaSenha = matchPassword(senha, usuario.senha);
+			if (usuario.permissao === "PARTICIPANTE" || validarIndeferido){
+				const cadastro = await db.cadastro.findFirst({ 
+					where: {
+						usuarioId: usuario.id,
+					},
+					include: {
+						avaliacao_licitadora: true
+					}
+				});
+				if (!cadastro || !cadastro.avaliacao_licitadora || cadastro.avaliacao_licitadora.aprovado === false) return null;
+			}
 			if (!validaSenha) return null;
 		}
 	} catch (err) {

@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { Loader2, Save } from "lucide-react"
+import { Switch } from "@/components/ui/switch"
 
 interface ICadastroAvaliacaoJulgadora {
     id: string;
@@ -22,6 +23,7 @@ interface ICadastroAvaliacaoJulgadora {
     economicidade: number | null;
     qualidadeGrafica: number | null;
     observacoes: string | null;
+    desclassificado: boolean;
     criadoEm: Date;
     atualizadoEm: Date;
 }
@@ -98,6 +100,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
         qualidadeGrafica: avaliacao.qualidadeGrafica || 0
     })
     const [observacoes, setObservacoes] = useState<string>(avaliacao.observacoes || '')
+    const [desclassificado, setDesclassificado] = useState<boolean>(avaliacao.desclassificado || false)
     const [isSaving, setIsSaving] = useState(false)
     const [isAutoSaving, setIsAutoSaving] = useState(false)
     const debounceRef = useRef<NodeJS.Timeout | null>(null)
@@ -118,7 +121,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
         }))
     }, [])
 
-    const autoSave = useCallback(async (notasParaSalvar: Record<string, number>, observacoesParaSalvar: string) => {
+    const autoSave = useCallback(async (notasParaSalvar: Record<string, number>, observacoesParaSalvar: string, desclassificadoParaSalvar: boolean) => {
         setIsAutoSaving(true)
         try {
             const response = await fetch(`/api/cadastro/${cadastroId}/avaliacao`, {
@@ -126,17 +129,14 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ ...notasParaSalvar, observacoes: observacoesParaSalvar })
+                body: JSON.stringify({ ...notasParaSalvar, observacoes: observacoesParaSalvar, desclassificado: desclassificadoParaSalvar })
             })
 
             if (!response.ok) {
                 throw new Error('Erro ao salvar avaliação automaticamente')
             }
-
-            // Não mostrar toast para salvamento automático para não poluir a interface
         } catch (error) {
             console.error('Erro no salvamento automático:', error)
-            // Apenas mostrar erro se for crítico
         } finally {
             setIsAutoSaving(false)
         }
@@ -159,7 +159,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
 
         // Configurar novo timeout para salvamento
         debounceRef.current = setTimeout(() => {
-            autoSave(notas, observacoes)
+            autoSave(notas, observacoes, desclassificado)
         }, 1500) // Salvar após 1.5 segundos de inatividade
 
         // Cleanup
@@ -168,7 +168,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
                 clearTimeout(debounceRef.current)
             }
         }
-    }, [notas, autoSave, observacoes])
+    }, [notas, autoSave, observacoes, desclassificado])
 
     // Effect para salvamento automático da observação com debounce
     useEffect(() => {
@@ -187,7 +187,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
 
         // Configurar novo timeout para salvamento
         debounceObservacaoRef.current = setTimeout(() => {
-            autoSave(notas, observacoes)
+            autoSave(notas, observacoes, desclassificado)
         }, 1500) // Salvar após 1.5 segundos de inatividade
 
         // Cleanup
@@ -196,7 +196,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
                 clearTimeout(debounceObservacaoRef.current)
             }
         }
-    }, [observacoes, autoSave, notas])
+    }, [observacoes, autoSave, notas, desclassificado])
 
     const handleSave = useCallback(async () => {
         setIsSaving(true)
@@ -206,7 +206,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ ...notas, observacoes })
+                body: JSON.stringify({ ...notas, observacoes, desclassificado })
             })
 
             if (!response.ok) {
@@ -220,7 +220,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
         } finally {
             setIsSaving(false)
         }
-    }, [notas, observacoes, cadastroId])
+    }, [notas, observacoes, cadastroId, desclassificado])
 
     const calcularMediaParcial = () => {
         const notasLinhasTemáticas = (notas.linhaTematica1 + notas.linhaTematica2 + notas.linhaTematica3) / 3
@@ -248,6 +248,21 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
 
     return (
         <div className="space-y-6">
+            {/* Switch de desclassificação */}
+            <div className="flex items-center justify-between p-3 border rounded-lg bg-gray-50">
+                <div>
+                    <p className="text-sm font-medium">Desclassificar cadastro</p>
+                    <p className="text-xs text-gray-600">Marque para indicar desclassificação.</p>
+                </div>
+                <Switch
+                    id="desclassificar"
+                    checked={desclassificado}
+                    onCheckedChange={(checked) => {
+                        setDesclassificado(checked)
+                        autoSave(notas, observacoes, checked)
+                    }}
+                />
+            </div>
             <div className="bg-blue-50 p-4 rounded-lg">
                 <p className="text-sm text-blue-800">
                     <strong>Observação:</strong> As notas poderão variar de 0 (zero) a 10 (dez), admitidas frações com uma casa decimal.

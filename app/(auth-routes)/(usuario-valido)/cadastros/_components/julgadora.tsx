@@ -8,6 +8,7 @@ import { ICadastro } from '../page';
 import { TipoArquivo } from '@prisma/client';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { EyeIcon } from 'lucide-react';
 
 export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 	{
@@ -17,7 +18,9 @@ export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 			return (
 				<div className='flex'>
 					<Link href={`/cadastros/${row.original.id}`}>
-						<Button size='sm' variant='outline' className='cursor-pointer'>Ver dados</Button>
+						<Button size='sm' variant='outline' className='cursor-pointer'>
+							<EyeIcon className='w-4 h-4' />
+						</Button>
 					</Link>
 				</div>
 			);
@@ -33,12 +36,15 @@ export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 				const { linhaTematica1, linhaTematica2, linhaTematica3, conceitoProjetual, atendimentoNormas, insercaoUrbana, qualidadeFuncional, exequibilidade, economicidade, qualidadeGrafica } = avaliacao
 				media = ((linhaTematica1 || 0) + (linhaTematica2 || 0) + (linhaTematica3 || 0) + (conceitoProjetual || 0) + (atendimentoNormas || 0) + (insercaoUrbana || 0) + (qualidadeFuncional || 0) + (exequibilidade || 0) + (economicidade || 0) + (qualidadeGrafica || 0)) / 10;
 			}
-			const status = !!avaliacao && media > 0;
+			const status = !!avaliacao;
+			console.log(row.original.avaliacoes_julgadora && row.original.avaliacoes_julgadora[0]);
+			const desclassificado = row.original.avaliacoes_julgadora ? row.original.avaliacoes_julgadora[0].desclassificado : false;
 			return (
-				<div className='flex items-center justify-center'>
+				<div className='flex items-center justify-center gap-1'>
 					<Badge variant={status ? 'default' : 'destructive'}>
 						{status ? 'Avaliado' : 'Aguardando avaliação'}
 					</Badge>
+					{desclassificado && <Badge variant='destructive'>Desclassificado</Badge>}
 				</div>
 			);
 		},
@@ -55,7 +61,7 @@ export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 			}
 			return (
 				<div className='flex items-center justify-center'>
-					<Badge variant={media ? 'default' : 'destructive'}>
+					<Badge variant={avaliacao ? 'default' : 'destructive'}>
 						{media.toFixed(2) || "-"}
 					</Badge>
 				</div>
