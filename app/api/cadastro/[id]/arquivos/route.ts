@@ -5,6 +5,7 @@ import { Arquivo, TipoArquivo } from "@prisma/client";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 import { verificarPermissoes } from "@/services/usuarios";
+import { PDFDocument } from "pdf-lib";
 
 export async function POST(
     request: NextRequest,
@@ -93,16 +94,40 @@ export async function POST(
         for (const arquivo of arquivos) {
             // Gerar nome único para o arquivo
             const timestamp = Date.now();
-            const filename = `${validaPermissao ? "EMAIL-" : ""}${timestamp}-${arquivo.name.normalize('NFD').replaceAll(" ", "_").replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9._]/g, "")}`;
+            const filename = `${timestamp}-${arquivo.name.normalize('NFD').replaceAll(" ", "_").replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9._-]/g, "")}`;
             const filepath = join(uploadDir, filename);
             // Usar barras normais para o caminho relativo (padrão web)
             const relativePath = `uploads/cadastros/${id}/${filename}`;
-            
-            console.log(`Salvando arquivo: ${filename} em ${relativePath}`);
 
             // Salvar arquivo no sistema de arquivos
             const bytes = await arquivo.arrayBuffer();
-            const buffer = Buffer.from(bytes);
+            let buffer = Buffer.from(bytes);
+
+            // Se for PDF, regravar páginas em um novo documento e limpar metadados
+            const isPDF = (arquivo.type && arquivo.type.toLowerCase().includes('pdf')) || filename.toLowerCase().endsWith('.pdf')
+            if (isPDF) {
+                try {
+                    const srcDoc = await PDFDocument.load(buffer, { ignoreEncryption: true })
+                    const newDoc = await PDFDocument.create()
+                    const pages = await newDoc.copyPages(srcDoc, srcDoc.getPageIndices())
+                    pages.forEach(p => newDoc.addPage(p))
+
+                    newDoc.setTitle('')
+                    newDoc.setAuthor('')
+                    newDoc.setSubject('')
+                    newDoc.setKeywords([])
+                    newDoc.setProducer('')
+                    newDoc.setCreator('')
+                    newDoc.setCreationDate(new Date(0))
+                    newDoc.setModificationDate(new Date())
+
+                    const sanitizedBytes = await newDoc.save()
+                    buffer = Buffer.from(sanitizedBytes)
+                } catch (e) {
+                    console.warn('Falha ao sanitizar PDF, salvando original:', e)
+                }
+            }
+
             await writeFile(filepath, buffer);
 
             // Salvar referência no banco de dados
@@ -111,7 +136,7 @@ export async function POST(
                     caminho: relativePath,
                     tipo: tipo,
                     cadastroId: cadastroId,
-                    tamanho: arquivo.size
+                    tamanho: buffer.length
                 }
             });
 
