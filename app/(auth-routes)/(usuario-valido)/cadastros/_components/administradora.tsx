@@ -8,7 +8,7 @@ import { ICadastro } from '../page';
 import { TipoArquivo } from '@prisma/client';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Check, Eye } from 'lucide-react';
+import { Check, Eye, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 async function liberarAvaliacao(cadastroId: number) {
@@ -24,6 +24,19 @@ async function liberarAvaliacao(cadastroId: number) {
 	}
 }
 
+async function revogarLiberacao(cadastroId: number) {
+	const result = await fetch(`/api/cadastro/${cadastroId}/revogar-liberacao`, {
+		method: 'PATCH',
+	});
+	if (result.ok) {
+		toast.success('Liberação revogada com sucesso!');
+		window.location.reload();
+	} else {
+		const error = await result.json();
+		toast.error(error.error || 'Erro ao revogar liberação');
+	}
+}
+
 export const administradoraColumns: ColumnDef<ICadastro>[] = [
 	{
 		accessorKey: 'acoes',
@@ -36,6 +49,11 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 					{!liberado && !indeferido && (
 						<Button title='Liberar cadastro para avaliação' size='sm' variant='outline' className='cursor-pointer' onClick={async () => row.original.id && await liberarAvaliacao(+row.original.id)}>
 							<Check className='w-4 h-4' />
+						</Button>
+					)}
+					{liberado && !indeferido && (
+						<Button title='Revogar liberação de avaliação' size='sm' variant='destructive' className='cursor-pointer' onClick={async () => row.original.id && await revogarLiberacao(+row.original.id)}>
+							<X className='w-4 h-4' />
 						</Button>
 					)}
 					<Link href={`/cadastros/${row.original.id}`} title='Visualizar dados'>
