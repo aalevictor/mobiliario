@@ -64,7 +64,7 @@ export async function POST(
 
         const quantArquivos = arquivosExistentes.length;
         const quantArquivosEnviados = arquivos.length;
-        if (tipo === TipoArquivo.PROJETOS && quantArquivosEnviados   >= MAX_ARQUIVOS_PROJETOS) {
+        if (tipo === TipoArquivo.PROJETOS && quantArquivosEnviados > (MAX_ARQUIVOS_PROJETOS - quantArquivos)) {
             return NextResponse.json({ error: `Número máximo de ${MAX_ARQUIVOS_PROJETOS} arquivos de projeto atingido` }, { status: 400 });
         }
 
