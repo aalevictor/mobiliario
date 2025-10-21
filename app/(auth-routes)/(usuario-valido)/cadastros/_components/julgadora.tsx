@@ -37,12 +37,12 @@ export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 				media = ((linhaTematica1 || 0) + (linhaTematica2 || 0) + (linhaTematica3 || 0) + (conceitoProjetual || 0) + (atendimentoNormas || 0) + (insercaoUrbana || 0) + (qualidadeFuncional || 0) + (exequibilidade || 0) + (economicidade || 0) + (qualidadeGrafica || 0)) / 10;
 			}
 			const status = avaliacao && avaliacao.avaliado;
-			const desclassificado = row.original.avaliacoes_julgadora ? row.original.avaliacoes_julgadora[0].desclassificado : false;
+			const desclassificado = avaliacao ? avaliacao.desclassificado : false;
 			return (
 				<div className='flex items-center justify-center gap-1'>
-					<Badge variant={status ? 'default' : 'destructive'}>
+					{!desclassificado && <Badge variant='default' className={status ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white'}>
 						{status ? 'Avaliado' : 'Aguardando avaliação'}
-					</Badge>
+					</Badge>}
 					{desclassificado && <Badge variant='destructive'>Desclassificado</Badge>}
 				</div>
 			);

@@ -73,18 +73,16 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                     {documentos && documentos.length > 0 ? (
                         <div className="space-y-3">
                             {documentos.map((arquivo: Partial<Arquivo>) => (
-                                <div key={arquivo.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div className="flex items-center gap-3">
+                                <div key={arquivo.id} className="p-3 bg-gray-50 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                                    <div className="flex items-start md:items-center gap-3">
                                         <FileText className="h-5 w-5 text-gray-500" />
                                         <div>
-                                            <p className="font-medium">{arquivo.caminho?.split('/').pop() || 'Documento Específico'}</p>
-                                            <p className="text-sm text-gray-600">
-                                                Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
-                                            </p>
+                                            <p className="font-medium break-words md:truncate md:max-w-[360px]">{arquivo.caminho?.split('/').pop() || 'Documento Específico'}</p>
+                                            <p className="text-sm text-gray-600">Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}</p>
                                         </div>
                                     </div>
                                     {podeDownload && arquivo.id && (
-                                        <div className="flex gap-2">
+                                        <div className="flex flex-wrap gap-2 md:justify-end">
                                             <ViewButton
                                                 cadastroId={cadastro.id!}
                                                 arquivoId={arquivo.id}
@@ -103,20 +101,6 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                                 nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
                                                 className="cursor-pointer"
                                             />
-                                            {/* {arquivo.caminho?.split('/').pop()?.startsWith("EMAIL-") && (
-                                            <Button
-                                                variant="destructive"
-                                                size="sm"
-                                                disabled={deletingFileId === arquivo.id}
-                                                onClick={() => deletarDocumento(arquivo.id!)}
-                                                className="cursor-pointer hover:opacity-80"
-                                            >
-                                                {deletingFileId === arquivo.id ? (
-                                                    <Loader2 className="h-4 w-4 animate-spin" />
-                                                ) : (
-                                                    <Trash2 className="h-4 w-4" />
-                                                )}
-                                            </Button>)} */}
                                         </div>
                                     )}
                                 </div>
@@ -152,18 +136,16 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                         {recursos && recursos.length > 0 ? (
                             <div className="space-y-3">
                                 {recursos.map((arquivo: Partial<Arquivo>) => (
-                                    <div key={arquivo.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                        <div className="flex items-center gap-3">
+                                    <div key={arquivo.id} className="p-3 bg-gray-50 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                                        <div className="flex items-start md:items-center gap-3">
                                             <FileText className="h-5 w-5 text-gray-500" />
                                             <div>
-                                                <p className="font-medium">{arquivo.caminho?.split('/').pop() || 'Documento de Recurso'}</p>
-                                                <p className="text-sm text-gray-600">
-                                                    Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
-                                                </p>
+                                                <p className="font-medium break-words md:truncate md:max-w-[360px]">{arquivo.caminho?.split('/').pop() || 'Documento de Recurso'}</p>
+                                                <p className="text-sm text-gray-600">Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}</p>
                                             </div>
                                         </div>
                                         {podeDownload && arquivo.id && (
-                                            <div className="flex gap-2">
+                                            <div className="flex flex-wrap gap-2 md:justify-end">
                                                 <ViewButton
                                                     cadastroId={cadastro.id!}
                                                     arquivoId={arquivo.id}
@@ -182,20 +164,6 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                                     nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
                                                     className="cursor-pointer"
                                                 />
-                                                {/* {arquivo.caminho?.split('/').pop()?.startsWith("RECURSO-EMAIL-") && (
-                                                <Button
-                                                    variant="destructive"
-                                                    size="sm"
-                                                    disabled={deletingFileId === arquivo.id}
-                                                    onClick={() => deletarDocumento(arquivo.id!)}
-                                                    className="cursor-pointer hover:opacity-80"
-                                                >
-                                                    {deletingFileId === arquivo.id ? (
-                                                        <Loader2 className="h-4 w-4 animate-spin" />
-                                                    ) : (
-                                                        <Trash2 className="h-4 w-4" />
-                                                    )}
-                                                </Button>)} */}
                                             </div>
                                         )}
                                     </div>
@@ -231,18 +199,16 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                     {projetos && projetos.length > 0 ? (
                         <div className="space-y-3">
                             {projetos.map((arquivo: Partial<Arquivo>) => (
-                                <div key={arquivo.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div className="flex items-center gap-3">
+                                <div key={arquivo.id} className="p-3 bg-gray-50 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                                    <div className="flex items-start md:items-center gap-3">
                                         <FolderOpen className="h-5 w-5 text-gray-500" />
                                         <div>
-                                            <p className="font-medium">{arquivo.caminho?.split('/').pop() || 'Projeto'}</p>
-                                            <p className="text-sm text-gray-600">
-                                                Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
-                                            </p>
+                                            <p className="font-medium break-words md:truncate md:max-w-[360px]">{arquivo.caminho?.split('/').pop() || 'Projeto'}</p>
+                                            <p className="text-sm text-gray-600">Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}</p>
                                         </div>
                                     </div>
                                     {podeDownload && arquivo.id && (
-                                        <div className="flex gap-2">
+                                        <div className="flex flex-wrap gap-2 md:justify-end">
                                             <ViewButton
                                                 cadastroId={cadastro.id!}
                                                 arquivoId={arquivo.id}

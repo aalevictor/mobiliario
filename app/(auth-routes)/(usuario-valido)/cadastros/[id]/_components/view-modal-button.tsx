@@ -29,21 +29,18 @@ export default function ViewModalButton({ cadastroId, arquivoId, nomeArquivo, cl
                 throw new Error(errorData.error || `Erro ${response.status}: ${response.statusText}`)
             }
             
-            // Verificar se a resposta é realmente um arquivo
             const contentType = response.headers.get('content-type')
             if (contentType?.includes('application/json')) {
                 const errorData = await response.json()
                 throw new Error(errorData.error || 'Resposta inesperada do servidor')
             }
             
-            // Criar um blob com o conteúdo do arquivo
             const blob = await response.blob()
             
             if (blob.size === 0) {
                 throw new Error('Arquivo vazio ou corrompido')
             }
             
-            // Verificar se é um PDF
             const isPDF = blob.type === 'application/pdf' || nomeArquivo.toLowerCase().endsWith('.pdf')
             
             if (!isPDF) {
@@ -51,7 +48,6 @@ export default function ViewModalButton({ cadastroId, arquivoId, nomeArquivo, cl
                 return
             }
             
-            // Criar URL temporária para o blob
             const url = window.URL.createObjectURL(blob)
             setPdfUrl(url)
             setIsOpen(true)
@@ -72,6 +68,24 @@ export default function ViewModalButton({ cadastroId, arquivoId, nomeArquivo, cl
         if (pdfUrl) {
             window.URL.revokeObjectURL(pdfUrl)
             setPdfUrl(null)
+        }
+    }
+
+    const openInNewTab = () => {
+        if (pdfUrl) {
+            const win = window.open(pdfUrl, '_blank')
+            if (!win) toast.error('Bloqueado pelo navegador. Permita pop-ups.')
+        }
+    }
+
+    const downloadPdf = () => {
+        if (pdfUrl) {
+            const a = document.createElement('a')
+            a.href = pdfUrl
+            a.download = nomeArquivo || 'arquivo.pdf'
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
         }
     }
 
@@ -97,11 +111,21 @@ export default function ViewModalButton({ cadastroId, arquivoId, nomeArquivo, cl
                     )}
                 </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-none !w-[90vw] h-[95vh] p-0">
+            <DialogContent className="max-w-none sm:!w-[90vw] !w-[96vw] sm:h-[90vh] h-[92vh] p-0">
                 <DialogHeader className="p-4 pb-0">
-                    <DialogTitle className="text-lg font-semibold">
-                        Visualizar: {nomeArquivo}
-                    </DialogTitle>
+                    <div className="flex items-center justify-between gap-2">
+                        <DialogTitle className="text-sm sm:text-lg font-semibold break-words">
+                            Visualizar: {nomeArquivo}
+                        </DialogTitle>
+                        <div className="flex items-center gap-2">
+                            <Button variant="outline" size="sm" onClick={openInNewTab} disabled={!pdfUrl} title="Abrir em nova guia">
+                                Abrir
+                            </Button>
+                            <Button variant="outline" size="sm" onClick={downloadPdf} disabled={!pdfUrl} title="Baixar PDF">
+                                Baixar
+                            </Button>
+                        </div>
+                    </div>
                 </DialogHeader>
                 <div className="flex-1 p-4 pt-2">
                     {pdfUrl && (
@@ -109,7 +133,7 @@ export default function ViewModalButton({ cadastroId, arquivoId, nomeArquivo, cl
                             src={pdfUrl}
                             className="w-full h-full border-0 rounded-md"
                             title={`Visualizar ${nomeArquivo}`}
-                            style={{ minHeight: '85vh' }}
+                            style={{ minHeight: '80vh' }}
                         />
                     )}
                 </div>
