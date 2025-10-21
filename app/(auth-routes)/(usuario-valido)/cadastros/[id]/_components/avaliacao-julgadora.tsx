@@ -267,6 +267,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
                         setAvaliado(checked)
                         autoSave(notas, observacoes, desclassificado, checked)
                     }}
+                    className="data-[state=checked]:bg-green-600"
                 />
             </div>
             <div className="flex items-center justify-between p-3 border rounded-lg bg-gray-50">
@@ -279,8 +280,9 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
                     checked={desclassificado}
                     onCheckedChange={(checked) => {
                         setDesclassificado(checked)
-                        autoSave(notas, observacoes, checked)
+                        autoSave(notas, observacoes, checked, avaliado)
                     }}
+                    className="data-[state=checked]:bg-red-600"
                 />
             </div>
             <div className="bg-blue-50 p-4 rounded-lg">
@@ -288,112 +290,195 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
                     <strong>Observação:</strong> As notas poderão variar de 0 (zero) a 10 (dez), admitidas frações com uma casa decimal.
                 </p>
             </div>
-            <Table>
-                 <TableHeader>
-                     <TableRow>
-                         <TableHead className="w-1/4">Critério básico</TableHead>
-                         <TableHead className="w-2/3">Descrição</TableHead>
-                         <TableHead className="w-20 text-center">Nota</TableHead>
-                     </TableRow>
-                 </TableHeader>
-                <TableBody>
-                    <TableRow className="bg-gray-50">
-                        <TableCell colSpan={3} className="font-semibold text-center">
-                            Aderência à Temática:
-                        </TableCell>
-                    </TableRow>
-                    {criterios.slice(0, 3).map((criterio) => (
-                         <TableRow key={criterio.key}>
-                             <TableCell className="font-medium align-top">
-                                 <div className="whitespace-normal break-words">
-                                     {criterio.nome}
-                                 </div>
-                             </TableCell>
-                             <TableCell className="text-sm text-gray-600 align-top">
-                                 <div className="whitespace-normal break-words">
-                                     {criterio.descricao}
-                                 </div>
-                             </TableCell>
-                             <TableCell className="text-center align-top">
-                                 <Input
-                                     type="number"
-                                     min="0"
-                                     max="10"
-                                     step="0.1"
-                                     value={notas[criterio.key]}
-                                     onChange={(e) => handleNotaChange(criterio.key, e.target.value)}
-                                     onBlur={(e) => {
-                                         const valor = parseFloat(e.target.value)
-                                         if (!isNaN(valor)) {
-                                             const valorLimitado = Math.round(valor * 10) / 10
-                                             e.target.value = valorLimitado.toString()
-                                             handleNotaChange(criterio.key, valorLimitado.toString())
-                                         }
-                                     }}
-                                     className="w-16 text-center"
-                                 />
-                             </TableCell>
+
+            {/* Layout mobile (cards) */}
+            <div className="md:hidden space-y-3">
+                <div className="bg-gray-50 p-2 rounded font-semibold text-center">Aderência à Temática:</div>
+                {criterios.slice(0, 3).map((criterio) => (
+                    <div key={criterio.key} className="p-3 border rounded-lg">
+                        <div className="text-sm font-medium mb-1 break-words">{criterio.nome}</div>
+                        <div className="text-xs text-gray-600 mb-3 break-words">{criterio.descricao}</div>
+                        <div className="flex items-center justify-between">
+                            <label className="text-xs text-gray-700" htmlFor={`nota-${String(criterio.key)}`}>Nota</label>
+                            <Input
+                                id={`nota-${String(criterio.key)}`}
+                                type="number"
+                                inputMode="decimal"
+                                min="0"
+                                max="10"
+                                step="0.1"
+                                value={notas[criterio.key]}
+                                onChange={(e) => handleNotaChange(criterio.key, e.target.value)}
+                                onBlur={(e) => {
+                                    const valor = parseFloat(e.target.value)
+                                    if (!isNaN(valor)) {
+                                        const valorLimitado = Math.round(valor * 10) / 10
+                                        e.target.value = valorLimitado.toString()
+                                        handleNotaChange(criterio.key, valorLimitado.toString())
+                                    }
+                                }}
+                                className="w-24 text-center"
+                                aria-label={`Nota para ${criterio.nome}`}
+                                pattern="[0-9]+(\\.[0-9]{1})?"
+                            />
+                        </div>
+                    </div>
+                ))}
+                <div className="bg-blue-50 p-2 rounded font-semibold flex justify-between">
+                    <span>MÉDIA PARCIAL</span>
+                    <span>{calcularMediaParcial()}</span>
+                </div>
+                {criterios.slice(3).map((criterio) => (
+                    <div key={criterio.key} className="p-3 border rounded-lg">
+                        <div className="text-sm font-medium mb-1 break-words">{criterio.nome}</div>
+                        <div className="text-xs text-gray-600 mb-3 break-words">{criterio.descricao}</div>
+                        <div className="flex items-center justify-between">
+                            <label className="text-xs text-gray-700" htmlFor={`nota-${String(criterio.key)}`}>Nota</label>
+                            <Input
+                                id={`nota-${String(criterio.key)}`}
+                                type="number"
+                                inputMode="decimal"
+                                min="0"
+                                max="10"
+                                step="0.1"
+                                value={notas[criterio.key]}
+                                onChange={(e) => handleNotaChange(criterio.key, e.target.value)}
+                                onBlur={(e) => {
+                                    const valor = parseFloat(e.target.value)
+                                    if (!isNaN(valor)) {
+                                        const valorLimitado = Math.round(valor * 10) / 10
+                                        e.target.value = valorLimitado.toString()
+                                        handleNotaChange(criterio.key, valorLimitado.toString())
+                                    }
+                                }}
+                                className="w-24 text-center"
+                                aria-label={`Nota para ${criterio.nome}`}
+                                pattern="[0-9]+(\\.[0-9]{1})?"
+                            />
+                        </div>
+                    </div>
+                ))}
+                <div className="bg-blue-50 p-2 rounded font-semibold flex justify-between">
+                    <span>MÉDIA PARCIAL</span>
+                    <span>{calcularMediaParcialSegundaMetade()}</span>
+                </div>
+                <div className="bg-green-50 p-2 rounded font-semibold flex justify-between">
+                    <span>MÉDIA FINAL</span>
+                    <span className="text-green-700">{calcularMediaFinal()}</span>
+                </div>
+            </div>
+
+            {/* Layout desktop (tabela) */}
+            <div className="hidden md:block overflow-x-auto">
+                <Table>
+                     <TableHeader>
+                         <TableRow>
+                             <TableHead className="min-w-64 w-1/4">Critério básico</TableHead>
+                             <TableHead className="min-w-[480px] w-2/3">Descrição</TableHead>
+                             <TableHead className="min-w-20 w-20 text-center">Nota</TableHead>
                          </TableRow>
-                     ))}
-                    <TableRow className="bg-blue-50">
-                        <TableCell colSpan={2} className="font-semibold text-right">
-                            MÉDIA PARCIAL:
-                        </TableCell>
-                        <TableCell className="text-center font-bold">
-                            {calcularMediaParcial()}
-                        </TableCell>
-                    </TableRow>
-                    {criterios.slice(3).map((criterio) => (
-                         <TableRow key={criterio.key}>
-                             <TableCell className="font-medium align-top">
-                                 <div className="whitespace-normal break-words">
-                                     {criterio.nome}
-                                 </div>
-                             </TableCell>
-                             <TableCell className="text-sm text-gray-600 align-top">
-                                 <div className="whitespace-normal break-words">
-                                     {criterio.descricao}
-                                 </div>
-                             </TableCell>
-                             <TableCell className="text-center align-top">
-                                 <Input
-                                     type="number"
-                                     min="0"
-                                     max="10"
-                                     step="0.1"
-                                     value={notas[criterio.key]}
-                                     onChange={(e) => handleNotaChange(criterio.key, e.target.value)}
-                                     onBlur={(e) => {
-                                         const valor = parseFloat(e.target.value)
-                                         if (!isNaN(valor)) {
-                                             const valorLimitado = Math.round(valor * 10) / 10
-                                             e.target.value = valorLimitado.toString()
-                                             handleNotaChange(criterio.key, valorLimitado.toString())
-                                         }
-                                     }}
-                                     className="w-16 text-center"
-                                 />
-                             </TableCell>
-                         </TableRow>
-                     ))}
-                    <TableRow className="bg-blue-50">
-                        <TableCell colSpan={2} className="font-semibold text-right">
-                            MÉDIA PARCIAL:
-                        </TableCell>
-                        <TableCell className="text-center font-bold">
-                            {calcularMediaParcialSegundaMetade()}
-                        </TableCell>
-                    </TableRow>
-                    <TableRow className="bg-green-50">
-                        <TableCell colSpan={2} className="font-semibold text-right">
-                            MÉDIA FINAL:
-                        </TableCell>
-                        <TableCell className="text-center font-bold text-green-700">
-                            {calcularMediaFinal()}
-                        </TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+                     </TableHeader>
+                    <TableBody>
+                        <TableRow className="bg-gray-50">
+                            <TableCell colSpan={3} className="font-semibold text-center">
+                                Aderência à Temática:
+                            </TableCell>
+                        </TableRow>
+                        {criterios.slice(0, 3).map((criterio) => (
+                             <TableRow key={criterio.key}>
+                                 <TableCell className="font-medium align-top">
+                                     <div className="whitespace-normal break-words">
+                                         {criterio.nome}
+                                     </div>
+                                 </TableCell>
+                                 <TableCell className="text-sm text-gray-600 align-top">
+                                     <div className="whitespace-normal break-words">
+                                         {criterio.descricao}
+                                     </div>
+                                 </TableCell>
+                                 <TableCell className="text-center align-top">
+                                     <Input
+                                         type="number"
+                                         inputMode="decimal"
+                                         min="0"
+                                         max="10"
+                                         step="0.1"
+                                         value={notas[criterio.key]}
+                                         onChange={(e) => handleNotaChange(criterio.key, e.target.value)}
+                                         onBlur={(e) => {
+                                             const valor = parseFloat(e.target.value)
+                                             if (!isNaN(valor)) {
+                                                 const valorLimitado = Math.round(valor * 10) / 10
+                                                 e.target.value = valorLimitado.toString()
+                                                 handleNotaChange(criterio.key, valorLimitado.toString())
+                                             }
+                                         }}
+                                         className="w-16 text-center"
+                                     />
+                                 </TableCell>
+                             </TableRow>
+                         ))}
+                        <TableRow className="bg-blue-50">
+                            <TableCell colSpan={2} className="font-semibold text-right">
+                                MÉDIA PARCIAL:
+                            </TableCell>
+                            <TableCell className="text-center font-bold">
+                                {calcularMediaParcial()}
+                            </TableCell>
+                        </TableRow>
+                        {criterios.slice(3).map((criterio) => (
+                             <TableRow key={criterio.key}>
+                                 <TableCell className="font-medium align-top">
+                                     <div className="whitespace-normal break-words">
+                                         {criterio.nome}
+                                     </div>
+                                 </TableCell>
+                                 <TableCell className="text-sm text-gray-600 align-top">
+                                     <div className="whitespace-normal break-words">
+                                         {criterio.descricao}
+                                     </div>
+                                 </TableCell>
+                                 <TableCell className="text-center align-top">
+                                     <Input
+                                         type="number"
+                                         inputMode="decimal"
+                                         min="0"
+                                         max="10"
+                                         step="0.1"
+                                         value={notas[criterio.key]}
+                                         onChange={(e) => handleNotaChange(criterio.key, e.target.value)}
+                                         onBlur={(e) => {
+                                             const valor = parseFloat(e.target.value)
+                                             if (!isNaN(valor)) {
+                                                 const valorLimitado = Math.round(valor * 10) / 10
+                                                 e.target.value = valorLimitado.toString()
+                                                 handleNotaChange(criterio.key, valorLimitado.toString())
+                                             }
+                                         }}
+                                         className="w-16 text-center"
+                                     />
+                                 </TableCell>
+                             </TableRow>
+                         ))}
+                        <TableRow className="bg-blue-50">
+                            <TableCell colSpan={2} className="font-semibold text-right">
+                                MÉDIA PARCIAL:
+                            </TableCell>
+                            <TableCell className="text-center font-bold">
+                                {calcularMediaParcialSegundaMetade()}
+                            </TableCell>
+                        </TableRow>
+                        <TableRow className="bg-green-50">
+                            <TableCell colSpan={2} className="font-semibold text-right">
+                                MÉDIA FINAL:
+                            </TableCell>
+                            <TableCell className="text-center font-bold text-green-700">
+                                {calcularMediaFinal()}
+                            </TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </div>
 
             <div className="space-y-4">
                 <div>
