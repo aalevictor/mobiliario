@@ -32,7 +32,7 @@ async function bind(login: string, senha: string) {
 			}
 		} else if (usuario.tipo === 'EXTERNO' && usuario.senha) {
 			const validaSenha = matchPassword(senha, usuario.senha);
-			if (usuario.permissao === "PARTICIPANTE" || validarIndeferido){
+			if (usuario.permissao === "PARTICIPANTE" && validarIndeferido){
 				const cadastro = await db.cadastro.findFirst({ 
 					where: {
 						usuarioId: usuario.id,
