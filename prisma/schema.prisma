@@ -101,8 +101,6 @@ model Avaliacao_Julgadora {
   economicidade         Float?   @default(0.0)
   qualidadeGrafica      Float?   @default(0.0)
 
-  // desclassificado       Boolean  @default(false)
-  // desclassificadoMotivo String?  @db.Text
   observacoes           String?  @db.Text
   avaliado              Boolean  @default(false)
   desclassificado       Boolean  @default(false)

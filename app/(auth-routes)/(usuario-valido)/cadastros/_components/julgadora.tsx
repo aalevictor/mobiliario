@@ -32,12 +32,11 @@ export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 		cell: ({ row }) => {
 			const avaliacao = row.original.avaliacoes_julgadora && row.original.avaliacoes_julgadora[0];
 			let media = 0;
-			if (avaliacao) {
+			if (avaliacao && avaliacao.avaliado) {
 				const { linhaTematica1, linhaTematica2, linhaTematica3, conceitoProjetual, atendimentoNormas, insercaoUrbana, qualidadeFuncional, exequibilidade, economicidade, qualidadeGrafica } = avaliacao
 				media = ((linhaTematica1 || 0) + (linhaTematica2 || 0) + (linhaTematica3 || 0) + (conceitoProjetual || 0) + (atendimentoNormas || 0) + (insercaoUrbana || 0) + (qualidadeFuncional || 0) + (exequibilidade || 0) + (economicidade || 0) + (qualidadeGrafica || 0)) / 10;
 			}
-			const status = !!avaliacao;
-			console.log(row.original.avaliacoes_julgadora && row.original.avaliacoes_julgadora[0]);
+			const status = avaliacao && avaliacao.avaliado;
 			const desclassificado = row.original.avaliacoes_julgadora ? row.original.avaliacoes_julgadora[0].desclassificado : false;
 			return (
 				<div className='flex items-center justify-center gap-1'>
@@ -55,7 +54,7 @@ export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 		cell: ({ row }) => {
 			const avaliacao = row.original.avaliacoes_julgadora && row.original.avaliacoes_julgadora[0];
 			let media = 0;
-			if (avaliacao) {
+			if (avaliacao && avaliacao.avaliado) {
 				const { linhaTematica1, linhaTematica2, linhaTematica3, conceitoProjetual, atendimentoNormas, insercaoUrbana, qualidadeFuncional, exequibilidade, economicidade, qualidadeGrafica } = avaliacao
 				media = ((linhaTematica1 || 0) + (linhaTematica2 || 0) + (linhaTematica3 || 0) + (conceitoProjetual || 0) + (atendimentoNormas || 0) + (insercaoUrbana || 0) + (qualidadeFuncional || 0) + (exequibilidade || 0) + (economicidade || 0) + (qualidadeGrafica || 0)) / 10;
 			}
