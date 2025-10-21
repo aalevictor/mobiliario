@@ -1,8 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Eye, Loader2 } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog"
+import { Eye, Loader2, ExternalLink, Download, X } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 
@@ -111,19 +111,27 @@ export default function ViewModalButton({ cadastroId, arquivoId, nomeArquivo, cl
                     )}
                 </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-none sm:!w-[90vw] !w-[96vw] sm:h-[90vh] h-[92vh] p-0">
+            <DialogContent className="max-w-none sm:!w-[90vw] !w-[96vw] sm:h-[90vh] h-[92vh] p-0" showCloseButton={false}>
                 <DialogHeader className="p-4 pb-0">
-                    <div className="flex items-center justify-between gap-2">
-                        <DialogTitle className="text-sm sm:text-lg font-semibold break-words">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 min-w-0">
+                        <DialogTitle className="flex-1 min-w-0 text-sm sm:text-lg font-semibold break-all sm:truncate" title={nomeArquivo}>
                             Visualizar: {nomeArquivo}
                         </DialogTitle>
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap gap-2 sm:justify-end shrink-0">
                             <Button variant="outline" size="sm" onClick={openInNewTab} disabled={!pdfUrl} title="Abrir em nova guia">
-                                Abrir
+                                <ExternalLink className="h-4 w-4" />
+                                <span className="hidden sm:inline ml-1">Abrir</span>
                             </Button>
                             <Button variant="outline" size="sm" onClick={downloadPdf} disabled={!pdfUrl} title="Baixar PDF">
-                                Baixar
+                                <Download className="h-4 w-4" />
+                                <span className="hidden sm:inline ml-1">Baixar</span>
                             </Button>
+                            <DialogClose asChild>
+                                <Button variant="outline" size="sm" title="Fechar">
+                                    <X className="h-4 w-4" />
+                                    <span className="hidden sm:inline ml-1">Fechar</span>
+                                </Button>
+                            </DialogClose>
                         </div>
                     </div>
                 </DialogHeader>
