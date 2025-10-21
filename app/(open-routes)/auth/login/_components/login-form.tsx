@@ -46,7 +46,9 @@ export function LoginForm({
 			if (res.error) toast.error('Credenciais incorretas!');
 			else {
 				toast.success('Seja bem-vindo!');
-				router.push('/cadastros');
+				// Garantir que o lado servidor reconheça a nova sessão
+				router.replace('/cadastros');
+				router.refresh();
 			}
 		} catch (e) {
 			console.log(e);
@@ -55,77 +57,62 @@ export function LoginForm({
 	}
 
 	return (
-		<Form {...form} {...props}>
-			<form
-				className='p-10 dark:bg-muted'
-				onSubmit={form.handleSubmit(onSubmit)}>
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className={cn('grid gap-4 p-10', className)}>
 				<div className={cn('flex flex-col gap-6', className)}>
 					<div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
 						<Image src="/logos/spurbanismo_preto.png" alt="Logo" width={300} height={300} className='w-1/2 h-auto' />
 						<Image src="/logos/smul_preto.png" alt="Logo" width={300} height={300} className='w-1/2 h-auto' />
 					</div>
-					<div className='grid gap-2'>
-						<FormField
-							control={form.control}
-							name='login'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Login</FormLabel>
-									<FormControl>
-										<Input
-											{...field}
-											className='dark:bg-background bg-muted'
-											placeholder='exemplo@email.com'
-										/>
-									</FormControl>
-									<FormDescription />
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
-					<div className='grid gap-2'>
-						<FormField
-							control={form.control}
-							name='senha'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Senha</FormLabel>
-									<FormControl>
-										<Input
-											{...field}
-											type='password'
-											className='dark:bg-background bg-muted'
-											placeholder='*********'
-										/>
-									</FormControl>
-									<FormDescription />
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
-					<Button
-						disabled={form.formState.isSubmitting || form.formState.isLoading}
-						type='submit'
-						className='w-full disabled:opacity-50'>
-						{form.formState.isSubmitting || form.formState.isLoading ? (
-							<>
-								Entrar <Loader2 className='animate-spin' />
-							</>
-						) : (
-							'Entrar'
+					<FormField
+						control={form.control}
+						name='login'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Login</FormLabel>
+								<FormControl>
+									<Input className='dark:bg-background bg-muted h-10 md:h-12' placeholder='Seu login' {...field} />
+								</FormControl>
+								<FormDescription>Informe seu login ou email</FormDescription>
+								<FormMessage />
+							</FormItem>
 						)}
-					</Button>
+					/>
+					<FormField
+						control={form.control}
+						name='senha'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Senha</FormLabel>
+								<FormControl>
+									<Input type='password' placeholder='Sua senha' className='dark:bg-background bg-muted h-10 md:h-12' {...field} />
+								</FormControl>
+								<FormDescription>Informe sua senha</FormDescription>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				</div>
+				<Button
+					disabled={form.formState.isSubmitting || form.formState.isLoading}
+					type='submit'
+					className='w-full disabled:opacity-50'>
+					{form.formState.isSubmitting || form.formState.isLoading ? (
+						<>
+							Entrar <Loader2 className='animate-spin' />
+						</>
+					) : (
+						'Entrar'
+					)}
+				</Button>
 
-					<div className='text-center'>
-						<Link 
-							href='/auth/reset' 
-							className='text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors'
-						>
-							Esqueci minha senha
-						</Link>
-					</div>
+				<div className='text-center'>
+					<Link 
+						href='/auth/reset' 
+						className='text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors'
+					>
+						Esqueci minha senha
+					</Link>
 				</div>
 			</form>
 		</Form>

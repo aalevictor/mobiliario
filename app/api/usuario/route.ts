@@ -43,6 +43,7 @@ async function handler(request: NextRequest) {
         );
         
         const usuario = await criarUsuario(data);
+        console.log(usuario);
         
         if (!usuario) {
             await AuditLogger.logError(

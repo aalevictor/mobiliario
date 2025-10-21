@@ -1,8 +1,17 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { LoginForm } from './_components/login-form';
 import Image from 'next/image';
+import { auth } from '@/auth';
+import { validaSenha } from '@/services/usuarios';
+import { redirect } from 'next/navigation';
 
-export default function Login() {
+export default async function Login() {
+	const session = await auth();
+	if (session) {
+		const validacao = await validaSenha(session.user.id);
+		if (validacao) return redirect('/cadastros');
+		return redirect('/primeiro-login');
+	}
 	return (
 		<>
 			<div className='flex min-h-svh flex-col items-center justify-center p-0 md:p-6 z-50 bg-[#e9edde] sm:bg-transparent'>

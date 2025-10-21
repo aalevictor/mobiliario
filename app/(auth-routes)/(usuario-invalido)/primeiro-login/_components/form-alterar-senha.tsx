@@ -45,6 +45,7 @@ export default function FormAlterarSenha({ usuario }: { usuario: User }) {
                 toast.success("Senha alterada com sucesso");
                 await signOut({ redirect: false });
                 router.push("/auth/login");
+                router.refresh();
             } else {
                 toast.error("Erro ao alterar senha");
             }

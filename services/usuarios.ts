@@ -10,6 +10,7 @@ import { AuditLogger } from '@/lib/audit-logger';
 
 export async function criarUsuario(dados: ICreateUsuario) {
     let enviarEmail = false;
+    console.log(dados)
 	if (dados.tipo === 'INTERNO') {
 		const { login, email, nome, permissao } = dados;
 		if (!login || login === '' || !email || email === '') return null;
@@ -32,9 +33,11 @@ export async function criarUsuario(dados: ICreateUsuario) {
         }
 		if (await buscarPorEmail(email)) return null;
 		const senhaHash = hashPassword(senha);
+        console.log({ senhaHash })
 		const usuario = await db.usuario.create({
 			data: { email, nome, permissao, senha: senhaHash, tipo: 'EXTERNO', alterarSenha },
 		});
+        console.log({ usuario })
         if (usuario && enviarEmail) {
             const response = await fetch(`${process.env.MAIL_API}/send-email`, {
                 method: 'POST',
