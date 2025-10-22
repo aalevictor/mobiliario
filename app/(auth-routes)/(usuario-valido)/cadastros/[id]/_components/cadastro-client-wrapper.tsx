@@ -77,7 +77,7 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                     <div className="flex items-start md:items-center gap-3">
                                         <FileText className="h-5 w-5 text-gray-500" />
                                         <div className="flex-1 min-w-0">
-                                            <p className="font-medium break-all md:break-words md:truncate md:max-w-[360px]" title={arquivo.caminho?.split('/').pop() || 'Documento Específico'}>{arquivo.caminho?.split('/').pop() || 'Documento Específico'}</p>
+                                            <p className="font-medium break-all md:break-words md:max-w-[360px]" title={arquivo.caminho?.split('/').pop() || 'Documento Específico'}>{arquivo.caminho?.split('/').pop() || 'Documento Específico'}</p>
                                             <p className="text-sm text-gray-600">Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}</p>
                                         </div>
                                     </div>
@@ -114,11 +114,11 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                         </div>
                     )}
                 </CardContent>
-                <FormArquivos
+                {/* <FormArquivos
                     tipo="documento"
                     cadastro={cadastro}
                     onSuccess={handleRefreshCadastro}
-                />
+                /> */}
             </Card>
 
             {/* Seção Recurso */}
@@ -140,7 +140,7 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                         <div className="flex items-start md:items-center gap-3">
                                             <FileText className="h-5 w-5 text-gray-500" />
                                             <div className="flex-1 min-w-0">
-                                                <p className="font-medium break-all md:break-words md:truncate md:max-w-[360px]" title={arquivo.caminho?.split('/').pop() || 'Documento de Recurso'}>{arquivo.caminho?.split('/').pop() || 'Documento de Recurso'}</p>
+                                                <p className="font-medium break-all md:break-words md:max-w-[360px]" title={arquivo.caminho?.split('/').pop() || 'Documento de Recurso'}>{arquivo.caminho?.split('/').pop() || 'Documento de Recurso'}</p>
                                                 <p className="text-sm text-gray-600">Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}</p>
                                             </div>
                                         </div>
@@ -203,7 +203,7 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                     <div className="flex items-start md:items-center gap-3">
                                         <FolderOpen className="h-5 w-5 text-gray-500" />
                                         <div className="flex-1 min-w-0">
-                                            <p className="font-medium break-all md:break-words md:truncate md:max-w-[360px]" title={arquivo.caminho?.split('/').pop() || 'Projeto'}>{arquivo.caminho?.split('/').pop() || 'Projeto'}</p>
+                                            <p className="font-medium break-all md:break-words md:max-w-[360px]" title={arquivo.caminho?.split('/').pop() || 'Projeto'}>{arquivo.caminho?.split('/').pop() || 'Projeto'}</p>
                                             <p className="text-sm text-gray-600">Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}</p>
                                         </div>
                                     </div>

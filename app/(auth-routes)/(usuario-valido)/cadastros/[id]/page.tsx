@@ -36,7 +36,7 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                     </CardDescription>
                 </CardHeader>
             </Card>
-            <Card>
+            {/* <Card>
                 <CardHeader className="pb-4">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
@@ -53,7 +53,7 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                                     <div className="flex items-start md:items-center gap-3">
                                         <FolderOpen className="h-5 w-5 text-gray-500" />
                                         <div className="flex-1 min-w-0">
-                                            <p className="font-medium break-all md:break-words md:truncate md:max-w-[360px]" title={arquivo.caminho?.split('/')?.pop() || 'Documento'}>{arquivo.caminho?.split('/')?.pop() || 'Documento'}</p>
+                                            <p className="font-medium break-all md:break-words md:max-w-[360px]" title={arquivo.caminho?.split('/')?.pop() || 'Documento'}>{arquivo.caminho?.split('/')?.pop() || 'Documento'}</p>
                                             <p className="text-sm text-gray-600">
                                                 Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
                                             </p>
@@ -92,9 +92,60 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                         </div>
                     )}
                 </CardContent>
-            </Card>
-            {/* Seção Participantes */}
+            </Card> */}
+            {/* Seção de dados do Cadastro */}
             <Card>
+                <CardHeader className="pb-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <User className="h-4 w-4 text-white" />
+                        </div>
+                        <CardTitle className="text-lg text-primary">Dados do cadastro</CardTitle>
+                    </div>
+                    <CardDescription className="text-sm sm:text-base">
+                        Informações principais do responsável e da inscrição.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <span className="text-sm font-medium text-gray-600">Nome</span>
+                            <p className="text-base font-medium">{cadastro.nome || 'Não informado'}</p>
+                        </div>
+                        <div>
+                            <span className="text-sm font-medium text-gray-600">E-mail</span>
+                            <p className="text-base font-medium">{cadastro.email || 'Não informado'}</p>
+                        </div>
+                        <div>
+                            <span className="text-sm font-medium text-gray-600">Telefone</span>
+                            <p className="text-base font-medium">{cadastro.telefone || 'Não informado'}</p>
+                        </div>
+                        <div>
+                            <span className="text-sm font-medium text-gray-600">Tipo de inscrição</span>
+                            <p className="text-base font-medium">{cadastro.cnpj ? 'Pessoa Jurídica' : 'Pessoa Física'}</p>
+                        </div>
+                        <div>
+                            <span className="text-sm font-medium text-gray-600">CPF</span>
+                            <p className="text-base font-medium">{cadastro.cpf || 'Não informado'}</p>
+                        </div>
+                        <div>
+                            <span className="text-sm font-medium text-gray-600">CNPJ</span>
+                            <p className="text-base font-medium">{cadastro.cnpj || 'Não informado'}</p>
+                        </div>
+                        <div>
+                            <span className="text-sm font-medium text-gray-600">Data de envio</span>
+                            <p className="text-base font-medium">{cadastro.criadoEm ? new Date(cadastro.criadoEm).toLocaleDateString('pt-BR') : '---'}</p>
+                        </div>
+                        <div>
+                            <span className="text-sm font-medium text-gray-600">Protocolo</span>
+                            <p className="text-base font-medium">{cadastro.protocolo || '---'}</p>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+            
+            {/* Seção Participantes */}
+            {cadastro.participantes && cadastro.participantes.length > 0 && <Card>
                 <CardHeader>
                     <CardTitle className="text-xl sm:text-2xl flex items-center gap-2">
                         <Users className="h-6 w-6" />
@@ -117,14 +168,16 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                         ))}
                     </div>
                 </CardContent>
-            </Card>
+            </Card>}
             {/* Seção Endereço */}
             <Card>
-                <CardHeader>
-                    <CardTitle className="text-xl sm:text-2xl flex items-center gap-2">
-                        <MapPin className="h-6 w-6" />
-                        Endereço
-                    </CardTitle>
+                <CardHeader className="pb-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <MapPin className="h-4 w-4 text-white" />
+                        </div>
+                        <CardTitle className="text-lg text-primary">Endereço</CardTitle>
+                    </div>
                     <CardDescription className="text-sm sm:text-base">
                         Informações de localização do cadastro.
                     </CardDescription>
@@ -182,7 +235,7 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                                     <div className="flex items-start md:items-center gap-3">
                                         <FolderOpen className="h-5 w-5 text-gray-500" />
                                         <div className="flex-1 min-w-0">
-                                            <p className="font-medium break-all md:break-words md:truncate md:max-w-[360px]" title={arquivo.caminho?.split('/')?.pop() || 'Projeto'}>{arquivo.caminho?.split('/')?.pop() || 'Projeto'}</p>
+                                            <p className="font-medium break-all md:break-words md:max-w-[360px]" title={arquivo.caminho?.split('/')?.pop() || 'Projeto'}>{arquivo.caminho?.split('/')?.pop() || 'Projeto'}</p>
                                             <p className="text-sm text-gray-600">
                                                 Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
                                             </p>

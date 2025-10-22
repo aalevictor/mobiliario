@@ -324,7 +324,7 @@ const DragDropInput = forwardRef<DragDropInputRef, DragDropInputProps>(
 											<FileIcon className='w-8 h-8 p-1.5 mr-2 text-gray-500' />
 										)}
 										<div>
-											<p className='text-xs font-medium truncate max-w-[150px] sm:max-w-xs'>
+											<p className='text-xs font-medium break-all sm:break-words whitespace-normal max-w-[150px] sm:max-w-xs'>
 												{file.name}
 											</p>
 											<p className='text-xs text-gray-500'>
