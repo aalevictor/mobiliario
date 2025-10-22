@@ -24,6 +24,7 @@ interface ICadastroAvaliacaoJulgadora {
     qualidadeGrafica: number | null;
     observacoes: string | null;
     desclassificado: boolean;
+    mencao_honrosa: boolean;
     avaliado: boolean;
     criadoEm: Date;
     atualizadoEm: Date;
@@ -102,6 +103,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
     })
     const [observacoes, setObservacoes] = useState<string>(avaliacao.observacoes || '')
     const [desclassificado, setDesclassificado] = useState<boolean>(avaliacao.desclassificado || false)
+    const [mencaoHonrosa, setMencaoHonrosa] = useState<boolean>(avaliacao.mencao_honrosa || false)
     const [avaliado, setAvaliado] = useState<boolean>(avaliacao.avaliado || false)
     const [isSaving, setIsSaving] = useState(false)
     const [isAutoSaving, setIsAutoSaving] = useState(false)
@@ -123,7 +125,13 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
         }))
     }, [])
 
-    const autoSave = useCallback(async (notasParaSalvar: Record<string, number>, observacoesParaSalvar: string, desclassificadoParaSalvar: boolean, avaliadoParaSalvar?: boolean) => {
+    const autoSave = useCallback(async (
+        notasParaSalvar: Record<string, number>,
+        observacoesParaSalvar: string,
+        desclassificadoParaSalvar: boolean,
+        avaliadoParaSalvar?: boolean,
+        mencaoHonrosaParaSalvar?: boolean
+    ) => {
         setIsAutoSaving(true)
         try {
             const response = await fetch(`/api/cadastro/${cadastroId}/avaliacao`, {
@@ -135,7 +143,8 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
                     ...notasParaSalvar, 
                     observacoes: observacoesParaSalvar, 
                     desclassificado: desclassificadoParaSalvar,
-                    avaliado: (avaliadoParaSalvar ?? avaliado)
+                    avaliado: (avaliadoParaSalvar ?? avaliado),
+                    mencao_honrosa: (mencaoHonrosaParaSalvar ?? mencaoHonrosa)
                 })
             })
 
@@ -147,7 +156,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
         } finally {
             setIsAutoSaving(false)
         }
-    }, [cadastroId, avaliado])
+    }, [cadastroId, avaliado, mencaoHonrosa])
 
     // Effect para salvamento automático das notas com debounce
     useEffect(() => {
@@ -213,7 +222,7 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ ...notas, observacoes, desclassificado, avaliado })
+                body: JSON.stringify({ ...notas, observacoes, desclassificado, avaliado, mencao_honrosa: mencaoHonrosa })
             })
 
             if (!response.ok) {
@@ -283,6 +292,21 @@ export default function AvaliacaoJulgadora({ avaliacao, cadastroId }: AvaliacaoJ
                         autoSave(notas, observacoes, checked, avaliado)
                     }}
                     className="data-[state=checked]:bg-red-600"
+                />
+            </div>
+            <div className="flex items-center justify-between p-3 border rounded-lg bg-gray-50">
+                <div>
+                    <p className="text-sm font-medium">Menção honrosa</p>
+                    <p className="text-xs text-gray-600">Marque para sinalizar menção honrosa.</p>
+                </div>
+                <Switch
+                    id="mencao-honrosa"
+                    checked={mencaoHonrosa}
+                    onCheckedChange={(checked) => {
+                        setMencaoHonrosa(checked)
+                        autoSave(notas, observacoes, desclassificado, avaliado, checked)
+                    }}
+                    className="data-[state=checked]:bg-indigo-600"
                 />
             </div>
             <div className="bg-blue-50 p-4 rounded-lg">

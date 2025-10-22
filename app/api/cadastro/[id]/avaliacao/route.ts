@@ -16,6 +16,7 @@ const avaliacaoSchema = z.object({
     qualidadeGrafica: z.number().min(0).max(10),
     observacoes: z.string().optional(),
     desclassificado: z.boolean().optional(),
+    mencao_honrosa: z.boolean().optional(),
     avaliado: z.boolean().optional(),
 })
 
