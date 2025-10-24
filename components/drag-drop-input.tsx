@@ -296,7 +296,7 @@ const DragDropInput = forwardRef<DragDropInputRef, DragDropInputProps>(
 					<div className='mt-4'>
 						<div className='flex justify-between items-center mb-2'>
 							<h4 className='text-xs font-medium'>
-								Arquivos selecionados ({files.length})
+								Arquivos selecionados ({files.length}/{maxFiles})
 							</h4>
 							{maxSize && (
 								<span className='text-xs text-gray-500'>

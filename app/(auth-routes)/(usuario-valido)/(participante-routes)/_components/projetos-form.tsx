@@ -82,7 +82,8 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                     dragDropRef.current?.reset()
                     await atualizarPagina('projetos')
                 } else {
-                    toast.error('Erro ao enviar projetos. Tente novamente.')
+                    const { error } = await response.json() || { error: 'Erro ao enviar projetos. Tente novamente.' }
+                    toast.error(error)
                 }
             } catch (error) {
                 console.error('Erro ao enviar projetos:', error)
@@ -185,6 +186,16 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                     <CardDescription className="text-sm sm:text-base">
                         Lista de propostas técnicas já enviadas.
                     </CardDescription>
+                    {projetos.length === 5 && (
+                        <CardDescription className="text-sm text-green-600 sm:text-base">
+                            Você enviou as 5 pranchas necessárias.
+                        </CardDescription>
+                    )}
+                    {projetos.length < 5 && (
+                        <CardDescription className="text-sm text-red-500 sm:text-base">
+                            Você deve enviar 5 pranchas. {projetos.length} de 5 já foram enviadas.
+                        </CardDescription>
+                    )}
                 </CardHeader>
                 <CardContent className="px-4 sm:px-6">
                     {projetos.length > 0 ? (
@@ -253,7 +264,7 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                 </CardContent>
 
                 {/* Formulário de Upload */}
-                {espacoDisponivel > 0 && (
+                {espacoDisponivel > 0 && projetos.length < 5 && (
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
                             <CardHeader className="px-4 sm:px-6 gap-4">
@@ -398,6 +409,7 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                                                     accept=".pdf"
                                                     multiple={true}
                                                     maxSize={espacoDisponivel}
+                                                    maxFiles={5 - projetos.length}
                                                     buttonText="Selecionar projetos"
                                                     dropzoneText="Arraste e solte seus projetos aqui"
                                                     helperText="Formatos aceitos: PDF"

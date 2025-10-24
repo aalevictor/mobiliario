@@ -200,6 +200,16 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
     const cadastro = await buscarCadastroJulgadora(+id, usuarioId);
     if (!cadastro) redirect('/cadastros');
     const podeDownload = await verificarPermissoes(usuarioId, ["JULGADORA"]);
+    let projetos: Partial<Arquivo> & { nome: string } [] = [];
+    cadastro.arquivos.map((arquivo: Partial<Arquivo>) => {
+        if (arquivo.tipo === 'PROJETOS') {
+            projetos.push({
+                ...arquivo,
+                nome: arquivo.caminho?.split('/')?.pop()?.split('-').slice(1).join('-') || 'Projeto',
+            });
+        }
+    })
+    projetos = projetos.sort((a, b) => a.nome.localeCompare(b.nome));
     return (<div className="px-0 md:px-8 relative h-full container mx-auto py-8">
         <div className="space-y-2 max-w-6xl mx-auto">
             {/* Seção Projetos */}
@@ -228,14 +238,14 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                     </div>
                 </CardHeader>
                 <CardContent>
-                    {cadastro.arquivos && cadastro.arquivos.length > 0 ? (
+                    {projetos && projetos.length > 0 ? (
                         <div className="space-y-3">
-                            {cadastro.arquivos.map((arquivo: Partial<Arquivo>) => (
+                            {projetos.map((arquivo: Partial<Arquivo> & { nome: string }) => (
                                 <div key={arquivo.id} className="p-3 bg-gray-50 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                                     <div className="flex items-start md:items-center gap-3">
                                         <FolderOpen className="h-5 w-5 text-gray-500" />
                                         <div className="flex-1 min-w-0">
-                                            <p className="font-medium break-all md:break-words md:max-w-[360px]" title={arquivo.caminho?.split('/')?.pop() || 'Projeto'}>{arquivo.caminho?.split('/')?.pop() || 'Projeto'}</p>
+                                            <p className="font-medium break-all md:break-words md:max-w-[360px]" title={arquivo.nome}>{arquivo.nome}</p>
                                             <p className="text-sm text-gray-600">
                                                 Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
                                             </p>
@@ -246,21 +256,21 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                                             <ViewButton
                                                 cadastroId={+id}
                                                 arquivoId={arquivo.id}
-                                                nomeArquivo={arquivo.caminho?.split('/')?.pop() || 'documento'}
+                                                nomeArquivo={arquivo.nome}
                                                 className="cursor-pointer"
                                                 tipo="projetos"
                                             />
                                             <ViewModalButton
                                                 cadastroId={+id}
                                                 arquivoId={arquivo.id}
-                                                nomeArquivo={arquivo.caminho?.split('/')?.pop() || 'projeto'}
+                                                nomeArquivo={arquivo.nome}
                                                 className="cursor-pointer"
                                                 tipo="projetos"
                                             />
                                             <DownloadButton
                                                 cadastroId={+id}
                                                 arquivoId={arquivo.id}
-                                                nomeArquivo={arquivo.caminho?.split('/')?.pop() || 'projeto'}
+                                                nomeArquivo={arquivo.nome}
                                                 className="cursor-pointer"
                                                 tipo="projetos"
                                             />
