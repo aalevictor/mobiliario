@@ -20,7 +20,7 @@ export async function POST(
 
     const validaPermissao = await verificarPermissoes(session.user.id, ["DEV", "ADMIN"]);
     const dataAberturaProjetos = new Date("2025-10-13 00:00:00")
-    const dataLimiteProjetos = new Date("2025-10-27 23:59:59.999")
+    const dataLimiteProjetos = new Date("2025-10-28 03:59:59.999")
     const dataAtual = new Date()
     const cadastro = await db.cadastro.findFirst({
         where: { 
