@@ -33,6 +33,12 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
     const [deletingFileId, setDeletingFileId] = useState<string | null>(null)
     const [downloadingFileId, setDownloadingFileId] = useState<string | null>(null)
     const dragDropRef = useRef<DragDropInputRef>(null)
+
+    const dataAberturaProjetos = new Date('2025-10-13 00:00:00');
+    const dataLimiteProjetos = new Date('2025-10-28 23:59:59.999');
+    const dataAtual = new Date();
+    const eDeferido = cadastro.avaliacao_licitadora && cadastro.avaliacao_licitadora.aprovado;
+    const podeEnviarProjetos = dataAtual >= dataAberturaProjetos && dataAtual <= dataLimiteProjetos && eDeferido;
     
     // Filtrar apenas projetos
     const projetos = cadastro.arquivos?.filter(arquivo => arquivo.tipo === TipoArquivo.PROJETOS) || []
@@ -228,7 +234,7 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                                                 <Download className="h-4 w-4" />
                                             )}
                                         </Button>
-                                        <Button
+                                        {podeEnviarProjetos && <Button
                                             variant="destructive"
                                             size="sm"
                                             disabled={deletingFileId === projeto.id}
@@ -239,7 +245,7 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                                             ) : (
                                                 <Trash2 className="h-4 w-4" />
                                             )}
-                                        </Button>
+                                        </Button>}
                                     </div>
                                 </div>
                             ))}
@@ -264,7 +270,7 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                 </CardContent>
 
                 {/* Formulário de Upload */}
-                {espacoDisponivel > 0 && projetos.length < 5 && (
+                {podeEnviarProjetos && espacoDisponivel > 0 && projetos.length < 5 && (
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
                             <CardHeader className="px-4 sm:px-6 gap-4">
@@ -447,7 +453,7 @@ export default function ProjetosForm({ cadastro, atualizarPagina }: ProjetosForm
                 )}
             </Card>
             
-            {espacoDisponivel <= 0 && (
+            {podeEnviarProjetos && espacoDisponivel <= 0 && (
                 <Alert variant="destructive">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>

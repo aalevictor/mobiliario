@@ -20,12 +20,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
 
     const cadastro = await meuCadastro(session.user.id);
     if (!cadastro) redirect("/");
-
-    const dataAberturaProjetos = new Date('2025-10-13 00:00:00');
-    const dataLimiteProjetos = new Date('2025-10-28 23:59:59.999');
-    const dataAtual = new Date();
     const eDeferido = cadastro.avaliacao_licitadora && cadastro.avaliacao_licitadora.aprovado;
-    const podeEnviarProjetos = cadastro.id === 57 || (dataAtual >= dataAberturaProjetos && dataAtual <= dataLimiteProjetos && eDeferido);
 
     async function atualizarPagina(tab: string) {
         "use server";
@@ -45,7 +40,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                         <TabsTrigger value="documentacao">Documentação</TabsTrigger>
                         {cadastro.avaliacao_licitadora && !eDeferido && <TabsTrigger value="recurso">Recurso</TabsTrigger>}
                         {eDeferido && <TabsTrigger value="modelos">Modelos</TabsTrigger>}
-                        {podeEnviarProjetos && <TabsTrigger value="projetos">Propostas Técnicas</TabsTrigger>}
+                        <TabsTrigger value="projetos">Propostas Técnicas</TabsTrigger>
                     </TabsList>
                 </div>
                 <div className="w-full flex flex-col gap-3">
@@ -70,11 +65,9 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                     {eDeferido && <TabsContent value="modelos" className="m-0">
                         <ModelosAba />
                     </TabsContent>}
-                    {podeEnviarProjetos && (
-                        <TabsContent value="projetos" className="m-0">
-                            <ProjetosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
-                        </TabsContent>
-                    )}
+                    <TabsContent value="projetos" className="m-0">
+                        <ProjetosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                    </TabsContent>
                 </div>
             </Tabs>
         </div>
