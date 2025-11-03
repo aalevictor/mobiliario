@@ -1,6 +1,6 @@
 "use client"
 
-import { templateDuvidasPadraoEmail, templateDuvidasPadraoPlataforma, templateEncerramentoAcesso, templateFinalizar, templateFinalizarNovo, templateInformacoesAprovados, templateListaFinalInscritos, templateListaInscritos, templatePrazoSuplementar } from "@/app/api/cadastro/_utils/email-templates";
+import { templateDuvidasPadraoEmail, templateDuvidasPadraoPlataforma, templateEncerramentoAcesso, templateFinalizar, templateFinalizarNovo, templateInformacoesAprovados, templateListaAvaliacao, templateListaFinalInscritos, templateListaInscritos, templatePrazoSuplementar } from "@/app/api/cadastro/_utils/email-templates";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -67,7 +67,7 @@ export default function EnviarForm({
                 resultado = await enviaEncerramentoAcesso(emailsParticipantes);
                 break;
             case "10":
-                resultado = await enviaListaAvaliacao(emailsParticipantes);
+                resultado = await enviaListaAvaliacao(emailsAprovados);
                 break;
             default:
                 break;
@@ -203,7 +203,7 @@ export default function EnviarForm({
                 to: '',
                 bcc: emails,
                 subject: 'Atenção participante inscrito! Você está na Fase 1 do Concurso',
-                html: templateInformacoesAprovados(),
+                html: templateListaAvaliacao(),
             }),
         });
     }
@@ -299,6 +299,7 @@ export default function EnviarForm({
                                     <SelectItem value="7">Lista Final de Inscritos</SelectItem>
                                     <SelectItem value="8">Informações para aprovados</SelectItem>
                                     <SelectItem value="9">Encerramento de acesso</SelectItem>
+                                    <SelectItem value="10">Lista de Avaliação</SelectItem>
                                     <SelectItem value="2">Pedido Esclarecimento - Portal</SelectItem>
                                     <SelectItem value="3">Pedido Esclarecimento - Email</SelectItem>
                                 </SelectGroup>

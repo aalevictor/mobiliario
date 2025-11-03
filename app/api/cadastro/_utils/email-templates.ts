@@ -593,6 +593,36 @@ export const templateInformacoesAprovados = (): string => {
   });
 };
 
+export const templateListaAvaliacao = (): string => {
+  return gerarEmailTemplate({
+    nome: "Participante inscrito(a)",
+    titulo: "Concurso do Mobiliário Urbano: LISTA de IDs deferidos e indeferidos para julgamento da FASE 1",
+    subtitulo: "Informação importante sobre o concurso",
+    conteudoPrincipal: `
+      <p>A Coordenação do Concurso, nos termos das competências atribuídas pelo item 4 do Edital nº 001/SP-URB/2025 publicado em 25 de agosto de 2025 (Edital: 141066448 e publicação: 141068804), registra a conclusão da análise dos arquivos submetidos, relativos às propostas técnicas em nível de estudo preliminar (Fase 1), para verificação quanto à conformidade às NORMAS DE APRESENTAÇÃO E SUBMISSÃO DAS PROPOSTAS, nos termos dos itens 13.1.7, e consequente habilitação para julgamento pela Comissão Julgadora, nos termos dos itens 13.2 e 13.3 do Edital.</p>
+      <p>A Lista de IDs deferidos e indeferidos para o julgamento das propostas da FASE 1 apresenta para cada um dos IDs:</p>
+      <ul>
+        <li>(i) Avaliação da Coordenação do Concurso, relacionada na segunda coluna;</li>
+        <li>(ii) Habilitação para julgamento na terceira coluna, indicando “SIM” para as propostas deferidas e “NÃO” para as indeferidas;</li>
+        <li>(iii) Motivação do indeferimento, para as propostas indeferidas;</li>
+      </ul>
+      <p><strong>Nos termos do item 13.3 do Edital, os IDs deferidos serão considerados habilitados para o Julgamento das PROPOSTAS TÉCNICAS em nível de ESTUDO PRELIMINAR – FASE -1.</strong></p>
+      <p>A publicação da Lista de IDs deferidos e indeferidos para o julgamento das propostas da FASE 1 foi realizada no Diário Oficial da Cidade de São Paulo e na Plataforma Digital Online do Concurso no dia 03 de novembro de 2025, conforme o cronograma do Edital (item 21, com prorrogação publicada no dia 15 de setembro de 2025).</p>
+      <p>O julgamento das propostas da FASE 1 será concluído até o dia 27/11/2025, seguido da 1º publicação da pontuação dos IDs até o dia 01/12/2025 e a lista final até o dia 10/12/2025.</p>
+      <p>Nos termos do item 14.4 do Edital, as 3 (três) propostas melhor classificadas passarão à FASE 2 de desenvolvimento dos protótipos e dos projetos em nível básico, recebendo a título de antecipação da premiação final, o valor correspondente a R$ 65.000,00 (sessenta e cinco mil reais), tal como indicado no item 19 do Edital.</p>
+      <p>Fique atento pois, caso sua proposta alcance as melhores pontuações, a condição para recebimento da antecipação da premiação e do acesso à FASE 2 consiste na apresentação, dentro do prazo de estabelecido no Cronograma (até dia 12/12/2025), <strong>completa dos documentos de habilitação</strong>, conforme item 9 deste Edital, e do <strong>TERMO DE COMPROMISSO DE EXECUÇÃO DOS PROTÓTIPOS PROJETOS EM NÍVEL BÁSICO</strong>, conforme modelo constante do ANEXO VI do Edital.</p>
+      <br />
+      <p>Fique sempre atento aos Informes.</p>
+      <p>Agradecemos a todos pela participação.</p>
+      <br />
+      <p>Atenciosamente,</p>
+      <p>Coordenação do Concurso.</p>
+    `,
+    botaoTexto: 'Ver Detalhes',
+    botaoUrl: `${process.env.NEXT_PUBLIC_APP_URL}`
+  });
+};
+
 export const templateDuvidasPadraoPlataforma = () => {
   return gerarEmailTemplate({
     nome: "Interessado(a)",
