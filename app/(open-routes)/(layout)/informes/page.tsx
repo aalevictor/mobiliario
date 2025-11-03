@@ -7,6 +7,25 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "<span class='text-red-500'>LISTA de IDs deferidos e indeferidos para julgamento das propostas técnicas em estudo preliminar - FASE 1</span>",
+    subtitulo: "Publicada no Diário Oficial da Cidade de São Paulo em 03/11/2025, nos termos do item 13.2 do Edital nº 001/SP-URB/2025",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>A Coordenação do Concurso, nos termos das competências atribuídas pelo item 4 do Edital nº 001/SP-URB/2025 publicado em 25 de agosto de 2025 (Edital: 141066448 e publicação: 141068804), registra a conclusão da análise dos arquivos submetidos, relativos às propostas técnicas em nível de estudo preliminar (Fase 1), para verificação quanto à conformidade às NORMAS DE APRESENTAÇÃO E SUBMISSÃO DAS PROPOSTAS, nos termos dos itens 13.1.7, e consequente habilitação para julgamento pela Comissão Julgadora, nos termos dos itens 13.2 e 13.3 do Edital.</p>
+        <p>A Lista de IDs deferidos e indeferidos para o julgamento das propostas da FASE 1 apresenta para cada um dos IDs:</p>
+        <ul class="list-disc list-inside">
+          <li>(i) Avaliação da Coordenação do Concurso, relacionada na segunda coluna;</li>
+          <li>(ii) Habilitação para julgamento na terceira coluna, indicando “SIM” para as propostas deferidas e “NÃO” para as indeferidas;</li>
+          <li>(iii) Motivação do indeferimento, para as propostas indeferidas;</li>
+        </ul>
+        <p class="font-bold">Nos termos do item 13.3 do Edital, os IDs deferidos serão considerados habilitados para o Julgamento das PROPOSTAS TÉCNICAS em nível de ESTUDO PRELIMINAR - FASE -1.</p>
+        <p>Conforme consta do Cronograma do Concurso, o julgamento das propostas da FASE 1 será concluído até o dia 27/11/2025, seguido da 1ª publicação da pontuação dos IDs até o dia 01/12/2025, e da lista final até o dia 10/12/2025.</p>
+        <a href="/listas/lista-avaliacao.pdf" download class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer">Acesse aqui a Lista</a>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-11-03T11:00:00"),
+    publicado: true
+  },{
     titulo: "<span>Informe aos participantes</span>",
     subtitulo: "Encerramento do acesso à plataforma para participantes com inscrição indeferida",
     conteudo: `

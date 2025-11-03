@@ -66,6 +66,9 @@ export default function EnviarForm({
             case "9":
                 resultado = await enviaEncerramentoAcesso(emailsParticipantes);
                 break;
+            case "10":
+                resultado = await enviaListaAvaliacao(emailsParticipantes);
+                break;
             default:
                 break;
         }
@@ -187,7 +190,7 @@ export default function EnviarForm({
         });
     }
 
-    async function enviaInformacoesAprovados(emails: string[]) {
+    async function enviaListaAvaliacao(emails: string[]) {
         console.log(emails);
         emails = teste ? emailsTeste : emails;
         return await fetch('/api/mail', {
@@ -239,6 +242,24 @@ export default function EnviarForm({
                 bcc: emails,
                 subject: 'Concurso do Mobiliário Urbano: Pedidos de Esclarecimento',
                 html: templateDuvidasPadraoEmail(),
+            }),
+        });
+    }
+
+    async function enviaInformacoesAprovados(emails: string[]) {
+        console.log(emails);
+        emails = teste ? emailsTeste : emails;
+        return await fetch('/api/mail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                from: mailFrom,
+                to: '',
+                bcc: emails,
+                subject: 'Atenção participante inscrito! Você está na Fase 1 do Concurso',
+                html: templateInformacoesAprovados(),
             }),
         });
     }
