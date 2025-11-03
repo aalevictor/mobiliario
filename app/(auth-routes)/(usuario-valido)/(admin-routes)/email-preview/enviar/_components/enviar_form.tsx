@@ -202,7 +202,7 @@ export default function EnviarForm({
                 from: mailFrom,
                 to: '',
                 bcc: emails,
-                subject: 'Atenção participante inscrito! Você está na Fase 1 do Concurso',
+                subject: '[VALE ESTE] Concurso do Mobiliário Urbano: LISTA de IDs deferidos e indeferidos para julgamento da FASE 1',
                 html: templateListaAvaliacao(),
             }),
         });
