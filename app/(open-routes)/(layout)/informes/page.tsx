@@ -7,6 +7,16 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "Deliberação sobre recurso interposto contra ao indeferimento de habilitação para julgamento da Fase 1, nos termos do item 13.2.",
+    subtitulo: "Deliberação sobre pedido único de recurso interposto pelo participante inscrito sob o ID nº MOB-2025-0720257560, referente ao indeferimento de habilitação para julgamento da Fase 1, nos termos do item 13.2, publicada no Diário Oficial da Cidade de São Paulo em 10/11/2025.",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>Considerando que o Termo de Referência, integrante do Edital nº 001/SP-URB/2025, exige a apresentação integral do conteúdo técnico dentro das pranchas, conforme modelo estabelecido, não havendo previsão para anexos ou páginas complementares, seja em arquivos apartados ou no mesmo arquivo PDF relativo à prancha, a Coordenação do Concurso delibera pela manutenção do indeferimento do ID nº MOB-2025-0720257560, com fundamento nos itens 13.1.4 e 13.1.5 do Edital, conforme lista de propostas deferidas e indeferidas publicada em 03/11/2025.</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-11-10T16:00:00"),
+    publicado: true
+  },{
     titulo: "<span class='text-red-500'>LISTA de IDs deferidos e indeferidos para julgamento das propostas técnicas em estudo preliminar - FASE 1</span>",
     subtitulo: "Publicada no Diário Oficial da Cidade de São Paulo em 03/11/2025, nos termos do item 13.2 do Edital nº 001/SP-URB/2025",
     conteudo: `
