@@ -32,7 +32,7 @@ export default function ExportarAvaliacoes({ filtros }: { filtros?: IFiltrosCada
     return (
         <DropdownMenuItem className='hover:opacity-80' onClick={handleExportar} disabled={isPending}>
             <Download className='w-4 h-4' />
-            {isPending ? <Loader2 className='w-4 h-4 animate-spin' /> : 'Exportar Participantes'}
+            {isPending ? <Loader2 className='w-4 h-4 animate-spin' /> : 'Exportar Avaliações'}
         </DropdownMenuItem>
     )
 }
