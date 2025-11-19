@@ -42,11 +42,11 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 		accessorKey: 'acoes',
 		header: "",
 		cell: ({ row }) => {
-			const indeferido = !!row.original.avaliacao_licitadora && row.original.avaliacao_licitadora.aprovado === false;
-			const liberado = !!row.original.avaliacao_licitadora?.liberadoAval;
+			// const indeferido = !!row.original.avaliacao_licitadora && row.original.avaliacao_licitadora.aprovado === false;
+			// const liberado = !!row.original.avaliacao_licitadora?.liberadoAval;
 			return (
 				<div className='flex justify-end gap-2'>
-					{!liberado && !indeferido && (
+					{/* {!liberado && !indeferido && (
 						<Button title='Liberar cadastro para avaliação' size='sm' variant='outline' className='cursor-pointer' onClick={async () => row.original.id && await liberarAvaliacao(+row.original.id)}>
 							<Check className='w-4 h-4' />
 						</Button>
@@ -55,7 +55,7 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 						<Button title='Revogar liberação de avaliação' size='sm' variant='destructive' className='cursor-pointer' onClick={async () => row.original.id && await revogarLiberacao(+row.original.id)}>
 							<X className='w-4 h-4' />
 						</Button>
-					)}
+					)} */}
 					<Link href={`/cadastros/${row.original.id}`} title='Visualizar dados'>
 						<Button size='sm' variant='outline' className='cursor-pointer'><Eye className='w-4 h-4' /></Button>
 					</Link>
