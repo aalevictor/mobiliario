@@ -20,6 +20,7 @@ import ImportarExcelWrapper from './_components/importar-excel-wrapper';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
+import ExportarAvaliacoes from './_components/exportar-avaliacoes';
 export default async function CadastrosSuspense({
 	searchParams,
 }: {
@@ -218,6 +219,13 @@ async function Cadastros({
                                 tipoInscricao: tipoInscricao as string,
                                 avaliacao: avaliacao as string,
                                 novos: true
+                            }} />
+                            <ExportarAvaliacoes filtros={{
+                                busca: busca as string,
+                                documentosEnviados: documentosEnviados as string,
+                                projetosEnviados: projetosEnviados as string,
+                                tipoInscricao: tipoInscricao as string,
+                                avaliacao: avaliacao as string
                             }} />
                         </DropdownMenuContent>
                     </DropdownMenu>

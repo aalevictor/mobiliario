@@ -663,6 +663,167 @@ async function buscarParticipantesExportacao({ busca, documentosEnviados, projet
   return { headers, rows };
 }
 
+async function buscarAvaliacoesExportacao({ busca, documentosEnviados, projetosEnviados, tipoInscricao, avaliacao }: { busca?: string, documentosEnviados?: string, projetosEnviados?: string, tipoInscricao?: string, avaliacao?: string }): Promise<{ headers: string[], rows: (string | null | undefined)[][] }> {
+  interface some {
+    tipo?: any;
+  }
+
+  interface none {
+    tipo?: any
+  }
+  interface arquivos {
+    none?: none,
+    some?: some
+  }
+  let arquivos: arquivos = {};
+  let AND: any[] = [];
+
+  if (documentosEnviados === "true" || projetosEnviados === "true") {
+    if (documentosEnviados === "true" && projetosEnviados === "true")
+      arquivos.some = { tipo: TipoArquivo.DOC_ESPECIFICA || TipoArquivo.PROJETOS }
+    else if (documentosEnviados === "true")
+      arquivos.some = { tipo: TipoArquivo.DOC_ESPECIFICA }
+    else if (projetosEnviados === "true")
+      arquivos.some = { tipo: TipoArquivo.PROJETOS }
+  }
+
+  if (documentosEnviados === "false" || projetosEnviados === "false") {
+    if (documentosEnviados === "false" && projetosEnviados === "false")
+      arquivos.none = { tipo: TipoArquivo.DOC_ESPECIFICA || TipoArquivo.PROJETOS }
+    else if (documentosEnviados === "false")
+      arquivos.none = { tipo: TipoArquivo.DOC_ESPECIFICA }
+    else if (projetosEnviados === "false")
+      arquivos.none = { tipo: TipoArquivo.PROJETOS }
+  }
+
+  if (documentosEnviados === "true" && projetosEnviados === "false") {
+    arquivos.some = { tipo: TipoArquivo.DOC_ESPECIFICA }
+    arquivos.none = { tipo: TipoArquivo.PROJETOS }
+  }
+
+  if (documentosEnviados === "false" && projetosEnviados === "true") {
+    arquivos.some = { tipo: TipoArquivo.PROJETOS }
+    arquivos.none = { tipo: TipoArquivo.DOC_ESPECIFICA }
+  }
+
+  if (arquivos.some) AND.push({ arquivos: { some: arquivos.some }});
+  if (arquivos.none) AND.push({ arquivos: { none: arquivos.none }});
+
+  const where: any = {
+    ...(busca && {
+        OR: [
+            { nome: { contains: busca } },
+            { email: { contains: busca } },
+            { cnpj: { contains: busca } },
+            { cpf: { contains: busca } },
+        ],
+    }),
+    ...(AND.length > 0 && { AND }),
+    ...(tipoInscricao === "PJ" && { cnpj: { not: null } }),
+    ...(tipoInscricao === "PJ" && { cnpj: { not: "" } }),
+    ...(tipoInscricao === "PF" && { 
+      OR: [
+        { cnpj: null },
+        { cnpj: "" }
+      ]
+    }),
+    ...(avaliacao === "AGUARDANDO" && { avaliacao_licitadora: null }),
+    ...(avaliacao === "DEFERIDO" && { avaliacao_licitadora: { aprovado: true } }),
+    ...(avaliacao === "INDEFERIDO" && { avaliacao_licitadora: { aprovado: false } }),
+  }
+
+  const cadastros = await db.cadastro.findMany({
+    orderBy: { criadoEm: 'asc' },
+    where: {
+      avaliacao_licitadora: {
+        aprovado: true,
+        liberadoAval: true,
+      }
+    },
+    select: {
+      id: true,
+      protocolo: true,
+      avaliacoes_julgadora: {
+        include: {
+          avaliador: true,
+        }
+      }
+    }
+  });
+
+  const headers = [
+    "ID",
+    "Média Final",
+    "Status",
+    "Observação",
+    "Mencão Honrosa",
+    "Avaliador",
+    "Linha Temática 1",
+    "Linha Temática 2",
+    "Linha Temática 3",
+    "Parcial 1",
+    "Conceito Projetual",
+    "Atendimento Normas",
+    "Inserção Urbana",
+    "Qualidade Funcional",
+    "Exequibilidade",
+    "Economicidade",
+    "Qualidade Gráfica",
+    "Parcial 2",
+    "Média Avaliador",
+  ];
+  
+  const rows: (string | null)[][] = [];
+  cadastros.map((cadastro) => {
+    if (cadastro.avaliacoes_julgadora && cadastro.avaliacoes_julgadora.length > 0) {
+      const avals: string[][] = [];
+      let avaliacoesTotal = 0;
+      cadastro.avaliacoes_julgadora.map(avaliacao => {
+        const parcial1 = (avaliacao.linhaTematica1 || 0) + (avaliacao.linhaTematica2 || 0) + (avaliacao.linhaTematica3 || 0);
+        const media1 = parcial1 / 3;
+        const parcial2 = (avaliacao.conceitoProjetual || 0) + (avaliacao.atendimentoNormas || 0) + (avaliacao.insercaoUrbana || 0) + (avaliacao.qualidadeFuncional || 0) + (avaliacao.exequibilidade || 0) + (avaliacao.economicidade || 0) + (avaliacao.qualidadeGrafica || 0);
+        const media2 = parcial2 / 7;
+        const mediaAvaliador = (parcial1 + parcial2)/10;
+        avaliacoesTotal += mediaAvaliador;
+        avals.push([
+          cadastro.protocolo || "",
+          "",
+          avaliacao.desclassificado ? "Desclassificado" : avaliacao.avaliado ? "Avaliado" : "Em avaliação",
+          avaliacao.observacoes || "",
+          avaliacao.mencao_honrosa ? "Sim" : "Não",
+          avaliacao.avaliador?.nome || "",
+          `${avaliacao.linhaTematica1 || 0}`,
+          `${avaliacao.linhaTematica2 || 0}`,
+          `${avaliacao.linhaTematica3 || 0}`,
+          `${media1.toFixed(2)}`,
+          `${avaliacao.conceitoProjetual || 0}`,
+          `${avaliacao.atendimentoNormas || 0}`,
+          `${avaliacao.insercaoUrbana || 0}`,
+          `${avaliacao.qualidadeFuncional || 0}`,
+          `${avaliacao.exequibilidade || 0}`,
+          `${avaliacao.economicidade || 0}`,
+          `${avaliacao.qualidadeGrafica || 0}`,
+          `${media2.toFixed(2)}`,
+          `${mediaAvaliador.toFixed(2)}`,
+        ]);
+      });
+      for (let i = 0; i < avals.length; i++) avals[i][1] = `${(avaliacoesTotal / avals.length).toFixed(2)}`;
+      if (avals.length > 0) rows.push(...avals);
+    } else {
+      rows.push([
+        cadastro.protocolo,
+        "",
+        "Não avaliado",
+        "",
+        "",
+        "",
+      ]);
+    }
+  });
+
+  return { headers, rows };
+}
+
 async function buscarArquivosExportacao({ busca, documentosEnviados, projetosEnviados, tipoInscricao, novos }: { busca?: string, documentosEnviados?: string, projetosEnviados?: string, tipoInscricao?: string, novos?: boolean }): Promise<{ headers: string[], rows: (string | null | undefined)[][] }> {
   const dataAberturaComplementar = new Date("2025-09-26 08:00:00")
   const dataLimiteComplementar = new Date("2025-09-26 12:00:00")
@@ -853,4 +1014,4 @@ async function buscarCadastroJulgadora(id: number, avaliadorId: string) {
   return cadastro;
 }
 
-export { buscarArquivosExportacao, buscarParticipantesExportacao, emailsParticipantes, emailsAprovados, geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
+export { buscarArquivosExportacao, buscarAvaliacoesExportacao, buscarParticipantesExportacao, emailsParticipantes, emailsAprovados, geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
