@@ -778,6 +778,7 @@ async function buscarAvaliacoesExportacao({ busca, documentosEnviados, projetosE
     if (cadastro.avaliacoes_julgadora && cadastro.avaliacoes_julgadora.length > 0) {
       const avals: string[][] = [];
       let avaliacoesTotal = 0;
+      let avaliacoesQuant = 0;
       cadastro.avaliacoes_julgadora.map(avaliacao => {
         const parcial1 = (avaliacao.linhaTematica1 || 0) + (avaliacao.linhaTematica2 || 0) + (avaliacao.linhaTematica3 || 0);
         const media1 = parcial1 / 3;
@@ -785,6 +786,7 @@ async function buscarAvaliacoesExportacao({ busca, documentosEnviados, projetosE
         const media2 = parcial2 / 7;
         const mediaAvaliador = (parcial1 + parcial2)/10;
         avaliacoesTotal += mediaAvaliador;
+        if (mediaAvaliador > 0) avaliacoesQuant++;
         avals.push([
           cadastro.protocolo || "",
           "",
@@ -807,7 +809,7 @@ async function buscarAvaliacoesExportacao({ busca, documentosEnviados, projetosE
           `${mediaAvaliador.toFixed(2)}`,
         ]);
       });
-      for (let i = 0; i < avals.length; i++) avals[i][1] = `${(avaliacoesTotal / avals.length).toFixed(2)}`;
+      for (let i = 0; i < avals.length; i++) avals[i][1] = `${(avaliacoesTotal / avaliacoesQuant).toFixed(2)}`;
       if (avals.length > 0) rows.push(...avals);
     } else {
       rows.push([
