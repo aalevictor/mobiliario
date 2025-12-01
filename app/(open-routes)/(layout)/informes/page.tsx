@@ -7,6 +7,23 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "<span class='text-red-500 font-bold'>Resultado da FASE-1: Ata de Julgamento e Quadro de Pontuação</span>",
+    subtitulo: "Conforme publicação no Diário Oficial da Cidade de São Paulo em 01/12/2025, nos termos do item 14.2.5 do Edital nº 001/SP-URB/2025.",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>A Coordenação do Concurso, conforme competências atribuídas pelo item 4 do Edital nº 001/SP-URB/2025, publicado em 25 de agosto de 2025, apresenta nos links a seguir a Classificação das propostas técnicas, conforme estabelecido na Ata de Julgamento da Fase 1 e anexo único correspondente ao Quadro de Pontuação com Súmula da Decisão da Comissão Julgadora, em atendimento ao 14.2.5 do Edital. </p><a href="/docs/CMU_CJ_ATA_01_JULGAMENTO_FASE_1.pdf" download class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer">Ata de Julgamento da Fase 1</a>
+        <a href="/docs/CMU_QUADRO-PONTUAÇÃO_SUMULA.pdf" download class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer">Quadro de Pontuação com Súmula da Decisão da Comissão Julgadora</a>
+        <p>Conforme decisão da Comissão Julgadora, com base no item 4.2.12.1 do Edital, os participantes receberão individualmente as observações registradas na etapa presencial de julgamento para as dez primeiras propostas classificadas. Para as demais, serão disponibilizadas as avaliações registradas na etapa de julgamento individual.</p>
+        <p>As propostas desclassificadas estão elencadas na Ata de Julgamento e no Quadro de Pontuação com a Súmula, acompanhada da decisão da Comissão Julgadora.</p>
+        <p>O prazo de interposição de recursos é de 3 (três) dias úteis após a publicação da Lista de Classificação, realizada no dia 01/12/2025, nos termos do item 14.2.5 do Edital. Neste Período poderão ser encaminhadas solicitações de recurso na forma de carta direcionada à COORDENAÇÃO DO CONCURSO, conforme modelo estabelecido no ANEXO V do Edital, nos termos do item 14.2.5.2 do Edital. A solicitação deverá ser feita via Plataforma Digital Online ou, caso haja indisponibilidade temporária da plataforma, pelo e-mail <a href='mailto:concursomoburb.sp2025@spurbanismo.sp.gov.br' class='text-primary underline'>concursomoburb.sp2025@spurbanismo.sp.gov.br</a>.</p>
+        <p>Após a análise dos recursos será divulgada e a lista final de pontuação dos IDs até o dia <strong>10/12/2025</strong>, nos termos do item 14.3 do Edital.</p>
+        <p>Nos termos do item 14.4 do Edital, as 3 (três) propostas melhor classificadas passarão à FASE 2 de desenvolvimento dos protótipos e dos projetos em nível básico, recebendo a título de antecipação da premiação final, o valor correspondente a R$ 65.000,00 (sessenta e cinco mil reais), tal como indicado no item 19 do Edital.</p>
+        <p>Fique atento pois, caso sua proposta alcance as melhores pontuações, a condição para recebimento da antecipação da premiação e do acesso à FASE 2 consiste na apresentação, dentro do prazo de estabelecido no Cronograma <strong>(até dia 12/12/2025)</strong>, completa dos documentos de habilitação, conforme item 9 deste Edital, e do TERMO DE COMPROMISSO DE EXECUÇÃO DOS PROTÓTIPOS PROJETOS EM NÍVEL BÁSICO, conforme modelo constante do ANEXO VI do Edital.</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-12-01T11:00:00"),
+    publicado: true
+  },{
     titulo: "Deliberação sobre recurso interposto contra ao indeferimento de habilitação para julgamento da Fase 1, nos termos do item 13.2.",
     subtitulo: "Deliberação sobre pedido único de recurso interposto pelo participante inscrito sob o ID nº MOB-2025-0720257560, referente ao indeferimento de habilitação para julgamento da Fase 1, nos termos do item 13.2, publicada no Diário Oficial da Cidade de São Paulo em 10/11/2025.",
     conteudo: `
