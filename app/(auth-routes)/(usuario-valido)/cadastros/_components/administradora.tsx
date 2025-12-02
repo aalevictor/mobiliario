@@ -68,20 +68,14 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 		header: 'Status',
 		cell: ({ row }) => {
 			const avaliado = !!row.original.avaliacao_licitadora;
-			const indeferido = row.original.avaliacao_licitadora && row.original.avaliacao_licitadora.aprovado === false;
-			const arquivos = row.original.arquivos?.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && arquivo.caminho?.split("/").pop()?.startsWith("RECURSO-")) || [];
+			// const indeferido = row.original.avaliacao_licitadora && row.original.avaliacao_licitadora.aprovado === false;
+			// const arquivos = row.original.arquivos?.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && arquivo.caminho?.split("/").pop()?.startsWith("RECURSO-")) || [];
 			const liberado = !!row.original.avaliacao_licitadora?.liberadoAval;
 			return (
 				<div className='flex gap-2'>
-					<Badge variant={avaliado ? row.original.avaliacao_licitadora?.aprovado ? 'default' : 'destructive' : 'outline'}>
-						{avaliado ? (row.original.avaliacao_licitadora?.aprovado ? 'Deferido' : 'Indeferido') : 'Aguardando avaliação'}
+					<Badge variant={avaliado ? liberado ? 'default' : 'destructive' : 'outline'}>
+						{avaliado ? (liberado ? 'Deferido' : 'Indeferido') : 'Aguardando avaliação'}
 					</Badge>
-					{indeferido && <Badge variant={arquivos.length > 0 ? 'default' : 'destructive'}>
-						{arquivos.length || 0}
-					</Badge>}
-					{liberado && <Badge variant='default'>
-						{'Liberado'}
-					</Badge>}
 				</div>
 			);
 		},

@@ -122,68 +122,66 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
             </Card>
 
             {/* Seção Recurso */}
-            {!eDeferido && (
-                <Card>
-                    <CardHeader className="pb-4">
-                        <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                                <FileText className="h-4 w-4 text-white" />
-                            </div>
-                            <CardTitle className="text-lg text-primary">Documentação de Recurso</CardTitle>
+            <Card>
+                <CardHeader className="pb-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <FileText className="h-4 w-4 text-white" />
                         </div>
-                    </CardHeader>
-                    <CardContent>
-                        {recursos && recursos.length > 0 ? (
-                            <div className="space-y-3">
-                                {recursos.map((arquivo: Partial<Arquivo>) => (
-                                    <div key={arquivo.id} className="p-3 bg-gray-50 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                                        <div className="flex items-start md:items-center gap-3">
-                                            <FileText className="h-5 w-5 text-gray-500" />
-                                            <div className="flex-1 min-w-0">
-                                                <p className="font-medium break-all md:break-words md:max-w-[360px]" title={arquivo.caminho?.split('/').pop() || 'Documento de Recurso'}>{arquivo.caminho?.split('/').pop() || 'Documento de Recurso'}</p>
-                                                <p className="text-sm text-gray-600">Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}</p>
-                                            </div>
+                        <CardTitle className="text-lg text-primary">Documentação de Recurso</CardTitle>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    {recursos && recursos.length > 0 ? (
+                        <div className="space-y-3">
+                            {recursos.map((arquivo: Partial<Arquivo>) => (
+                                <div key={arquivo.id} className="p-3 bg-gray-50 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                                    <div className="flex items-start md:items-center gap-3">
+                                        <FileText className="h-5 w-5 text-gray-500" />
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-medium break-all md:break-words md:max-w-[360px]" title={arquivo.caminho?.split('/').pop() || 'Documento de Recurso'}>{arquivo.caminho?.split('/').pop() || 'Documento de Recurso'}</p>
+                                            <p className="text-sm text-gray-600">Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}</p>
                                         </div>
-                                        {podeDownload && arquivo.id && (
-                                            <div className="flex flex-wrap gap-2 md:justify-end">
-                                                <ViewButton
-                                                    cadastroId={cadastro.id!}
-                                                    arquivoId={arquivo.id}
-                                                    nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
-                                                    className="cursor-pointer"
-                                                />
-                                                <ViewModalButton
-                                                    cadastroId={cadastro.id!}
-                                                    arquivoId={arquivo.id}
-                                                    nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
-                                                    className="cursor-pointer"
-                                                />
-                                                <DownloadButton
-                                                    cadastroId={cadastro.id!}
-                                                    arquivoId={arquivo.id}
-                                                    nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
-                                                    className="cursor-pointer"
-                                                />
-                                            </div>
-                                        )}
                                     </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="text-center py-8 text-gray-500">
-                                <FileText className="h-12 w-12 mx-auto mb-3 text-gray-300" />
-                                <p>Nenhum documento encontrado</p>
-                                <p className="text-sm">Documentação de recurso não foi enviada</p>
-                            </div>
-                        )}
-                    </CardContent>
-                    <FormArquivos
-                        tipo="recurso"
-                        cadastro={cadastro}
-                        onSuccess={handleRefreshCadastro}
-                    />
-                </Card>
-            )}
+                                    {podeDownload && arquivo.id && (
+                                        <div className="flex flex-wrap gap-2 md:justify-end">
+                                            <ViewButton
+                                                cadastroId={cadastro.id!}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
+                                                className="cursor-pointer"
+                                            />
+                                            <ViewModalButton
+                                                cadastroId={cadastro.id!}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
+                                                className="cursor-pointer"
+                                            />
+                                            <DownloadButton
+                                                cadastroId={cadastro.id!}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.caminho?.split('/').pop() || 'documento'}
+                                                className="cursor-pointer"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-8 text-gray-500">
+                            <FileText className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                            <p>Nenhum documento encontrado</p>
+                            <p className="text-sm">Documentação de recurso não foi enviada</p>
+                        </div>
+                    )}
+                </CardContent>
+                <FormArquivos
+                    tipo="recurso"
+                    cadastro={cadastro}
+                    onSuccess={handleRefreshCadastro}
+                />
+            </Card>
 
             {/* Seção Projetos */}
             <Card>

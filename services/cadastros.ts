@@ -351,8 +351,8 @@ async function buscarCadastros(
     }),
     ...(permissao === "JULGADORA" && { avaliacao_licitadora: { aprovado: true, liberadoAval: true }}),
     ...(avaliacao === "AGUARDANDO" && { avaliacao_licitadora: null }),
-    ...(avaliacao === "DEFERIDO" && { avaliacao_licitadora: { aprovado: true } }),
-    ...(avaliacao === "INDEFERIDO" && { avaliacao_licitadora: { aprovado: false } }),
+    ...(avaliacao === "DEFERIDO" && { avaliacao_licitadora: { liberadoAval: true } }),
+    ...(avaliacao === "INDEFERIDO" && { avaliacao_licitadora: { liberadoAval: false } }),
   }
   const total = await db.cadastro.count({ where });
   if (total == 0) return { total: 0, pagina: 0, limite: 0, data: [] };
@@ -473,6 +473,7 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
       avaliacao_licitadora: {
         select: {
           aprovado: true,
+          liberadoAval: true,
         }
       },
       arquivos: {
@@ -516,7 +517,7 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
     const projetosEnviados = arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.PROJETOS).length || 0;
     const recursosEnviados = arquivos.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && arquivo.caminho.split("/").pop()?.startsWith("RECURSO-")).length || 0;
     const analisado = !!cadastro.avaliacao_licitadora
-    const situacao = analisado ? cadastro.avaliacao_licitadora?.aprovado ? "Deferido" : "Indeferido" : "Aguardando análise"
+    const situacao = analisado ? cadastro.avaliacao_licitadora?.liberadoAval ? "Deferido" : "Indeferido" : "Aguardando análise"
     return [
       `${cadastro.criadoEm}`,
       `${situacao}`,
@@ -605,8 +606,8 @@ async function buscarParticipantesExportacao({ busca, documentosEnviados, projet
       ]
     }),
     ...(avaliacao === "AGUARDANDO" && { avaliacao_licitadora: null }),
-    ...(avaliacao === "DEFERIDO" && { avaliacao_licitadora: { aprovado: true } }),
-    ...(avaliacao === "INDEFERIDO" && { avaliacao_licitadora: { aprovado: false } }),
+    ...(avaliacao === "DEFERIDO" && { avaliacao_licitadora: { liberadoAval: true } }),
+    ...(avaliacao === "INDEFERIDO" && { avaliacao_licitadora: { liberadoAval: false } }),
   }
 
   const cadastros = await db.cadastro.findMany({
@@ -728,8 +729,8 @@ async function buscarAvaliacoesExportacao({ busca, documentosEnviados, projetosE
       ]
     }),
     ...(avaliacao === "AGUARDANDO" && { avaliacao_licitadora: null }),
-    ...(avaliacao === "DEFERIDO" && { avaliacao_licitadora: { aprovado: true } }),
-    ...(avaliacao === "INDEFERIDO" && { avaliacao_licitadora: { aprovado: false } }),
+    ...(avaliacao === "DEFERIDO" && { avaliacao_licitadora: { liberadoAval: true } }),
+    ...(avaliacao === "INDEFERIDO" && { avaliacao_licitadora: { liberadoAval: false } }),
   }
 
   const cadastros = await db.cadastro.findMany({
