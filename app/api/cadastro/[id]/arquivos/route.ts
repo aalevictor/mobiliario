@@ -20,10 +20,11 @@ export async function POST(
     const dataLimiteDocumento = new Date("2025-09-22 23:59:59.999")
     const dataAberturaComplementar = new Date("2025-09-26 08:00:00")
     const dataLimiteComplementar = new Date("2025-09-26 15:00:00")
+    const dataAberturaRecursoAvaliacao = new Date("2025-12-01 00:00:00")
+    const dataLimiteRecursoAvaliacao = new Date("2025-12-04 23:59:59.999")
     const dataAtual = new Date()
     const podeEnviarDocumento = dataAtual >= dataAberturaDocumento && dataAtual <= dataLimiteDocumento
     const podeEnviarComplementar = dataAtual >= dataAberturaComplementar && dataAtual <= dataLimiteComplementar
-    if (!podeEnviarDocumento && !podeEnviarComplementar && !validaPermissao) return NextResponse.json({ error: "Não é possível atualizar os dados do cadastro fora do período de inscrição." }, { status: 400 });
     try {
         const { id } = await context.params;
         const cadastroId = parseInt(id);
@@ -33,6 +34,9 @@ export async function POST(
             where: {
                 id: cadastroId,
                 ...(!validaPermissao && { usuarioId: session.user.id })
+            },
+            include: {
+                avaliacao_licitadora: true
             }
         });
 
@@ -46,6 +50,34 @@ export async function POST(
 
         if (!arquivos || arquivos.length === 0) {
             return NextResponse.json({ error: "Nenhum arquivo enviado" }, { status: 400 });
+        }
+
+        // Determinar janela de recurso de avaliação (requer aprovado)
+        const podeEnviarRecursoAvaliacao = (dataAtual >= dataAberturaRecursoAvaliacao && dataAtual <= dataLimiteRecursoAvaliacao) && !!cadastro.avaliacao_licitadora?.liberadoAval
+
+        // Bloqueio geral fora de janela
+        if (!podeEnviarDocumento && !podeEnviarComplementar && !podeEnviarRecursoAvaliacao && !validaPermissao) {
+            return NextResponse.json({ error: "Não é possível atualizar os dados do cadastro fora do período permitido." }, { status: 400 });
+        }
+
+        // Restrições específicas do recurso de avaliação
+        if (podeEnviarRecursoAvaliacao) {
+            if (tipo !== TipoArquivo.DOC_ESPECIFICA) {
+                return NextResponse.json({ error: "Tipo de arquivo inválido para recurso de avaliação." }, { status: 400 });
+            }
+            if (arquivos.length !== 1) {
+                return NextResponse.json({ error: "Envie apenas um documento de recurso de avaliação." }, { status: 400 });
+            }
+            const recursosExistentes = await db.arquivo.count({
+                where: {
+                    cadastroId,
+                    tipo: TipoArquivo.DOC_ESPECIFICA,
+                    caminho: { contains: 'RECURSO-AVALIACAO-' }
+                }
+            })
+            if (recursosExistentes > 0 && !validaPermissao) {
+                return NextResponse.json({ error: "Já existe um documento de recurso de avaliação enviado." }, { status: 400 });
+            }
         }
 
         // Definir limites baseados no tipo de arquivo
@@ -73,11 +105,11 @@ export async function POST(
         if (tamanhoTotalExistente + tamanhoNovosArquivos > maxSizeForType && !validaPermissao) {
             const tipoDescricao = tipo === TipoArquivo.DOC_ESPECIFICA ? 'documentos' : 'projetos';
             const limite = tipo === TipoArquivo.DOC_ESPECIFICA ? '20MB' : '180MB';
-            
-            return NextResponse.json(
-                { error: `Tamanho total dos ${tipoDescricao} excede o limite de ${limite}` },
-                { status: 400 }
-            );
+            if (!podeEnviarRecursoAvaliacao)
+                return NextResponse.json(
+                    { error: `Tamanho total dos ${tipoDescricao} excede o limite de ${limite}` },
+                    { status: 400 }
+                );
         }
 
         const uploadDir = join(process.cwd(), 'uploads', 'cadastros', id);
@@ -94,7 +126,7 @@ export async function POST(
         for (const arquivo of arquivos) {
             // Gerar nome único para o arquivo
             const timestamp = Date.now();
-            const filename = `${timestamp}-${arquivo.name.normalize('NFD').replaceAll(" ", "_").replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9._-]/g, "")}`;
+            const filename = `${podeEnviarRecursoAvaliacao ? "RECURSO-AVALIACAO-" : ""}${timestamp}-${arquivo.name.normalize('NFD').replaceAll(" ", "_").replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9._-]/g, "")}`;
             const filepath = join(uploadDir, filename);
             // Usar barras normais para o caminho relativo (padrão web)
             const relativePath = `uploads/cadastros/${id}/${filename}`;

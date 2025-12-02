@@ -11,6 +11,7 @@ import { revalidatePath } from "next/cache";
 import { ICadastro } from "../../cadastros/page";
 import ProtocoloDisplay from "../_components/protocolo-display";
 import RecursoForm from "../_components/recurso-form";
+import RecursoAvaliacaoForm from "../_components/recurso-avaliacao-form";
 import ModelosAba from "../_components/modelos-aba";
 
 export default async function MeuCadastro(props: { searchParams: Promise<{ tab: string }> }) {
@@ -21,13 +22,14 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
     const cadastro = await meuCadastro(session.user.id);
     if (!cadastro) redirect("/");
     const eDeferido = cadastro.avaliacao_licitadora && cadastro.avaliacao_licitadora.aprovado;
+    const liberado = eDeferido || cadastro.avaliacao_licitadora?.liberadoAval;
 
     async function atualizarPagina(tab: string) {
         "use server";
         revalidatePath(`/meu-cadastro?tab=${tab}`);
     }
 
-    const tabs = ["responsavel", "endereco", "participantes", "documentacao", "projetos"];
+    const tabs = ["responsavel", "endereco", "participantes", "documentacao", "projetos", "recurso-avaliacao"];
 
     return (
         <div className="container mx-auto h-full px-4 max-sm:px-2 py-6 max-w-6xl flex flex-col gap-3">            
@@ -40,6 +42,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                         <TabsTrigger value="documentacao">Documentação</TabsTrigger>
                         {cadastro.avaliacao_licitadora && !eDeferido && <TabsTrigger value="recurso">Recurso</TabsTrigger>}
                         {eDeferido && <TabsTrigger value="modelos">Modelos</TabsTrigger>}
+                        {liberado && <TabsTrigger value="recurso-avaliacao">Recurso</TabsTrigger>}
                         {eDeferido && <TabsTrigger value="projetos">Propostas Técnicas</TabsTrigger>}
                     </TabsList>
                 </div>
@@ -64,6 +67,9 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                     </TabsContent>}
                     {eDeferido && <TabsContent value="modelos" className="m-0">
                         <ModelosAba />
+                    </TabsContent>}
+                    {eDeferido && <TabsContent value="recurso-avaliacao" className="m-0">
+                        <RecursoAvaliacaoForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
                     </TabsContent>}
                     {eDeferido && <TabsContent value="projetos" className="m-0">
                         <ProjetosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />

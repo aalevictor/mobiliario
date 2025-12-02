@@ -16,6 +16,10 @@ export async function DELETE(
     const validaPermissao = await verificarPermissoes(session.user.id, ["DEV", "ADMIN"]);
     const dataAberturaComplementar = new Date("2025-09-26 08:00:00")
     const dataLimiteComplementar = new Date("2025-09-26 12:00:00");
+    const dataAberturaRecursoAvaliacao = new Date("2025-12-01 00:00:00")
+    const dataLimiteRecursoAvaliacao = new Date("2025-12-04 23:59:59.999")
+    const dataAtual = new Date()
+    const podeEnviarComplementar = dataAtual >= dataAberturaComplementar && dataAtual <= dataLimiteComplementar
     
     try {
 
@@ -27,6 +31,9 @@ export async function DELETE(
             where: {
                 id: cadastroId,
                 ...(!validaPermissao && { usuarioId: session.user.id })
+            },
+            include: {
+                avaliacao_licitadora: true
             }
         });
 
@@ -40,19 +47,23 @@ export async function DELETE(
                 cadastroId: cadastroId
             }
         });
+        const podeEnviarRecursoAvaliacao = dataAtual >= dataAberturaRecursoAvaliacao && dataAtual <= dataLimiteRecursoAvaliacao && cadastro.avaliacao_licitadora?.aprovado;
 
         if (!arquivo) {
             return NextResponse.json({ error: "Arquivo não encontrado" }, { status: 404 });
         }
 
-        if (new Date(arquivo.criadoEm || 0) < dataAberturaComplementar || new Date(arquivo.criadoEm || 0) > dataLimiteComplementar) {
+        if (podeEnviarRecursoAvaliacao && !arquivo.caminho.split("/").pop()?.startsWith("RECURSO-AVALIACAO-"))
+            return NextResponse.json({ error: "Não é possível remover recursos de avaliação fora do período de inscrição." }, { status: 400 });
+
+        if (!podeEnviarComplementar && !podeEnviarRecursoAvaliacao) {
             if (validaPermissao) {
                 if (!arquivo.caminho.split("/").pop()?.startsWith("EMAIL-") && !arquivo.caminho.split("/").pop()?.startsWith("RECURSO-EMAIL-"))
                     return NextResponse.json({ error: "Não é possível remover documentos fora do período de inscrição." }, { status: 400 });
             } else {
                 return NextResponse.json({ error: "Não é possível remover documentos fora do período de inscrição." }, { status: 400 });
             }
-        }
+        }        
 
         // Deletar arquivo do sistema de arquivos
         try {
