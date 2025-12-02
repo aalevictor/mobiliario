@@ -176,11 +176,11 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                         </div>
                     )}
                 </CardContent>
-                <FormArquivos
+                {/* <FormArquivos
                     tipo="recurso"
                     cadastro={cadastro}
                     onSuccess={handleRefreshCadastro}
-                />
+                /> */}
             </Card>
 
             {/* Seção Projetos */}
