@@ -7,6 +7,18 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "<span class='font-bold'>Informe sobre procedimentos de Recurso nos Termos do Item 14.2.5.1</span>",
+    subtitulo: "Para observação dos participantes, em função da publicação da a Ata de Julgamento e o Quadro de Pontuação com a Súmula da decisão para cada uma das propostas, realizada no dia 01/12/2025.",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>Conforme o item 14.2.5.1 do Edital, o prazo para interposição de recursos é de 3 (três) dias úteis após a publicação da Ata de Julgamento. Considerando que a Ata foi publicada em 01/12/2025, os recursos poderão ser enviados até às 23h59 do dia 04/12/2025, nos termos do item 21.1 do Edital.</p>
+        <p>A interposição de recursos deverá ser apresentada na forma de carta dirigida à COORDENAÇÃO DO CONCURSO, conforme o modelo constante do ANEXO V e nos termos do item 14.2.5.2. A submissão deve ocorrer pela PLATAFORMA DIGITAL ONLINE DO CONCURSO ou, em caso de indisponibilidade temporária desta, pelo email <a href="mailto:concursomoburb.sp2025@spurbanismo.sp.gov.br" class="text-primary underline">concursomoburb.sp2025@spurbanismo.sp.gov.br</a>.</p>
+        <p>A interposição de recursos para a Fase 1 não admite o envio de novas peças gráficas ou de materiais que extrapolem o conteúdo já apresentado. A avaliação dessa etapa foi concluída pela Comissão Julgadora, com ciência e deliberação das notas registradas na Ata nº 01/Comissão Julgadora, publicada em 01/12/2025. Assim, não serão aceitos anexos ou materiais adicionais, exceto aqueles destinados a fundamentar ou questionar pontos já apresentados anteriormente e/ou a demonstrar que os documentos previamente submetidos atendem às exigências editalícias. Alterações do material já apresentado não são permitidas.</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-12-03T14:00:00"),
+    publicado: true
+  },{
     titulo: "<span class='text-red-500 font-bold'>Resultado da FASE-1: Ata de Julgamento e Quadro de Pontuação</span>",
     subtitulo: "Conforme publicação no Diário Oficial da Cidade de São Paulo em 01/12/2025, nos termos do item 14.2.5 do Edital nº 001/SP-URB/2025.",
     conteudo: `

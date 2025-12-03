@@ -71,11 +71,17 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 			// const indeferido = row.original.avaliacao_licitadora && row.original.avaliacao_licitadora.aprovado === false;
 			// const arquivos = row.original.arquivos?.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && arquivo.caminho?.split("/").pop()?.startsWith("RECURSO-")) || [];
 			const liberado = !!row.original.avaliacao_licitadora?.liberadoAval;
+			const recursosAvaliacao = row.original.arquivos?.filter((arquivo) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && arquivo.caminho?.split("/").pop()?.startsWith("RECURSO-AVALIACAO")) || [];
 			return (
 				<div className='flex gap-2'>
 					<Badge variant={avaliado ? liberado ? 'default' : 'destructive' : 'outline'}>
 						{avaliado ? (liberado ? 'Deferido' : 'Indeferido') : 'Aguardando avaliação'}
 					</Badge>
+					{recursosAvaliacao.length > 0 && (
+						<Badge variant='default'>
+							{recursosAvaliacao.length}
+						</Badge>
+					)}
 				</div>
 			);
 		},

@@ -242,7 +242,7 @@ export default function RecursoAvaliacaoForm({ cadastro, atualizarPagina }: Recu
                                     Enviar Documento de Recurso de Avaliação
                                 </CardTitle>
                                 <CardDescription className="text-sm sm:text-base">
-                                    <p>Envie aqui o documento único de recurso de avaliação (PDF).</p>
+                                    <p>Envie aqui o documento de recurso de avaliação (PDF).</p>
                                     <p className="text-xs">Limite máximo total: {formatFileSize(MAX_TOTAL_SIZE)}</p>
                                 </CardDescription>
                             </CardHeader>
