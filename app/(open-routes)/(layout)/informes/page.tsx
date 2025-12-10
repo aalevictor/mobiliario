@@ -7,6 +7,33 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "<span class='font-bold text-red-500'>LISTA FINAL DE PONTUAÇÃO DOS IDs - FASE 1 </span>",
+    subtitulo: "Publicada no Diário Oficial da Cidade de São Paulo no dia 10/12/2025, nos termos do item 14.3 do Edital nº 001/SP-URB/2025. ",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>A Coordenação do Concurso, conforme competências atribuídas pelo item 4 do Edital nº 001/SP-URB/2025, publicado em 25 de agosto de 2025, apresenta no link a seguir a Lista Final de Pontuação, nos termos do item 14.3 do Edital nº 001/SP-URB/2025, publicada no <a class="text-primary underline" target="_blank" href="https://diariooficial.prefeitura.sp.gov.br/md_epubli_visualizar.php?xza7srXuRP0a5ntEAxOw29MMhU6y67X18U-mhejgAYsqUUSiWr9DigPs2Kyzlqs09dMhEqMlpzqfB2Q7ACGRQA,,">Diário Oficial da Cidade de São Paulo no dia 10/12/2025: </p>
+        <a href="/docs/CMU_ATA_14_LISTA-FINAL-FASE-1.pdf" download class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer">LISTA FINAL DE PONTUAÇÃO DOS IDs - FASE 1</a>
+        <p>Nos termos do item 14.4 do Edital, <strong>as 3 (três) propostas melhor classificadas passarão à FASE 2</strong> de desenvolvimento dos protótipos e dos projetos em nível básico, <strong>recebendo a título de antecipação da premiação final, o valor correspondente a R$ 65.000,00</strong> (sessenta e cinco mil reais), tal como indicado no item 19 do Edital.</p>
+        <p>A condição para recebimento da antecipação da premiação e do acesso à FASE 2 consiste na apresentação, dentro do prazo estabelecido no Cronograma (até dia 12/12/2025), completa dos Documentos de Habilitação, conforme item 9 do Edital, e do Termo de Compromisso de Execução dos Protótipos e Projetos em Nível Básico, conforme modelo constante do ANEXO VI do Edital.</p>
+        <p class="font-bold">Agradecemos a todos os participantes pelo empenho e dedicação nesta fase. Parabenizamos os classificados e informamos, ainda, que já foram definidas pela Comissão Julgadora as propostas que receberão menção honrosa, conforme registrado na Ata de Julgamento da Fase 1, publicada em 01/12/2025. As menções honrosas serão divulgadas na Cerimônia Solene de Premiação, nos termos do item 18.4.1 do Edital. </p>
+        <p>Mantenham-se atentos aos informes oficiais e desejamos boa sorte aos classificados na Fase 2!</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-12-10T11:30:00"),
+    publicado: true
+  },{
+    titulo: "<span class='font-bold'>Ata de Avaliação e Deliberação dos Recursos - Fase 1 </span>",
+    subtitulo: "Análise dos recursos interpostos tempestivamente nos termos do item 14.2.5.1 do Edital e deliberação da Coordenação do Concurso, nos termos do item 14.2.5.2, publicado no Diário Oficial da Cidade de São Paulo no dia 10/12/2025.",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p> Coordenação do Concurso, conforme competências atribuídas pelo item 4 do Edital nº 001/SP-URB/2025, publicado em 25 de agosto de 2025, apresenta no link a seguir o conteúdo da Ata nº 14 da Coordenação do Concurso, a respeito da análise dos recursos interpostos tempestivamente nos termos do item 14.2.5.1 do Edital e deliberação da Coordenação do Concurso, nos termos do item 14.2.5.2, publicado no <a class="text-primary underline" target="_blank" href="https://diariooficial.prefeitura.sp.gov.br/md_epubli_visualizar.php?xza7srXuRP0a5ntEAxOw29MMhU6y67X18U-mhejgAYsqUUSiWr9DigPs2Kyzlqs09dMhEqMlpzqfB2Q7ACGRQA,,">Diário Oficial da Cidade de São Paulo no dia 10/12/2025: </p>
+        <a href="/docs/CMU_ATA_14_Analise-RECURSOS-Fase-1_VF.pdf" download class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer">Ata de Avaliação e Deliberação dos Recursos - Fase 1</a>
+        <p>Diante do improvimento dos recursos apresentados tempestivamente, a Coordenação determina a publicação da Lista Final de Pontuação, tal como estabelecida na Ata de Julgamento nº 01, publicada no dia 01/12/2025, mantidas as desclassificações, constituindo-a como Lista Final de Pontuação dos IDs, nos termos do item 14.3 do Edital.</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-12-10T11:30:00"),
+    publicado: true
+  },{
     titulo: "<span class='font-bold'>Informe sobre procedimentos de Recurso nos Termos do Item 14.2.5.1</span>",
     subtitulo: "Para observação dos participantes, em função da publicação da a Ata de Julgamento e o Quadro de Pontuação com a Súmula da decisão para cada uma das propostas, realizada no dia 01/12/2025.",
     conteudo: `
