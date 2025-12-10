@@ -72,6 +72,7 @@ model Avaliacao_Licitadora {
   avaliadorId  String
   parecer      String?  @db.Text
   aprovado     Boolean  @default(false)
+  classificado Boolean  @default(false)
   observacoes  String?
   criadoEm     DateTime @default(now())
   atualizadoEm DateTime @default(now()) @updatedAt

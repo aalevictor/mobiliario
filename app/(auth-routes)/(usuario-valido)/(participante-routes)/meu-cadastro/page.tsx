@@ -13,6 +13,7 @@ import ProtocoloDisplay from "../_components/protocolo-display";
 import RecursoForm from "../_components/recurso-form";
 import RecursoAvaliacaoForm from "../_components/recurso-avaliacao-form";
 import ModelosAba from "../_components/modelos-aba";
+import HabilitacaoForm from "../_components/habilitacao-form";
 
 export default async function MeuCadastro(props: { searchParams: Promise<{ tab: string }> }) {
     const { tab } = await props.searchParams;
@@ -24,12 +25,17 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
     const eDeferido = cadastro.avaliacao_licitadora && cadastro.avaliacao_licitadora.aprovado;
     const liberado = eDeferido || cadastro.avaliacao_licitadora?.liberadoAval;
 
+    const inicioEnvioHabilitacao = new Date("2025-12-11 00:00:00");
+    const fimEnvioHabilitacao = new Date("2025-12-12 23:59:59");
+    const hoje = new Date();
+    const envioHabilitacao = cadastro.avaliacao_licitadora?.classificado && hoje >= inicioEnvioHabilitacao && hoje <= fimEnvioHabilitacao;
+
     async function atualizarPagina(tab: string) {
         "use server";
         revalidatePath(`/meu-cadastro?tab=${tab}`);
     }
 
-    const tabs = ["responsavel", "endereco", "participantes", "documentacao", "projetos", "recurso-avaliacao"];
+    const tabs = ["responsavel", "endereco", "participantes", "documentacao", "projetos", "recurso-avaliacao", "documentos-habilitacao"];
 
     return (
         <div className="container mx-auto h-full px-4 max-sm:px-2 py-6 max-w-6xl flex flex-col gap-3">            
@@ -42,8 +48,11 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                         <TabsTrigger value="documentacao">Documentação</TabsTrigger>
                         {cadastro.avaliacao_licitadora && !eDeferido && <TabsTrigger value="recurso">Recurso</TabsTrigger>}
                         {eDeferido && <TabsTrigger value="modelos">Modelos</TabsTrigger>}
-                        {liberado && <TabsTrigger value="recurso-avaliacao">Recurso</TabsTrigger>}
+                        {/* {liberado && <TabsTrigger value="recurso-avaliacao">Recurso</TabsTrigger>} */}
                         {eDeferido && <TabsTrigger value="projetos">Propostas Técnicas</TabsTrigger>}
+                        {envioHabilitacao && (
+                            <TabsTrigger value="documentos-habilitacao">Habilitação</TabsTrigger>
+                        )}
                     </TabsList>
                 </div>
                 <div className="w-full flex flex-col gap-3">
@@ -68,12 +77,17 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                     {eDeferido && <TabsContent value="modelos" className="m-0">
                         <ModelosAba />
                     </TabsContent>}
-                    {eDeferido && <TabsContent value="recurso-avaliacao" className="m-0">
+                    {/* {eDeferido && <TabsContent value="recurso-avaliacao" className="m-0">
                         <RecursoAvaliacaoForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
-                    </TabsContent>}
+                    </TabsContent>} */}
                     {eDeferido && <TabsContent value="projetos" className="m-0">
                         <ProjetosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
                     </TabsContent>}
+                    {envioHabilitacao &&  (
+                        <TabsContent value="documentos-habilitacao" className="m-0">
+                            <HabilitacaoForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                        </TabsContent>
+                    )}
                 </div>
             </Tabs>
         </div>
