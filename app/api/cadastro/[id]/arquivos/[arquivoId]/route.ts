@@ -49,6 +49,16 @@ export async function DELETE(
         });
         const podeEnviarRecursoAvaliacao = dataAtual >= dataAberturaRecursoAvaliacao && dataAtual <= dataLimiteRecursoAvaliacao && cadastro.avaliacao_licitadora?.aprovado;
 
+        // Janela de habilitação (11/12 00:00 até 12/12 23:59:59.999 do ano corrente)
+        const anoAtual = new Date().getFullYear();
+        const dataAberturaHabilitacao = new Date(`${anoAtual}-12-11 00:00:00`);
+        const dataLimiteHabilitacao = new Date(`${anoAtual}-12-12 23:59:59.999`);
+        const isClassificado = !!cadastro.avaliacao_licitadora?.classificado;
+        const podeEnviarHabilitacao = dataAtual >= dataAberturaHabilitacao && dataAtual <= dataLimiteHabilitacao && isClassificado;
+
+        const nomeArquivo = arquivo?.caminho?.split("/").pop() ?? "";
+        const isHabilitacaoDoc = !!nomeArquivo && nomeArquivo.startsWith("HABILITACAO-");
+
         if (!arquivo) {
             return NextResponse.json({ error: "Arquivo não encontrado" }, { status: 404 });
         }
@@ -56,14 +66,24 @@ export async function DELETE(
         if (podeEnviarRecursoAvaliacao && !arquivo.caminho.split("/").pop()?.startsWith("RECURSO-AVALIACAO-"))
             return NextResponse.json({ error: "Não é possível remover recursos de avaliação fora do período de inscrição." }, { status: 400 });
 
-        if (!podeEnviarComplementar && !podeEnviarRecursoAvaliacao) {
+        // Durante o período de habilitação, permitir remoção apenas de documentos de habilitação
+        if (podeEnviarHabilitacao && !isHabilitacaoDoc && !validaPermissao) {
+            return NextResponse.json({ error: "Durante o período de habilitação, apenas documentos de habilitação podem ser removidos." }, { status: 400 });
+        }
+
+        // Bloquear remoção de documentos de habilitação fora da janela (exceto admin/dev)
+        if (isHabilitacaoDoc && !podeEnviarHabilitacao && !validaPermissao) {
+            return NextResponse.json({ error: "Não é possível remover documentos de habilitação fora do período de habilitação." }, { status: 400 });
+        }
+
+        if (!podeEnviarComplementar && !podeEnviarRecursoAvaliacao && !podeEnviarHabilitacao) {
             if (validaPermissao) {
                 if (!arquivo.caminho.split("/").pop()?.startsWith("EMAIL-") && !arquivo.caminho.split("/").pop()?.startsWith("RECURSO-EMAIL-"))
                     return NextResponse.json({ error: "Não é possível remover documentos fora do período de inscrição." }, { status: 400 });
             } else {
                 return NextResponse.json({ error: "Não é possível remover documentos fora do período de inscrição." }, { status: 400 });
             }
-        }        
+        }
 
         // Deletar arquivo do sistema de arquivos
         try {

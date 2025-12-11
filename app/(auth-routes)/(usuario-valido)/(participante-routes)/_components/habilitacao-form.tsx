@@ -20,7 +20,7 @@ interface HabilitacaoFormProps {
   atualizarPagina: (tab: string) => Promise<void>
 }
 
-const MAX_TOTAL_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_TOTAL_SIZE = 50 * 1024 * 1024; // 10MB
 
 const uploadSchema = z.object({
   documentos: z.array(z.instanceof(File)).min(1, "Selecione pelo menos um documento")
@@ -31,6 +31,7 @@ type UploadForm = z.infer<typeof uploadSchema>
 export default function HabilitacaoForm({ cadastro, atualizarPagina }: HabilitacaoFormProps) {
   const [isPending, startTransition] = useTransition()
   const [downloadingFileId, setDownloadingFileId] = useState<string | null>(null)
+  const [removingFileId, setRemovingFileId] = useState<string | null>(null)
   const dragDropRef = useRef<DragDropInputRef>(null)
 
   // Filtrar documentos de habilitação (DOC_ESPECIFICA com prefixo HABILITACAO-)
@@ -140,6 +141,35 @@ export default function HabilitacaoForm({ cadastro, atualizarPagina }: Habilitac
     }
   }
 
+  const removerDocumento = async (arquivoId: string, nomeArquivo: string) => {
+    if (!podeEnviarHabilitacao) {
+      toast.error("Remoção permitida apenas durante o período de habilitação.")
+      return
+    }
+    const confirmar = window.confirm(`Remover o documento "${nomeArquivo}"? Esta ação não pode ser desfeita.`)
+    if (!confirmar) return
+    setRemovingFileId(arquivoId)
+    try {
+      const response = await fetch(`/api/cadastro/${cadastro.id}/arquivos/${arquivoId}`, {
+        method: "DELETE"
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: "Erro desconhecido" }))
+        throw new Error(errorData.error || `Erro ${response.status}: ${response.statusText}`)
+      }
+
+      toast.success("Documento removido com sucesso!")
+      await atualizarPagina("documentos-habilitacao")
+    } catch (error) {
+      console.error("Erro ao remover documento:", error)
+      const errorMessage = error instanceof Error ? error.message : "Erro desconhecido"
+      toast.error(`Erro ao remover documento: ${errorMessage}`)
+    } finally {
+      setRemovingFileId(null)
+    }
+  }
+
   const handleFileChange = (files: File[]) => {
     const tamanhoNovosArquivos = files.reduce((total, file) => total + file.size, 0)
     if (tamanhoTotalExistente + tamanhoNovosArquivos > MAX_TOTAL_SIZE) {
@@ -193,6 +223,23 @@ export default function HabilitacaoForm({ cadastro, atualizarPagina }: Habilitac
                         </>
                       )}
                     </Button>
+                    {podeEnviarHabilitacao && (
+                      <Button
+                        variant="destructive"
+                        onClick={() => documento.id && removerDocumento(documento.id, documento.caminho?.split("/").pop() || "documento.pdf")}
+                        disabled={removingFileId === documento.id}
+                        className="text-xs sm:text-sm"
+                      >
+                        {removingFileId === documento.id ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Removendo...
+                          </>
+                        ) : (
+                          <>Remover</>
+                        )}
+                      </Button>
+                    )}
                   </div>
                 </div>
               ))}
@@ -216,7 +263,7 @@ export default function HabilitacaoForm({ cadastro, atualizarPagina }: Habilitac
                   Enviar Documentos de Habilitação
                 </CardTitle>
                 <CardDescription className="text-sm sm:text-base">
-                  <p>Envie os documentos de habilitação (formato PDF).</p>
+                  <p>Envie os documentos de habilitação (formato PDF) relacionados no item 9 do Edital nº 005/SP-URB/2025, em atenção ao item 14.4.2.</p>
                   <p className="text-xs">Limite máximo total: {formatFileSize(MAX_TOTAL_SIZE)}</p>
                 </CardDescription>
               </CardHeader>

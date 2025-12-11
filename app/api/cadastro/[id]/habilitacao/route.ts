@@ -77,7 +77,7 @@ export async function POST(
     }
 
     // Limite total de 10MB por cadastro para documentos de habilitação (prefixo HABILITACAO-)
-    const MAX_SIZE_HABILITACAO = 10 * 1024 * 1024; // 10MB
+    const MAX_SIZE_HABILITACAO = 50 * 1024 * 1024; // 10MB
 
     const arquivosHabilitacaoExistentes = await db.arquivo.findMany({
       where: {
