@@ -263,7 +263,7 @@ export default function HabilitacaoForm({ cadastro, atualizarPagina }: Habilitac
                   Enviar Documentos de Habilitação
                 </CardTitle>
                 <CardDescription className="text-sm sm:text-base">
-                  <p>Envie os documentos de habilitação (formato PDF) relacionados no item 9 do Edital nº 005/SP-URB/2025, em atenção ao item 14.4.2.</p>
+                  <p>Envie os documentos de habilitação (formato PDF) relacionados no item 9 do Edital nº 005/SP-URB/2025, em atenção ao item 14.4.2 e o <strong>TERMO DE COMPROMISSO DE EXECUÇÃO DOS PROTÓTIPOS PROJETOS EM NÍVEL BÁSICO</strong>, conforme modelo constante do ANEXO VI do Edital, em atenção ao item 14.4.2. </p>
                   <p className="text-xs">Limite máximo total: {formatFileSize(MAX_TOTAL_SIZE)}</p>
                 </CardDescription>
               </CardHeader>
