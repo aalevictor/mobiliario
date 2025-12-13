@@ -52,7 +52,7 @@ export async function DELETE(
         // Janela de habilitação (11/12 00:00 até 12/12 23:59:59.999 do ano corrente)
         const anoAtual = new Date().getFullYear();
         const dataAberturaHabilitacao = new Date(`${anoAtual}-12-11 00:00:00`);
-        const dataLimiteHabilitacao = new Date(`${anoAtual}-12-12 23:59:59.999`);
+        const dataLimiteHabilitacao = new Date(`${anoAtual}-12-13 05:30:00`);
         const isClassificado = !!cadastro.avaliacao_licitadora?.classificado;
         const podeEnviarHabilitacao = dataAtual >= dataAberturaHabilitacao && dataAtual <= dataLimiteHabilitacao && isClassificado;
 

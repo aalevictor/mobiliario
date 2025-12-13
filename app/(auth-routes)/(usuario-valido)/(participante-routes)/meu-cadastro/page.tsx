@@ -26,7 +26,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
     const liberado = eDeferido || cadastro.avaliacao_licitadora?.liberadoAval;
 
     const inicioEnvioHabilitacao = new Date("2025-12-11 00:00:00");
-    const fimEnvioHabilitacao = new Date("2025-12-12 23:59:59");
+    const fimEnvioHabilitacao = new Date("2025-12-13 05:30:00");
     const hoje = new Date();
     const envioHabilitacao = cadastro.avaliacao_licitadora?.classificado && hoje >= inicioEnvioHabilitacao && hoje <= fimEnvioHabilitacao;
 
