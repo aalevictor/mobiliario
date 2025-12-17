@@ -12,7 +12,7 @@ import { Informe } from "../../page"
 import { Save, Eye, EyeOff } from "lucide-react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { MinimalTiptapEditor } from "@/components/ui/minimal-tiptap"
+import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
 import InformeComponent from "@/components/informe"
 
@@ -162,16 +162,10 @@ export default function FormInforme({ informe }: FormInformeProps) {
                                 Conteúdo *
                             </FormLabel>
                             <FormControl>
-                                <MinimalTiptapEditor
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                    className="w-full"
-                                    editorContentClassName="p-5"
-                                    output="html"
-                                    placeholder="Digite o conteúdo do informe..."
-                                    autofocus={true}
-                                    editable={true}
-                                    editorClassName="focus:outline-hidden"
+                                <Textarea
+                                    placeholder="Digite o conteúdo do informe (aceita HTML)..."
+                                    className="w-full min-h-48"
+                                    {...field}
                                 />
                             </FormControl>
                             <FormMessage />
