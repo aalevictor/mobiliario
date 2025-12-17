@@ -195,7 +195,7 @@ export function LogsStats({ stats }: LogsStatsProps) {
                   ))}
                 </Pie>
                 <Tooltip 
-                  formatter={(value: number) => [value, 'Logs']}
+                  formatter={(value) => [String(value ?? 0), 'Logs']}
                   labelFormatter={(label) => `Tipo: ${label}`}
                 />
               </PieChart>
