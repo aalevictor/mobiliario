@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 .minimal-tiptap-editor .ProseMirror .heading-node {
   @apply relative font-semibold;
 }

@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 .minimal-tiptap-editor .ProseMirror ol {
   @apply list-decimal;
 }
