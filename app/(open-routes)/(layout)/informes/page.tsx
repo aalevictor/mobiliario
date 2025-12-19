@@ -7,6 +7,24 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "<span class='font-bold text-red-500'>Lista de Responsáveis Técnicos classificados e habilitados para a Fase 2</span>",
+    subtitulo: "Conforme publicação no Diário Oficial da Cidade de São Paulo em 19/12/2025, nos termos do item 14.4.4 do Edital nº 001/SP-URB/2025",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>Nos termos do item 14.4.4 do Edital nº 001/SP-URB/2025, a Coordenação do Concurso anuncia a seguir, a lista dos 3 (três) responsáveis técnicos habilitados para a Fase 2:</p>
+        <div class="font-bold text-center">
+          <p>Andrei Mikhail Zaiatz Crestani. CAU: A67986-0</p>
+          <p>Felipe Kaspary. CAU: A133190-6</p>
+          <p>Keila Jane Costa. CAU: A23864-3</p>
+        </div>
+        <p>Observação: <span class="italic">A lista acima está em ordem alfabética e não relaciona os IDs da lista de pontuação publicada no dia 10/12/2025.</span></p>
+        <p>A Coordenação do Concurso agradece a participação de todos e parabeniza os classificados e habilitados para a próxima fase, que compreenderá a produção de protótipos, com exposição e experimentação públicas, bem como a elaboração do projeto em nível básico.</p>
+        <p>Aos interessados que desejarem acompanhar o andamento do Concurso, sugere-se que se mantenham atentos aos próximos informes oficiais e ao cronograma estabelecido no Edital.</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-12-19T11:41:00"),
+    publicado: true
+  },{
     titulo: "<span class='font-bold text-red-500'>LISTA FINAL DE PONTUAÇÃO DOS IDs - FASE 1 </span>",
     subtitulo: "Publicada no Diário Oficial da Cidade de São Paulo no dia 10/12/2025, nos termos do item 14.3 do Edital nº 001/SP-URB/2025. ",
     conteudo: `
