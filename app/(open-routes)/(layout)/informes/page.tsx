@@ -7,6 +7,18 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "Definição do local de exposição e experimentação pública dos protótipos",
+    subtitulo: "Divulgação da área onde serão expostos ao público, entre os dias 02/03/2026 e 29/03/2026, os protótipos elaborados pelos participantes pré-selecionados na Fase 1 do Concurso",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>A Coordenação do Concurso, nos termos das competências atribuídas pelo item 4 do Edital nº 001/SP-URB/2025, publicado em 25 de agosto de 2025, anuncia a escolha da Praça Dom José Gaspar como local de exposição e experimentação pública dos protótipos desenvolvidos no âmbito do Concurso Nacional de Projetos de Mobiliário Urbano para São Paulo, seguindo o item 16.1.2 do Edital.</p>
+        <p>Considerando a celebração do Termo de Cooperação firmado no bojo do Concurso entre a São Paulo Urbanismo e a DW! Semana de Design de São Paulo — evento promovido pelos comerciantes de mobiliário e cuja edição deste ano será realizada entre os dias 5 e 15 de março de 2026, ocupando espaços da Galeria Metrópole, — a Coordenação do Concurso entendeu que a Praça Dom José Gaspar configura-se como uma área estratégica para a instalação temporária dos protótipos, uma vez que o evento atrairá um público diretamente envolvido com a temática, como arquitetos, urbanistas e designers, ampliando a visibilidade das propostas e qualificando o processo de avaliação e divulgação dos resultados.
+        <p>Além disso, a Praça é um local aberto e de grande circulação de pessoas que, ao mesmo tempo, induz a permanência dos usuários devido à suas características urbanísticas e paisagísticas, o que configura um espaço propício para esta categoria de instalação. A exposição acontecerá, conforme previsto no item 21 do Edital, entre os dias 02/03/2026 e 29/03/2026, contando ainda com a disponibilização de formulários digitais para avaliação dos protótipos pelo público, conforme item 16.2.2 do edital.</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-01-22T10:00:00"),
+    publicado: true
+  },{
     titulo: "<span class='font-bold text-red-500'>Lista de Responsáveis Técnicos classificados e habilitados para a Fase 2</span>",
     subtitulo: "Conforme publicação no Diário Oficial da Cidade de São Paulo em 19/12/2025, nos termos do item 14.4.4 do Edital nº 001/SP-URB/2025",
     conteudo: `
