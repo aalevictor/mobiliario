@@ -50,6 +50,7 @@ model Cadastro {
   avaliacao_licitadora Avaliacao_Licitadora?
   usuario              Usuario               @relation(fields: [usuarioId], references: [id])
   participantes        Participante[]
+  mobiliarios          Mobiliario[]
 
   @@map("cadastros")
 }
@@ -115,6 +116,61 @@ model Avaliacao_Julgadora {
 
   @@unique([cadastroId, avaliadorId])
   @@map("avaliacoes_julgadoras")
+}
+
+enum Tipo_Mobiliario {
+  BANCO
+  PAPELEIRA
+  PARACICLO
+  BALIZADOR
+  FLOREIRA
+  VASO
+}
+
+model Mobiliario {
+  id                  String   @id @default(uuid())
+  cadastroId          Int
+  tipo                Tipo_Mobiliario
+
+  criadoEm            DateTime @default(now())
+  atualizadoEm        DateTime @default(now()) @updatedAt
+
+  cadastro            Cadastro @relation(fields: [cadastroId], references: [id])
+  avaliacoes_publicas Avaliacao_Publica[]
+
+  @@unique([cadastroId, tipo])
+  @@map("mobiliarios")
+}
+
+enum Perfil_Avaliador {
+  MORADOR
+  FREQUENTE
+  VISITANTE
+  OUTRO
+}
+
+model Avaliacao_Publica {
+  id                String      @id @default(uuid())
+  mobiliarioId      String
+
+  perfil            Perfil_Avaliador
+  perfilOutro       String?
+  identidade        Int         @default(1)
+  frequencia        Int         @default(1)
+  ergonomia         Int         @default(1)
+  resistenciaClima  Int         @default(1)
+  resistenciaUso    Int         @default(1)
+  materiais         Int         @default(1)
+  operacao          Int         @default(1)
+  aprovacao         Int         @default(1)
+  comentario        String?     @db.Text
+
+  criadoEm          DateTime    @default(now())
+  atualizadoEm      DateTime    @default(now()) @updatedAt
+
+  mobiliario        Mobiliario  @relation(fields: [mobiliarioId], references: [id])
+
+  @@map("avaliacoes_publicas")
 }
 
 model Informe {

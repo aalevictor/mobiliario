@@ -8,8 +8,9 @@ import { ICadastro } from '../page';
 import { TipoArquivo } from '@prisma/client';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Check, Eye, X } from 'lucide-react';
+import { Check, Eye, X, Plus, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useEffect, useState } from 'react';
 
 async function liberarAvaliacao(cadastroId: number) {
 	const result = await fetch(`/api/cadastro/${cadastroId}/liberar`, {
@@ -37,6 +38,65 @@ async function revogarLiberacao(cadastroId: number) {
 	}
 }
 
+function GerarMobiliariosButton({ cadastroId }: { cadastroId: number }) {
+	const [permissao, setPermissao] = useState<string | null>(null);
+	const [loading, setLoading] = useState(false);
+
+	useEffect(() => {
+		const fetchPermissao = async () => {
+			try {
+				const response = await fetch('/api/permissao');
+				if (response.ok) {
+					const data: string = await response.json();
+					setPermissao(data);
+				}
+			} catch (err) {
+				// silencioso
+			}
+		};
+		fetchPermissao();
+	}, []);
+
+	if (permissao !== 'DEV') return null;
+
+	const gerar = async () => {
+		try {
+			setLoading(true);
+			const res = await fetch(`/api/cadastro/${cadastroId}/mobiliarios`, {
+				method: 'POST',
+			});
+			if (!res.ok) {
+				const data = await res.json().catch(() => ({}));
+				throw new Error(data?.error || 'Erro ao gerar mobiliários');
+			}
+			const data = await res.json();
+			const count = data?.createdCount || 0;
+			if (count > 0) {
+				toast.success(`Gerados ${count} mobiliários.`);
+			} else {
+				toast.info('Nenhum mobiliário novo para criar.');
+			}
+		} catch (err) {
+			toast.error((err as Error).message);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	return (
+		<Button
+			title='Gerar mobiliários'
+			size='sm'
+			variant='outline'
+			className='cursor-pointer'
+			onClick={gerar}
+			disabled={loading}
+		>
+			{loading ? <Loader2 className='w-4 h-4 animate-spin' /> : <Plus className='w-4 h-4' />}
+		</Button>
+	);
+}
+
 export const administradoraColumns: ColumnDef<ICadastro>[] = [
 	{
 		accessorKey: 'acoes',
@@ -46,6 +106,7 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 			// const liberado = !!row.original.avaliacao_licitadora?.liberadoAval;
 			return (
 				<div className='flex justify-end gap-2'>
+					<GerarMobiliariosButton cadastroId={row.original.id as number} />
 					{/* {!liberado && !indeferido && (
 						<Button title='Liberar cadastro para avaliação' size='sm' variant='outline' className='cursor-pointer' onClick={async () => row.original.id && await liberarAvaliacao(+row.original.id)}>
 							<Check className='w-4 h-4' />
