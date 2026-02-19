@@ -13,6 +13,7 @@ import ViewButton from "./_components/view-button";
 import CadastroClientWrapper from "./_components/cadastro-client-wrapper";
 import AvaliacaoJulgadora from "./_components/avaliacao-julgadora"
 import IniciarAvaliacaoButton from "./_components/iniciar-avaliacao-button";
+import MobiliariosSection from "./_components/mobiliarios-section";
 
 async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string }) {
     const cadastro = await buscarCadastro(+id);
@@ -169,6 +170,8 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                     </div>
                 </CardContent>
             </Card>}
+            {/* Seção Mobiliários */}
+            <MobiliariosSection mobiliarios={cadastro.mobiliarios || []} />
             {/* Seção Endereço */}
             <Card>
                 <CardHeader className="pb-4">

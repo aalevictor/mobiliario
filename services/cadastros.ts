@@ -1,6 +1,6 @@
 /** @format */
 
-import { Arquivo, Cadastro, NivelLog, Participante, Permissao, Prisma, TipoArquivo, Tipo_Usuario, Avaliacao_Licitadora } from "@prisma/client";
+import { Arquivo, Cadastro, NivelLog, Participante, Permissao, Prisma, TipoArquivo, Tipo_Usuario, Avaliacao_Licitadora, Mobiliario, Avaliacao_Publica } from "@prisma/client";
 import { db } from "@/lib/prisma";
 import { PreCadastro } from "@/app/api/cadastro/pre-cadastro.dto";
 import { hashPassword } from "@/lib/password";
@@ -960,6 +960,7 @@ export interface ICadastroBusca extends Cadastro {
   participantes: Participante[];
   arquivos: Arquivo[];
   avaliacao_licitadora?: Avaliacao_Licitadora;
+  mobiliarios: (Mobiliario & { avaliacoes_publicas: Avaliacao_Publica[] })[];
 }
 
 async function buscarCadastro(id: number): Promise<ICadastroBusca | null> {
@@ -969,6 +970,11 @@ async function buscarCadastro(id: number): Promise<ICadastroBusca | null> {
       participantes: true,
       arquivos: true,
       avaliacao_licitadora: true,
+      mobiliarios: {
+        include: {
+          avaliacoes_publicas: true,
+        }
+      },
     }
   });
   return cadastro as ICadastroBusca | null;

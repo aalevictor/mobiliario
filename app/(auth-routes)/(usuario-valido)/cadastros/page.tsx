@@ -4,8 +4,7 @@ import DataTable, { TableSkeleton } from '@/components/data-table';
 import { Filtros } from '@/components/filtros';
 import Pagination from '@/components/pagination';
 import { Suspense } from 'react';
-import { administradoraColumns } from './_components/administradora';
-import { julgadoraColumns } from './_components/julgadora';
+import CadastrosTableClient from './_components/cadastros-table-client';
 import { Arquivo, Avaliacao_Julgadora, Avaliacao_Licitadora, Participante, Permissao, Tipo_Carteira } from '@prisma/client';
 import { buscarCadastros } from '@/services/cadastros';
 import { auth } from '@/auth';
@@ -234,14 +233,7 @@ async function Cadastros({
 			<Card className='pt-0'>
 				<CardContent className='p-0'>
 					<div className='w-full rounded-lg overflow-hidden mb-4'>
-                        <DataTable
-                            columns={
-                                ["ADMIN", "DEV"].includes(permissao) ? administradoraColumns :
-                                ["JULGADORA"].includes(permissao) ? julgadoraColumns :
-                                []
-                            }
-                            data={dados || []}
-                        />
+                        <CadastrosTableClient permissao={permissao} dados={dados || []} />
 					</div>
 				</CardContent>
 				<Separator />

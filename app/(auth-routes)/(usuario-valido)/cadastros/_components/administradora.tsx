@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Check, Eye, X, Plus, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 async function liberarAvaliacao(cadastroId: number) {
 	const result = await fetch(`/api/cadastro/${cadastroId}/liberar`, {
@@ -38,26 +38,9 @@ async function revogarLiberacao(cadastroId: number) {
 	}
 }
 
-function GerarMobiliariosButton({ cadastroId }: { cadastroId: number }) {
-	const [permissao, setPermissao] = useState<string | null>(null);
+function GerarMobiliariosButton({ cadastroId, isDev }: { cadastroId: number, isDev: boolean }) {
 	const [loading, setLoading] = useState(false);
-
-	useEffect(() => {
-		const fetchPermissao = async () => {
-			try {
-				const response = await fetch('/api/permissao');
-				if (response.ok) {
-					const data: string = await response.json();
-					setPermissao(data);
-				}
-			} catch (err) {
-				// silencioso
-			}
-		};
-		fetchPermissao();
-	}, []);
-
-	if (permissao !== 'DEV') return null;
+	if (!isDev) return null;
 
 	const gerar = async () => {
 		try {
@@ -97,7 +80,8 @@ function GerarMobiliariosButton({ cadastroId }: { cadastroId: number }) {
 	);
 }
 
-export const administradoraColumns: ColumnDef<ICadastro>[] = [
+export function getAdministradoraColumns(isDev: boolean): ColumnDef<ICadastro>[] {
+	return [
 	{
 		accessorKey: 'acoes',
 		header: "",
@@ -106,7 +90,7 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 			// const liberado = !!row.original.avaliacao_licitadora?.liberadoAval;
 			return (
 				<div className='flex justify-end gap-2'>
-					<GerarMobiliariosButton cadastroId={row.original.id as number} />
+					<GerarMobiliariosButton cadastroId={row.original.id as number} isDev={isDev} />
 					{/* {!liberado && !indeferido && (
 						<Button title='Liberar cadastro para avaliação' size='sm' variant='outline' className='cursor-pointer' onClick={async () => row.original.id && await liberarAvaliacao(+row.original.id)}>
 							<Check className='w-4 h-4' />
@@ -228,4 +212,5 @@ export const administradoraColumns: ColumnDef<ICadastro>[] = [
 			);
 		},
 	},
-];
+	];
+}
