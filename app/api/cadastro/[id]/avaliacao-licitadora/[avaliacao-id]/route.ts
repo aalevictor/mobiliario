@@ -11,13 +11,13 @@ export interface IAvaliacaoLicitadora {
 
 export async function PATCH(
     request: NextRequest,
-    context: { params: Promise<{ avaliacao_id: string }> }
+    context: { params: Promise<{ id: string; "avaliacao-id": string }> }
 ) {
     const session = await auth();
     if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     if (!await verificarPermissoes(session.user.id, ["LICITACAO"]))
         return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-    const { avaliacao_id } = await context.params;
+    const { "avaliacao-id": avaliacao_id } = await context.params;
     const data: IAvaliacaoLicitadora = await request.json();
     try {
         const avaliacao_licitadora = await atualizarAvaliacaoLicitadora(avaliacao_id, session.user.id, data);

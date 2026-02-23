@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Check, ChevronsUpDown, RefreshCw, X } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState, useTransition } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { cn } from '@/lib/utils';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
@@ -47,14 +47,12 @@ export function Filtros({ camposFiltraveis, className }: FiltrosProps) {
 	const router = useRouter();
 	const pathname = usePathname();
 	
-	const [isPending, startTransition] = useTransition();
 	const [filtros, setFiltros] = useState<{ [key: string]: string }>(
 		camposFiltraveis ? camposFiltraveis.reduce((acc, item) => ({ ...acc, [item.tag]: item.default || '' }), {}): {}
 	);
 
 	useEffect(() => {
-		atualizaFiltros();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
@@ -67,16 +65,19 @@ export function Filtros({ camposFiltraveis, className }: FiltrosProps) {
 	}, [searchParams]);
 
 	function atualizaFiltros() {
-		let urlParams = '';
+		const params = new URLSearchParams();
 		for (const [key, value] of Object.entries(filtros)) {
-			urlParams += `${key}=${value}&`;
+			if (value && value !== '') params.set(key, value);
 		}
-		router.push(`${pathname}?${urlParams}`);
+		const query = params.toString();
+		router.push(query ? `${pathname}?${query}` : pathname);
+		router.refresh();
 	}
 
 	function limpaFiltros() {
 		setFiltros(camposFiltraveis ? camposFiltraveis.reduce((acc, item) => ({ ...acc, [item.tag]: '' }), {}) : {});
-		router.push(pathname);
+		router.replace(pathname);
+		router.refresh();
 	}
 
 	function renderFiltros() {
@@ -183,9 +184,10 @@ export function Filtros({ camposFiltraveis, className }: FiltrosProps) {
 									<CommandItem
 										key={opcao.value}
 										value={opcao.value.toString()}
-										onSelect={(currentValue: React.SetStateAction<string>) => {
-											setValue(currentValue === value ? "" : currentValue);
-											setFiltros((prev) => ({ ...prev, [campo.tag]: value }));
+										onSelect={(currentValue) => {
+											const next = currentValue === value ? "" : currentValue;
+											setValue(next);
+											setFiltros((prev) => ({ ...prev, [campo.tag]: next }));
 											setOpen(false);
 										}}
 									>
@@ -214,18 +216,16 @@ export function Filtros({ camposFiltraveis, className }: FiltrosProps) {
 			<div className="flex gap-2 shrink-0">
 				<Button 
 					size='sm'
-					disabled={isPending} 
-					onClick={() => startTransition(() => atualizaFiltros())} 
+					onClick={() => atualizaFiltros()} 
 					title='Aplicar filtros'
 					className='min-w-[40px]'
 				>
-					<RefreshCw className={cn('h-4 w-4', isPending ? 'animate-spin' : '')} />
+					<RefreshCw className='h-4 w-4' />
 				</Button>
 				<Button
 					variant={'destructive'}
 					size='sm'
-					disabled={isPending}
-					onClick={() => startTransition(() => limpaFiltros())}
+					onClick={() => limpaFiltros()}
 					title='Limpar filtros'
 					className='min-w-[40px]'
 				>

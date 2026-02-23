@@ -9,6 +9,8 @@
  import QRCode from "react-qr-code"
  import { Avaliacao_Publica, Tipo_Mobiliario } from "@prisma/client"
  import Link from "next/link"
+ import { useRef } from "react"
+ import { PDFDocument, StandardFonts, rgb } from "pdf-lib"
  
  type MobiliarioItem = {
    id: string
@@ -28,6 +30,74 @@
    return map[tipo]
  }
  
+async function downloadDataUrl(dataUrl: string, filename: string) {
+  const a = document.createElement("a")
+  a.href = dataUrl
+  a.download = filename
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+}
+
+async function svgToPngDataUrl(svgEl: SVGSVGElement, size: number) {
+  const clone = svgEl.cloneNode(true) as SVGSVGElement
+  clone.setAttribute("width", String(size))
+  clone.setAttribute("height", String(size))
+  if (!clone.getAttribute("xmlns")) clone.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+  const serializer = new XMLSerializer()
+  const svgString = serializer.serializeToString(clone)
+  const svgData = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" })
+  const url = URL.createObjectURL(svgData)
+  try {
+    const img = new Image()
+    const loaded = new Promise<void>((resolve, reject) => {
+      img.onload = () => resolve()
+      img.onerror = () => reject()
+    })
+    img.src = url
+    await loaded
+    const canvas = document.createElement("canvas")
+    canvas.width = size
+    canvas.height = size
+    const ctx = canvas.getContext("2d")
+    if (!ctx) throw new Error("Canvas context")
+    ctx.fillStyle = "#ffffff"
+    ctx.fillRect(0, 0, size, size)
+    ctx.drawImage(img, 0, 0, size, size)
+    return canvas.toDataURL("image/png")
+  } finally {
+    URL.revokeObjectURL(url)
+  }
+}
+
+async function pngDataUrlToBytes(pngDataUrl: string) {
+  const base64 = pngDataUrl.split(",")[1]
+  const bin = atob(base64)
+  const bytes = new Uint8Array(bin.length)
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i)
+  return bytes
+}
+
+async function exportQrAsPdf(svgEl: SVGSVGElement, tipoNome: string, mobiliarioId: string, urlTexto: string, size: number) {
+  const pngDataUrl = await svgToPngDataUrl(svgEl, size)
+  const pngBytes = await pngDataUrlToBytes(pngDataUrl)
+  const pdfDoc = await PDFDocument.create()
+  const page = pdfDoc.addPage([595, 842])
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica)
+  const qrImage = await pdfDoc.embedPng(pngBytes)
+  const qrWidth = 256
+  const qrHeight = 256
+  const margin = 72
+  const centerX = (595 - qrWidth) / 2
+  const yTop = 842 - margin
+  page.drawText(`QR do Mobiliário: ${tipoNome}`, { x: margin, y: yTop - 24, size: 18, font, color: rgb(0, 0, 0) })
+  page.drawText(`ID: ${mobiliarioId}`, { x: margin, y: yTop - 48, size: 12, font, color: rgb(0.2, 0.2, 0.2) })
+  page.drawImage(qrImage, { x: centerX, y: yTop - 48 - qrHeight - 24, width: qrWidth, height: qrHeight })
+  page.drawText(urlTexto, { x: margin, y: yTop - 48 - qrHeight - 24 - 24, size: 12, font, color: rgb(0.2, 0.2, 0.2) })
+  const dataUri = await pdfDoc.saveAsBase64({ dataUri: true })
+  await downloadDataUrl(dataUri, `QR-${tipoNome}-${mobiliarioId}.pdf`)
+}
+
  export default function MobiliariosSection({
    mobiliarios,
  }: {
@@ -63,12 +133,7 @@
                            <DialogTitle>QR Code do mobiliário</DialogTitle>
                            <DialogDescription className="break-words">{url}</DialogDescription>
                          </DialogHeader>
-                         <div className="flex flex-col items-center gap-4">
-                           <div className="bg-white p-3 rounded-md">
-                             <QRCode value={url} size={192} />
-                           </div>
-                           <CopyButton text={url} />
-                         </div>
+                        <QrActions url={url} tipoNome={tipoLabel(m.tipo)} mobiliarioId={m.id} />
                        </DialogContent>
                      </Dialog>
                      <Link href={`/avaliacoes-publicas/${m.id}`} title="Ver avaliações">
@@ -89,6 +154,46 @@
          )}
        </CardContent>
      </Card>
+   )
+ }
+ 
+ function QrActions({ url, tipoNome, mobiliarioId }: { url: string, tipoNome: string, mobiliarioId: string }) {
+   const qrRef = useRef<HTMLDivElement | null>(null)
+   const size = 256
+   return (
+     <div className="flex flex-col items-center gap-4">
+      <div ref={qrRef} className="bg-white p-3 rounded-md">
+         <QRCode value={url} size={size} bgColor="#ffffff" />
+       </div>
+       <div className="flex gap-2">
+         <Button
+           size="sm"
+           variant="outline"
+           className="cursor-pointer"
+           onClick={async () => {
+             const svg = qrRef.current?.querySelector("svg") as SVGSVGElement | null
+             if (!svg) return
+            const dataUrl = await svgToPngDataUrl(svg, size)
+             await downloadDataUrl(dataUrl, `QR-${tipoNome}-${mobiliarioId}.png`)
+           }}
+         >
+           <span>Exportar PNG</span>
+         </Button>
+         <Button
+           size="sm"
+           variant="outline"
+           className="cursor-pointer"
+           onClick={async () => {
+             const svg = qrRef.current?.querySelector("svg") as SVGSVGElement | null
+             if (!svg) return
+             await exportQrAsPdf(svg, tipoNome, mobiliarioId, url, size)
+           }}
+         >
+           <span>Exportar PDF</span>
+         </Button>
+         <CopyButton text={url} />
+       </div>
+     </div>
    )
  }
  

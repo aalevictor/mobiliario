@@ -25,11 +25,7 @@ export default async function CadastrosSuspense({
 }: {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	return (
-		<Suspense fallback={<TableSkeleton />}>
-			<Cadastros searchParams={searchParams} />
-		</Suspense>
-	);
+	return <Cadastros searchParams={await searchParams} />;
 }
 
 export interface ICadastro {
@@ -67,7 +63,7 @@ interface IPaginadoCadastro {
 async function Cadastros({
 	searchParams,
 }: {
-	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+	searchParams?: { [key: string]: string | string[] | undefined };
 }) {
     const session = await auth();
     if (!session) return redirect('/');
@@ -75,8 +71,9 @@ async function Cadastros({
         return redirect('/meu-cadastro');
     const permissao: Permissao | null = await retornaPermissao(session.user.id);
     if (!permissao) return redirect('/');
-	let { pagina = 1, limite = 10, total = 0 } = await searchParams;
-	const { busca = '', documentosEnviados = '', projetosEnviados = '', tipoInscricao = '', avaliacao = '' } = await searchParams;
+	const params = searchParams || {};
+	let { pagina = 1, limite = 10, total = 0 } = params as any;
+	const { busca = '', documentosEnviados = '', projetosEnviados = '', tipoInscricao = '', avaliacao = '', temMobiliarios = '' } = params;
 	let dados: ICadastro[] = [];
 	try {
         const data = await buscarCadastros(
@@ -88,6 +85,7 @@ async function Cadastros({
             projetosEnviados as string,
             tipoInscricao as string,
             avaliacao as string,
+            temMobiliarios as string,
         );
         if (data) {
             const paginado = data as IPaginadoCadastro;
@@ -114,6 +112,11 @@ async function Cadastros({
         { label: 'Aguardando avaliação', value: 'AGUARDANDO' },
         { label: 'Deferido', value: 'DEFERIDO' },
         { label: 'Indeferido', value: 'INDEFERIDO' },
+    ]
+    
+    const selectMobiliarios = [
+        { label: 'Com mobiliários', value: 'true' },
+        { label: 'Sem mobiliários', value: 'false' },
     ]
 
     return (
@@ -161,6 +164,12 @@ async function Cadastros({
                                 tipo: 2,
                                 placeholder: 'Situação',
                                 valores: selectSituacao,
+                            },{
+                                nome: 'Com Mobiliários',
+                                tag: 'temMobiliarios',
+                                tipo: 2,
+                                placeholder: 'Com Mobiliários',
+                                valores: selectMobiliarios,
                             },
                         ]}
                     />
