@@ -102,6 +102,7 @@ export default function AvaliacaoForm({
   function RatingField({
     name,
     label,
+    description,
   }: {
     name:
       | "identidade"
@@ -113,6 +114,7 @@ export default function AvaliacaoForm({
       | "operacao"
       | "aprovacao"
     label: string
+    description: string
   }) {
     return (
       <FormField
@@ -121,6 +123,7 @@ export default function AvaliacaoForm({
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-base">{label}</FormLabel>
+            <p className="text-sm text-muted-foreground mb-2 break-words">{description}</p>
             <FormControl>
               <ToggleGroup
                 type="single"
@@ -201,34 +204,42 @@ export default function AvaliacaoForm({
           <RatingField
             name="identidade"
             label="Identidade com a cidade"
+            description="O mobiliário reflete a diversidade e a identidade de São Paulo."
           />
           <RatingField
             name="frequencia"
             label="Frequência e forma de uso"
+            description="Parece útil e aplicável ao dia a dia dos usuários do espaço público?"
           />
           <RatingField
             name="ergonomia"
             label="Ergonomia e conforto"
+            description="É confortável e acessível para diferentes pessoas (crianças, idosos, PCD, etc.)?"
           />
           <RatingField
             name="resistenciaClima"
             label="Resistência ao clima"
+            description="O mobiliário aparenta suportar sol, chuva e outras condições climáticas?"
           />
           <RatingField
             name="resistenciaUso"
             label="Resistência ao mau uso ou vandalismo"
+            description="Parece robusto e seguro para resistir a danos ou usos indevidos?"
           />
           <RatingField
             name="materiais"
             label="Materiais e instalação"
+            description="Os materiais parecem adequados, bem acabados e corretamente instalados?"
           />
           <RatingField
             name="operacao"
             label="Operação e manutenção"
+            description="Parece fácil de limpar, manter ou operar (ex.: troca de sacos das papeleiras ou irrigação das floreiras)?"
           />
           <RatingField
             name="aprovacao"
             label="Aprovação geral"
+            description="Você gostaria de ver este mobiliário instalado em outros lugares da cidade?"
           />
         </div>
 
