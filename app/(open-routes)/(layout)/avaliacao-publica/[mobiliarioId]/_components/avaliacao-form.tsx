@@ -204,7 +204,7 @@ export default function AvaliacaoForm({
           <RatingField
             name="identidade"
             label="Identidade com a cidade"
-            description="O mobiliário reflete a diversidade e a identidade de São Paulo."
+            description="O mobiliário reflete a diversidade e a identidade de São Paulo?"
           />
           <RatingField
             name="frequencia"
