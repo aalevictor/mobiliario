@@ -199,6 +199,11 @@ export default function AvaliacaoForm({
             />
           )}
         </div>
+        
+        <div className="rounded-md bg-blue-50 border border-blue-100 p-3">
+          <p className="text-sm text-blue-800">Avalie cada item de 1 a 5, sendo:</p>
+          <p className="text-sm font-medium text-blue-900">1 = Muito ruim | 2 = Ruim | 3 = Regular | 4 = Bom | 5 = Excelente</p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <RatingField

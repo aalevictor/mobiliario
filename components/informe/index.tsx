@@ -28,7 +28,7 @@ export default function InformeComponent({ informe }: { informe: Partial<Informe
                     className="text-[#3B2D3A] text-2xl lg:text-3xl font-bold"
                     dangerouslySetInnerHTML={{ __html: informe.titulo || "" }}
                 />
-                {informe.subtitulo && <h4 className="text-[#3B2D3A] text-md lg:text-lg">{informe.subtitulo}</h4>}
+                {informe.subtitulo && <h4 className="text-[#3B2D3A] text-md lg:text-lg" dangerouslySetInnerHTML={{ __html: informe.subtitulo || "" }} />}
                 <InformeConteudo conteudo={informe.conteudo} />
             </div>
         </div>

@@ -7,6 +7,43 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "<span class='font-bold text-red-500'>Aberto período de exposição e experimentação pública dos protótipos da Fase 2 do Concurso!</span>",
+    subtitulo: "<span>Do dia <strong>02/03/2026</strong> ao dia <strong>26/03/2026</strong> os protótipos da Fase 2 estarão disponíveis para experimentação e avaliação do público na Praça Dom José Gaspar.</span>",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>Nos termos do item 16 do Edital nº 001/SP-URB/2025, a Coordenação do Concurso anuncia o início da exposição e experimentação dos 18 protótipos elaborados pelos 3 concorrentes classificados para a Fase 2 do concurso.   </p>
+        <p>Nos termos do item 15 do Edital, cada participante classificado desenvolveu um conjunto de 6 elementos de mobiliário:</p>
+        <ul class="list-disc list-inside font-bold">
+          <li>Banco coletivo com encosto e apoios de braços laterais; </li>
+          <li>Papeleira Dupla; </li>
+          <li>Paraciclo Unitário; </li>
+          <li>Balizador Sólido;  </li>
+          <li>Floreira; </li>
+          <li>Vaso. </li>
+        </ul>
+        <p>Os protótipos ficarão disponíveis para avaliação do público na Praça Dom José Gaspar do dia 02/03/2026 ao dia 26/03/2026, conforme <strong>mapa</strong> a seguir:</p>
+        <a href="/mapas/locais-exposicao.png" target="_blank" rel="noopener noreferrer">
+          <img src="/mapas/locais-exposicao.png" alt="Locais de exposição e experimentação dos protótipos" class="w-full h-auto" />
+        </a>
+        <p>A população poderá avaliar os protótipos por meio de QR Code adesivado em cada um deles. Assim que acionado, o QR Code direcionará para um formulário de avaliação, conforme anexo VII do Edital, podendo atribuir notas (de 1 a 5, sendo: 1 = Muito ruim | 2 = Ruim | 3 = Regular | 4 = Bom | 5 = Excelente) para cada um dos elementos, segundo os seguintes critérios:</p>
+        <ul class="list-disc list-inside">
+          <li><strong>Identidade com a cidade:</strong> O mobiliário reflete a diversidade e a identidade de São Paulo? </li>
+          <li><strong>Frequência e forma de uso:</strong> Parece útil e aplicável ao dia a dia dos usuários do espaço público?  </li>
+          <li><strong>Ergonomia e conforto:</strong> É confortável e acessível para diferentes pessoas (crianças, idosos, PCD, etc.)?  </li>
+          <li><strong>Resistência ao clima:</strong> O mobiliário aparenta suportar sol, chuva e outras condições climáticas?  </li>
+          <li><strong>Resistência ao mau uso ou vandalismo:</strong> Parece robusto e seguro para resistir a danos ou usos indevidos?  </li>
+          <li><strong>Materiais e instalação:</strong> Os materiais parecem adequados, bem acabados e corretamente instalados?  </li>
+          <li><strong>Operação e manutenção:</strong> Parece fácil de limpar, manter ou operar (ex.: troca de sacos das papeleiras ou irrigação das floreiras)?  </li>
+          <li><strong>Aprovação geral:</strong> Você gostaria de ver este mobiliário instalado em outros lugares da cidade?</li>
+        </ul>
+        <p>Há também um espaço para texto livre em que a população poderá indicar sugestões, opiniões ou críticas.</p>
+        <p>Nos termos do item 18 do Edital, durante o período de exposição e experimentação, a Comissão Julgadora também avaliará os protótipos e considerará, para o julgamento final, os resultados da avaliação pública.</p>
+        <p>A Coordenação do Concurso agradece a participação de todos.</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-03-02T16:00:00"),
+    publicado: true
+  },{
     titulo: "Definição do local de exposição e experimentação pública dos protótipos",
     subtitulo: "Divulgação da área onde serão expostos ao público, entre os dias 02/03/2026 e 29/03/2026, os protótipos elaborados pelos participantes pré-selecionados na Fase 1 do Concurso",
     conteudo: `
