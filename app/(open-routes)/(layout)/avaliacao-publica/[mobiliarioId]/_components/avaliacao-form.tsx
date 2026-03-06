@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { z } from "zod"
 import { Perfil_Avaliador, Tipo_Mobiliario } from "@prisma/client"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
@@ -33,12 +34,28 @@ export default function AvaliacaoForm({
   mobiliarioId,
   protocolo,
   tipo,
+  centerLat,
+  centerLng,
+  radiusMeters = 1000,
 }: {
   mobiliarioId: string
   protocolo: string
   tipo: Tipo_Mobiliario
+  centerLat?: number
+  centerLng?: number
+  radiusMeters?: number
 }) {
   const [submitting, setSubmitting] = useState(false)
+  const [locChecking, setLocChecking] = useState(false)
+  const [userLat, setUserLat] = useState<number | null>(null)
+  const [userLng, setUserLng] = useState<number | null>(null)
+  const [withinRadius, setWithinRadius] = useState<boolean | null>(null)
+  const [distance, setDistance] = useState<number | null>(null)
+  const [locError, setLocError] = useState<string | null>(null)
+  const [localAvaliacao, setLocalAvaliacao] = useState<
+    "PRESENCIAL" | "REMOTO_EXPERIMENTADO" | "REMOTO_NAO_EXPERIMENTADO" | "NAO_INFORMADO" | null
+  >(null)
+  const [showLocationDialog, setShowLocationDialog] = useState(false)
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -59,6 +76,7 @@ export default function AvaliacaoForm({
       const payload = {
         perfil: (values.perfil ?? "OUTRO") as Perfil_Avaliador,
         perfilOutro: values.perfil === "OUTRO" ? values.perfilOutro || undefined : undefined,
+        local: localAvaliacao || "NAO_INFORMADO",
         identidade: Number(values.identidade),
         frequencia: Number(values.frequencia),
         ergonomia: Number(values.ergonomia),
@@ -68,6 +86,13 @@ export default function AvaliacaoForm({
         operacao: Number(values.operacao),
         aprovacao: Number(values.aprovacao),
         comentario: values.comentario || undefined,
+        ...(Number.isFinite(centerLat!) &&
+          Number.isFinite(centerLng!) &&
+          Number.isFinite(userLat!) &&
+          Number.isFinite(userLng!) && {
+            lat: Number(userLat),
+            lng: Number(userLng),
+          }),
       }
 
       const res = await fetch(`/api/avaliacao-publica/${mobiliarioId}`, {
@@ -98,6 +123,92 @@ export default function AvaliacaoForm({
       setSubmitting(false)
     }
   }
+
+  function distanceMeters(lat1: number, lon1: number, lat2: number, lon2: number) {
+    const toRad = (v: number) => (v * Math.PI) / 180
+    const R = 6371000
+    const dLat = toRad(lat2 - lat1)
+    const dLon = toRad(lon2 - lon1)
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    return R * c
+  }
+
+  async function validateLocation() {
+    setLocError(null)
+    setLocChecking(true)
+    try {
+      await new Promise<void>((resolve, reject) => {
+        if (!navigator.geolocation) {
+          setLocChecking(false)
+          setLocError("Dispositivo sem suporte à localização")
+          setWithinRadius(false)
+          return
+        }
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const lat = pos.coords.latitude
+            const lng = pos.coords.longitude
+            setUserLat(lat)
+            setUserLng(lng)
+            if (Number.isFinite(centerLat!) && Number.isFinite(centerLng!)) {
+              const dist = distanceMeters(lat, lng, Number(centerLat), Number(centerLng))
+              setDistance(dist)
+              const inside = dist <= Number(radiusMeters)
+              setWithinRadius(inside)
+              if (inside) setLocalAvaliacao("PRESENCIAL")
+            } else {
+              setLocError("Ponto central não configurado")
+              setWithinRadius(false)
+              setDistance(null)
+            }
+            resolve()
+          },
+          (err) => {
+            setLocError("Permissão negada ou localização indisponível")
+            setWithinRadius(false)
+            reject(err)
+          },
+          { enableHighAccuracy: true, timeout: 10000 }
+        )
+      })
+    } finally {
+      setLocChecking(false)
+    }
+  }
+
+  useEffect(() => {
+    let mounted = true
+    async function checkPermission() {
+      try {
+        const status = await (navigator as any).permissions?.query({ name: "geolocation" as any })
+        if (!mounted) return
+        if (status?.state === "granted") {
+          await validateLocation()
+        } else {
+          setShowLocationDialog(true)
+        }
+        if (status) {
+          status.onchange = async () => {
+            if (!mounted) return
+            if (status.state === "granted") {
+              setShowLocationDialog(false)
+              await validateLocation()
+            }
+          }
+        }
+      } catch {
+        setShowLocationDialog(true)
+      }
+    }
+    checkPermission()
+    return () => {
+      mounted = false
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   function RatingField({
     name,
@@ -165,17 +276,25 @@ export default function AvaliacaoForm({
                 <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger
-                      className="bg-white text-base w-full min-w-0 whitespace-normal"
+                      className="bg-white text-base w-full min-w-0 text-left truncate"
                       style={{ width: "100%" }}
                     >
                       <SelectValue placeholder="Selecione um perfil (ou deixe em branco)" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="max-w-[calc(100vw-2rem)] sm:max-w-[360px]">
-                    <SelectItem value="MORADOR">Morador da região</SelectItem>
-                    <SelectItem value="FREQUENTE">Usuário frequente do espaço público</SelectItem>
-                    <SelectItem value="VISITANTE">Visitante eventual</SelectItem>
-                    <SelectItem value="OUTRO">Outro</SelectItem>
+                  <SelectContent className="max-w-[calc(100vw-2rem)] sm:max-w-[360px] whitespace-normal break-words">
+                    <SelectItem className="text-left whitespace-normal break-words" value="MORADOR">
+                      Morador da região
+                    </SelectItem>
+                    <SelectItem className="text-left whitespace-normal break-words" value="FREQUENTE">
+                      Usuário frequente do espaço público
+                    </SelectItem>
+                    <SelectItem className="text-left whitespace-normal break-words" value="VISITANTE">
+                      Visitante eventual
+                    </SelectItem>
+                    <SelectItem className="text-left whitespace-normal break-words" value="OUTRO">
+                      Outro
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -200,11 +319,74 @@ export default function AvaliacaoForm({
           )}
         </div>
         
+        <div className="">
+          {localAvaliacao === "PRESENCIAL" && withinRadius && (
+            <p className="text-sm font-medium text-green-700">Avaliação presencial</p>
+          )}
+          {locError && <p className="text-sm text-destructive">{locError}</p>}
+          {localAvaliacao !== "PRESENCIAL" && (
+            <div className="space-y-2 pt-2">
+              <FormItem>
+                <FormLabel className="text-base">De onde você está avaliando?</FormLabel>
+                <Select
+                  onValueChange={(v) =>
+                    setLocalAvaliacao(
+                      (v as "REMOTO_EXPERIMENTADO" | "REMOTO_NAO_EXPERIMENTADO" | "NAO_INFORMADO") || null
+                    )
+                  }
+                >
+                  <FormControl>
+                    <SelectTrigger className="bg-white text-base w-full min-w-0 text-left truncate">
+                      <SelectValue placeholder="Selecione uma opção" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="max-w-[calc(100vw-2rem)] sm:max-w-[420px] whitespace-normal break-words">
+                    <SelectItem className="text-left whitespace-normal break-words" value="REMOTO_EXPERIMENTADO">
+                      Avaliando remotamente, após ter experimentado o protótipo no local
+                    </SelectItem>
+                    <SelectItem className="text-left whitespace-normal break-words" value="REMOTO_NAO_EXPERIMENTADO">
+                      Avaliando remotamente, sem ter experimentado o protótipo no local
+                    </SelectItem>
+                    <SelectItem className="text-left whitespace-normal break-words" value="NAO_INFORMADO">
+                      Prefiro não informar
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            </div>
+          )}
+        </div>
+
+        <Dialog open={showLocationDialog} onOpenChange={setShowLocationDialog}>
+          <DialogContent className="w-[90vw] sm:w-auto sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Validar avaliação por localização</DialogTitle>
+              <DialogDescription>
+                Deseja habilitar a localização para confirmar que você está no local de votação?
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex items-center justify-end gap-2">
+              <Button variant="outline" onClick={() => setShowLocationDialog(false)}>
+                Não
+              </Button>
+              <Button
+                onClick={async () => {
+                  setShowLocationDialog(false)
+                  await validateLocation()
+                }}
+              >
+                Sim
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {(localAvaliacao !== null) && (
+        <>
         <div className="rounded-md bg-blue-50 border border-blue-100 p-3">
           <p className="text-sm text-blue-800">Avalie cada item de 1 a 5, sendo:</p>
           <p className="text-sm font-medium text-blue-900">1 = Muito ruim | 2 = Ruim | 3 = Regular | 4 = Bom | 5 = Excelente</p>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <RatingField
             name="identidade"
@@ -268,16 +450,25 @@ export default function AvaliacaoForm({
 
         <div className="fixed inset-x-0 bottom-0 z-40 border-t bg-white/90 backdrop-blur-md p-3 sm:p-4 sm:hidden">
           <div className="container mx-auto max-w-4xl px-4 sm:px-6">
-            <Button type="submit" disabled={submitting} className="w-full">
+            <Button
+              type="submit"
+              disabled={submitting || (localAvaliacao === "PRESENCIAL" && withinRadius !== true)}
+              className="w-full"
+            >
               {submitting ? "Enviando..." : "Enviar avaliação"}
             </Button>
           </div>
         </div>
         <div className="hidden sm:flex justify-end">
-          <Button type="submit" disabled={submitting}>
+          <Button
+            type="submit"
+            disabled={submitting || (localAvaliacao === "PRESENCIAL" && withinRadius !== true)}
+          >
             {submitting ? "Enviando..." : "Enviar avaliação"}
           </Button>
         </div>
+        </>
+        )}
       </form>
     </Form>
   )

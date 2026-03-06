@@ -149,11 +149,19 @@ enum Perfil_Avaliador {
   OUTRO
 }
 
+enum Local_Avaliacao {
+  PRESENCIAL
+  REMOTO_EXPERIMENTADO
+  REMOTO_NAO_EXPERIMENTADO
+  NAO_INFORMADO
+}
+
 model Avaliacao_Publica {
   id                String      @id @default(uuid())
   mobiliarioId      String
 
   perfil            Perfil_Avaliador
+  local             Local_Avaliacao @default(NAO_INFORMADO)
   perfilOutro       String?
   identidade        Int         @default(1)
   frequencia        Int         @default(1)

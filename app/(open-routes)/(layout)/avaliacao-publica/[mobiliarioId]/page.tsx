@@ -43,6 +43,9 @@ export default async function AvaliacaoPublicaPage({
     PARACICLO: "Paraciclo",
   }
   const tipoLabel = tipoLabelMap[tipo]
+  const centerLat = Number(process.env.AVALIACAO_PUBLICA_CENTER_LAT)
+  const centerLng = Number(process.env.AVALIACAO_PUBLICA_CENTER_LNG)
+  const radiusMeters = Number(process.env.AVALIACAO_PUBLICA_RADIUS_METERS ?? "1000")
 
   return (
     <div className="container mx-auto max-w-4xl px-4 sm:px-6 py-6 sm:py-10 pb-24 sm:pb-10">
@@ -59,6 +62,9 @@ export default async function AvaliacaoPublicaPage({
         mobiliarioId={mobiliario.id}
         protocolo={protocolo}
         tipo={tipo}
+        centerLat={Number.isFinite(centerLat) ? centerLat : undefined}
+        centerLng={Number.isFinite(centerLng) ? centerLng : undefined}
+        radiusMeters={Number.isFinite(radiusMeters) ? radiusMeters : 1000}
       />
     </div>
   )
