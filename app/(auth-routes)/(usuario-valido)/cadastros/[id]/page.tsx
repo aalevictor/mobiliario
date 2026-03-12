@@ -203,7 +203,8 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
     const cadastro = await buscarCadastroJulgadora(+id, usuarioId);
     if (!cadastro) redirect('/cadastros');
     const podeDownload = await verificarPermissoes(usuarioId, ["JULGADORA"]);
-    let projetos: Partial<Arquivo> & { nome: string } [] = [];
+    let projetos: (Partial<Arquivo> & { nome: string })[] = [];
+    let projetos2NaoIdentificados: (Partial<Arquivo> & { nome: string })[] = [];
     cadastro.arquivos.map((arquivo: Partial<Arquivo>) => {
         if (arquivo.tipo === 'PROJETOS') {
             projetos.push({
@@ -211,8 +212,19 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                 nome: arquivo.caminho?.split('/')?.pop()?.split('-').slice(1).join('-') || 'Projeto',
             });
         }
+        if (arquivo.tipo === 'PROJETOS_2') {
+            const nomeArquivo = arquivo.caminho?.split('/')?.pop() || '';
+            const eIdentificado = nomeArquivo.startsWith('IDENTIFICADO-') || nomeArquivo.startsWith('EMAIL-IDENTIFICADO-');
+            if (!eIdentificado) {
+                projetos2NaoIdentificados.push({
+                    ...arquivo,
+                    nome: nomeArquivo.replace(/^(EMAIL-)?(NAO_IDENTIFICADO-)(\d+-)/, '') || 'Projeto',
+                });
+            }
+        }
     })
     projetos = projetos.sort((a, b) => a.nome.localeCompare(b.nome));
+    projetos2NaoIdentificados = projetos2NaoIdentificados.sort((a, b) => a.nome.localeCompare(b.nome));
     return (<div className="px-0 md:px-8 relative h-full container mx-auto py-8">
         <div className="space-y-2 max-w-6xl mx-auto">
             {/* Seção Projetos */}
@@ -291,6 +303,60 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                     )}
                 </CardContent>
             </Card>
+            {projetos2NaoIdentificados.length > 0 && (
+                <Card>
+                    <CardHeader className="pb-4">
+                        <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <FolderOpen className="h-4 w-4 text-white" />
+                            </div>
+                            <CardTitle className="text-lg text-primary">Projetos Fase 2 — Não Identificados</CardTitle>
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-3">
+                            {projetos2NaoIdentificados.map((arquivo: Partial<Arquivo> & { nome: string }) => (
+                                <div key={arquivo.id} className="p-3 bg-gray-50 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                                    <div className="flex items-start md:items-center gap-3">
+                                        <FolderOpen className="h-5 w-5 text-gray-500" />
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-medium break-all md:break-words md:max-w-[360px]" title={arquivo.nome}>{arquivo.nome}</p>
+                                            <p className="text-sm text-gray-600">
+                                                Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {podeDownload && arquivo.id && (
+                                        <div className="flex flex-wrap gap-2 md:justify-end">
+                                            <ViewButton
+                                                cadastroId={+id}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.nome}
+                                                className="cursor-pointer"
+                                                tipo="projetos2"
+                                            />
+                                            <ViewModalButton
+                                                cadastroId={+id}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.nome}
+                                                className="cursor-pointer"
+                                                tipo="projetos2"
+                                            />
+                                            <DownloadButton
+                                                cadastroId={+id}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.nome}
+                                                className="cursor-pointer"
+                                                tipo="projetos2"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
             <Card>
                 <CardHeader>
                     <CardTitle className="text-xl sm:text-2xl">Sua avaliação</CardTitle>

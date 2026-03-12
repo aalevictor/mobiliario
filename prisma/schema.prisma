@@ -45,6 +45,7 @@ model Cadastro {
   usuarioId            String                @unique
   criadoEm             DateTime              @default(now())
   atualizadoEm         DateTime              @default(now()) @updatedAt
+  finalista            Boolean               @default(false)
   arquivos             Arquivo[]
   avaliacoes_julgadora Avaliacao_Julgadora[]
   avaliacao_licitadora Avaliacao_Licitadora?
@@ -302,6 +303,7 @@ enum Tipo_Carteira {
 enum TipoArquivo {
   DOC_ESPECIFICA
   PROJETOS
+  PROJETOS_2
 }
 
 enum TipoLog {

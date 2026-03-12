@@ -990,7 +990,7 @@ async function buscarCadastroJulgadora(id: number, avaliadorId: string) {
       protocolo: true,
       arquivos: {
         where: {
-          tipo: TipoArquivo.PROJETOS,
+          tipo: { in: [TipoArquivo.PROJETOS, TipoArquivo.PROJETOS_2] },
         },
         select: {
           id: true,

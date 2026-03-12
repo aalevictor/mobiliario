@@ -6,7 +6,8 @@ import ResponsavelForm from "../_components/responsavel-form";
 import EnderecoForm from "../_components/endereco-form";
 import ParticipantesForm from "../_components/participantes-form";
 import DocumentosForm from "../_components/documentos-form";
-import ProjetosForm from "../_components/projetos-form";
+import ProjetosForm from "../_components/projetos-form"
+import Projetos2Form from "../_components/projetos2-form";
 import { revalidatePath } from "next/cache";
 import { ICadastro } from "../../cadastros/page";
 import ProtocoloDisplay from "../_components/protocolo-display";
@@ -23,6 +24,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
     const cadastro = await meuCadastro(session.user.id);
     if (!cadastro) redirect("/");
     const eDeferido = cadastro.avaliacao_licitadora && cadastro.avaliacao_licitadora.aprovado;
+    const finalista = cadastro.finalista;
     const liberado = eDeferido || cadastro.avaliacao_licitadora?.liberadoAval;
 
     const inicioEnvioHabilitacao = new Date("2025-12-11 00:00:00");
@@ -49,10 +51,11 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                         {cadastro.avaliacao_licitadora && !eDeferido && <TabsTrigger value="recurso">Recurso</TabsTrigger>}
                         {eDeferido && <TabsTrigger value="modelos">Modelos</TabsTrigger>}
                         {/* {liberado && <TabsTrigger value="recurso-avaliacao">Recurso</TabsTrigger>} */}
-                        {eDeferido && <TabsTrigger value="projetos">Propostas Técnicas</TabsTrigger>}
+                        {eDeferido && <TabsTrigger value="projetos_fase1">Fase 1</TabsTrigger>}
                         {envioHabilitacao && (
                             <TabsTrigger value="documentos-habilitacao">Habilitação</TabsTrigger>
                         )}
+                        {finalista && <TabsTrigger value="projetos_fase2">Fase 2</TabsTrigger>}
                     </TabsList>
                 </div>
                 <div className="w-full flex flex-col gap-3">
@@ -80,7 +83,7 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                     {/* {eDeferido && <TabsContent value="recurso-avaliacao" className="m-0">
                         <RecursoAvaliacaoForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
                     </TabsContent>} */}
-                    {eDeferido && <TabsContent value="projetos" className="m-0">
+                    {eDeferido && <TabsContent value="projetos_fase1" className="m-0">
                         <ProjetosForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
                     </TabsContent>}
                     {envioHabilitacao &&  (
@@ -88,6 +91,9 @@ export default async function MeuCadastro(props: { searchParams: Promise<{ tab: 
                             <HabilitacaoForm atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
                         </TabsContent>
                     )}
+                    {finalista && <TabsContent value="projetos_fase2" className="m-0">
+                        <Projetos2Form atualizarPagina={atualizarPagina} cadastro={cadastro as ICadastro} />
+                    </TabsContent>}
                 </div>
             </Tabs>
         </div>

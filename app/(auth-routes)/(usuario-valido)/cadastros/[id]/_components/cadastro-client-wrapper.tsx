@@ -54,6 +54,15 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
     }
     
     const projetos = cadastro.arquivos?.filter((arquivo: { tipo: string; }) => arquivo.tipo === TipoArquivo.PROJETOS) || []
+    const projetos2 = cadastro.arquivos?.filter((arquivo: { tipo: string; }) => arquivo.tipo === TipoArquivo.PROJETOS_2) || []
+    const projetos2Identificados = projetos2.filter((a: { caminho: string }) => {
+        const nome = a.caminho.split('/').pop() || '';
+        return nome.startsWith('IDENTIFICADO-') || nome.startsWith('EMAIL-IDENTIFICADO-');
+    })
+    const projetos2NaoIdentificados = projetos2.filter((a: { caminho: string }) => {
+        const nome = a.caminho.split('/').pop() || '';
+        return !nome.startsWith('IDENTIFICADO-') && !nome.startsWith('EMAIL-IDENTIFICADO-');
+    })
     const documentos = cadastro.arquivos?.filter((arquivo: { tipo: string; caminho: string }) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && !arquivo.caminho.split("/").pop()?.startsWith("RECURSO-") && !arquivo.caminho.split("/").pop()?.startsWith("HABILITACAO-")) || []
     const recursos = cadastro.arquivos?.filter((arquivo: { tipo: string; caminho: string }) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && arquivo.caminho.split("/").pop()?.startsWith("RECURSO-")) || []
     const habilitacao = cadastro.arquivos?.filter((arquivo: { tipo: string; caminho: string }) => arquivo.tipo === TipoArquivo.DOC_ESPECIFICA && arquivo.caminho.split("/").pop()?.startsWith("HABILITACAO-")) || []
@@ -246,14 +255,14 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                 /> */}
             </Card>
 
-            {/* Seção Projetos */}
+            {/* Seção Projetos Fase 1 */}
             <Card>
                 <CardHeader className="pb-4">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                             <FolderOpen className="h-4 w-4 text-white" />
                         </div>
-                        <CardTitle className="text-lg text-primary">Projetos</CardTitle>
+                        <CardTitle className="text-lg text-primary">Projetos — Fase 1</CardTitle>
                     </div>
                 </CardHeader>
                 <CardContent>
@@ -301,6 +310,134 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                             <FolderOpen className="h-12 w-12 mx-auto mb-3 text-gray-300" />
                             <p>Nenhum projeto encontrado</p>
                             <p className="text-sm">Projetos não foram enviados</p>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
+
+            {/* Seção Projetos Fase 2 — Identificados */}
+            <Card>
+                <CardHeader className="pb-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <FolderOpen className="h-4 w-4 text-white" />
+                        </div>
+                        <CardTitle className="text-lg text-primary">Projetos Fase 2 — Identificados</CardTitle>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    {projetos2Identificados.length > 0 ? (
+                        <div className="space-y-3">
+                            {projetos2Identificados.map((arquivo: Partial<Arquivo>) => (
+                                <div key={arquivo.id} className="p-3 bg-gray-50 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                                    <div className="flex items-start md:items-center gap-3">
+                                        <FolderOpen className="h-5 w-5 text-gray-500" />
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-medium break-all md:break-words md:max-w-[360px]" title={arquivo.caminho?.split('/').pop() || 'Projeto'}>
+                                                {arquivo.caminho?.split('/').pop()?.replace(/^(EMAIL-)?(IDENTIFICADO-|NAO_IDENTIFICADO-)(\d+-)/, '') || 'Projeto'}
+                                            </p>
+                                            <p className="text-sm text-gray-600">
+                                                Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {podeDownload && arquivo.id && (
+                                        <div className="flex flex-wrap gap-2 md:justify-end">
+                                            <ViewButton
+                                                cadastroId={cadastro.id!}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
+                                                className="cursor-pointer"
+                                                tipo="projetos2"
+                                            />
+                                            <ViewModalButton
+                                                cadastroId={cadastro.id!}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
+                                                className="cursor-pointer"
+                                                tipo="projetos2"
+                                            />
+                                            <DownloadButton
+                                                cadastroId={cadastro.id!}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
+                                                className="cursor-pointer"
+                                                tipo="projetos2"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-8 text-gray-500">
+                            <FolderOpen className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                            <p>Nenhum projeto identificado encontrado</p>
+                            <p className="text-sm">Projetos identificados da Fase 2 não foram enviados</p>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
+
+            {/* Seção Projetos Fase 2 — Não Identificados */}
+            <Card>
+                <CardHeader className="pb-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <FolderOpen className="h-4 w-4 text-white" />
+                        </div>
+                        <CardTitle className="text-lg text-primary">Projetos Fase 2 — Não Identificados</CardTitle>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    {projetos2NaoIdentificados.length > 0 ? (
+                        <div className="space-y-3">
+                            {projetos2NaoIdentificados.map((arquivo: Partial<Arquivo>) => (
+                                <div key={arquivo.id} className="p-3 bg-gray-50 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                                    <div className="flex items-start md:items-center gap-3">
+                                        <FolderOpen className="h-5 w-5 text-gray-500" />
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-medium break-all md:break-words md:max-w-[360px]" title={arquivo.caminho?.split('/').pop() || 'Projeto'}>
+                                                {arquivo.caminho?.split('/').pop()?.replace(/^(EMAIL-)?(IDENTIFICADO-|NAO_IDENTIFICADO-)(\d+-)/, '') || 'Projeto'}
+                                            </p>
+                                            <p className="text-sm text-gray-600">
+                                                Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {podeDownload && arquivo.id && (
+                                        <div className="flex flex-wrap gap-2 md:justify-end">
+                                            <ViewButton
+                                                cadastroId={cadastro.id!}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
+                                                className="cursor-pointer"
+                                                tipo="projetos2"
+                                            />
+                                            <ViewModalButton
+                                                cadastroId={cadastro.id!}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
+                                                className="cursor-pointer"
+                                                tipo="projetos2"
+                                            />
+                                            <DownloadButton
+                                                cadastroId={cadastro.id!}
+                                                arquivoId={arquivo.id}
+                                                nomeArquivo={arquivo.caminho?.split('/').pop() || 'projeto'}
+                                                className="cursor-pointer"
+                                                tipo="projetos2"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-8 text-gray-500">
+                            <FolderOpen className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                            <p>Nenhum projeto não identificado encontrado</p>
+                            <p className="text-sm">Projetos não identificados da Fase 2 não foram enviados</p>
                         </div>
                     )}
                 </CardContent>
