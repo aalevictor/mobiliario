@@ -70,30 +70,41 @@ function UploadArea({ cadastro, identificado, arquivosExistentes, tamanhoTotalGe
 
     const onSubmit = (data: UploadForm) => {
         startTransition(async () => {
-            try {
-                const formData = new FormData()
-                data.arquivos.forEach(file => formData.append('documentos', file))
-                formData.append('identificado', String(identificado))
-                formData.append('cadastroId', cadastro.id?.toString() || '')
+            const erros: string[] = []
 
-                const response = await fetch(`/api/cadastro/${cadastro.id}/projetos2`, {
-                    method: 'POST',
-                    body: formData
-                })
+            for (const file of data.arquivos) {
+                try {
+                    const formData = new FormData()
+                    formData.append('documentos', file)
+                    formData.append('identificado', String(identificado))
+                    formData.append('cadastroId', cadastro.id?.toString() || '')
 
-                if (response.ok) {
-                    toast.success('Arquivos enviados com sucesso!')
-                    form.reset()
-                    dragDropRef.current?.reset()
-                    await onSuccess()
-                } else {
-                    const { error } = await response.json() || { error: 'Erro ao enviar arquivos. Tente novamente.' }
-                    toast.error(error)
+                    const response = await fetch(`/api/cadastro/${cadastro.id}/projetos2`, {
+                        method: 'POST',
+                        body: formData
+                    })
+
+                    if (!response.ok) {
+                        const { error } = await response.json() || { error: 'Erro desconhecido' }
+                        erros.push(`${file.name}: ${error}`)
+                    }
+                } catch (error) {
+                    console.error('Erro ao enviar arquivo:', error)
+                    erros.push(`${file.name}: Erro ao enviar`)
                 }
-            } catch (error) {
-                console.error('Erro ao enviar arquivos:', error)
+            }
+
+            if (erros.length === 0) {
+                toast.success('Arquivos enviados com sucesso!')
+            } else if (erros.length < data.arquivos.length) {
+                toast.warning(`${data.arquivos.length - erros.length} arquivo(s) enviado(s), ${erros.length} com erro.`)
+            } else {
                 toast.error('Erro ao enviar arquivos. Tente novamente.')
             }
+
+            form.reset()
+            dragDropRef.current?.reset()
+            await onSuccess()
         })
     }
 

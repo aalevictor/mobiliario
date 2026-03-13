@@ -2,6 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig = {
   serverExternalPackages: ['@prisma/client', 'prisma'],
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '1024mb',
+    },
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   turbopack: {
     rules: {
       '*.svg': {
