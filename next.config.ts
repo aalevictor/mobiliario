@@ -7,6 +7,8 @@ const nextConfig = {
       bodySizeLimit: '1024mb',
     },
   },
+  // Limite para route handlers (API routes no App Router)
+  middlewareClientMaxBodySize: 1024 * 1024 * 1024, // 1GB em bytes
   eslint: {
     ignoreDuringBuilds: true,
   },
