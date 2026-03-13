@@ -3,8 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig = {
   serverExternalPackages: ['@prisma/client', 'prisma'],
   experimental: {
+    middlewareClientMaxBodySize: '700mb',
     serverActions: {
-      bodySizeLimit: '1024mb',
+      bodySizeLimit: '700mb',
     },
   },
   // Limite para route handlers (API routes no App Router)
