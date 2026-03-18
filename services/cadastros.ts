@@ -354,8 +354,8 @@ async function buscarCadastros(
     ...(avaliacao === "AGUARDANDO" && { avaliacao_licitadora: null }),
     ...(avaliacao === "DEFERIDO" && { avaliacao_licitadora: { liberadoAval: true } }),
     ...(avaliacao === "INDEFERIDO" && { avaliacao_licitadora: { liberadoAval: false } }),
-    ...(temMobiliarios === "true" && { mobiliarios: { some: {} } }),
-    ...(temMobiliarios === "false" && { mobiliarios: { none: {} } }),
+    ...(temMobiliarios === "true" && { finalista: true }),
+    ...(temMobiliarios === "false" && { finalista: false }),
   }
   const total = await db.cadastro.count({ where });
   if (total == 0) return { total: 0, pagina: 0, limite: 0, data: [] };
