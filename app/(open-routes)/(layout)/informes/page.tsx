@@ -7,6 +7,59 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "<span class='font-bold text-red-500'>Prazo para experimentação e avaliação pública dos protótipos</span>",
+    subtitulo: "Prazo para experimentação e avaliação pública dos protótipos dispostos na Praça Dom José Gaspar se encerrará no dia <strong>29 de março de 2026</strong>",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>Nos termos do item 16 do Edital nº 001/SP-URB/2025, a Coordenação do Concurso anuncia que o período de exposição e experimentação dos 18 protótipos elaborados pelos 3 concorrentes classificados para a Fase 2 do concurso, se encerrará no dia <strong>29 de março de 2026</strong>.</p>
+        <p>Conforme já informado, nos termos do item 15 do Edital, cada participante classificado desenvolveu um conjunto de 6 elementos de mobiliário:</p>
+        <ul class="list-disc list-inside font-bold">
+          <li>Banco coletivo com encosto e apoios de braços laterais; </li>
+          <li>Papeleira Dupla; </li>
+          <li>Paraciclo Unitário; </li>
+          <li>Balizador Sólido;  </li>
+          <li>Floreira; </li>
+          <li>Vaso. </li>
+        </ul>
+        <p>Os protótipos ficarão disponíveis para avaliação do público na Praça Dom José Gaspar até o dia <strong>29/03/2026</strong>, conforme <strong>mapa</strong> a seguir:</p>
+        <a href="/mapas/locais-exposicao.png" target="_blank" rel="noopener noreferrer">
+          <img src="/mapas/locais-exposicao.png" alt="Locais de exposição e experimentação dos protótipos" class="w-full h-auto" />
+        </a>
+        <p>A população poderá avaliar os protótipos por meio de QR Code adesivado em cada um deles. Assim que acionado, o QR Code direcionará para um formulário de avaliação, conforme anexo VII do Edital, podendo atribuir notas (de 1 a 5, sendo: 1 = Muito ruim | 2 = Ruim | 3 = Regular | 4 = Bom | 5 = Excelente) para cada um dos elementos, segundo os seguintes critérios:</p>
+        <ul class="list-disc list-inside">
+          <li><strong>Identidade com a cidade:</strong> O mobiliário reflete a diversidade e a identidade de São Paulo? </li>
+          <li><strong>Frequência e forma de uso:</strong> Parece útil e aplicável ao dia a dia dos usuários do espaço público?  </li>
+          <li><strong>Ergonomia e conforto:</strong> É confortável e acessível para diferentes pessoas (crianças, idosos, PCD, etc.)?  </li>
+          <li><strong>Resistência ao clima:</strong> O mobiliário aparenta suportar sol, chuva e outras condições climáticas?  </li>
+          <li><strong>Resistência ao mau uso ou vandalismo:</strong> Parece robusto e seguro para resistir a danos ou usos indevidos?  </li>
+          <li><strong>Materiais e instalação:</strong> Os materiais parecem adequados, bem acabados e corretamente instalados?  </li>
+          <li><strong>Operação e manutenção:</strong> Parece fácil de limpar, manter ou operar (ex.: troca de sacos das papeleiras ou irrigação das floreiras)?  </li>
+          <li><strong>Aprovação geral:</strong> Você gostaria de ver este mobiliário instalado em outros lugares da cidade?</li>
+        </ul>
+        <p>Há também um espaço para texto livre em que a população poderá indicar sugestões, opiniões ou críticas.</p>
+        <p>Nos termos do item 18 do Edital, durante o período de exposição e experimentação, a Comissão Julgadora também avaliará os protótipos e considerará, para o julgamento final, os resultados da avaliação pública.</p>
+        <p>A Coordenação do Concurso agradece a participação de todos.</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-03-18T11:00:00"),
+    publicado: true
+  },{
+    titulo: "<span class='font-bold text-red-500'>Atenção aos participantes finalistas da Fase 2</span>",
+    subtitulo: "Prazo para submissão dos projetos em nível básico se encerra no dia <strong>20 de março de 2026</strong>",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p>Nos termos do Edital nº 001/SP-URB/2025, a Coordenação do Concurso informa que o prazo para submissão dos projetos em nível básico, elaborados com base no item 17 do Edital e 6.3 do Termo de Referência, se encerrará no dia <strong>20 de março de 2026</strong>, conforme consta do cronograma do concurso, item 21 do Edital. </p>
+        <p>Os projetos deverão ser submetidos pela área restrita do participante na plataforma online do Concurso, e deverão ser apresentados conforme normas de apresentação do Edital e Termo de Referência, atentando-se para as duas versões: com e sem identificação. A versão sem identificação será submetida à avaliação da Comissão Julgadora, que se dará em um primeiro período de forma individual online e, posteriormente, de forma presencial para a definição conjunta da classificação final, nos termos do item 18 do Edital. </p>
+        <p>Para submissão dos projetos em nível básico, os participantes finalistas deverão acessar a aba <strong>“FASE 2”</strong>, onde encontrarão espaços para a submissão dos <strong>Projetos Não Identificados</strong> e dos <strong>Projetos Identificados</strong>. Os projetos poderão ser substituídos até a data e o horário limites. Após esse prazo, o participante poderá somente visualizar e fazer o download do conteúdo submetido. </p>
+        <p>Fiquem atentos à data limite de <strong>20 de março de 2026, até as 23h59 (vinte e três horas e cinquenta e nove minutos)</strong>, do horário oficial de Brasília/DF, conforme item 21.1 do Edital.</p>
+        <p>Em caso de instabilidade temporária da plataforma, que impeça o upload dos arquivos, será permitida a submissão via e-mail do concurso (<a href="mailto:concursomoburb.sp2025@spurbanismo.sp.gov.br" class="text-blue-500 underline">concursomoburb.sp2025@spurbanismo.sp.gov.br</a>), podendo ser feita por meio de compartilhamento de drive online, em função do tamanho dos arquivos - até 600MB (seiscentos megabytes). Nesse caso, a Coordenação do Concurso solicita que seja informado o motivo da opção pela submissão por e-mail, que deverá ser acompanhada de justificativa comprovada (via prints) da instabilidade da plataforma online. A submissão via e-mail constitui medida excepcional e <strong>não dispensa o atendimento obrigatório à data e ao horário limites estabelecidos no Edital</strong>, não sendo reconhecidos os envios realizados fora do prazo. </p>
+        <p>Desejamos sorte a todos os finalistas participantes da Fase 2, nesta reta final do Concurso Nacional de Projetos de Mobiliário Urbano para São Paulo. </p>
+        <p>A Coordenação do Concurso agradece a participação de todos.</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-03-18T11:00:00"),
+    publicado: true
+  },{
     titulo: "<span class='font-bold text-red-500'>Aberto período de exposição e experimentação pública dos protótipos da Fase 2 do Concurso!</span>",
     subtitulo: "<span>Do dia <strong>02/03/2026</strong> ao dia <strong>26/03/2026</strong> os protótipos da Fase 2 estarão disponíveis para experimentação e avaliação do público na Praça Dom José Gaspar.</span>",
     conteudo: `
