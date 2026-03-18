@@ -20,6 +20,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/compon
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
 import ExportarAvaliacoes from './_components/exportar-avaliacoes';
+import ExportarAvaliacoesPublicas from './_components/exportar-avaliacoes-publicas';
 export default async function CadastrosSuspense({
 	searchParams,
 }: {
@@ -237,6 +238,7 @@ async function Cadastros({
                                 tipoInscricao: tipoInscricao as string,
                                 avaliacao: avaliacao as string
                             }} />
+                            <ExportarAvaliacoesPublicas />
                         </DropdownMenuContent>
                     </DropdownMenu>
 				</CardContent>

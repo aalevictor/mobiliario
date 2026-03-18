@@ -1032,4 +1032,67 @@ async function buscarCadastroJulgadora(id: number, avaliadorId: string) {
   return cadastro;
 }
 
-export { buscarArquivosExportacao, buscarAvaliacoesExportacao, buscarParticipantesExportacao, emailsParticipantes, emailsAprovados, geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
+async function buscarAvaliacoesPublicasExportacao(): Promise<{ headers: string[], rows: (string | null | undefined)[][] }> {
+  const mobiliarios = await db.mobiliario.findMany({
+    orderBy: { cadastroId: 'asc' },
+    include: {
+      cadastro: {
+        select: { protocolo: true },
+      },
+      avaliacoes_publicas: {
+        orderBy: { criadoEm: 'asc' },
+      },
+    },
+  });
+
+  const headers = [
+    'Protocolo',
+    'Tipo de Mobiliário',
+    'ID Avaliação',
+    'Perfil',
+    'Perfil (outro)',
+    'Local',
+    'Identidade',
+    'Frequência',
+    'Ergonomia',
+    'Resistência ao Clima',
+    'Resistência ao Uso',
+    'Materiais',
+    'Operação',
+    'Aprovação',
+    'Média',
+    'Comentário',
+    'Data',
+  ];
+
+  const rows: (string | null | undefined)[][] = [];
+
+  for (const mob of mobiliarios) {
+    for (const av of mob.avaliacoes_publicas) {
+      const media = ((av.identidade + av.frequencia + av.ergonomia + av.resistenciaClima + av.resistenciaUso + av.materiais + av.operacao + av.aprovacao) / 8).toFixed(2);
+      rows.push([
+        mob.cadastro.protocolo,
+        mob.tipo,
+        av.id,
+        av.perfil,
+        av.perfilOutro || 'NAO_INFORMADO',
+        av.local,
+        `${av.identidade}`,
+        `${av.frequencia}`,
+        `${av.ergonomia}`,
+        `${av.resistenciaClima}`,
+        `${av.resistenciaUso}`,
+        `${av.materiais}`,
+        `${av.operacao}`,
+        `${av.aprovacao}`,
+        media,
+        av.comentario ?? '',
+        av.criadoEm.toISOString(),
+      ]);
+    }
+  }
+
+  return { headers, rows };
+}
+
+export { buscarArquivosExportacao, buscarAvaliacoesExportacao, buscarAvaliacoesPublicasExportacao, buscarParticipantesExportacao, emailsParticipantes, emailsAprovados, geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
