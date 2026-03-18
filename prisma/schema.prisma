@@ -46,6 +46,7 @@ model Cadastro {
   criadoEm             DateTime              @default(now())
   atualizadoEm         DateTime              @default(now()) @updatedAt
   finalista            Boolean               @default(false)
+  mencao_honrosa       Boolean               @default(false)
   arquivos             Arquivo[]
   avaliacoes_julgadora Avaliacao_Julgadora[]
   avaliacao_licitadora Avaliacao_Licitadora?

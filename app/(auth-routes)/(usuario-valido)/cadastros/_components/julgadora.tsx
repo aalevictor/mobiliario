@@ -30,22 +30,12 @@ export const julgadoraColumns: ColumnDef<ICadastro>[] = [
 		accessorKey: 'status',
 		header: () => <div className='flex items-center justify-center'>Status</div>,
 		cell: ({ row }) => {
-			const avaliacao = row.original.avaliacoes_julgadora && row.original.avaliacoes_julgadora[0];
-			let media = 0;
-			if (avaliacao && avaliacao.avaliado) {
-				const { linhaTematica1, linhaTematica2, linhaTematica3, conceitoProjetual, atendimentoNormas, insercaoUrbana, qualidadeFuncional, exequibilidade, economicidade, qualidadeGrafica } = avaliacao
-				media = ((linhaTematica1 || 0) + (linhaTematica2 || 0) + (linhaTematica3 || 0) + (conceitoProjetual || 0) + (atendimentoNormas || 0) + (insercaoUrbana || 0) + (qualidadeFuncional || 0) + (exequibilidade || 0) + (economicidade || 0) + (qualidadeGrafica || 0)) / 10;
-			}
-			const status = avaliacao && avaliacao.avaliado;
-			const desclassificado = avaliacao ? avaliacao.desclassificado : false;
-			const mencaoHonrosa = avaliacao?.mencao_honrosa || false;
+			const mencao_honrosa = row.original.mencao_honrosa || false;
+			const finalista = row.original.finalista || false;
 			return (
 				<div className='flex items-center justify-center gap-1'>
-					{!desclassificado && <Badge variant='default' className={status ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white'}>
-						{status ? 'Avaliado' : 'Aguardando avaliação'}
-					</Badge>}
-					{desclassificado && <Badge variant='destructive'>Desclassificado</Badge>}
-					{mencaoHonrosa && <Badge variant='default' className='bg-indigo-600 text-white'>Mencão Honrosa</Badge>}
+					{finalista && <Badge className='bg-green-500 text-white'>Finalista</Badge>}
+					{mencao_honrosa && <Badge variant='default' className='bg-indigo-600 text-white'>Mencão Honrosa</Badge>}
 				</div>
 			);
 		},

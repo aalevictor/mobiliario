@@ -51,6 +51,8 @@ export interface ICadastro {
     usuarioId?: string;
     avaliacao_licitadora?: Partial<Avaliacao_Licitadora>;
     avaliacoes_julgadora?: Partial<Avaliacao_Julgadora>[];
+    mencao_honrosa?: boolean;
+    finalista?: boolean;
 }
 
 interface IPaginadoCadastro {

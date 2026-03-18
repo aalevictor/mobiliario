@@ -250,6 +250,8 @@ async function buscarCadastros(
   }: ["JULGADORA"].includes(permissao)	?  {
     id: true,
     protocolo: true,
+    mencao_honrosa: true,
+    finalista: true,
     arquivos: {
       where: {
         tipo: TipoArquivo.PROJETOS,
@@ -458,6 +460,10 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
         { cnpj: "" }
       ]
     }),
+    OR: [
+      { mencao_honrosa: true },
+      { finalista: true },
+    ]
   }
   const cadastros = await db.cadastro.findMany({
     orderBy: { criadoEm: 'asc' },
