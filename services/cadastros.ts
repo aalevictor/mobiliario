@@ -352,7 +352,12 @@ async function buscarCadastros(
         { cnpj: "" }
       ]
     }),
-    ...(permissao === "JULGADORA" && { avaliacao_licitadora: { aprovado: true, liberadoAval: true }}),
+    ...(permissao === "JULGADORA" && {
+      OR: [
+        { mencao_honrosa: true },
+        { finalista: true },
+      ]
+    }),
     ...(avaliacao === "AGUARDANDO" && { avaliacao_licitadora: null }),
     ...(avaliacao === "DEFERIDO" && { avaliacao_licitadora: { liberadoAval: true } }),
     ...(avaliacao === "INDEFERIDO" && { avaliacao_licitadora: { liberadoAval: false } }),
@@ -460,10 +465,6 @@ async function buscarCadastrosExportacao({ busca, documentosEnviados, projetosEn
         { cnpj: "" }
       ]
     }),
-    OR: [
-      { mencao_honrosa: true },
-      { finalista: true },
-    ]
   }
   const cadastros = await db.cadastro.findMany({
     orderBy: { criadoEm: 'asc' },
