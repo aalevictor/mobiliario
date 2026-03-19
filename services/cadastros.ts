@@ -1026,7 +1026,37 @@ async function buscarCadastroJulgadora(id: number, avaliadorId: string) {
           atualizadoEm: true,
         },
         where: { avaliadorId }
-      }
+      },
+      avaliacao_prototipos: {
+        select: {
+          id: true,
+          ergonomia: true,
+          desempenho_funcional: true,
+          qualidade_construtiva: true,
+          durabilidade: true,
+          receptividade_interacao: true,
+          compatibilidade_preliminar: true,
+          observacoes: true,
+          avaliado: true,
+          criadoEm: true,
+          atualizadoEm: true,
+        }
+      },
+      avaliacao_basicos: {
+        select: {
+          id: true,
+          qualidade_detalhamento: true,
+          coerencia_compatibilidade: true,
+          exequibiliade: true,
+          sustentabilidade: true,
+          viabilidade_economica: true,
+          qualidade_grafica: true,
+          observacoes: true,
+          avaliado: true,
+          criadoEm: true,
+          atualizadoEm: true,
+        }
+      },
     }
   });
   return cadastro;

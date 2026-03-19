@@ -12,7 +12,10 @@ import ViewModalButton from "./_components/view-modal-button";
 import ViewButton from "./_components/view-button";
 import CadastroClientWrapper from "./_components/cadastro-client-wrapper";
 import AvaliacaoJulgadora from "./_components/avaliacao-julgadora"
+import AvaliacaoProtetipo from "./_components/avaliacao-prototipo"
+import AvaliacaoBasico from "./_components/avaliacao-basico"
 import IniciarAvaliacaoButton from "./_components/iniciar-avaliacao-button";
+import IniciarAvaliacaoGenericaButton from "./_components/iniciar-avaliacao-generica-button";
 import MobiliariosSection from "./_components/mobiliarios-section";
 
 async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string }) {
@@ -249,7 +252,7 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                         <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                             <FolderOpen className="h-4 w-4 text-white" />
                         </div>
-                        <CardTitle className="text-lg text-primary">Projetos</CardTitle>
+                        <CardTitle className="text-lg text-primary">Projetos Fase 1</CardTitle>
                     </div>
                 </CardHeader>
                 <CardContent>
@@ -359,16 +362,54 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
             )}
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-xl sm:text-2xl">Sua avaliação</CardTitle>
+                    <CardTitle className="text-xl sm:text-2xl">Sua avaliação - Fase 1</CardTitle>
                 </CardHeader>
                 <CardContent>
                     {cadastro.avaliacoes_julgadora?.[0]?.id ? (
-                        <AvaliacaoJulgadora 
-                            avaliacao={cadastro.avaliacoes_julgadora[0]} 
+                        <AvaliacaoJulgadora
+                            avaliacao={cadastro.avaliacoes_julgadora[0]}
                             cadastroId={+id}
                         />
                     ) : (
                         <IniciarAvaliacaoButton cadastroId={+id} />
+                    )}
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-xl sm:text-2xl">Avaliação de Protótipo</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    {cadastro.avaliacao_prototipos?.[0]?.id ? (
+                        <AvaliacaoProtetipo
+                            avaliacao={cadastro.avaliacao_prototipos[0]}
+                            cadastroId={+id}
+                        />
+                    ) : (
+                        <IniciarAvaliacaoGenericaButton
+                            cadastroId={+id}
+                            endpoint="avaliacao-prototipo"
+                            label="Avaliação de Protótipo"
+                        />
+                    )}
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-xl sm:text-2xl">Avaliação de Projeto em Nível Básico</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    {cadastro.avaliacao_basicos?.[0]?.id ? (
+                        <AvaliacaoBasico
+                            avaliacao={cadastro.avaliacao_basicos[0]}
+                            cadastroId={+id}
+                        />
+                    ) : (
+                        <IniciarAvaliacaoGenericaButton
+                            cadastroId={+id}
+                            endpoint="avaliacao-basico"
+                            label="Avaliação de Projeto em Nível Básico"
+                        />
                     )}
                 </CardContent>
             </Card>

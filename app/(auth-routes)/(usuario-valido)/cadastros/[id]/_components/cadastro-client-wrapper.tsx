@@ -262,7 +262,7 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                         <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                             <FolderOpen className="h-4 w-4 text-white" />
                         </div>
-                        <CardTitle className="text-lg text-primary">Projetos — Fase 1</CardTitle>
+                        <CardTitle className="text-lg text-primary">Projetos Fase 1</CardTitle>
                     </div>
                 </CardHeader>
                 <CardContent>

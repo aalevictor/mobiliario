@@ -24,6 +24,8 @@ model Usuario {
   cadastro               Cadastro?
 
   @@map("usuarios")
+  avaliacaoPrototipos Avaliacao_Prototipo[]
+  avaliacaoBasicos Avaliacao_Basico[]
 }
 
 model Cadastro {
@@ -50,6 +52,8 @@ model Cadastro {
   arquivos             Arquivo[]
   avaliacoes_julgadora Avaliacao_Julgadora[]
   avaliacao_licitadora Avaliacao_Licitadora?
+  avaliacao_prototipos Avaliacao_Prototipo[]
+  avaliacao_basicos    Avaliacao_Basico[]
   usuario              Usuario               @relation(fields: [usuarioId], references: [id])
   participantes        Participante[]
   mobiliarios          Mobiliario[]
@@ -118,6 +122,54 @@ model Avaliacao_Julgadora {
 
   @@unique([cadastroId, avaliadorId])
   @@map("avaliacoes_julgadoras")
+}
+
+model Avaliacao_Prototipo {
+  id                         String   @id @default(uuid())
+  cadastroId                 Int      @unique
+  avaliadorId                String
+  avaliado                   Boolean  @default(false)
+
+  ergonomia                  Float    @default(0)
+  desempenho_funcional       Float    @default(0)
+  qualidade_construtiva      Float    @default(0)
+  durabilidade               Float    @default(0)
+  receptividade_interacao    Float    @default(0)
+  compatibilidade_preliminar Float    @default(0)
+  observacoes                String?  @db.Text
+
+  criadoEm                   DateTime @default(now())
+  atualizadoEm               DateTime @default(now()) @updatedAt
+
+  avaliador                  Usuario  @relation(fields: [avaliadorId], references: [id])
+  cadastro                   Cadastro @relation(fields: [cadastroId], references: [id])
+
+  @@unique([cadastroId, avaliadorId])
+  @@map("avaliacoes_prototipo")
+}
+
+model Avaliacao_Basico {
+  id                        String   @id @default(uuid())
+  cadastroId                Int      @unique
+  avaliadorId               String
+  avaliado                  Boolean  @default(false)
+
+  qualidade_detalhamento    Float    @default(0)
+  coerencia_compatibilidade Float    @default(0)
+  exequibiliade             Float    @default(0)
+  sustentabilidade          Float    @default(0)
+  viabilidade_economica     Float    @default(0)
+  qualidade_grafica         Float    @default(0)
+  observacoes               String?  @db.Text
+
+  criadoEm                  DateTime @default(now())
+  atualizadoEm              DateTime @default(now()) @updatedAt
+
+  avaliador                 Usuario  @relation(fields: [avaliadorId], references: [id])
+  cadastro                  Cadastro @relation(fields: [cadastroId], references: [id])
+
+  @@unique([cadastroId, avaliadorId])
+  @@map("avaliacoes_basicos")
 }
 
 enum Tipo_Mobiliario {
