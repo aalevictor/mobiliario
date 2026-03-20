@@ -375,7 +375,7 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                     )}
                 </CardContent>
             </Card>
-            <Card>
+            {cadastro.finalista && <Card>
                 <CardHeader>
                     <CardTitle className="text-xl sm:text-2xl">Avaliação de Protótipo</CardTitle>
                 </CardHeader>
@@ -393,8 +393,8 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                         />
                     )}
                 </CardContent>
-            </Card>
-            <Card>
+            </Card>}
+            {cadastro.finalista && <Card>
                 <CardHeader>
                     <CardTitle className="text-xl sm:text-2xl">Avaliação de Projeto em Nível Básico</CardTitle>
                 </CardHeader>
@@ -412,7 +412,7 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                         />
                     )}
                 </CardContent>
-            </Card>
+            </Card>}
         </div>
     </div>)
 }
