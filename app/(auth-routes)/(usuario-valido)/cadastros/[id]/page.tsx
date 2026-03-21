@@ -204,6 +204,7 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
 
 async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: string }) {
     const cadastro = await buscarCadastroJulgadora(+id, usuarioId);
+    const avaliacao_fase2 = false;
     if (!cadastro) redirect('/cadastros');
     const podeDownload = await verificarPermissoes(usuarioId, ["JULGADORA"]);
     let projetos: (Partial<Arquivo> & { nome: string })[] = [];
@@ -306,7 +307,7 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                     )}
                 </CardContent>
             </Card>
-            {projetos2NaoIdentificados.length > 0 && (
+            {projetos2NaoIdentificados.length > 0 && avaliacao_fase2 && (
                 <Card>
                     <CardHeader className="pb-4">
                         <div className="flex items-center gap-3">
