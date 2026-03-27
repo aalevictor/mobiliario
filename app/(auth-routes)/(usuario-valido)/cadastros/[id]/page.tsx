@@ -17,11 +17,14 @@ import AvaliacaoBasico from "./_components/avaliacao-basico"
 import IniciarAvaliacaoButton from "./_components/iniciar-avaliacao-button";
 import IniciarAvaliacaoGenericaButton from "./_components/iniciar-avaliacao-generica-button";
 import MobiliariosSection from "./_components/mobiliarios-section";
+import { Badge } from "@/components/ui/badge";
+import { PROPOSTA_LABELS } from "@/lib/proposta-labels";
 
 async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string }) {
     const cadastro = await buscarCadastro(+id);
     if (!cadastro) redirect('/cadastros');
     const podeDownload = await verificarPermissoes(usuarioId, ["ADMIN", "DEV"]);
+    const isDev = await verificarPermissoes(usuarioId, ["DEV"]);
     return (<div className="px-0 md:px-8 relative h-full container mx-auto py-8">
         <div className="space-y-2 max-w-6xl mx-auto">
             {/* Seção Projetos */}
@@ -197,7 +200,7 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
                     </div>
                 </CardContent>
             </Card>
-            <CadastroClientWrapper initialCadastro={cadastro} podeDownload={podeDownload} />
+            <CadastroClientWrapper initialCadastro={cadastro} podeDownload={podeDownload} isDev={isDev} />
         </div>
     </div>)
 }
@@ -268,6 +271,12 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                                             <p className="text-sm text-gray-600">
                                                 Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
                                             </p>
+                                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                            {(arquivo as any).proposta && (arquivo as any).proposta !== 'FASE1' && (
+                                                <Badge variant="secondary" className="mt-1 text-xs">
+                                                    {PROPOSTA_LABELS[(arquivo as any).proposta] ?? (arquivo as any).proposta}
+                                                </Badge>
+                                            )}
                                         </div>
                                     </div>
                                     {podeDownload && arquivo.id && (
@@ -328,6 +337,12 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                                             <p className="text-sm text-gray-600">
                                                 Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
                                             </p>
+                                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                            {(arquivo as any).proposta && (arquivo as any).proposta !== 'FASE1' && (
+                                                <Badge variant="secondary" className="mt-1 text-xs">
+                                                    {PROPOSTA_LABELS[(arquivo as any).proposta] ?? (arquivo as any).proposta}
+                                                </Badge>
+                                            )}
                                         </div>
                                     </div>
                                     {podeDownload && arquivo.id && (

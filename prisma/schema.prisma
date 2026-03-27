@@ -280,15 +280,50 @@ model ArquivoInforme {
   @@map("arquivos_informes")
 }
 
+enum Proposta {
+  FASE1
+
+  // Grupo 1 — Utilidade Pública com infraestrutura integrada
+  G1_QUIOSQUE_MEDIO_PORTE
+  G1_QUIOSQUE_GRANDE_PORTE
+  G1_SANITARIO_PUBLICO
+  G1_TOTEM_MARCO_REFERENCIAL
+  G1_TOTEM_DE_APOIO
+  G1_BEBEDOURO
+
+  // Grupo 2 — Descanso, Convívio, Proteção e Utilidade Pública sem infraestrutura integrada
+  G2_BANCO_COLETIVO_SEM_ENCOSTO
+  G2_BANCO_COLETIVO_COM_ENCOSTO
+  G2_BANCO_COLETIVO_COM_ENCOSTO_E_APOIOS
+  G2_PAPELEIRA_INDIVIDUAL
+  G2_PAPELEIRA_DUPLA
+  G2_PARACICLO_UNITARIO
+  G2_CONJUNTO_DE_PARACICLOS
+  G2_TOTEM_ORIENTATIVO
+  G2_GUARDA_CORPO_FIXO
+  G2_GUARDA_CORPO_MOVEL
+  G2_BALIZADOR_FLEXIVEL
+  G2_BALIZADOR_SOLIDO
+
+  // Grupo 3 — Paisagem, ambientação e adaptação climática
+  G3_FLOREIRA
+  G3_VASO
+  G3_ELEMENTO_DE_SOMBREAMENTO_VERDE
+  G3_TUTOR_PARA_PLANTAS
+  G3_PROTETOR_DE_RAIZES
+}
+
 model Arquivo {
   id           String      @id @default(uuid())
   caminho      String
   tipo         TipoArquivo
+  proposta     Proposta    @default(FASE1)
   cadastroId   Int
   criadoEm     DateTime    @default(now())
   atualizadoEm DateTime    @default(now())
   tamanho      Int?
   cadastro     Cadastro    @relation(fields: [cadastroId], references: [id])
+
 
   @@map("arquivos")
 }

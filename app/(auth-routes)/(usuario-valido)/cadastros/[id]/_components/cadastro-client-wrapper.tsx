@@ -2,22 +2,23 @@
 
 import { useState, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { FileText, FolderOpen, Loader2, Trash2 } from "lucide-react"
+import { FileText, FolderOpen } from "lucide-react"
 import { Arquivo, TipoArquivo } from "@prisma/client"
 import { ICadastroBusca } from "@/services/cadastros"
 import DownloadButton from "./download-button"
 import ViewModalButton from "./view-modal-button"
 import ViewButton from "./view-button"
-import FormArquivos from "./form-arquivos"
-import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
+import DevUploadForm from "./dev-upload-form"
+import PropostaSelect from "./proposta-select"
 
 interface CadastroClientWrapperProps {
     initialCadastro: ICadastroBusca
     podeDownload: boolean
+    isDev?: boolean
 }
 
-export default function CadastroClientWrapper({ initialCadastro, podeDownload }: CadastroClientWrapperProps) {
+export default function CadastroClientWrapper({ initialCadastro, podeDownload, isDev }: CadastroClientWrapperProps) {
     const [cadastro, setCadastro] = useState(initialCadastro)
     const [deletingFileId, setDeletingFileId] = useState<string | null>(null)
     
@@ -342,7 +343,14 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                         </div>
                                     </div>
                                     {podeDownload && arquivo.id && (
-                                        <div className="flex flex-wrap gap-2 md:justify-end">
+                                        <div className="flex flex-wrap gap-2 md:justify-end items-center">
+                                            <PropostaSelect
+                                                cadastroId={cadastro.id!}
+                                                arquivoId={arquivo.id}
+                                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                proposta={(arquivo as any).proposta ?? "FASE1"}
+                                                onUpdate={handleRefreshCadastro}
+                                            />
                                             <ViewButton
                                                 cadastroId={cadastro.id!}
                                                 arquivoId={arquivo.id}
@@ -406,7 +414,14 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                                         </div>
                                     </div>
                                     {podeDownload && arquivo.id && (
-                                        <div className="flex flex-wrap gap-2 md:justify-end">
+                                        <div className="flex flex-wrap gap-2 md:justify-end items-center">
+                                            <PropostaSelect
+                                                cadastroId={cadastro.id!}
+                                                arquivoId={arquivo.id}
+                                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                proposta={(arquivo as any).proposta ?? "FASE1"}
+                                                onUpdate={handleRefreshCadastro}
+                                            />
                                             <ViewButton
                                                 cadastroId={cadastro.id!}
                                                 arquivoId={arquivo.id}
@@ -442,6 +457,14 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload }:
                     )}
                 </CardContent>
             </Card>
+
+            {/* Upload DEV — sem restrição de prazo */}
+            {isDev && (
+                <DevUploadForm
+                    cadastroId={cadastro.id!}
+                    onSuccess={handleRefreshCadastro}
+                />
+            )}
         </>
     )
 }

@@ -112,6 +112,35 @@ export async function DELETE(
     }
 }
 
+export async function PATCH(
+    request: NextRequest,
+    context: { params: Promise<{ id: string; arquivoId: string }> }
+) {
+    const session = await auth();
+    if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+    const validaPermissao = await verificarPermissoes(session.user.id, ["DEV", "ADMIN"]);
+    if (!validaPermissao) return NextResponse.json({ error: "Acesso restrito a DEV/ADMIN" }, { status: 403 });
+
+    const { id, arquivoId } = await context.params;
+    const cadastroId = parseInt(id);
+
+    const body = await request.json();
+    const { proposta } = body;
+
+    if (!proposta) return NextResponse.json({ error: "Campo 'proposta' não informado" }, { status: 400 });
+
+    const arquivo = await db.arquivo.findFirst({ where: { id: arquivoId, cadastroId } });
+    if (!arquivo) return NextResponse.json({ error: "Arquivo não encontrado" }, { status: 404 });
+
+    const atualizado = await db.arquivo.update({
+        where: { id: arquivoId },
+        data: { proposta },
+    });
+
+    return NextResponse.json(atualizado);
+}
+
 export async function GET(
     request: NextRequest,
     context: { params: Promise<{ id: string; arquivoId: string }> }

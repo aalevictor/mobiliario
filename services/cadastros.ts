@@ -1004,6 +1004,7 @@ async function buscarCadastroJulgadora(id: number, avaliadorId: string) {
           id: true,
           caminho: true,
           tipo: true,
+          proposta: true,
           criadoEm: true
         }
       },
