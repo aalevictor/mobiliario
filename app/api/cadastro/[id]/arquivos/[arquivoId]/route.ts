@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/prisma";
+import { Proposta } from "@prisma/client";
 import { unlink } from "fs/promises";
 import { join } from "path";
 import { verificarPermissoes } from "@/services/usuarios";
@@ -140,7 +141,7 @@ export async function PATCH(
         await db.arquivoProposta.deleteMany({ where: { arquivoId } });
         if (propostas.length > 0) {
             await db.arquivoProposta.createMany({
-                data: propostas.map((p: string) => ({ arquivoId, proposta: p })),
+                data: propostas.map((p: string) => ({ arquivoId, proposta: p as Proposta })),
             });
         }
     }
