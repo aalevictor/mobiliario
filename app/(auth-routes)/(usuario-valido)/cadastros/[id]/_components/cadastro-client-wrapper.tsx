@@ -11,6 +11,7 @@ import ViewButton from "./view-button"
 import { toast } from "sonner"
 import DevUploadForm from "./dev-upload-form"
 import PropostaSelect from "./proposta-select"
+import LiberarFase2Button from "./liberar-fase2-button"
 
 interface CadastroClientWrapperProps {
     initialCadastro: ICadastroBusca
@@ -415,6 +416,13 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload, i
                                     </div>
                                     {podeDownload && arquivo.id && (
                                         <div className="flex flex-wrap gap-2 md:justify-end items-center">
+                                            <LiberarFase2Button
+                                                cadastroId={cadastro.id!}
+                                                arquivoId={arquivo.id}
+                                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                liberado={(arquivo as any).liberadoFase2 ?? false}
+                                                onUpdate={handleRefreshCadastro}
+                                            />
                                             <PropostaSelect
                                                 cadastroId={cadastro.id!}
                                                 arquivoId={arquivo.id}

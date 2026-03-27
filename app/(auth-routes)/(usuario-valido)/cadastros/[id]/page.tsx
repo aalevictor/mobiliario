@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Arquivo, Participante } from "@prisma/client";
 import { auth } from "@/auth";
 import { retornaPermissao, verificarPermissoes } from "@/services/usuarios";
+import { db } from "@/lib/prisma";
 import DownloadButton from "./_components/download-button";
 import ViewModalButton from "./_components/view-modal-button";
 import ViewButton from "./_components/view-button";
@@ -207,7 +208,8 @@ async function CadastroAdmin({ id, usuarioId }: { id: string, usuarioId: string 
 
 async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: string }) {
     const cadastro = await buscarCadastroJulgadora(+id, usuarioId);
-    const avaliacao_fase2 = false;
+    const toggle_avaliacao_fase2 = await db.funcoesToggle.findUnique({ where: { nome: "avaliacao_fase2" } });
+    const avaliacao_fase2 = toggle_avaliacao_fase2?.status ?? false;
     if (!cadastro) redirect('/cadastros');
     const podeDownload = await verificarPermissoes(usuarioId, ["JULGADORA"]);
     let projetos: (Partial<Arquivo> & { nome: string })[] = [];

@@ -7,6 +7,16 @@ datasource db {
   url       = env("DATABASE_URL")
 }
 
+model FuncoesToggle {
+  id         String   @id @default(uuid())
+  nome       String   @unique
+  status     Boolean  @default(false)
+  criadoEm   DateTime @default(now())
+  atualizadoEm DateTime @default(now()) @updatedAt
+
+  @@map("funcoes_toggle")
+}
+
 model Usuario {
   id                     String                 @id @default(uuid())
   nome                   String
@@ -314,16 +324,16 @@ enum Proposta {
 }
 
 model Arquivo {
-  id           String      @id @default(uuid())
-  caminho      String
-  tipo         TipoArquivo
-  proposta     Proposta    @default(FASE1)
-  cadastroId   Int
-  criadoEm     DateTime    @default(now())
-  atualizadoEm DateTime    @default(now())
-  tamanho      Int?
-  cadastro     Cadastro    @relation(fields: [cadastroId], references: [id])
-
+  id            String      @id @default(uuid())
+  caminho       String
+  tipo          TipoArquivo
+  proposta      Proposta    @default(FASE1)
+  liberadoFase2 Boolean     @default(false)
+  cadastroId    Int
+  criadoEm      DateTime    @default(now())
+  atualizadoEm  DateTime    @default(now())
+  tamanho       Int?
+  cadastro      Cadastro    @relation(fields: [cadastroId], references: [id])
 
   @@map("arquivos")
 }
