@@ -126,20 +126,31 @@ export async function PATCH(
     const cadastroId = parseInt(id);
 
     const body = await request.json();
-    const { proposta, liberadoFase2 } = body;
+    const { propostas, liberadoFase2 } = body;
 
-    if (proposta === undefined && liberadoFase2 === undefined)
+    if (propostas === undefined && liberadoFase2 === undefined)
         return NextResponse.json({ error: "Nenhum campo para atualizar" }, { status: 400 });
 
     const arquivo = await db.arquivo.findFirst({ where: { id: arquivoId, cadastroId } });
     if (!arquivo) return NextResponse.json({ error: "Arquivo não encontrado" }, { status: 404 });
 
+    if (propostas !== undefined) {
+        if (!Array.isArray(propostas))
+            return NextResponse.json({ error: "'propostas' deve ser um array" }, { status: 400 });
+        await db.arquivoProposta.deleteMany({ where: { arquivoId } });
+        if (propostas.length > 0) {
+            await db.arquivoProposta.createMany({
+                data: propostas.map((p: string) => ({ arquivoId, proposta: p })),
+            });
+        }
+    }
+
     const atualizado = await db.arquivo.update({
         where: { id: arquivoId },
         data: {
-            ...(proposta !== undefined && { proposta }),
             ...(liberadoFase2 !== undefined && { liberadoFase2 }),
         },
+        include: { propostas: true },
     });
 
     return NextResponse.json(atualizado);

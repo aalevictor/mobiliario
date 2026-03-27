@@ -978,7 +978,7 @@ async function buscarCadastro(id: number): Promise<ICadastroBusca | null> {
     where: { id },
     include: {
       participantes: true,
-      arquivos: true,
+      arquivos: { include: { propostas: true } },
       avaliacao_licitadora: true,
       mobiliarios: {
         include: {
@@ -1007,8 +1007,8 @@ async function buscarCadastroJulgadora(id: number, avaliadorId: string) {
           id: true,
           caminho: true,
           tipo: true,
-          proposta: true,
-          criadoEm: true
+          criadoEm: true,
+          propostas: { select: { proposta: true } }
         }
       },
       avaliacoes_julgadora: {

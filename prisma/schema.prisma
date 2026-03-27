@@ -324,18 +324,28 @@ enum Proposta {
 }
 
 model Arquivo {
-  id            String      @id @default(uuid())
+  id            String           @id @default(uuid())
   caminho       String
   tipo          TipoArquivo
-  proposta      Proposta    @default(FASE1)
-  liberadoFase2 Boolean     @default(false)
+  liberadoFase2 Boolean          @default(false)
   cadastroId    Int
-  criadoEm      DateTime    @default(now())
-  atualizadoEm  DateTime    @default(now())
+  criadoEm      DateTime         @default(now())
+  atualizadoEm  DateTime         @default(now())
   tamanho       Int?
-  cadastro      Cadastro    @relation(fields: [cadastroId], references: [id])
+  cadastro      Cadastro         @relation(fields: [cadastroId], references: [id])
+  propostas     ArquivoProposta[]
 
   @@map("arquivos")
+}
+
+model ArquivoProposta {
+  id        String   @id @default(uuid())
+  arquivoId String
+  proposta  Proposta
+  arquivo   Arquivo  @relation(fields: [arquivoId], references: [id], onDelete: Cascade)
+
+  @@unique([arquivoId, proposta])
+  @@map("arquivo_propostas")
 }
 
 model Duvida {

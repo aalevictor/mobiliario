@@ -274,11 +274,15 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                                                 Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
                                             </p>
                                             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                                            {(arquivo as any).proposta && (arquivo as any).proposta !== 'FASE1' && (
-                                                <Badge variant="secondary" className="mt-1 text-xs">
-                                                    {PROPOSTA_LABELS[(arquivo as any).proposta] ?? (arquivo as any).proposta}
-                                                </Badge>
-                                            )}
+                                            {((arquivo as any).propostas as { proposta: string }[] | undefined)?.length ? (
+                                                <div className="flex flex-wrap gap-1 mt-1">
+                                                    {((arquivo as any).propostas as { proposta: string }[]).map(({ proposta }) => (
+                                                        <Badge key={proposta} variant="secondary" className="text-xs">
+                                                            {PROPOSTA_LABELS[proposta] ?? proposta}
+                                                        </Badge>
+                                                    ))}
+                                                </div>
+                                            ) : null}
                                         </div>
                                     </div>
                                     {podeDownload && arquivo.id && (
@@ -340,11 +344,15 @@ async function CadastroJulgadora({ id, usuarioId }: { id: string, usuarioId: str
                                                 Enviado em {arquivo.criadoEm ? new Date(arquivo.criadoEm).toLocaleDateString('pt-BR') : '---'}
                                             </p>
                                             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                                            {(arquivo as any).proposta && (arquivo as any).proposta !== 'FASE1' && (
-                                                <Badge variant="secondary" className="mt-1 text-xs">
-                                                    {PROPOSTA_LABELS[(arquivo as any).proposta] ?? (arquivo as any).proposta}
-                                                </Badge>
-                                            )}
+                                            {((arquivo as any).propostas as { proposta: string }[] | undefined)?.length ? (
+                                                <div className="flex flex-wrap gap-1 mt-1">
+                                                    {((arquivo as any).propostas as { proposta: string }[]).map(({ proposta }) => (
+                                                        <Badge key={proposta} variant="secondary" className="text-xs">
+                                                            {PROPOSTA_LABELS[proposta] ?? proposta}
+                                                        </Badge>
+                                                    ))}
+                                                </div>
+                                            ) : null}
                                         </div>
                                     </div>
                                     {podeDownload && arquivo.id && (

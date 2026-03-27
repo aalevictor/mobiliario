@@ -349,7 +349,7 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload, i
                                                 cadastroId={cadastro.id!}
                                                 arquivoId={arquivo.id}
                                                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                                proposta={(arquivo as any).proposta ?? "FASE1"}
+                                                propostas={((arquivo as any).propostas ?? []).map((p: any) => p.proposta)}
                                                 onUpdate={handleRefreshCadastro}
                                             />
                                             <ViewButton
@@ -427,7 +427,7 @@ export default function CadastroClientWrapper({ initialCadastro, podeDownload, i
                                                 cadastroId={cadastro.id!}
                                                 arquivoId={arquivo.id}
                                                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                                proposta={(arquivo as any).proposta ?? "FASE1"}
+                                                propostas={((arquivo as any).propostas ?? []).map((p: any) => p.proposta)}
                                                 onUpdate={handleRefreshCadastro}
                                             />
                                             <ViewButton
