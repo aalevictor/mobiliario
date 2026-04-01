@@ -1046,7 +1046,8 @@ async function buscarCadastroJulgadora(id: number, avaliadorId: string) {
           avaliado: true,
           criadoEm: true,
           atualizadoEm: true,
-        }
+        },
+        where: { avaliadorId }
       },
       avaliacao_basicos: {
         select: {
@@ -1061,7 +1062,8 @@ async function buscarCadastroJulgadora(id: number, avaliadorId: string) {
           avaliado: true,
           criadoEm: true,
           atualizadoEm: true,
-        }
+        },
+        where: { avaliadorId }
       },
     }
   });

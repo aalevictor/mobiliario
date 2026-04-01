@@ -31,6 +31,14 @@ export const PROPOSTA_LABELS: Record<string, string> = {
     G3_ELEMENTO_DE_SOMBREAMENTO_VERDE: "G3 - Elemento de Sombreamento Verde",
     G3_TUTOR_PARA_PLANTAS: "G3 - Tutor para Plantas",
     G3_PROTETOR_DE_RAIZES: "G3 - Protetor de Raízes",
+
+    // Documentação Técnica
+    MEMORIAL_DESCRITIVO: "Memorial Descritivo",
+    PLANILHA_QUANTIDADES: "Planilha de Quantidades",
+
+    // Documentos Extras
+    MANUAL_INSTALACAO: "Manual de Instalação",
+    OUTROS: "Outros",
 }
 
 export const PROPOSTA_GRUPOS = [
@@ -70,6 +78,20 @@ export const PROPOSTA_GRUPOS = [
             "G3_ELEMENTO_DE_SOMBREAMENTO_VERDE",
             "G3_TUTOR_PARA_PLANTAS",
             "G3_PROTETOR_DE_RAIZES",
+        ],
+    },
+    {
+        label: "Documentação Técnica",
+        items: [
+            "MEMORIAL_DESCRITIVO",
+            "PLANILHA_QUANTIDADES",
+        ],
+    },
+    {
+        label: "Documentos Extras",
+        items: [
+            "MANUAL_INSTALACAO",
+            "OUTROS",
         ],
     },
 ]

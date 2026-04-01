@@ -23,7 +23,7 @@ export async function POST(
             return NextResponse.json({ error: 'Cadastro não encontrado' }, { status: 404 })
         }
 
-        const avaliacaoExistente = await db.avaliacao_Basico.findFirst({ where: { cadastroId } })
+        const avaliacaoExistente = await db.avaliacao_Basico.findFirst({ where: { cadastroId, avaliadorId: session.user.id } })
         if (avaliacaoExistente) {
             return NextResponse.json({ error: 'Avaliação básica já existe para este cadastro' }, { status: 400 })
         }

@@ -33,7 +33,7 @@ export async function PUT(
         const body = await request.json()
         const validatedData = avaliacaoBasicoSchema.parse(body)
 
-        const avaliacaoExistente = await db.avaliacao_Basico.findFirst({ where: { cadastroId } })
+        const avaliacaoExistente = await db.avaliacao_Basico.findFirst({ where: { cadastroId, avaliadorId: session.user.id } })
         if (!avaliacaoExistente) {
             return NextResponse.json({ error: 'Avaliação não encontrada' }, { status: 404 })
         }
