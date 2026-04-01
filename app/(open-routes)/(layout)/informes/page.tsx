@@ -7,6 +7,23 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "Informe aos participantes finalistas da Fase 2",
+    subtitulo: "Tempestividade das propostas técnicas submetidas e outros informes, conforme publicação no Diário Oficial da Cidade de São Paulo em 01/04/2026",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p class="italic">A Coordenação do Concurso, nos termos do item 4 do Edital, informa:</p>
+        <p>1. As propostas técnicas em nível básico enviadas pelos participantes finalistas foram <strong>recebidas tempestivamente</strong>, nos termos do item 21 do Edital.</p>
+        <p>2. Nas versões nº 1 (sem identificação – item 17.3.1 do Edital) do arquivo <strong>CMU_01_4_MU_DE_109_A</strong> do ID <strong>MOB-2025-0502151260</strong> constou indicação do nome do participante na tabela localizada no canto superior direito da prancha; e do arquivo <strong>CMU_01_4_MU_PQ_001_A</strong> do ID <strong>MOB-2025-0687901111</strong> constou o nome do participante/responsável técnico como responsável pela elaboração das planilhas de Composição de Preço Unitário – CPU. De acordo com o item 17.3.1 do Edital, a versão 1 deverá ser apresentada com carimbo que indique somente o ID da proposta e a identificação do Concurso, memoriais e planilhas e <strong>sem quaisquer indicações de autoria e responsabilidade técnica</strong>, para apreciação da Comissão Julgadora.</p>
+        <p class="font-bold">Em observância ao item 4.2.6 do Edital, estes arquivos (documentos técnicos) serão disponibilizados com uma tarja sobreposta à identificação nas pranchas e comunicará a Comissão Julgadora, nos termos do item 4.4, acerca das irregularidades encontradas nos referidos documentos. Diante disso, a Comissão Julgadora, nos termos do item 6.3 do Edital, poderá decidir pela aceitação dos documentos com a ocultação das identificações ou por não analisá-los.</p>
+        <p>3. Após a verificação dos arquivos submetidos, a Coordenação entendeu que o conteúdo técnico de algumas pranchas poderia não encontrar correspondência direta coma exigência de nomenclatura dos arquivos conforme Anexo 04 do Termo de Referência. Isto pois, poderia haver nas mesmas pranchas informações técnicas de mais de um grupo ou informações técnicas complementares não previstas nos enquadramentos de nomenclatura, mas permitidas no bojo dos objetivos do concurso, a depender das opções projetuais adotadas pelos participantes.</p>
+        <p>Neste sentido a Coordenação deliberou, nos termos do item 22.2, que a nomenclatura dos arquivos, em eventual desacordo com o exigido no Anexo 04 do Termo de Referência, não configura impedimento para análise da Comissão Julgadora, pois essa será informada acerca da correspondência de seu conteúdo à nomenclatura do arquivo. Para tanto, <strong>a plataforma online foi aprimorada para identificação complementar dos arquivos para fins de disponibilização à Comissão Julgadora, conforme seu conteúdo e, para além das informações exigidas no Anexo 04 do Termo de Referência, como famílias de mobiliário, elementos constituintes das famílias, composição de grupos e elementos ou informações técnicas complementares.</strong></p>
+        <p>4. Por fim, informa que, diante do observado por um dos participantes, o modelo “Quadro Resumo” (aba nº 1), disponível para download na Área restrita dos participantes, nos termos dos Anexos 01, 02 e 03, não efetua a soma automática da célula G4 para definição do valor total dos custos. <strong>Por essa razão, não será levado em consideração o “Quadro Resumo” para fins de avaliação da Comissão Julgadora, mas sim o constante da “Planilha de Composição de Custos” (aba nº 2) que corresponde ao valor correto ao qual o “Quadro Resumo” deveria se referenciar. Assim, não haverá prejuízo nas avaliações das propostas técnicas dos participantes, pois será considerado os valores contidos na “Planilha de Composição de Custos” (aba nº 2), desconsiderando-se o “Quadro Resumo” (aba nº 1).</strong></p>
+        <p class="font-bold">Informamos, por fim, que o período de exposição e experimentação dos protótipos foi concluído no dia 29 de março de 2026. Agradecemos à toda a população que contribuiu com sua avaliação! </p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-04-01T12:45:00"),
+    publicado: true
+  },{
     titulo: "<span class='font-bold text-red-500'>Prazo para experimentação e avaliação pública dos protótipos</span>",
     subtitulo: "Prazo para experimentação e avaliação pública dos protótipos dispostos na Praça Dom José Gaspar se encerrará no dia <strong>29 de março de 2026</strong>",
     conteudo: `
