@@ -136,7 +136,7 @@ model Avaliacao_Julgadora {
 
 model Avaliacao_Prototipo {
   id                         String   @id @default(uuid())
-  cadastroId                 Int      @unique
+  cadastroId                 Int
   avaliadorId                String
   avaliado                   Boolean  @default(false)
 
@@ -160,7 +160,7 @@ model Avaliacao_Prototipo {
 
 model Avaliacao_Basico {
   id                        String   @id @default(uuid())
-  cadastroId                Int      @unique
+  cadastroId                Int
   avaliadorId               String
   avaliado                  Boolean  @default(false)
 
