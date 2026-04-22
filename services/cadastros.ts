@@ -840,6 +840,7 @@ async function buscarAvaliacoesExportacao({ busca, documentosEnviados, projetosE
 async function buscarAvaliacoesBasicoExportacao(): Promise<{ headers: string[], rows: (string | null)[][] }> {
   const cadastros = await db.cadastro.findMany({
     orderBy: { criadoEm: 'asc' },
+    where: { avaliacao_basicos: { some: {} } },
     select: {
       id: true,
       protocolo: true,
@@ -903,6 +904,7 @@ async function buscarAvaliacoesBasicoExportacao(): Promise<{ headers: string[], 
 async function buscarAvaliacoesPrototipoExportacao(): Promise<{ headers: string[], rows: (string | null)[][] }> {
   const cadastros = await db.cadastro.findMany({
     orderBy: { criadoEm: 'asc' },
+    where: { avaliacao_prototipos: { some: {} } },
     select: {
       id: true,
       protocolo: true,
