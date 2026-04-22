@@ -21,6 +21,8 @@ import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
 import ExportarAvaliacoes from './_components/exportar-avaliacoes';
 import ExportarAvaliacoesPublicas from './_components/exportar-avaliacoes-publicas';
+import ExportarAvaliacoesBasico from './_components/exportar-avaliacoes-basico';
+import ExportarAvaliacoesProtetipo from './_components/exportar-avaliacoes-prototipo';
 export default async function CadastrosSuspense({
 	searchParams,
 }: {
@@ -239,6 +241,8 @@ async function Cadastros({
                                 avaliacao: avaliacao as string
                             }} />
                             <ExportarAvaliacoesPublicas />
+                            <ExportarAvaliacoesBasico />
+                            <ExportarAvaliacoesProtetipo />
                         </DropdownMenuContent>
                     </DropdownMenu>
 				</CardContent>

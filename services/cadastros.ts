@@ -837,6 +837,132 @@ async function buscarAvaliacoesExportacao({ busca, documentosEnviados, projetosE
   return { headers, rows };
 }
 
+async function buscarAvaliacoesBasicoExportacao(): Promise<{ headers: string[], rows: (string | null)[][] }> {
+  const cadastros = await db.cadastro.findMany({
+    orderBy: { criadoEm: 'asc' },
+    select: {
+      id: true,
+      protocolo: true,
+      avaliacoes_basicos: {
+        include: { avaliador: true }
+      }
+    }
+  });
+
+  const headers = [
+    "ID",
+    "Média Final",
+    "Status",
+    "Observação",
+    "Avaliador",
+    "Qualidade Detalhamento",
+    "Coerência Compatibilidade",
+    "Exequibilidade",
+    "Sustentabilidade",
+    "Viabilidade Econômica",
+    "Qualidade Gráfica",
+    "Média Avaliador",
+  ];
+
+  const rows: (string | null)[][] = [];
+  cadastros.map((cadastro) => {
+    if (cadastro.avaliacoes_basicos && cadastro.avaliacoes_basicos.length > 0) {
+      const avals: string[][] = [];
+      let avaliacoesTotal = 0;
+      let avaliacoesQuant = 0;
+      cadastro.avaliacoes_basicos.map(avaliacao => {
+        const soma = (avaliacao.qualidade_detalhamento || 0) + (avaliacao.coerencia_compatibilidade || 0) + (avaliacao.exequibiliade || 0) + (avaliacao.sustentabilidade || 0) + (avaliacao.viabilidade_economica || 0) + (avaliacao.qualidade_grafica || 0);
+        const mediaAvaliador = soma / 6;
+        avaliacoesTotal += mediaAvaliador;
+        if (mediaAvaliador > 0) avaliacoesQuant++;
+        avals.push([
+          cadastro.protocolo || "",
+          "",
+          avaliacao.avaliado ? "Avaliado" : "Em avaliação",
+          avaliacao.observacoes || "",
+          avaliacao.avaliador?.nome || "",
+          `${avaliacao.qualidade_detalhamento || 0}`,
+          `${avaliacao.coerencia_compatibilidade || 0}`,
+          `${avaliacao.exequibiliade || 0}`,
+          `${avaliacao.sustentabilidade || 0}`,
+          `${avaliacao.viabilidade_economica || 0}`,
+          `${avaliacao.qualidade_grafica || 0}`,
+          `${mediaAvaliador.toFixed(2)}`,
+        ]);
+      });
+      for (let i = 0; i < avals.length; i++) avals[i][1] = avaliacoesQuant > 0 ? `${(avaliacoesTotal / avaliacoesQuant).toFixed(2)}` : "0.00";
+      if (avals.length > 0) rows.push(...avals);
+    } else {
+      rows.push([cadastro.protocolo, "", "Não avaliado", "", "", "", "", "", "", "", "", ""]);
+    }
+  });
+
+  return { headers, rows };
+}
+
+async function buscarAvaliacoesPrototipoExportacao(): Promise<{ headers: string[], rows: (string | null)[][] }> {
+  const cadastros = await db.cadastro.findMany({
+    orderBy: { criadoEm: 'asc' },
+    select: {
+      id: true,
+      protocolo: true,
+      avaliacoes_prototipo: {
+        include: { avaliador: true }
+      }
+    }
+  });
+
+  const headers = [
+    "ID",
+    "Média Final",
+    "Status",
+    "Observação",
+    "Avaliador",
+    "Ergonomia",
+    "Desempenho Funcional",
+    "Qualidade Construtiva",
+    "Durabilidade",
+    "Receptividade / Interação",
+    "Compatibilidade Preliminar",
+    "Média Avaliador",
+  ];
+
+  const rows: (string | null)[][] = [];
+  cadastros.map((cadastro) => {
+    if (cadastro.avaliacoes_prototipo && cadastro.avaliacoes_prototipo.length > 0) {
+      const avals: string[][] = [];
+      let avaliacoesTotal = 0;
+      let avaliacoesQuant = 0;
+      cadastro.avaliacoes_prototipo.map(avaliacao => {
+        const soma = (avaliacao.ergonomia || 0) + (avaliacao.desempenho_funcional || 0) + (avaliacao.qualidade_construtiva || 0) + (avaliacao.durabilidade || 0) + (avaliacao.receptividade_interacao || 0) + (avaliacao.compatibilidade_preliminar || 0);
+        const mediaAvaliador = soma / 6;
+        avaliacoesTotal += mediaAvaliador;
+        if (mediaAvaliador > 0) avaliacoesQuant++;
+        avals.push([
+          cadastro.protocolo || "",
+          "",
+          avaliacao.avaliado ? "Avaliado" : "Em avaliação",
+          avaliacao.observacoes || "",
+          avaliacao.avaliador?.nome || "",
+          `${avaliacao.ergonomia || 0}`,
+          `${avaliacao.desempenho_funcional || 0}`,
+          `${avaliacao.qualidade_construtiva || 0}`,
+          `${avaliacao.durabilidade || 0}`,
+          `${avaliacao.receptividade_interacao || 0}`,
+          `${avaliacao.compatibilidade_preliminar || 0}`,
+          `${mediaAvaliador.toFixed(2)}`,
+        ]);
+      });
+      for (let i = 0; i < avals.length; i++) avals[i][1] = avaliacoesQuant > 0 ? `${(avaliacoesTotal / avaliacoesQuant).toFixed(2)}` : "0.00";
+      if (avals.length > 0) rows.push(...avals);
+    } else {
+      rows.push([cadastro.protocolo, "", "Não avaliado", "", "", "", "", "", "", "", "", ""]);
+    }
+  });
+
+  return { headers, rows };
+}
+
 async function buscarArquivosExportacao({ busca, documentosEnviados, projetosEnviados, tipoInscricao, novos }: { busca?: string, documentosEnviados?: string, projetosEnviados?: string, tipoInscricao?: string, novos?: boolean }): Promise<{ headers: string[], rows: (string | null | undefined)[][] }> {
   const dataAberturaComplementar = new Date("2025-09-26 08:00:00")
   const dataLimiteComplementar = new Date("2025-09-26 12:00:00")
@@ -1133,4 +1259,4 @@ async function buscarAvaliacoesPublicasExportacao(): Promise<{ headers: string[]
   return { headers, rows };
 }
 
-export { buscarArquivosExportacao, buscarAvaliacoesExportacao, buscarAvaliacoesPublicasExportacao, buscarParticipantesExportacao, emailsParticipantes, emailsAprovados, geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };
+export { buscarArquivosExportacao, buscarAvaliacoesExportacao, buscarAvaliacoesBasicoExportacao, buscarAvaliacoesPrototipoExportacao, buscarAvaliacoesPublicasExportacao, buscarParticipantesExportacao, emailsParticipantes, emailsAprovados, geraProtocolo, buscarCadastro, buscarCadastroJulgadora, buscarCadastrosExportacao, criarPreCadastro, meuCadastro, buscarCadastros, criarAvaliacaoLicitadora, atualizarAvaliacaoLicitadora };

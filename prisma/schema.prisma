@@ -151,8 +151,8 @@ model Avaliacao_Prototipo {
   criadoEm                   DateTime @default(now())
   atualizadoEm               DateTime @default(now()) @updatedAt
 
-  avaliador                  Usuario  @relation(fields: [avaliadorId], references: [id])
-  cadastro                   Cadastro @relation(fields: [cadastroId], references: [id])
+  avaliador                  Usuario  @relation(fields: [avaliadorId], references: [id], map: "avaliacoes_prototipo_avaliadorId_fkey")
+  cadastro                   Cadastro @relation(fields: [cadastroId], references: [id], map: "avaliacoes_prototipo_cadastroId_fkey")
 
   @@unique([cadastroId, avaliadorId])
   @@map("avaliacoes_prototipo")
@@ -175,8 +175,8 @@ model Avaliacao_Basico {
   criadoEm                  DateTime @default(now())
   atualizadoEm              DateTime @default(now()) @updatedAt
 
-  avaliador                 Usuario  @relation(fields: [avaliadorId], references: [id])
-  cadastro                  Cadastro @relation(fields: [cadastroId], references: [id])
+  avaliador                 Usuario  @relation(fields: [avaliadorId], references: [id], map: "avaliacoes_basicos_avaliadorId_fkey")
+  cadastro                  Cadastro @relation(fields: [cadastroId], references: [id], map: "avaliacoes_basicos_cadastroId_fkey")
 
   @@unique([cadastroId, avaliadorId])
   @@map("avaliacoes_basicos")
