@@ -843,7 +843,7 @@ async function buscarAvaliacoesBasicoExportacao(): Promise<{ headers: string[], 
     select: {
       id: true,
       protocolo: true,
-      avaliacoes_basicos: {
+      avaliacao_basicos: {
         include: { avaliador: true }
       }
     }
@@ -866,11 +866,11 @@ async function buscarAvaliacoesBasicoExportacao(): Promise<{ headers: string[], 
 
   const rows: (string | null)[][] = [];
   cadastros.map((cadastro) => {
-    if (cadastro.avaliacoes_basicos && cadastro.avaliacoes_basicos.length > 0) {
+    if (cadastro.avaliacao_basicos && cadastro.avaliacao_basicos.length > 0) {
       const avals: string[][] = [];
       let avaliacoesTotal = 0;
       let avaliacoesQuant = 0;
-      cadastro.avaliacoes_basicos.map(avaliacao => {
+      cadastro.avaliacao_basicos.map(avaliacao => {
         const soma = (avaliacao.qualidade_detalhamento || 0) + (avaliacao.coerencia_compatibilidade || 0) + (avaliacao.exequibiliade || 0) + (avaliacao.sustentabilidade || 0) + (avaliacao.viabilidade_economica || 0) + (avaliacao.qualidade_grafica || 0);
         const mediaAvaliador = soma / 6;
         avaliacoesTotal += mediaAvaliador;
@@ -906,7 +906,7 @@ async function buscarAvaliacoesPrototipoExportacao(): Promise<{ headers: string[
     select: {
       id: true,
       protocolo: true,
-      avaliacoes_prototipo: {
+      avaliacao_prototipos: {
         include: { avaliador: true }
       }
     }
@@ -929,11 +929,11 @@ async function buscarAvaliacoesPrototipoExportacao(): Promise<{ headers: string[
 
   const rows: (string | null)[][] = [];
   cadastros.map((cadastro) => {
-    if (cadastro.avaliacoes_prototipo && cadastro.avaliacoes_prototipo.length > 0) {
+    if (cadastro.avaliacao_prototipos && cadastro.avaliacao_prototipos.length > 0) {
       const avals: string[][] = [];
       let avaliacoesTotal = 0;
       let avaliacoesQuant = 0;
-      cadastro.avaliacoes_prototipo.map(avaliacao => {
+      cadastro.avaliacao_prototipos.map(avaliacao => {
         const soma = (avaliacao.ergonomia || 0) + (avaliacao.desempenho_funcional || 0) + (avaliacao.qualidade_construtiva || 0) + (avaliacao.durabilidade || 0) + (avaliacao.receptividade_interacao || 0) + (avaliacao.compatibilidade_preliminar || 0);
         const mediaAvaliador = soma / 6;
         avaliacoesTotal += mediaAvaliador;
