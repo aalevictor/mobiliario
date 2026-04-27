@@ -7,6 +7,47 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "Resultado do Julgamento da Fase 2",
+    subtitulo: "Publicado no Diário Oficial da Cidade de São Paulo em 27/04/2026, nos termos do item 18.3.5 do Edital nº 001/SP-URB/2025",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p class="italic">A Coordenação do Concurso, nos termos do item 4 do Edital, informa o resultado da Fase 2 alcançado pela Comissão Julgadora, conforme súmula a seguir:</p>
+        <p><strong>Resultado e Classificação – FASE 2:</strong> Após os debates e deliberações registradas em parecer, a Comissão Julgadora classificou os vencedores deste Concurso pela seguinte ordem de pontuação, identificadas exclusivamente por seus Códigos ID: CÓDIGO IDENTIFICADOR (ID):</p>
+        <table class="w-full border-collapse border border-gray-400 text-sm">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="border border-gray-400 px-3 py-2 text-left">CÓDIGO IDENTIFICADOR (ID)</th>
+              <th class="border border-gray-400 px-3 py-2 text-left">PONTUAÇÃO</th>
+              <th class="border border-gray-400 px-3 py-2 text-left">CLASSIFICAÇÃO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border border-gray-400 px-3 py-2">MOB-2025-0393644367</td>
+              <td class="border border-gray-400 px-3 py-2">8,74</td>
+              <td class="border border-gray-400 px-3 py-2">1º</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-400 px-3 py-2">MOB-2025-0687901111</td>
+              <td class="border border-gray-400 px-3 py-2">7,19</td>
+              <td class="border border-gray-400 px-3 py-2">2º</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-400 px-3 py-2">MOB-2025-0502151260</td>
+              <td class="border border-gray-400 px-3 py-2">7,16</td>
+              <td class="border border-gray-400 px-3 py-2">3º</td>
+            </tr>
+          </tbody>
+        </table>
+        <a href="/docs/CMU_CJ_ATA_02_JULGAMENTO_FASE_2_assinado_assinado__260423_174140_assinado_29_assinado_assinado.pdf" download class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer">Baixe aqui a ata de julgamento</a>
+        <p>A Coordenação informa que após análise de eventuais recursos, nos termos do item 18.3.6, os concorrentes aqui listados serão convocados a participar presencialmente da Cerimônia de Premiação que ocorrerá no período previsto no item 21 deste Edital “Do Cronograma” para a divulgação dos vencedores e da classificação final, nos termos do item 18.4.1.</p>
+        <p>Serão convidados também os participantes que receberam menção honrosa na Fase 1 do Concurso.</p>
+        <p>A Coordenação do Concurso registra seu agradecimento a todos os participantes que dedicaram seu tempo e conhecimento técnico ao desenvolvimento de propostas, contribuindo de forma significativa para a qualificação do espaço urbano da cidade de São Paulo. Reconhece-se o empenho e a dedicação das equipes ao longo de todas as etapas do certame, bem como a relevância das contribuições apresentadas para o debate e a construção de soluções inovadoras em mobiliário urbano.</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2025-04-27T09:00:00"),
+    publicado: true
+  },{
     titulo: "Informe aos participantes finalistas da Fase 2",
     subtitulo: "Tempestividade das propostas técnicas submetidas e outros informes, conforme publicação no Diário Oficial da Cidade de São Paulo em 01/04/2026",
     conteudo: `
