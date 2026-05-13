@@ -7,6 +7,73 @@ import InformeComponent from "@/components/informe";
 
 export default async function Informes() {
   const informes = [{
+    titulo: "Anúncio dos Vencedores do Concurso",
+    subtitulo: "A Coordenação do Concurso, nos termos do item 4 do Edital, registra o resultado final do Concurso Nacional de Projetos de Mobiliário Urbano para São Paulo e apresenta os projetos vencedores:",
+    conteudo: `
+      <div class="flex flex-col gap-4 text-justify">
+        <p><strong>Resultado Final do Concurso:</strong> Após o período destinado à interposição de recursos, conforme previsto no item 18.3.6 do Edital, os três primeiros colocados e os quatro projetos indicados para menção honrosa foram convidados para a Cerimônia de Premiação, realizada em 12/05/2026, no Edifício Matarazzo, em São Paulo, com transmissão simultânea pelo YouTube.</p>
+        <p>Durante a cerimônia, foram apresentados os projetos vencedores e suas respectivas equipes, que detalhamos a seguir, incluindo o código identificador (ID), o Nome do Responsável Técnico e o link de acesso aos projetos:</p>
+        <table class="w-full border-collapse border border-gray-400 text-sm">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="border border-gray-400 px-3 py-2 text-left">RESULTADO FINAL</th>
+              <th class="border border-gray-400 px-3 py-2 text-left">CÓDIGO IDENTIFICADOR (ID)</th>
+              <th class="border border-gray-400 px-3 py-2 text-left">RESPONSÁVEL TÉCNICO</th>
+              <th class="border border-gray-400 px-3 py-2 text-left w-px whitespace-nowrap">PROJETOS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border border-gray-400 px-3 py-2">1º COLOCADO</td>
+              <td class="border border-gray-400 px-3 py-2">MOB-2025-0393644367</td>
+              <td class="border border-gray-400 px-3 py-2">Keila Jane Costa</td>
+              <td class="border border-gray-400 px-3 py-2"><a href="/resultado/projetos/MOB-2025-0393644367.pdf" target="_blank" class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer whitespace-nowrap">Baixe aqui</a></td>
+            </tr>
+            <tr>
+              <td class="border border-gray-400 px-3 py-2">2º COLOCADO</td>
+              <td class="border border-gray-400 px-3 py-2">MOB-2025-0687901111</td>
+              <td class="border border-gray-400 px-3 py-2">Felipe Kaspary</td>
+              <td class="border border-gray-400 px-3 py-2"><a href="/resultado/projetos/MOB-2025-0687901111.pdf" target="_blank" class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer whitespace-nowrap">Baixe aqui</a></td>
+            </tr>
+            <tr>
+              <td class="border border-gray-400 px-3 py-2">3º COLOCADO</td>
+              <td class="border border-gray-400 px-3 py-2">MOB-2025-0502151260</td>
+              <td class="border border-gray-400 px-3 py-2">Andrei Mikhail Zaiatz Crestani</td>
+              <td class="border border-gray-400 px-3 py-2"><a href="/resultado/projetos/MOB-2025-0502151260.pdf" target="_blank" class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer whitespace-nowrap">Baixe aqui</a></td>
+            </tr>
+            <tr>
+              <td class="border border-gray-400 px-3 py-2">MENÇÃO HONROSA</td>
+              <td class="border border-gray-400 px-3 py-2">MOB-2025-0608911324</td>
+              <td class="border border-gray-400 px-3 py-2">Soul Urbanismo Comércio de Móveis e Serviços Ltda</td>
+              <td class="border border-gray-400 px-3 py-2"><a href="/resultado/projetos/MOB-2025-0608911324.pdf" target="_blank" class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer whitespace-nowrap">Baixe aqui</a></td>
+            </tr>
+            <tr>
+              <td class="border border-gray-400 px-3 py-2">MENÇÃO HONROSA</td>
+              <td class="border border-gray-400 px-3 py-2">MOB-2025-0674026351</td>
+              <td class="border border-gray-400 px-3 py-2">André Scarpa</td>
+              <td class="border border-gray-400 px-3 py-2"><a href="/resultado/projetos/MOB-2025-0674026351.pdf" target="_blank" class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer whitespace-nowrap">Baixe aqui</a></td>
+            </tr>
+            <tr>
+              <td class="border border-gray-400 px-3 py-2">MENÇÃO HONROSA</td>
+              <td class="border border-gray-400 px-3 py-2">MOB-2025-0278010607</td>
+              <td class="border border-gray-400 px-3 py-2">Antonio Carlos Oliveira Gomes da Silva</td>
+              <td class="border border-gray-400 px-3 py-2"><a href="/resultado/projetos/MOB-2025-0278010607.pdf" target="_blank" class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer whitespace-nowrap">Baixe aqui</a></td>
+            </tr>
+            <tr>
+              <td class="border border-gray-400 px-3 py-2">MENÇÃO HONROSA</td>
+              <td class="border border-gray-400 px-3 py-2">MOB-2025-0007601151</td>
+              <td class="border border-gray-400 px-3 py-2">Gabriel Johansson Azeredo</td>
+              <td class="border border-gray-400 px-3 py-2"><a href="/resultado/projetos/MOB-2025-0007601151.pdf" target="_blank" class="bg-primary text-white text-center px-4 py-2 rounded-md hover:opacity-70 cursor-pointer whitespace-nowrap">Baixe aqui</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Os Certificados de Participação serão enviados a todas as equipes habilitadas que tenham submetido seus projetos na Fase 1 do Concurso. Os documentos serão encaminhados para os e-mails cadastrados na Plataforma.</p>
+        <p>A Coordenação do Concurso parabeniza os vencedores e expressa seu profundo agradecimento a todas as equipes que participaram e se dedicaram ao longo das etapas do Edital, contribuindo de forma significativa para ampliar a discussão e o desenvolvimento de soluções inovadoras para nossa cidade.</p>
+      </div>
+    `,
+    dataPublicacao: new Date("2026-05-13T18:00:00"),
+    publicado: true
+  },{
     titulo: "Resultado do Julgamento da Fase 2",
     subtitulo: "Publicado no Diário Oficial da Cidade de São Paulo em 27/04/2026, nos termos do item 18.3.5 do Edital nº 001/SP-URB/2025",
     conteudo: `
