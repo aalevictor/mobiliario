@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(ls /d/www/assi/mobiliario/app/\\\\\\(auth-routes\\\\\\)/\\\\\\(usuario-valido\\\\\\)/\\\\\\(participante-routes\\\\\\)/)",
+      "Bash(/dev/null --include=\"*.js\" -l)",
+      "Bash(npx prisma:*)",
+      "Bash(ls /d/www/assi/mobiliario/app/\\\\\\(auth-routes\\\\\\)/\\\\\\(usuario-valido\\\\\\)/cadastros/[id]/_components/)"
+    ]
+  }
+}

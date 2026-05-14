@@ -1,67 +1,58 @@
-# Dockerfile alternativo para CentOS 7
-# Usa imagem base diferente para evitar problemas de compatibilidade
+FROM node:20-slim AS base
 
-# Tenta uma imagem base mais compatível com CentOS 7
-FROM node:20-slim
+# ---- Stage 1: instala dependências ----
+FROM base AS deps
+RUN apt-get update && apt-get install -y openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY package*.json ./
+COPY prisma ./prisma/
+RUN npm ci --no-audit --no-fund
 
-# Instala dependências necessárias
-RUN apt-get update && apt-get install -y \
-    curl \
-    openssl \
-    ca-certificates \
-    tzdata \
+# ---- Stage 2: build ----
+FROM base AS builder
+RUN apt-get update && apt-get install -y openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npx prisma generate
+RUN npm run build
+
+# ---- Stage 3: runner (imagem final mínima) ----
+FROM base AS runner
+RUN apt-get update && apt-get install -y curl openssl ca-certificates tzdata \
     && rm -rf /var/lib/apt/lists/* \
     && update-ca-certificates
 
-# Define o diretório de trabalho
 WORKDIR /app
 
-# Copia arquivos de dependências primeiro (para cache de layer)
-COPY package*.json ./
-COPY prisma ./prisma/
-
-# Instala dependências
-RUN npm ci --only=production --no-audit --no-fund
-
-# Instala dev dependencies temporariamente para build
-RUN npm ci --no-audit --no-fund
-
-# Copia o código fonte
-COPY . .
-
-# Gera o cliente Prisma
-RUN npx prisma generate
-
-# Faz o build da aplicação
-RUN npm run build
-
-# Remove dev dependencies para reduzir tamanho da imagem
-RUN npm prune --production
-
-# Cria usuário não-root para segurança
-RUN groupadd -g 1001 nodejs
-RUN useradd -r -u 1001 -g nodejs nextjs
-
-# Cria diretórios necessários
-RUN mkdir -p /app/uploads /app/logs
-RUN chown -R nextjs:nodejs /app/uploads /app/logs /app/.next || true
-
-# Muda para usuário não-root
-USER nextjs
-
-# Expõe a porta 3500 (conforme requisito)
-EXPOSE 3500
-
-# Define variáveis de ambiente para produção
 ENV NODE_ENV=production
 ENV PORT=3500
 ENV HOSTNAME="0.0.0.0"
 ENV ENVIRONMENT=production
 
-# Healthcheck para monitoramento
+RUN groupadd -g 1001 nodejs \
+    && useradd -r -u 1001 -g nodejs nextjs \
+    && mkdir -p /app/uploads /app/logs
+
+# Bundle standalone do Next.js (inclui node_modules mínimos para rodar)
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Prisma CLI + engines para rodar db push na inicialização
+COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+
+RUN chown -R nextjs:nodejs /app/uploads /app/logs
+
+USER nextjs
+
+EXPOSE 3500
+
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:3500/api/health || exit 1
 
-# Explicitamente remove qualquer entrypoint herdado
 ENTRYPOINT []
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
