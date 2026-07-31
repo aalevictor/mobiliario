@@ -60,22 +60,15 @@ export default function ExportarArquivosZip() {
                     toast.loading(`Preparando arquivo ZIP... ${percentual}% (${progresso.processado}/${progresso.total})`, { id: toastId });
                 }
 
-                toast.loading('Baixando arquivo...', { id: toastId });
-                const downloadResponse = await fetch(`/api/cadastro/exportar-arquivos-zip/download?jobId=${jobId}`);
-                if (!downloadResponse.ok) {
-                    const erro = await downloadResponse.json().catch(() => null);
-                    throw new Error(erro?.error || 'Erro ao baixar arquivo');
-                }
-                const blob = await downloadResponse.blob();
-                const url = window.URL.createObjectURL(blob);
+                // Navegação nativa (sem fetch/blob): o navegador baixa o arquivo direto pro disco,
+                // com a própria barra de progresso dele, em vez de bufferizar o zip inteiro na aba.
                 const a = document.createElement('a');
-                a.href = url;
+                a.href = `/api/cadastro/exportar-arquivos-zip/download?jobId=${jobId}`;
                 a.download = `arquivos-inscritos-${new Date().toISOString().split('T')[0]}.zip`;
                 document.body.appendChild(a);
                 a.click();
-                window.URL.revokeObjectURL(url);
                 document.body.removeChild(a);
-                toast.success('Download concluído', { id: toastId });
+                toast.success('Download iniciado — acompanhe pelo gerenciador de downloads do navegador', { id: toastId });
             } catch (error) {
                 toast.error(error instanceof Error ? error.message : 'Erro ao exportar arquivos', { id: toastId });
             }
