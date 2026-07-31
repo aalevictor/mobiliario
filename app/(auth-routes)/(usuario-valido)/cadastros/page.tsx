@@ -23,6 +23,7 @@ import ExportarAvaliacoes from './_components/exportar-avaliacoes';
 import ExportarAvaliacoesPublicas from './_components/exportar-avaliacoes-publicas';
 import ExportarAvaliacoesBasico from './_components/exportar-avaliacoes-basico';
 import ExportarAvaliacoesProtetipo from './_components/exportar-avaliacoes-prototipo';
+import ExportarArquivosZip from './_components/exportar-arquivos-zip';
 export default async function CadastrosSuspense({
 	searchParams,
 }: {
@@ -243,6 +244,7 @@ async function Cadastros({
                             <ExportarAvaliacoesPublicas />
                             <ExportarAvaliacoesBasico />
                             <ExportarAvaliacoesProtetipo />
+                            {permissao === "DEV" && <ExportarArquivosZip />}
                         </DropdownMenuContent>
                     </DropdownMenu>
 				</CardContent>
