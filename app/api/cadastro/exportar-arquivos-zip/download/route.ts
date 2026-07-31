@@ -2,9 +2,7 @@ import { auth } from "@/auth";
 import { verificarPermissoes } from "@/services/usuarios";
 import { NextRequest, NextResponse } from "next/server";
 import { obterJob, removerJob } from "@/lib/zip-jobs";
-import { createReadStream } from "fs";
-import { unlink } from "fs/promises";
-import { Readable } from "stream";
+import { readFile, unlink } from "fs/promises";
 
 export async function GET(request: NextRequest) {
     const session = await auth();
@@ -29,13 +27,17 @@ export async function GET(request: NextRequest) {
     const caminhoArquivo = job.caminhoArquivo;
     removerJob(jobId);
 
-    const fileStream = createReadStream(caminhoArquivo);
-    fileStream.on('close', () => {
-        unlink(caminhoArquivo).catch(() => {});
-    });
+    let zipBuffer: Buffer;
+    try {
+        zipBuffer = await readFile(caminhoArquivo);
+    } catch (error) {
+        console.error('Erro ao ler zip gerado:', error);
+        return NextResponse.json({ error: "Erro ao ler o arquivo gerado" }, { status: 500 });
+    }
+    unlink(caminhoArquivo).catch(() => {});
 
     const filename = `arquivos-inscritos-${new Date().toISOString().split('T')[0]}.zip`;
-    return new NextResponse(Readable.toWeb(fileStream) as unknown as ReadableStream, {
+    return new NextResponse(new Uint8Array(zipBuffer), {
         headers: {
             'Content-Type': 'application/zip',
             'Content-Disposition': `attachment; filename="${filename}"`,
