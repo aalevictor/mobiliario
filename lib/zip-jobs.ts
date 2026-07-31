@@ -1,10 +1,12 @@
+import { unlink } from "fs/promises";
+
 export type ZipJobStatus = 'processando' | 'concluido' | 'erro';
 
 export interface ZipJob {
     status: ZipJobStatus;
     processado: number;
     total: number;
-    buffer?: Buffer;
+    caminhoArquivo?: string;
     erro?: string;
     criadoEm: number;
 }
@@ -16,7 +18,10 @@ const TTL_MS = 30 * 60 * 1000;
 function limparJobsExpirados() {
     const agora = Date.now();
     for (const [id, job] of jobs) {
-        if (agora - job.criadoEm > TTL_MS) jobs.delete(id);
+        if (agora - job.criadoEm > TTL_MS) {
+            jobs.delete(id);
+            if (job.caminhoArquivo) unlink(job.caminhoArquivo).catch(() => {});
+        }
     }
 }
 
@@ -32,11 +37,11 @@ export function atualizarProgresso(id: string, processado: number, total: number
     job.total = total;
 }
 
-export function concluirJob(id: string, buffer: Buffer) {
+export function concluirJob(id: string, caminhoArquivo: string) {
     const job = jobs.get(id);
     if (!job) return;
     job.status = 'concluido';
-    job.buffer = buffer;
+    job.caminhoArquivo = caminhoArquivo;
 }
 
 export function falharJob(id: string, erro: string) {

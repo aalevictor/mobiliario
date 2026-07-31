@@ -2,6 +2,9 @@ import { auth } from "@/auth";
 import { verificarPermissoes } from "@/services/usuarios";
 import { NextRequest, NextResponse } from "next/server";
 import { obterJob, removerJob } from "@/lib/zip-jobs";
+import { createReadStream } from "fs";
+import { unlink } from "fs/promises";
+import { Readable } from "stream";
 
 export async function GET(request: NextRequest) {
     const session = await auth();
@@ -19,15 +22,20 @@ export async function GET(request: NextRequest) {
     }
 
     const job = obterJob(jobId);
-    if (!job || job.status !== 'concluido' || !job.buffer) {
+    if (!job || job.status !== 'concluido' || !job.caminhoArquivo) {
         return NextResponse.json({ error: "Arquivo ainda não está pronto" }, { status: 409 });
     }
 
-    const filename = `arquivos-inscritos-${new Date().toISOString().split('T')[0]}.zip`;
-    const zipBuffer = job.buffer;
+    const caminhoArquivo = job.caminhoArquivo;
     removerJob(jobId);
 
-    return new NextResponse(new Uint8Array(zipBuffer), {
+    const fileStream = createReadStream(caminhoArquivo);
+    fileStream.on('close', () => {
+        unlink(caminhoArquivo).catch(() => {});
+    });
+
+    const filename = `arquivos-inscritos-${new Date().toISOString().split('T')[0]}.zip`;
+    return new NextResponse(Readable.toWeb(fileStream) as unknown as ReadableStream, {
         headers: {
             'Content-Type': 'application/zip',
             'Content-Disposition': `attachment; filename="${filename}"`,

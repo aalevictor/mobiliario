@@ -34,14 +34,24 @@ export default function ExportarArquivosZip() {
                 }
 
                 let status: IProgresso['status'] = 'processando';
+                let falhasConsecutivas = 0;
                 while (status === 'processando') {
                     await aguardar(1000);
-                    const progressoResponse = await fetch(`/api/cadastro/exportar-arquivos-zip/progresso?jobId=${jobId}`);
-                    if (!progressoResponse.ok) {
-                        const erro = await progressoResponse.json().catch(() => null);
-                        throw new Error(erro?.error || 'Erro ao acompanhar exportação');
+                    let progresso: IProgresso;
+                    try {
+                        const progressoResponse = await fetch(`/api/cadastro/exportar-arquivos-zip/progresso?jobId=${jobId}`);
+                        if (!progressoResponse.ok) {
+                            const erro = await progressoResponse.json().catch(() => null);
+                            throw new Error(erro?.error || 'Erro ao acompanhar exportação');
+                        }
+                        progresso = await progressoResponse.json();
+                        falhasConsecutivas = 0;
+                    } catch (erroConsulta) {
+                        // Tolera soluços transitórios (rede/proxy) sem abortar a exportação inteira
+                        falhasConsecutivas++;
+                        if (falhasConsecutivas >= 5) throw erroConsulta;
+                        continue;
                     }
-                    const progresso: IProgresso = await progressoResponse.json();
                     status = progresso.status;
                     if (status === 'erro') {
                         throw new Error(progresso.erro || 'Erro ao gerar o arquivo ZIP');
