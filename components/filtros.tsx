@@ -11,6 +11,9 @@ import React, { useEffect, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { cn } from '@/lib/utils';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
+import { TiposFiltros } from '@/lib/tipos-filtros';
+
+export { TiposFiltros };
 
 interface CampoFiltravel {
 	nome: string;
@@ -19,14 +22,6 @@ interface CampoFiltravel {
 	default?: string;
 	valores?: CampoSelect[] | CampoDataRange
 	placeholder?: string
-}
-
-export enum TiposFiltros {
-	TEXTO,
-	DATA,
-	SELECT,
-	AUTOCOMPLETE,
-	MULTISELECT
 }
 
 interface CampoSelect {

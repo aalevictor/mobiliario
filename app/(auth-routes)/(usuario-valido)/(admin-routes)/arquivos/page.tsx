@@ -1,7 +1,8 @@
 /** @format */
 
 import DataTable, { TableSkeleton } from '@/components/data-table';
-import { Filtros, TiposFiltros } from '@/components/filtros';
+import { Filtros } from '@/components/filtros';
+import { TiposFiltros } from '@/lib/tipos-filtros';
 import Pagination from '@/components/pagination';
 import { Suspense } from 'react';
 import { columns } from './_components/columns';
