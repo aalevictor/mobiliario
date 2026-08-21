@@ -64,7 +64,12 @@ async function Arquivos({
 		console.error(error);
 	}
 
-	const tiposDisponiveis = await buscarTiposArquivoDisponiveis();
+	let tiposDisponiveis: { value: string; label: string }[] = [];
+	try {
+		tiposDisponiveis = await buscarTiposArquivoDisponiveis();
+	} catch (error) {
+		console.error(error);
+	}
 
 	return (
 		<div className="relative h-full container mx-auto px-4 py-6 max-w-8xl space-y-2">
