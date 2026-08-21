@@ -25,7 +25,8 @@ export enum TiposFiltros {
 	TEXTO,
 	DATA,
 	SELECT,
-	AUTOCOMPLETE
+	AUTOCOMPLETE,
+	MULTISELECT
 }
 
 interface CampoSelect {
@@ -93,6 +94,9 @@ export function Filtros({ camposFiltraveis, className }: FiltrosProps) {
 						break;
 					case TiposFiltros.AUTOCOMPLETE:
 						filtros.push(RenderAutocomplete(campo));
+						break;
+					case TiposFiltros.MULTISELECT:
+						filtros.push(RenderMultiSelect(campo));
 						break;
 				}
 			}
@@ -206,6 +210,71 @@ export function Filtros({ camposFiltraveis, className }: FiltrosProps) {
 				</PopoverContent>
 				</Popover>
 		</div>
+	}
+
+	function RenderMultiSelect(campo: CampoFiltravel) {
+		const [open, setOpen] = useState(false);
+		const valores = (campo.valores as CampoSelect[]) || [];
+		const selecionados = (filtros[campo.tag] || '').split(',').filter(Boolean);
+
+		function toggleValor(valor: string) {
+			const next = selecionados.includes(valor)
+				? selecionados.filter((v) => v !== valor)
+				: [...selecionados, valor];
+			setFiltros((prev) => ({ ...prev, [campo.tag]: next.join(',') }));
+		}
+
+		return (
+			<div className='flex flex-col w-full min-w-0 md:w-60 md:min-w-60' key={campo.tag}>
+				<p className='text-sm font-medium mb-1 truncate'>{campo.nome}</p>
+				<Popover open={open} onOpenChange={setOpen}>
+					<PopoverTrigger asChild>
+						<Button
+							variant="outline"
+							role="combobox"
+							aria-expanded={open}
+							className="w-full justify-between bg-background font-normal"
+						>
+							<span className='truncate'>
+								{selecionados.length > 0
+									? `${selecionados.length} selecionado${selecionados.length > 1 ? 's' : ''}`
+									: campo.placeholder}
+							</span>
+							<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+						</Button>
+					</PopoverTrigger>
+					<PopoverContent className="w-full p-0" align="start">
+						<Command>
+							<CommandInput placeholder="Buscar opção" />
+							<CommandList>
+								<CommandEmpty>Opção não encontrada</CommandEmpty>
+								<CommandGroup>
+									{valores.map((opcao) => {
+										const valorStr = opcao.value.toString();
+										const isSelected = selecionados.includes(valorStr);
+										return (
+											<CommandItem
+												key={valorStr}
+												value={opcao.label}
+												onSelect={() => toggleValor(valorStr)}
+											>
+												<Check
+													className={cn(
+														"mr-2 h-4 w-4",
+														isSelected ? "opacity-100" : "opacity-0"
+													)}
+												/>
+												{opcao.label}
+											</CommandItem>
+										);
+									})}
+								</CommandGroup>
+							</CommandList>
+						</Command>
+					</PopoverContent>
+				</Popover>
+			</div>
+		);
 	}
 
 	return (

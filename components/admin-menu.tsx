@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Users, FileText, HelpCircle, Settings, Mail, Activity, Info } from "lucide-react";
+import { Users, FileText, Files, HelpCircle, Settings, Mail, Activity, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { auth } from "@/auth";
 import { retornaPermissao } from "@/services/usuarios";
@@ -36,6 +36,14 @@ export default async function AdminMenu() {
       description: "Visualizar e gerenciar cadastros",
       showForDev: true,
       showForAdmin: true
+    },
+    {
+      href: "/arquivos",
+      label: "Arquivos",
+      icon: Files,
+      description: "Visualizar arquivos enviados pelos participantes",
+      showForDev: true,
+      showForAdmin: false
     },
     {
       href: "/duvidas",

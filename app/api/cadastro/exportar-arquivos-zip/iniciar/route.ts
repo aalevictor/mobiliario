@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { verificarPermissoes } from "@/services/usuarios";
-import { db } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { buscarArquivosParaExportacaoZip } from "@/services/arquivos";
+import { NextRequest, NextResponse } from "next/server";
 import { ZipArchive } from "archiver";
 import { existsSync, createWriteStream } from "fs";
 import { mkdir, unlink } from "fs/promises";
@@ -16,7 +16,7 @@ const NOME_PASTA_TIPO: Record<string, string> = {
     PROJETOS_2: "Projetos Fase 2",
 };
 
-export async function POST() {
+export async function POST(request: NextRequest) {
     const session = await auth();
     if (!session) {
         return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
@@ -26,27 +26,21 @@ export async function POST() {
         return NextResponse.json({ error: "Sem permissão para exportar arquivos" }, { status: 403 });
     }
 
-    const cadastros = await db.cadastro.findMany({
-        where: { arquivos: { some: {} } },
-        select: {
-            id: true,
-            protocolo: true,
-            arquivos: { select: { caminho: true, tipo: true } },
-        },
-    });
+    const tipos = request.nextUrl.searchParams.get('tipos') || undefined;
+    const busca = request.nextUrl.searchParams.get('busca') || undefined;
+
+    const arquivosEncontrados = await buscarArquivosParaExportacaoZip(tipos, busca);
 
     const arquivosParaZipar: { caminhoAbsoluto: string; nomeNoZip: string }[] = [];
-    for (const cadastro of cadastros) {
-        const pasta = cadastro.protocolo || `cadastro-${cadastro.id}`;
-        for (const arquivo of cadastro.arquivos) {
-            const caminhoAbsoluto = join(process.cwd(), arquivo.caminho);
-            if (!existsSync(caminhoAbsoluto)) continue;
-            const pastaTipo = NOME_PASTA_TIPO[arquivo.tipo] || arquivo.tipo;
-            arquivosParaZipar.push({
-                caminhoAbsoluto,
-                nomeNoZip: `${pasta}/${pastaTipo}/${basename(arquivo.caminho)}`,
-            });
-        }
+    for (const arquivo of arquivosEncontrados) {
+        const caminhoAbsoluto = join(process.cwd(), arquivo.caminho);
+        if (!existsSync(caminhoAbsoluto)) continue;
+        const pasta = arquivo.cadastro.protocolo || `cadastro-${arquivo.cadastro.id}`;
+        const pastaTipo = NOME_PASTA_TIPO[arquivo.tipo] || arquivo.tipo;
+        arquivosParaZipar.push({
+            caminhoAbsoluto,
+            nomeNoZip: `${pasta}/${pastaTipo}/${basename(arquivo.caminho)}`,
+        });
     }
 
     const jobId = randomUUID();
