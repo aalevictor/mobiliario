@@ -56,7 +56,7 @@ export const columns: ColumnDef<IArquivoListagem>[] = [
 		accessorKey: 'criadoEm',
 		header: 'Enviado em',
 		cell: ({ row }) => row.original.criadoEm
-			? `${new Date(row.original.criadoEm).toLocaleDateString('pt-BR')}, ${new Date(row.original.criadoEm).toLocaleTimeString('pt-BR')}`
+			? new Date(row.original.criadoEm).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
 			: 'N/A',
 	},
 	{
