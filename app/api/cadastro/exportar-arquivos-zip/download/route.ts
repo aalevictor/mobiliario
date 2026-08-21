@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     if (!session) {
         return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     }
-    const isDev = await verificarPermissoes(session.user.id, ["DEV"]);
+    const isDev = await verificarPermissoes(session.user.id, ["DEV", "ADMIN"]);
     if (!isDev) {
         return NextResponse.json({ error: "Sem permissão para exportar arquivos" }, { status: 403 });
     }

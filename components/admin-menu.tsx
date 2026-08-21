@@ -43,7 +43,7 @@ export default async function AdminMenu() {
       icon: Files,
       description: "Visualizar arquivos enviados pelos participantes",
       showForDev: true,
-      showForAdmin: false
+      showForAdmin: true
     },
     {
       href: "/duvidas",

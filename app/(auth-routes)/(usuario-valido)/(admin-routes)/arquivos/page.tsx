@@ -40,7 +40,7 @@ async function Arquivos({
 }) {
 	const session = await auth();
 	if (!session) return redirect('/');
-	if (!await verificarPermissoes(session.user.id, ['DEV']))
+	if (!await verificarPermissoes(session.user.id, ['DEV', 'ADMIN']))
 		return redirect('/meu-cadastro');
 
 	let { pagina = 1, limite = 10, total = 0 } = await searchParams;
