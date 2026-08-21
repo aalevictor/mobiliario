@@ -14,3 +14,7 @@ export interface IArquivoListagem extends Arquivo {
     protocolo: string | null;
   };
 }
+
+export function extrairExtensaoArquivo(caminho: string): string {
+  return caminho.split(".").pop()?.toUpperCase() || "";
+}

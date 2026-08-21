@@ -6,7 +6,7 @@ import { TiposFiltros } from '@/lib/tipos-filtros';
 import Pagination from '@/components/pagination';
 import { Suspense } from 'react';
 import { columns } from './_components/columns';
-import { buscarArquivos, buscarTiposArquivoDisponiveis, IArquivoListagem } from '@/services/arquivos';
+import { buscarArquivos, buscarExtensoesArquivoDisponiveis, IArquivoListagem } from '@/services/arquivos';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { auth } from '@/auth';
@@ -44,14 +44,14 @@ async function Arquivos({
 		return redirect('/meu-cadastro');
 
 	let { pagina = 1, limite = 10, total = 0 } = await searchParams;
-	const { busca = '', tipos = '' } = await searchParams;
+	const { busca = '', extensoes = '' } = await searchParams;
 	let dados: IArquivoListagem[] = [];
 
 	try {
 		const data = await buscarArquivos(
 			+pagina,
 			+limite,
-			tipos as string,
+			extensoes as string,
 			busca as string,
 		);
 		if (data) {
@@ -65,9 +65,9 @@ async function Arquivos({
 		console.error(error);
 	}
 
-	let tiposDisponiveis: { value: string; label: string }[] = [];
+	let extensoesDisponiveis: { value: string; label: string }[] = [];
 	try {
-		tiposDisponiveis = await buscarTiposArquivoDisponiveis();
+		extensoesDisponiveis = await buscarExtensoesArquivoDisponiveis();
 	} catch (error) {
 		console.error(error);
 	}
@@ -96,14 +96,14 @@ async function Arquivos({
 							},
 							{
 								nome: 'Tipo de Arquivo',
-								tag: 'tipos',
+								tag: 'extensoes',
 								tipo: TiposFiltros.MULTISELECT,
 								placeholder: 'Todos os tipos',
-								valores: tiposDisponiveis,
+								valores: extensoesDisponiveis,
 							},
 						]}
 					/>
-					<ExportarArquivosZip filtros={{ tipos: tipos as string, busca: busca as string }} />
+					<ExportarArquivosZip filtros={{ extensoes: extensoes as string, busca: busca as string }} />
 				</CardContent>
 			</Card>
 			<Card className='pt-0'>

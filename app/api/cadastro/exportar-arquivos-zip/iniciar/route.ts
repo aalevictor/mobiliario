@@ -26,10 +26,10 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Sem permissão para exportar arquivos" }, { status: 403 });
     }
 
-    const tipos = request.nextUrl.searchParams.get('tipos') || undefined;
+    const extensoes = request.nextUrl.searchParams.get('extensoes') || undefined;
     const busca = request.nextUrl.searchParams.get('busca') || undefined;
 
-    const arquivosEncontrados = await buscarArquivosParaExportacaoZip(tipos, busca);
+    const arquivosEncontrados = await buscarArquivosParaExportacaoZip(extensoes, busca);
 
     const arquivosParaZipar: { caminhoAbsoluto: string; nomeNoZip: string }[] = [];
     for (const arquivo of arquivosEncontrados) {

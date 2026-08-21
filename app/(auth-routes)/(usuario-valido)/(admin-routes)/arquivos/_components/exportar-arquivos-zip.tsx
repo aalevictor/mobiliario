@@ -14,7 +14,7 @@ interface IProgresso {
 
 const aguardar = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export default function ExportarArquivosZip({ filtros }: { filtros?: { tipos?: string, busca?: string } }) {
+export default function ExportarArquivosZip({ filtros }: { filtros?: { extensoes?: string, busca?: string } }) {
     const [isPending, startTransition] = useTransition();
 
     const handleExportar = async () => {
@@ -22,7 +22,7 @@ export default function ExportarArquivosZip({ filtros }: { filtros?: { tipos?: s
             const toastId = toast.loading('Preparando arquivo ZIP... 0%');
             try {
                 const params = new URLSearchParams();
-                if (filtros?.tipos) params.set('tipos', filtros.tipos);
+                if (filtros?.extensoes) params.set('extensoes', filtros.extensoes);
                 if (filtros?.busca) params.set('busca', filtros.busca);
                 const query = params.toString();
 

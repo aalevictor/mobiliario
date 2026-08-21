@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Eye } from 'lucide-react';
-import { NOME_TIPO_ARQUIVO, IArquivoListagem } from '@/lib/tipo-arquivo';
+import { NOME_TIPO_ARQUIVO, IArquivoListagem, extrairExtensaoArquivo } from '@/lib/tipo-arquivo';
 import DownloadArquivoButton from './download-arquivo-button';
 
 function formatarTamanho(bytes?: number | null): string {
@@ -24,8 +24,17 @@ export const columns: ColumnDef<IArquivoListagem>[] = [
 		cell: ({ row }) => row.original.caminho?.split('/').pop() || row.original.caminho,
 	},
 	{
+		accessorKey: 'formato',
+		header: 'Tipo de Arquivo',
+		cell: ({ row }) => (
+			<Badge variant='secondary'>
+				{extrairExtensaoArquivo(row.original.caminho)}
+			</Badge>
+		),
+	},
+	{
 		accessorKey: 'tipo',
-		header: 'Tipo',
+		header: 'Categoria',
 		cell: ({ row }) => (
 			<Badge variant='default'>
 				{NOME_TIPO_ARQUIVO[row.original.tipo] || row.original.tipo}

@@ -1,37 +1,44 @@
 /** @format */
 
-import { TipoArquivo } from "@prisma/client";
 import { db } from "@/lib/prisma";
 import { verificaLimite, verificaPagina } from "@/lib/utils";
-import { NOME_TIPO_ARQUIVO, IArquivoListagem } from "@/lib/tipo-arquivo";
+import { NOME_TIPO_ARQUIVO, IArquivoListagem, extrairExtensaoArquivo } from "@/lib/tipo-arquivo";
 
 export { NOME_TIPO_ARQUIVO };
 export type { IArquivoListagem };
 
-function construirWhereArquivos(tipos?: string, busca?: string) {
-  const tiposArray = tipos ? (tipos.split(",").filter(Boolean) as TipoArquivo[]) : [];
+function construirWhereArquivos(extensoes?: string, busca?: string) {
+  const extensoesArray = extensoes ? extensoes.split(",").filter(Boolean) : [];
+  const AND: object[] = [];
 
-  return {
-    ...(tiposArray.length > 0 && { tipo: { in: tiposArray } }),
-    ...(busca && {
+  if (extensoesArray.length > 0) {
+    AND.push({
+      OR: extensoesArray.map((extensao) => ({ caminho: { endsWith: `.${extensao.toLowerCase()}` } })),
+    });
+  }
+
+  if (busca) {
+    AND.push({
       OR: [
         { caminho: { contains: busca } },
         { cadastro: { nome: { contains: busca } } },
         { cadastro: { email: { contains: busca } } },
         { cadastro: { protocolo: { contains: busca } } },
       ],
-    }),
-  };
+    });
+  }
+
+  return AND.length > 0 ? { AND } : {};
 }
 
 async function buscarArquivos(
   pagina: number = 1,
   limite: number = 10,
-  tipos?: string,
+  extensoes?: string,
   busca?: string,
 ) {
   [pagina, limite] = verificaPagina(pagina, limite);
-  const where = construirWhereArquivos(tipos, busca);
+  const where = construirWhereArquivos(extensoes, busca);
 
   const total = await db.arquivo.count({ where });
   if (total === 0) return { total: 0, pagina: 0, limite: 0, data: [] };
@@ -57,21 +64,21 @@ async function buscarArquivos(
   };
 }
 
-async function buscarTiposArquivoDisponiveis() {
-  const tipos = await db.arquivo.findMany({
-    distinct: ["tipo"],
-    select: { tipo: true },
-    orderBy: { tipo: "asc" },
-  });
-  return tipos.map((item) => ({
-    value: item.tipo,
-    label: NOME_TIPO_ARQUIVO[item.tipo] || item.tipo,
-  }));
+async function buscarExtensoesArquivoDisponiveis() {
+  const arquivos = await db.arquivo.findMany({ select: { caminho: true } });
+  const extensoes = new Set<string>();
+  for (const arquivo of arquivos) {
+    const extensao = extrairExtensaoArquivo(arquivo.caminho);
+    if (extensao) extensoes.add(extensao);
+  }
+  return Array.from(extensoes)
+    .sort()
+    .map((extensao) => ({ value: extensao, label: extensao }));
 }
 
-async function buscarArquivosParaExportacaoZip(tipos?: string, busca?: string) {
+async function buscarArquivosParaExportacaoZip(extensoes?: string, busca?: string) {
   return db.arquivo.findMany({
-    where: construirWhereArquivos(tipos, busca),
+    where: construirWhereArquivos(extensoes, busca),
     select: {
       caminho: true,
       tipo: true,
@@ -80,4 +87,4 @@ async function buscarArquivosParaExportacaoZip(tipos?: string, busca?: string) {
   });
 }
 
-export { buscarArquivos, buscarTiposArquivoDisponiveis, buscarArquivosParaExportacaoZip };
+export { buscarArquivos, buscarExtensoesArquivoDisponiveis, buscarArquivosParaExportacaoZip };
