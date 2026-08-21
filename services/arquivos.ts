@@ -1,23 +1,12 @@
 /** @format */
 
-import { Arquivo, TipoArquivo } from "@prisma/client";
+import { TipoArquivo } from "@prisma/client";
 import { db } from "@/lib/prisma";
 import { verificaLimite, verificaPagina } from "@/lib/utils";
+import { NOME_TIPO_ARQUIVO, IArquivoListagem } from "@/lib/tipo-arquivo";
 
-export const NOME_TIPO_ARQUIVO: Record<string, string> = {
-  DOC_ESPECIFICA: "Documentação Específica",
-  PROJETOS: "Projetos",
-  PROJETOS_2: "Projetos Fase 2",
-};
-
-export interface IArquivoListagem extends Arquivo {
-  cadastro: {
-    id: number;
-    nome: string;
-    email: string;
-    protocolo: string | null;
-  };
-}
+export { NOME_TIPO_ARQUIVO };
+export type { IArquivoListagem };
 
 function construirWhereArquivos(tipos?: string, busca?: string) {
   const tiposArray = tipos ? (tipos.split(",").filter(Boolean) as TipoArquivo[]) : [];

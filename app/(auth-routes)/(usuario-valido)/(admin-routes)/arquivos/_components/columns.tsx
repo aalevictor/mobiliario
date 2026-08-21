@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Eye } from 'lucide-react';
-import { NOME_TIPO_ARQUIVO, IArquivoListagem } from '@/services/arquivos';
+import { NOME_TIPO_ARQUIVO, IArquivoListagem } from '@/lib/tipo-arquivo';
 import DownloadArquivoButton from './download-arquivo-button';
 
 function formatarTamanho(bytes?: number | null): string {
